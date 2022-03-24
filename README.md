@@ -10,7 +10,8 @@ An SSH key is not required, but recommended and a lot easier to manage with SSO 
   - Do this by running `git remote add upstream git@github.com:equinor/data-marketplace.git`.
   - If you now run `git remote --verbose` you should see both an `origin` and an `upstream` remote.
 4. Install Node dependencies by running `npm install` in your terminal.
-5. Start up the development server by running `npm run dev`.
+5. Copy `.env.template` and fill in the required values (`cp .env.template .env.local`)
+6. Start up the development server by running `npm run dev`.
 
 ## Building mock data
 
