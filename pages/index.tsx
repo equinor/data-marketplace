@@ -4,7 +4,7 @@ import type { NextPage } from "next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import {
-  ChangeEventHandler, FormEventHandler, useEffect, useState,
+  ChangeEventHandler, FormEventHandler, useEffect, useMemo, useState,
 } from "react"
 import styled from "styled-components"
 
@@ -122,6 +122,16 @@ const Frontpage: NextPage = () => {
     return () => setPopularDataProducts([])
   }, [])
 
+  // TODO: filter out N unique tags
+  const uniquePopularTags = useMemo(() => {
+    if (!popularDataProducts) return []
+    const tags = popularDataProducts
+      .flatMap((product) => product.tags)
+      .filter((tag, i, self) => self.findIndex((selfTag) => selfTag?.id === tag?.id) === i)
+      .slice(0, 5)
+    return tags
+  }, [popularDataProducts])
+
   const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
@@ -137,19 +147,19 @@ const Frontpage: NextPage = () => {
         <SearchForm onSubmit={handleSearchSubmit}>
           <SearchBar placeholder={"Search\u2026"} name="search" onChange={handleSearchChange} />
 
-          <TagsContainer>
-            <Typography variant="body_short">
-              Popular tags
-            </Typography>
+          {uniquePopularTags.length > 0 && (
+            <TagsContainer>
+              <Typography variant="body_short">
+                Popular tags
+              </Typography>
 
-            <div>
-              {/* TODO: filter out N unique tags from popular assets */}
-              <Tag>Lorem</Tag>
-              <Tag>Ipsum dolor</Tag>
-              <Tag>Sit amet</Tag>
-              <Tag>Consectetur</Tag>
-            </div>
-          </TagsContainer>
+              <div>
+                {uniquePopularTags.map((tag) => (
+                  <Tag key={tag.id}>{tag.name}</Tag>
+                ))}
+              </div>
+            </TagsContainer>
+          )}
         </SearchForm>
       </SearchBarSection>
 
