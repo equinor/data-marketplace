@@ -4,25 +4,20 @@ import type { NextPage } from "next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import {
-  ChangeEventHandler, FormEventHandler, useEffect, useMemo, useState,
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useMemo,
+  useState,
 } from "react"
 import styled from "styled-components"
 
 import { Page } from "../components/Page"
+import { Section } from "../components/Section"
 import { fmtNumber } from "../lib/fmtNumber"
-
-const Section = styled.section`
-  width: 100%;
-  padding: 0 5rem;
-
-  &:not(:last-child) {
-    margin-bottom: 5rem;
-  }
-`
 
 const SearchBarSection = styled(Section)`
   max-width: 42rem;
-  margin: 5rem auto auto;
 `
 
 const SearchForm = styled.form`
@@ -32,28 +27,30 @@ const SearchForm = styled.form`
 `
 
 const SearchBar = styled(Search)`
-  height: 3.5rem;
-  padding: 0 0.75rem;
-  border-radius: 0.25rem;
+  @media screen and (min-width: 768px) {
+    height: 3.5rem;
+    padding: 0 0.75rem;
+    border-radius: 0.25rem;
 
-  > svg {
-    height: 1.75rem;
-    width: 1.75rem;
-  }
+    > svg {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
 
-  input {
-    height: 100%;
-    font-size: 1.25rem;
-    padding: 0.5rem 0.5rem calc(0.5rem + 1px);
-  }
+    input {
+      height: 100%;
+      font-size: 1.25rem;
+      padding: 0.5rem 0.5rem calc(0.5rem + 1px);
+    }
 
-  button {
-    height: 1.75rem;
-    width: 1.75rem;
+    button {
+      height: 1.75rem;
+      width: 1.75rem;
 
-    svg {
-      height: 1.5rem;
-      width: 1.5rem;
+      svg {
+        height: 1.5rem;
+        width: 1.5rem;
+      }
     }
   }
 `
@@ -112,7 +109,6 @@ const Frontpage: NextPage = () => {
       try {
         const res = await fetch("/api/collibra/navigation/most_viewed?limit=6")
         const data = await res.json()
-        console.log(data)
         setPopularDataProducts(data.results)
       } catch (error) {
         console.error("[Frontpage] Error while fetching most viewed data products", error)
