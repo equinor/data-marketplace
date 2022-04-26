@@ -130,7 +130,12 @@ const Frontpage: NextPage = () => {
 
   const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
+    router.push({
+      pathname: "/search",
+      query: {
+        q: searchQuery,
+      },
+    })
   }
 
   const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (e) => {
