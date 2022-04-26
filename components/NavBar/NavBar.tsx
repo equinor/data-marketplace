@@ -15,7 +15,14 @@ import {
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import Link from "next/link"
-import { VoidFunctionComponent } from "react"
+import { useRouter } from "next/router"
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+  VoidFunctionComponent,
+} from "react"
 import styled from "styled-components"
 
 import { Container } from "../Container"
@@ -66,52 +73,83 @@ const ActionsContainer = styled(TopBar.Actions)`
   }
 `
 
-export const NavBar: VoidFunctionComponent = () => (
-  <>
-    <UserNavbarContainer>
-      <UserNavbar aria-label="User menu">
-        <Button href="/cart" variant="ghost_icon" color="secondary">
-          <Icon data={shopping_card} title="shopping cart" />
-        </Button>
-        <Button href="/tasks" variant="ghost" color="secondary">
-          Tasks
-          {" "}
-          <span>0</span>
-        </Button>
-        <Button variant="ghost_icon" color="secondary">
-          <Icon data={refresh} title="refresh" />
-        </Button>
-        <Button variant="ghost_icon" color="secondary">
-          <Icon data={account_circle} title="account" />
-        </Button>
-      </UserNavbar>
-    </UserNavbarContainer>
+const SearchForm = styled.form`
+  width: 100%;
+`
 
-    <Header>
-      <HeaderContentContainer>
-        <LogoContainer>
-          <Typography>Equinor Data Marketplace</Typography>
-        </LogoContainer>
+export const NavBar: VoidFunctionComponent = () => {
+  const [searchQuery, setSearchQuery] = useState<string>("")
 
-        <nav aria-label="Main navigation">
-          <ActionsContainer>
-            <Link href="/browse" passHref>
-              <Button variant="ghost" color="secondary">
-                <Icon data={explore} title="browse" />
-                Browse
-              </Button>
-            </Link>
-            <Link href="/browse" passHref>
-              <Button variant="ghost" color="secondary">
-                <Icon data={comment_discussion} title="community" />
-                Community
-              </Button>
-            </Link>
-          </ActionsContainer>
-        </nav>
+  const router = useRouter()
 
-        <Search aria-label="sitewide" id="search-normal" placeholder="Search" />
-      </HeaderContentContainer>
-    </Header>
-  </>
-)
+  useEffect(() => {
+    setSearchQuery(router.query.q as string ?? "")
+  }, [router])
+
+  const onSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+    router.push({
+      pathname: "/search",
+      query: {
+        q: searchQuery,
+      },
+    })
+    e.persist()
+  }
+
+  const onSearchChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSearchQuery(e.target.value)
+  }
+
+  return (
+    <>
+      <UserNavbarContainer>
+        <UserNavbar aria-label="User menu">
+          <Button href="/cart" variant="ghost_icon" color="secondary">
+            <Icon data={shopping_card} title="shopping cart" />
+          </Button>
+          <Button href="/tasks" variant="ghost" color="secondary">
+            Tasks
+            {" "}
+            <span>0</span>
+          </Button>
+          <Button variant="ghost_icon" color="secondary">
+            <Icon data={refresh} title="refresh" />
+          </Button>
+          <Button variant="ghost_icon" color="secondary">
+            <Icon data={account_circle} title="account" />
+          </Button>
+        </UserNavbar>
+      </UserNavbarContainer>
+
+      <Header>
+        <HeaderContentContainer>
+          <LogoContainer>
+            <Typography>Equinor Data Marketplace</Typography>
+          </LogoContainer>
+
+          <nav aria-label="Main navigation">
+            <ActionsContainer>
+              <Link href="/browse" passHref>
+                <Button variant="ghost" color="secondary">
+                  <Icon data={explore} title="browse" />
+                  Browse
+                </Button>
+              </Link>
+              <Link href="/browse" passHref>
+                <Button variant="ghost" color="secondary">
+                  <Icon data={comment_discussion} title="community" />
+                  Community
+                </Button>
+              </Link>
+            </ActionsContainer>
+          </nav>
+
+          <SearchForm onSubmit={onSearchSubmit}>
+            <Search aria-label="sitewide" id="search-normal" placeholder="Search" onChange={onSearchChange} />
+          </SearchForm>
+        </HeaderContentContainer>
+      </Header>
+    </>
+  )
+}
