@@ -11,3 +11,15 @@ An SSH key is not required, but recommended and a lot easier to manage with SSO 
   - If you now run `git remote --verbose` you should see both an `origin` and an `upstream` remote.
 4. Install Node dependencies by running `npm install` in your terminal.
 5. Start up the development server by running `npm run dev`.
+
+## Building mock data
+
+In lieu of functioning user authentication and authorization, we have some scripts to generate mock data. They can all be found in the `./scripts` directory.
+
+To generate mock data, you can run `npm run seed:mock:all` to generate all mock schemas.
+
+If you only want to generate specific mock schemes, you can run either of the following (keep in mind some of the schemas have dependencies to other schemas):
+
+- `npm run seed:mock:assets`
+- `npm run seed:mock:popular-assets`
+- `npm run seed:mock:tags`
