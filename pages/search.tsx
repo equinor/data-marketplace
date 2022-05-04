@@ -1,4 +1,8 @@
-import { Button, Typography } from "@equinor/eds-core-react"
+import {
+  Button, Card, Icon, Typography,
+} from "@equinor/eds-core-react"
+import { grid_on as gridOn, list } from "@equinor/eds-icons"
+import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -16,8 +20,8 @@ const SearchResultsList = styled.ul`
   list-style: none;
 `
 
-const SearchResultCard = styled.li`
-
+const SearchResultCard = styled(Card).attrs(() => ({ as: "li" }))`
+  box-shadow: ${tokens.elevation.raised};
 `
 
 const Search: NextPage = () => {
@@ -52,7 +56,23 @@ const Search: NextPage = () => {
     <FullPageSpinner show={isLoading}>
       <Page>
         <Container>
-          <aside />
+          <aside>
+            <Typography>Filter</Typography>
+
+            <div>
+              <Typography>Tags</Typography>
+              <div>
+                {Array.from({ length: 5 }).map((tag, i) => (
+                  <Typography key={`tag-${i + 1}`}>
+                    Tag
+                    {" "}
+                    {i + 1}
+                  </Typography>
+                ))}
+              </div>
+            </div>
+          </aside>
+
           <main>
             <Section>
               {searchResults.length > 0 ? (
@@ -66,21 +86,30 @@ const Search: NextPage = () => {
 
                     <div>
                       <Typography>View</Typography>
-                      <Button variant="ghost_icon">List</Button>
-                      <Button variant="ghost_icon">Grid</Button>
+                      <Button variant="ghost_icon" color="secondary">
+                        <Icon data={list} />
+                      </Button>
+                      <Button variant="ghost_icon" color="secondary">
+                        <Icon data={gridOn} />
+                      </Button>
                     </div>
                   </div>
 
                   <SearchResultsList>
                     {searchResults.map((resource) => (
                       <SearchResultCard key={resource.id}>
-                        <Typography>{resource.displayName}</Typography>
-                        <Typography>
-                          Last updated on
-                          {" "}
-                          {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
-                        </Typography>
-                        <Typography>Description</Typography>
+                        <Card.Header>
+                          <Typography>{resource.displayName}</Typography>
+                          <Typography>
+                            Last updated on
+                            {" "}
+                            {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
+                          </Typography>
+                        </Card.Header>
+
+                        <Card.Content>
+                          <Typography>Description</Typography>
+                        </Card.Content>
                       </SearchResultCard>
                     ))}
                   </SearchResultsList>
