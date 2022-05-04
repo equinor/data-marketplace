@@ -1,5 +1,8 @@
 import {
-  Button, Card, Icon, Typography,
+  Button,
+  Card,
+  Icon,
+  Typography,
 } from "@equinor/eds-core-react"
 import { grid_on as gridOn, list } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
@@ -14,6 +17,12 @@ import { Page } from "../components/Page"
 import { Section } from "../components/Section"
 import { HttpClient } from "../lib/HttpClient"
 
+const SearchPageContainer = styled(Container)`
+  display: grid;
+  grid-template-columns: 10.5rem 1fr;
+  grid-gap: 1.5rem;
+`
+
 const SearchResultsList = styled.ul`
   padding: 0;
   margin: 0;
@@ -22,6 +31,11 @@ const SearchResultsList = styled.ul`
 
 const SearchResultCard = styled(Card).attrs(() => ({ as: "li" }))`
   box-shadow: ${tokens.elevation.raised};
+  border-radius: ${tokens.shape.corners.borderRadius};
+
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
 `
 
 const Search: NextPage = () => {
@@ -55,12 +69,13 @@ const Search: NextPage = () => {
   return (
     <FullPageSpinner show={isLoading}>
       <Page>
-        <Container>
+        <SearchPageContainer>
           <aside>
             <Typography>Filter</Typography>
 
             <div>
               <Typography>Tags</Typography>
+
               <div>
                 {Array.from({ length: 5 }).map((tag, i) => (
                   <Typography key={`tag-${i + 1}`}>
@@ -86,9 +101,11 @@ const Search: NextPage = () => {
 
                     <div>
                       <Typography>View</Typography>
+
                       <Button variant="ghost_icon" color="secondary">
                         <Icon data={list} />
                       </Button>
+
                       <Button variant="ghost_icon" color="secondary">
                         <Icon data={gridOn} />
                       </Button>
@@ -100,14 +117,17 @@ const Search: NextPage = () => {
                       <SearchResultCard key={resource.id}>
                         <Card.Header>
                           <Typography>{resource.displayName}</Typography>
-                          <Typography>
-                            Last updated on
-                            {" "}
-                            {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
-                          </Typography>
                         </Card.Header>
 
                         <Card.Content>
+                          <div>
+                            <Typography>
+                              Last updated on
+                              {" "}
+                              {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
+                            </Typography>
+                          </div>
+
                           <Typography>Description</Typography>
                         </Card.Content>
                       </SearchResultCard>
@@ -127,7 +147,7 @@ const Search: NextPage = () => {
               )}
             </Section>
           </main>
-        </Container>
+        </SearchPageContainer>
       </Page>
     </FullPageSpinner>
   )
