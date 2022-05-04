@@ -10,7 +10,7 @@
     "seed:mock:assets": "node scripts/seedMockAssets.mjs",
     "seed:mock:popular-assets": "node scripts/seedMockPopularAssets.mjs",
     "seed:mock:tags": "node scripts/seedMockTags.mjs",
-    "seed:mock:all": "npm run seed:mock:assets && npm run seed:mock:popular-assets && seed:mock:tags"
+    "seed:mock:all": "npm run seed:mock:assets && npm run seed:mock:popular-assets && npm run seed:mock:tags"
   },
   "lint-staged": {
     "*.{j,t}s?(x)": "eslint --fix"
