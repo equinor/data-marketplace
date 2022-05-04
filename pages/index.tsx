@@ -12,12 +12,14 @@ import {
 } from "react"
 import styled from "styled-components"
 
+import { Container } from "../components/Container"
 import { Section } from "../components/Section"
 import { HttpClient } from "../lib/HttpClient"
 import { fmtNumber } from "../lib/fmtNumber"
 
 const SearchBarSection = styled(Section)`
   max-width: 42rem;
+  margin: 0 auto;
 `
 
 const SearchForm = styled.form`
@@ -142,23 +144,23 @@ const Frontpage: NextPage = () => {
   }
 
   return (
-    <>
+    <Container>
       <SearchBarSection>
         <SearchForm onSubmit={handleSearchSubmit}>
           <SearchBar placeholder={"Search\u2026"} name="search" onChange={handleSearchChange} />
 
           {uniquePopularTags.length > 0 && (
-            <TagsContainer>
-              <Typography variant="body_short">
-                Popular tags
-              </Typography>
+          <TagsContainer>
+            <Typography variant="body_short">
+              Popular tags
+            </Typography>
 
-              <div>
-                {uniquePopularTags.map((tag) => (
-                  <Tag key={tag.id}>{tag.name}</Tag>
-                ))}
-              </div>
-            </TagsContainer>
+            <div>
+              {uniquePopularTags.map((tag) => (
+                <Tag key={tag.id}>{tag.name}</Tag>
+              ))}
+            </div>
+          </TagsContainer>
           )}
         </SearchForm>
       </SearchBarSection>
@@ -189,7 +191,7 @@ const Frontpage: NextPage = () => {
           ))}
         </GridContainer>
       </Section>
-    </>
+    </Container>
   )
 }
 

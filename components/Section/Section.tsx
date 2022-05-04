@@ -1,8 +1,6 @@
 import styled from "styled-components"
 
-import { Container } from "../Container"
-
-export const Section = styled(Container)`
+export const Section = styled.section`
   &:not(:last-child) {
     margin-bottom: 2rem;
 

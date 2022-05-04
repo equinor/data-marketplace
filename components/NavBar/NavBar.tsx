@@ -146,7 +146,7 @@ export const NavBar: VoidFunctionComponent = () => {
           </nav>
 
           <SearchForm onSubmit={onSearchSubmit}>
-            <Search aria-label="sitewide" id="search-normal" placeholder="Search" onChange={onSearchChange} />
+            <Search aria-label="sitewide" id="search-normal" placeholder="Search" onChange={onSearchChange} value={searchQuery} />
           </SearchForm>
         </HeaderContentContainer>
       </Header>
