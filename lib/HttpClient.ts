@@ -69,28 +69,28 @@ export class HttpClient {
 
   public static async get<T = any>(
     url: string,
-    config: Omit<HttpRequestConfig, "method" | "body">,
+    config?: Omit<HttpRequestConfig, "method" | "body">,
   ): Promise<HttpResponse<T>> {
     return HttpClient.request(url, { ...config, method: "GET" })
   }
 
   public static async post<T = any>(
     url: string,
-    config: Omit<HttpRequestConfig, "method">,
+    config?: Omit<HttpRequestConfig, "method">,
   ): Promise<HttpResponse<T>> {
     return HttpClient.request(url, { ...config, method: "POST" })
   }
 
   public static async patch<T = any>(
     url: string,
-    config: Omit<HttpRequestConfig, "method">,
+    config?: Omit<HttpRequestConfig, "method">,
   ): Promise<HttpResponse<T>> {
     return HttpClient.request(url, { ...config, method: "PATCH" })
   }
 
   public static async delete<T = any>(
     url: string,
-    config: Omit<HttpRequestConfig, "method">,
+    config?: Omit<HttpRequestConfig, "method">,
   ): Promise<HttpResponse<T>> {
     return HttpClient.request(url, { ...config, method: "DELETE" })
   }
