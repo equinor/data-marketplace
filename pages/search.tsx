@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  Divider,
   Icon,
   Typography,
 } from "@equinor/eds-core-react"
@@ -19,8 +20,48 @@ import { HttpClient } from "../lib/HttpClient"
 
 const SearchPageContainer = styled(Container)`
   display: grid;
-  grid-template-columns: 10.5rem 1fr;
-  grid-gap: 1.5rem;
+  grid-template-columns: 15rem 1fr;
+  grid-gap: 2.5rem;
+  align-items: baseline;
+`
+
+const SearchResultsHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+`
+
+const ViewModeActionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  > *:first-child {
+    margin-right: 0.5rem;
+  }
+`
+
+const FilterSection = styled.div`
+  &:not(:last-child) {
+    margin-bottom: 1.25rem;
+  }
+`
+
+const FilterSectionHeadline = styled(Typography).attrs(() => ({ variant: "body_short_bold" }))`
+  margin-bottom: 0.5rem;
+`
+
+const TagsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 0.25rem;
+`
+
+const Tag = styled.span`
+  padding: 0.25rem 0.5rem calc(0.25rem + 1px);
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  background-color: ${tokens.colors.ui.background__info.hex};
 `
 
 const SearchResultsList = styled.ul`
@@ -36,6 +77,10 @@ const SearchResultCard = styled(Card).attrs(() => ({ as: "li" }))`
   &:not(:last-child) {
     margin-bottom: 1.5rem;
   }
+`
+
+const MetaContainer = styled.div`
+  margin-bottom: 1rem;
 `
 
 const Search: NextPage = () => {
@@ -71,36 +116,37 @@ const Search: NextPage = () => {
       <Page>
         <SearchPageContainer>
           <aside>
-            <Typography>Filter</Typography>
+            <Typography variant="h5" as="p">Filter</Typography>
+            <Divider variant="small" />
 
-            <div>
-              <Typography>Tags</Typography>
+            <FilterSection>
+              <FilterSectionHeadline>Communities</FilterSectionHeadline>
 
-              <div>
-                {Array.from({ length: 5 }).map((tag, i) => (
-                  <Typography key={`tag-${i + 1}`}>
-                    Tag
+              <TagsContainer>
+                {Array.from({ length: 5 }).map((_community, i) => (
+                  <Tag key={`community-${i + 1}`}>
+                    Community
                     {" "}
                     {i + 1}
-                  </Typography>
+                  </Tag>
                 ))}
-              </div>
-            </div>
+              </TagsContainer>
+            </FilterSection>
           </aside>
 
           <main>
             <Section>
               {searchResults.length > 0 ? (
                 <>
-                  <div>
-                    <Typography>
+                  <SearchResultsHeader>
+                    <Typography variant="body_short">
                       {searchResults.length}
                       {" "}
                       Results
                     </Typography>
 
-                    <div>
-                      <Typography>View</Typography>
+                    <ViewModeActionsContainer>
+                      <Typography variant="body_short">View</Typography>
 
                       <Button variant="ghost_icon" color="secondary">
                         <Icon data={list} />
@@ -109,26 +155,26 @@ const Search: NextPage = () => {
                       <Button variant="ghost_icon" color="secondary">
                         <Icon data={gridOn} />
                       </Button>
-                    </div>
-                  </div>
+                    </ViewModeActionsContainer>
+                  </SearchResultsHeader>
 
                   <SearchResultsList>
                     {searchResults.map((resource) => (
                       <SearchResultCard key={resource.id}>
                         <Card.Header>
-                          <Typography>{resource.displayName}</Typography>
+                          <Typography variant="h4" as="p">{resource.displayName}</Typography>
                         </Card.Header>
 
                         <Card.Content>
-                          <div>
-                            <Typography>
+                          <MetaContainer>
+                            <Typography variant="caption">
                               Last updated on
                               {" "}
                               {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
                             </Typography>
-                          </div>
+                          </MetaContainer>
 
-                          <Typography>Description</Typography>
+                          <Typography variant="body_short">Description</Typography>
                         </Card.Content>
                       </SearchResultCard>
                     ))}
