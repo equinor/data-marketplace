@@ -1,9 +1,10 @@
-import type { AppProps } from "next/app"
+import { PublicClientApplication, LogLevel } from "@azure/msal-browser"
 import { MsalProvider } from "@azure/msal-react"
+import type { AppProps } from "next/app"
 
 import "focus-visible"
 import "../styles/globals.css"
-import { PublicClientApplication, LogLevel } from "@azure/msal-browser"
+
 import { Page } from "../components/Page"
 import { config } from "../config"
 
