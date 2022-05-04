@@ -13,6 +13,7 @@ import {
 import styled from "styled-components"
 
 import { Section } from "../components/Section"
+import { HttpClient } from "../lib/HttpClient"
 import { fmtNumber } from "../lib/fmtNumber"
 
 const SearchBarSection = styled(Section)`
@@ -106,9 +107,8 @@ const Frontpage: NextPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/collibra/navigation/most_viewed?limit=6")
-        const data = await res.json()
-        setPopularDataProducts(data.results)
+        const res = await HttpClient.get("/api/collibra/navigation/most_viewed?limit=6")
+        setPopularDataProducts(res.body.results)
       } catch (error) {
         console.error("[Frontpage] Error while fetching most viewed data products", error)
       }
