@@ -12,7 +12,6 @@ import {
 } from "react"
 import styled from "styled-components"
 
-import { Page } from "../components/Page"
 import { Section } from "../components/Section"
 import { fmtNumber } from "../lib/fmtNumber"
 
@@ -143,7 +142,7 @@ const Frontpage: NextPage = () => {
   }
 
   return (
-    <Page>
+    <>
       <SearchBarSection>
         <SearchForm onSubmit={handleSearchSubmit}>
           <SearchBar placeholder={"Search\u2026"} name="search" onChange={handleSearchChange} />
@@ -190,7 +189,7 @@ const Frontpage: NextPage = () => {
           ))}
         </GridContainer>
       </Section>
-    </Page>
+    </>
   )
 }
 
