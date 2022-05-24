@@ -1,6 +1,7 @@
 import { STATUS_CODES } from "http"
 
 import { NextApiHandler } from "next"
+import xss from "xss"
 
 import { config } from "../../config"
 import { HttpClient, HttpError } from "../../lib/HttpClient"
@@ -52,8 +53,8 @@ const SearchHandler: NextApiHandler = async (req, res) => {
 
       const descriptions: Record<string, string> = {}
       attrs.forEach((attr: any) => {
-        const description = attr.body.results.filter((a: any) => a.type.name.toLowerCase() === "description").map((a: any) => a.value)
-        descriptions[attr.body.results[0].asset.id] = description
+        const description = attr.body.results.find((a: any) => a.type.name.toLowerCase() === "description")?.value
+        descriptions[attr.body.results[0].asset.id] = xss(description)
       })
 
       const results = searchRes.body?.results.map((result) => ({
