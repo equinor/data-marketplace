@@ -25,6 +25,13 @@ type HttpRequestConfig = {
   headers?: Record<string, any>
 }
 
+export interface HttpError {
+  body?: any
+  headers: Record<string, any>
+  statusCode: number
+  statusMessage: string
+}
+
 export class HttpClient {
   private static instance: Axios
 
@@ -57,10 +64,11 @@ export class HttpClient {
     } catch (error) {
       if (error instanceof AxiosError) {
         throw Object.assign(new Error(`${error.config.method?.toUpperCase()} request to ${error.config.url} failed: ${error.response?.status} (${error.response?.statusText})`), {
+          body: error.response?.data,
+          code: error.code,
           headers: error.response?.headers,
           statusCode: error.response?.status,
           statusMessage: error.response?.statusText,
-          body: error.response?.data,
         })
       }
       throw error
