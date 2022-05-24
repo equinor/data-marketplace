@@ -1,6 +1,5 @@
 import {
   Button,
-  Card,
   Divider,
   EdsProvider,
   Icon,
@@ -83,14 +82,22 @@ const SearchResultsList = styled.ul`
 const SearchResultCard = styled.li`
   box-shadow: ${tokens.elevation.raised};
   border-radius: ${tokens.shape.corners.borderRadius};
+  padding: 2rem;
 
   &:not(:last-child) {
     margin-bottom: 1.5rem;
   }
+
+  a > *:not(:last-child) {
+    margin-bottom: 1rem;
+  }
 `
 
-const MetaContainer = styled.div`
-  margin-bottom: 1rem;
+const TruncatedDescription = styled(Typography)<{ lines?: number }>`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: ${({ lines }) => (lines && lines > 0 ? lines : 4)};
+  overflow: hidden;
 `
 
 const Search: NextPage = () => {
@@ -223,25 +230,24 @@ const Search: NextPage = () => {
                       <Link href={{ pathname: "/assets/[assetId]", query: { assetId: resource.id } }}>
                         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                         <a>
-                          <Card.Header>
+                          <div>
                             <Typography variant="h4" as="p">{resource.displayName}</Typography>
-                          </Card.Header>
+                          </div>
 
-                          <Card.Content>
-                            <MetaContainer>
-                              <Typography variant="caption">
-                                Last updated on
-                                {" "}
-                                {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
-                              </Typography>
-                            </MetaContainer>
+                          <Typography variant="caption">
+                            Last updated on
+                            {" "}
+                            {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
+                          </Typography>
+
+                          <div>
 
                             {/*
                               * html strings are sanitized in backend at this point,
                               * so we should(TM) be safe to do this
                               */}
-                            <Typography variant="body_short" dangerouslySetInnerHTML={{ __html: resource.description }} />
-                          </Card.Content>
+                            <TruncatedDescription variant="body_long" dangerouslySetInnerHTML={{ __html: resource.description }} />
+                          </div>
                         </a>
                       </Link>
                     </SearchResultCard>
