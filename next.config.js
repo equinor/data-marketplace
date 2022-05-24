@@ -7,7 +7,7 @@ const nextConfig = {
   rewrites: async () => [
     {
       source: "/api/collibra/:path*",
-      destination: process.env.NEXT_PUBLIC_COLLIBRA_BASE_URL,
+      destination: process.env.NEXT_PUBLIC_COLLIBRA_BASE_URL ?? "",
     },
   ],
 }
