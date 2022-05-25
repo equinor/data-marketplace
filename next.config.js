@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
+const getEnvironmentVariable = (environmentVariable) => {
+  const unvalidatedEnvironmentVariable = process.env[environmentVariable]
+  if (!unvalidatedEnvironmentVariable) {
+    throw new Error(
+      `Couldn't find environment variable: ${environmentVariable}`,
+    )
+  } else {
+    return unvalidatedEnvironmentVariable
+  }
+}
+
 const nextConfig = {
   reactStrictMode: true,
   compiler: {
@@ -7,7 +18,7 @@ const nextConfig = {
   rewrites: async () => [
     {
       source: "/api/collibra/:path*",
-      destination: process.env.NEXT_PUBLIC_COLLIBRA_BASE_URL,
+      destination: getEnvironmentVariable("NEXT_PUBLIC_COLLIBRA_BASE_URL"),
     },
   ],
 }
