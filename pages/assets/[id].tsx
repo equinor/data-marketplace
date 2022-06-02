@@ -41,21 +41,6 @@ const AssetDetailView: NextPage = () => {
     }
   }, [currentTab, router])
 
-  // useEffect(() => {
-  //   if (router.query.id) {
-  //     (async () => {
-  //       try {
-  //         const res = await HttpClient.get(`/api/assets/${router.query.id}`, {
-  //           headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-  //         })
-  //         console.log(res)
-  //       } catch (error) {
-  //         console.error("[AssetDetailView] Failed while getting asset", router.query.id)
-  //       }
-  //     })()
-  //   }
-  // }, [router])
-
   return (
     <main>
       <Container>
