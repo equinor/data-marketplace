@@ -9,7 +9,7 @@ import { Container } from "../../components/Container"
 import { HttpClient } from "../../lib/HttpClient"
 
 const mapHashToApiEndpoint = (assetId: string, hash: string) => ({
-  "#overview": `/api/assets/${assetId}`,
+  "#overview": `/api/assets/${assetId}/overview`,
   "#responsibilities": `/api/assets/${assetId}/responsibilities`,
 })[hash]
 
