@@ -32,8 +32,6 @@ const SearchHandler: NextApiHandler = async (req, res) => {
         filters.push({ field: "community", values: req.query["community[]"] })
       }
 
-      console.log(filters[filters.length - 1])
-
       // get search results
       const searchRes = await HttpClient.post<{ results: any[] }>(`${config.COLLIBRA_BASE_URL}/search`, {
         headers: { authorization: req.headers.authorization },
@@ -69,8 +67,6 @@ const SearchHandler: NextApiHandler = async (req, res) => {
         results,
       })
     } catch (error) {
-      // console.log("[SearchHandler]", error)
-
       const err = error as HttpError
       res.status(err.statusCode ?? 500).send(err.body)
     }
