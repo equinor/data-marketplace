@@ -17,7 +17,7 @@ import { Container } from "../components/Container"
 import { FullPageSpinner } from "../components/FullPageSpinner/FullPageSpinner"
 import { Section } from "../components/Section"
 import { HttpClient } from "../lib/HttpClient"
-import { handleCommunityFilterUpdate } from "../lib/handleCommunityFilterUpdate"
+import { updateCommunityFilter } from "../lib/updateCommunityFilter"
 
 const SearchPageContainer = styled(Container)`
   display: grid;
@@ -126,7 +126,7 @@ const Search: NextPage = () => {
   }, [router])
 
   const onCommunityFilterClick = (id: string) => {
-    const filters = handleCommunityFilterUpdate(id, router.query.community)
+    const filters = updateCommunityFilter(id, router.query.community)
 
     router.push({
       pathname: router.pathname,

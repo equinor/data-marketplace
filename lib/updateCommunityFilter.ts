@@ -9,7 +9,7 @@
  * @param communities The existing filters
  * @returns The updated query parameter with the given community ID added
  */
-export const handleCommunityFilterUpdate = (id: string, communities?: string | string[]) => {
+export const updateCommunityFilter = (id: string, communities?: string | string[]) => {
   let filters = communities
 
   if (!filters) {
