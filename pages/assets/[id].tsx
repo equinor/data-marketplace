@@ -6,9 +6,11 @@ import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
 
+import { AssetTabContent } from "../../components/AssetTabContent"
+import { AssetTabs } from "../../components/AssetTabContent/types"
 import { Container } from "../../components/Container"
 import { HttpClient } from "../../lib/HttpClient"
 
@@ -67,6 +69,7 @@ const tabs = [
 const AssetDetailView: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<typeof tabs[0]>()
   const [assetData, setAssetData] = useState<any>()
+  const [tabData, setTabData] = useState<any>()
 
   const router = useRouter()
 
@@ -100,7 +103,8 @@ const AssetDetailView: NextPage = () => {
           const res = await HttpClient.get(currentTab.getDataSrc(router.query.id as string), {
             headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
           })
-          console.log(res)
+          console.log(res.body)
+          setTabData(res.body)
         } catch (error) {
           console.error("[AssetDetailView] Failed while getting asset", router.query.id)
         }
@@ -108,13 +112,18 @@ const AssetDetailView: NextPage = () => {
     }
   }, [currentTab, router])
 
+  const mapTabKeyToEnum = useCallback((tab: string) => ({
+    overview: AssetTabs.Overview,
+    responsibilities: AssetTabs.Responsibilities,
+  })[tab], [])
+
   return (
     <main>
       <Container>
         <Header>
           {assetData && (
             <>
-              <Typography variant="h1_bold">
+              <Typography variant="h1_bold" as="h1">
                 {assetData.name}
               </Typography>
 
@@ -141,6 +150,8 @@ const AssetDetailView: NextPage = () => {
               </ul>
             </nav>
           </TabNavContainer>
+
+          <AssetTabContent tab={mapTabKeyToEnum(currentTab?.key!)!} data={tabData} />
         </ContentContainer>
       </Container>
     </main>
