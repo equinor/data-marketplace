@@ -43,7 +43,16 @@
   },
   "overrides": [
     {
-      "files": ["**/*.{j,t}s?(x)"],
+      "files": ["*.ts?(x)"],
+      "rules": {
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"]
+      }
+    },
+    {
+      "files": ["pages/**/*.{j,t}s?(x)"],
       "rules": {
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": ["error"],
