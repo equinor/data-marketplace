@@ -47,7 +47,7 @@ export const AssetCard: VoidFunctionComponent<Props> = ({
   title,
 }) => (
   <CardContainer>
-    <Link href={{ pathname: "/assets/[id]", query: { assetId: id } }}>
+    <Link href={{ pathname: "/assets/[id]", query: { id } }}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a>
         <div>
