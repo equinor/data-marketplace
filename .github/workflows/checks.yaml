@@ -59,4 +59,19 @@ jobs:
         env:
           NEXT_PUBLIC_COLLIBRA_BASE_URL: http://localhost:3000/
 
+  test:
+    name: Test
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get base files
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./*
+            .npm
+          key: ${{ github.sha }}
+      - name: Run tests
+        run: npm test
+
 

@@ -54,6 +54,15 @@
         "import/prefer-default-export": 2,
         "import/no-default-export": 0
       }
+    },
+    {
+      "files": ["**/*.{spec,test,int}.{j,t}s?(x)"],
+      "env": {
+        "jest": true,
+        "browser": true,
+        "es2021": true,
+        "node": true
+      }
     }
   ]
 }
