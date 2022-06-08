@@ -10,7 +10,8 @@
     "seed:mock:assets": "node scripts/seedMockAssets.mjs",
     "seed:mock:popular-assets": "node scripts/seedMockPopularAssets.mjs",
     "seed:mock:tags": "node scripts/seedMockTags.mjs",
-    "seed:mock:all": "npm run seed:mock:assets && npm run seed:mock:popular-assets && npm run seed:mock:tags"
+    "seed:mock:all": "npm run seed:mock:assets && npm run seed:mock:popular-assets && npm run seed:mock:tags",
+    "test": "jest"
   },
   "lint-staged": {
     "*.{j,t}s?(x)": "eslint --fix"
@@ -31,6 +32,7 @@
     "xss": "^1.0.11"
   },
   "devDependencies": {
+    "@types/jest": "^28.1.1",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "17.0.21",
     "@types/react": "17.0.40",
@@ -45,7 +47,10 @@
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^7.0.4",
+    "jest": "^28.1.1",
     "lint-staged": "^12.3.7",
+    "ts-jest": "^28.0.4",
+    "ts-node": "^10.8.1",
     "typescript": "^4.6.2"
   }
 }
