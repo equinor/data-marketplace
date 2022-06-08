@@ -9,17 +9,17 @@ const GetAssetOverview: NextApiHandler = async (req, res) => {
     res.status(405).end()
   } else {
     try {
-      const attrsRes = await HttpClient.get(`${config.COLLIBRA_BASE_URL}/attributes`, {
+      const attrsRes = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
         headers: { authorization: req.headers.authorization },
         query: { assetId: req.query.id },
       })
 
-      const attrs = attrsRes.body.results.filter((attr: any) => [
+      const attrs = attrsRes.body?.results.filter((attr: any) => [
+        "description",
         "purpose",
         "timeliness",
-        "description",
       ].includes(attr.type.name.toLowerCase())).map((attr: any) => ({
-        type: attr.type.name.toUpperCase().split(" ").join("_"),
+        type: attr.type.name.toUpperCase().replace(/\s/g, "_"),
         value: xss(attr.value),
       }))
 

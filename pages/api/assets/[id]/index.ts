@@ -8,7 +8,7 @@ const GetAssetByIDHandler: NextApiHandler = async (req, res) => {
     res.status(405).end()
   } else {
     try {
-      const assetRes = await HttpClient.get(`${config.COLLIBRA_BASE_URL}/assets/${req.query.id}`, {
+      const assetRes = await HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${req.query.id}`, {
         headers: { authorization: req.headers.authorization },
       })
 
