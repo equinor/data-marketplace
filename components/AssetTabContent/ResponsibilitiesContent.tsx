@@ -1,7 +1,7 @@
-import { Card, Typography } from "@equinor/eds-core-react"
-import { tokens } from "@equinor/eds-tokens"
 import { VoidFunctionComponent } from "react"
 import styled from "styled-components"
+
+import { ResponsibilitiesHolderList, ResponsibilityHolder } from "./ResponsibilitiesHolderList"
 
 const ResponsibilitiesContentContainer = styled.div`
   display: grid;
@@ -9,103 +9,28 @@ const ResponsibilitiesContentContainer = styled.div`
   grid-gap: 1.5rem;
 `
 
-const ResponsibilitiesSectionContainer = styled.div`
-  > p {
-    margin-bottom: 0.25rem;
-  }
-
-  > div:not(:last-child) {
-    margin-bottom: 0.75rem;
-  }
-`
-
-const ResponsibilityCard = styled.div`
-  box-shadow: ${tokens.elevation.raised};
-  border-radius: ${tokens.shape.corners.borderRadius};
-`
-
-export type ResponsibilitiesContentSections = {
-  role: string
-  id: string
-  firstName: string
-  lastName: string
-  email: string
-}
+export type ResponsibilitiesContentSections = Record<"DATA_OFFICE_ADMIN" | "DATA_STEWARD" | "OWNER" | "TECHNICAL_STEWARD", ResponsibilityHolder[]>
 
 type Props = {
-  content: ResponsibilitiesContentSections
+  content?: ResponsibilitiesContentSections
 }
 
-export const ResponsibilitiesContent: VoidFunctionComponent<Props> = () => (
+export const ResponsibilitiesContent: VoidFunctionComponent<Props> = ({ content }) => (
   <ResponsibilitiesContentContainer>
-    <ResponsibilitiesSectionContainer>
-      <Typography variant="overline">Owner</Typography>
+    {content?.OWNER && (
+      <ResponsibilitiesHolderList headline="Owner" holders={content.OWNER} />
+    )}
 
-      <ResponsibilityCard>
-        <Card.Header>
-          <Card.HeaderTitle>Eskil Høyen Solvang</Card.HeaderTitle>
-        </Card.Header>
-        <Card.Content>
-          <Typography variant="body_short" href="mailto:email@equinor.com" link>email@equinor.com</Typography>
-        </Card.Content>
-      </ResponsibilityCard>
-    </ResponsibilitiesSectionContainer>
+    {content?.DATA_STEWARD && (
+      <ResponsibilitiesHolderList headline="Data steward" holders={content.DATA_STEWARD} />
+    )}
 
-    <ResponsibilitiesSectionContainer>
-      <Typography variant="overline">Data steward</Typography>
+    {content?.DATA_OFFICE_ADMIN && (
+      <ResponsibilitiesHolderList headline="Data office admin" holders={content.DATA_OFFICE_ADMIN} />
+    )}
 
-      <ResponsibilityCard>
-        <Card.Header>
-          <Card.HeaderTitle>Thibaut Forest</Card.HeaderTitle>
-        </Card.Header>
-        <Card.Content>
-          <Typography variant="body_short" href="mailto:email@equinor.com" link>email@equinor.com</Typography>
-        </Card.Content>
-      </ResponsibilityCard>
-    </ResponsibilitiesSectionContainer>
-
-    <ResponsibilitiesSectionContainer>
-      <Typography variant="overline">Data office admin</Typography>
-
-      <ResponsibilityCard>
-        <Card.Header>
-          <Card.HeaderTitle>Eskil Høyen Solvang</Card.HeaderTitle>
-        </Card.Header>
-        <Card.Content>
-          <Typography variant="body_short" href="mailto:email@equinor.com" link>email@equinor.com</Typography>
-        </Card.Content>
-      </ResponsibilityCard>
-
-      <ResponsibilityCard>
-        <Card.Header>
-          <Card.HeaderTitle>Per Norman Oma</Card.HeaderTitle>
-        </Card.Header>
-        <Card.Content>
-          <Typography variant="body_short" href="mailto:email@equinor.com" link>email@equinor.com</Typography>
-        </Card.Content>
-      </ResponsibilityCard>
-    </ResponsibilitiesSectionContainer>
-
-    <ResponsibilitiesSectionContainer>
-      <Typography variant="overline">Technical steward</Typography>
-
-      <ResponsibilityCard>
-        <Card.Header>
-          <Card.HeaderTitle>Ramya Rajgopal</Card.HeaderTitle>
-        </Card.Header>
-        <Card.Content>
-          <Typography variant="body_short" href="mailto:email@equinor.com" link>email@equinor.com</Typography>
-        </Card.Content>
-      </ResponsibilityCard>
-
-      <ResponsibilityCard>
-        <Card.Header>
-          <Card.HeaderTitle>Robert Andrew Dowsett</Card.HeaderTitle>
-        </Card.Header>
-        <Card.Content>
-          <Typography variant="body_short" href="mailto:email@equinor.com" link>email@equinor.com</Typography>
-        </Card.Content>
-      </ResponsibilityCard>
-    </ResponsibilitiesSectionContainer>
+    {content?.TECHNICAL_STEWARD && (
+      <ResponsibilitiesHolderList headline="Technical steward" holders={content.TECHNICAL_STEWARD} />
+    )}
   </ResponsibilitiesContentContainer>
 )
