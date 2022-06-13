@@ -29,16 +29,30 @@ const AssetResponsibilitiesHandler: NextApiHandler = async (req, res) => {
           headers: { authorization: req.headers.authorization },
         })))
 
-        const users = usersWithRoles.map((user: any) => {
+        const users = usersWithRoles.reduce((obj, user) => {
           const fullUser = usersRes.find((r) => r.body.id === user.id)?.body
-
-          return {
+          const u = {
             ...user,
             firstName: fullUser.firstName,
             lastName: fullUser.lastName,
             email: fullUser.emailAddress,
           }
-        })
+
+          if (user.role in obj) {
+            return {
+              ...obj,
+              [user.role]: [
+                ...obj[user.role],
+                u,
+              ],
+            }
+          }
+
+          return {
+            ...obj,
+            [user.role]: [u],
+          }
+        }, {} as Record<string, any[]>)
 
         res.json(users)
       }
