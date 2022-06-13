@@ -1,4 +1,5 @@
 import axios, { Axios, AxiosError } from "axios"
+import qs from "query-string"
 
 type HttpMethod = "GET"
   | "DELETE"
@@ -52,6 +53,7 @@ export class HttpClient {
         headers: config.headers,
         method: config.method ?? "GET",
         params: config.query,
+        paramsSerializer: (params: Record<string, any>) => qs.stringify(params, { arrayFormat: "none" }),
         url,
       })
 
