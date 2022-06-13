@@ -25,17 +25,20 @@ const AssetResponsibilitiesHandler: NextApiHandler = async (req, res) => {
           id: responsibility.owner.id,
         }))
 
-        const usersRes = await Promise.all(usersWithRoles.map((user: any) => HttpClient.get(`${config.COLLIBRA_BASE_URL}/users/${user.id}`, {
+        const usersRes = await Promise.all(usersWithRoles.map((user: any) => HttpClient.get<Collibra.User>(`${config.COLLIBRA_BASE_URL}/users/${user.id}`, {
           headers: { authorization: req.headers.authorization },
         })))
 
         const users = usersWithRoles.reduce((obj, user) => {
-          const fullUser = usersRes.find((r) => r.body.id === user.id)?.body
-          const u = {
+          const collibraUser = usersRes.find((r) => r.body?.id === user.id)?.body
+
+          if (!collibraUser) return obj
+
+          const transformedUser = {
             ...user,
-            firstName: fullUser.firstName,
-            lastName: fullUser.lastName,
-            email: fullUser.emailAddress,
+            firstName: collibraUser.firstName,
+            lastName: collibraUser.lastName,
+            email: collibraUser.emailAddress,
           }
 
           if (user.role in obj) {
@@ -43,14 +46,14 @@ const AssetResponsibilitiesHandler: NextApiHandler = async (req, res) => {
               ...obj,
               [user.role]: [
                 ...obj[user.role],
-                u,
+                transformedUser,
               ],
             }
           }
 
           return {
             ...obj,
-            [user.role]: [u],
+            [user.role]: [transformedUser],
           }
         }, {} as Record<string, any[]>)
 

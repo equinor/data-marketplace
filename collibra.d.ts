@@ -78,6 +78,16 @@ declare namespace Collibra {
     | "PhysicalDataConnector"
     | "Context"
 
+  type Resource = {
+    id: string
+    createdBy: string
+    createdOn: number
+    lastModifiedBy: string
+    lastModifiedOn: number
+    system: boolean
+    resourceType: ResourceType
+  }
+
   type ResourceReference = {
     id: string
     resourceType: ResourceType
@@ -99,23 +109,9 @@ declare namespace Collibra {
     asset: NamedResourceReference
     value: any
     type: NamedResourceReference
-    resourceType: ResourceType
-    createdBy: string
-    lastModifiedBy: string
-    createdOn: number
-    lastModifiedOn: number
-    system: boolean
-    id: string
   }
 
-  export type Asset = {
-    id: string
-    createdBy: string
-    createdOn: number
-    lastModifiedBy: string
-    lastModifiedOn: number
-    system: true
-    resourceType: ResourceType
+  export type Asset = Resource & {
     name: string
     displayName: string
     articulationScore: number
@@ -127,17 +123,60 @@ declare namespace Collibra {
     ratingsCount: number
   }
 
-  export type Responsibility = {
-    id: string
-    createdBy: string
-    createdOn: number
-    lastModifiedBy: string
-    lastModifiedOn: number
-    system: boolean
-    resourceType: ResourceType
+  export type Responsibility = Resource & {
     role: NamedResourceReference
     baseResource: ResourceReference
     owner: ResourceReference
+  }
+
+  type Email = Resource & {
+    emailAddress: string
+  }
+
+  type PhoneNumber = Resource & {
+    type: "FAX" | "MOBILE" | "OTHER" | "PAGER" | "PRIVATE" | "WORK"
+    phoneNumber: string
+  }
+
+  type InstantMessagingAccount = Resource & {
+    account: string
+    type: "AOL" | "GTALK" | "ICQ" | "JABBER" | "LIVE_MESSENGER" | "SKYPE" | "YAHOO_MESSENGER"
+  }
+
+  type Website = Resource & {
+    url: string
+    type: "FACEBOOK" | "LINKEDIN" | "MYSPACE" | "TWITTER" | "WEBSITE"
+  }
+
+  type Address = Resource & {
+    city: string
+    street: string
+    number: string
+    state: string
+    country: string
+    postalCode: string
+    type: "HOME" | "WORK"
+  }
+
+  export type User = Resource & {
+    userName: string
+    firstName: string
+    lastName: string
+    emailAddress: string
+    gender: "MALE" | "FEMALE" | "UNKNOWN"
+    language: string
+    additionalEmailAddresses: Email[]
+    phoneNumbers: PhoneNumber[]
+    instantMessagingAccounts: InstantMessagingAccount[]
+    websites: Website[]
+    addresses: Address[]
+    activated: boolean
+    enabled: boolean
+    ldapUser: boolean
+    userSource: "INTERNAL" | "LDAP" | "SSO"
+    guestUser: boolean
+    apiUser: boolean
+    licenseType: "CONSUMER" | "AUTHOR"
   }
 
   export type NavigationStatistic = {
@@ -162,6 +201,7 @@ declare namespace Collibra {
   export interface PagedAttributeResponse extends PagedResponse<Attribute> {}
   export interface PagedAssetResponse extends PagedResponse<Asset> {}
   export interface PagedResponsibilityResponse extends PagedResponse<Responsibility> {}
+  export interface PagedUserResponse extends PagedResponse<User> {}
   export interface PagedNavigationStatisticResponse extends PagedResponse<NavigationStatistic> {}
   export interface PagedCommunityResponse extends PagedResponse<Community> {}
 }

@@ -14,12 +14,12 @@ const GetAssetOverview: NextApiHandler = async (req, res) => {
         query: { assetId: req.query.id },
       })
 
-      const attrs = attrsRes.body?.results.filter((attr: any) => [
+      const attrs = attrsRes.body?.results.filter((attr) => [
         "description",
         "purpose",
         "timeliness",
-      ].includes(attr.type.name.toLowerCase())).map((attr: any) => ({
-        type: attr.type.name.toUpperCase().replace(/\s/g, "_"),
+      ].includes(attr.type.name!.toLowerCase())).map((attr) => ({
+        type: attr.type.name!.toUpperCase().replace(/\s/g, "_"),
         value: xss(attr.value),
       }))
 
