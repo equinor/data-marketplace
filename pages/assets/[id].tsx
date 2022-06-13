@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-  Button, Divider, Typography,
+  Button, Divider, Icon, Typography,
 } from "@equinor/eds-core-react"
+import { shopping_cart_add } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import Link from "next/link"
@@ -127,7 +129,10 @@ const AssetDetailView: NextPage = () => {
                 {assetData.name}
               </Typography>
 
-              <Button>Add to cart</Button>
+              <Button>
+                <Icon data={shopping_cart_add} />
+                Add to cart
+              </Button>
             </>
           )}
         </Header>
