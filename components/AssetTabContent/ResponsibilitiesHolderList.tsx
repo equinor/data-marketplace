@@ -1,7 +1,4 @@
-import {
-  Card,
-  Typography,
-} from "@equinor/eds-core-react"
+import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { VoidFunctionComponent } from "react"
 import styled from "styled-components"
@@ -16,9 +13,12 @@ const Container = styled.div`
   }
 `
 
-const ResponsibilityCard = styled.div`
-  box-shadow: ${tokens.elevation.raised};
-  border-radius: ${tokens.shape.corners.borderRadius};
+const ResponsibilityRow = styled.div`
+  border-bottom: 1px solid ${tokens.colors.ui.background__medium.hex};
+  padding: 0.75rem 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 0.5rem;
 `
 
 export type ResponsibilityHolder = {
@@ -41,18 +41,15 @@ export const ResponsibilitiesHolderList: VoidFunctionComponent<Props> = ({
     <Typography variant="overline">{headline}</Typography>
 
     {holders.map((holder) => (
-      <ResponsibilityCard key={holder.id}>
-        <Card.Header>
-          <Card.HeaderTitle>
-            {holder.firstName}
-            {" "}
-            {holder.lastName}
-          </Card.HeaderTitle>
-        </Card.Header>
-        <Card.Content>
-          <Typography variant="body_short" href={`mailto:${holder.email.toLowerCase()}`} link>{holder.email.toLowerCase()}</Typography>
-        </Card.Content>
-      </ResponsibilityCard>
+      <ResponsibilityRow key={holder.id}>
+        <Typography>
+          {holder.firstName}
+          {" "}
+          {holder.lastName}
+        </Typography>
+
+        <Typography variant="body_short" href={`mailto:${holder.email.toLowerCase()}`} link>{holder.email.toLowerCase()}</Typography>
+      </ResponsibilityRow>
     ))}
   </Container>
 )
