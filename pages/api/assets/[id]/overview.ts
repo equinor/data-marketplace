@@ -18,10 +18,10 @@ const GetAssetOverview: NextApiHandler = async (req, res) => {
         "description",
         "purpose",
         "timeliness",
-      ].includes(attr.type.name!.toLowerCase())).map((attr) => ({
-        type: attr.type.name!.toUpperCase().replace(/\s/g, "_"),
-        value: xss(attr.value),
-      }))
+      ].includes(attr.type.name!.toLowerCase())).reduce((obj, attr) => ({
+        ...obj,
+        [attr.type.name!.toLowerCase().replace(/\s/g, "_")]: xss(attr.value),
+      }), {})
 
       res.json(attrs)
     } catch (error) {
