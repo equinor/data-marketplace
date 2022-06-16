@@ -6,6 +6,7 @@ import {
 import { shopping_cart_add } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
+import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
@@ -121,6 +122,10 @@ const AssetDetailView: NextPage = () => {
 
   return (
     <main>
+      <Head>
+        <title>{assetData?.name ?? "Data Marketplace"}</title>
+      </Head>
+
       <Container>
         <Header>
           {assetData && (
