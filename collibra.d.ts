@@ -132,6 +132,13 @@ declare namespace Collibra {
     owner: ResourceReference
   }
 
+  export type NavigationStatistic = {
+    assetId: string
+    name: string
+    numberOfViews: number
+    lastViewedDate: number
+  }
+
   interface PagedResponse<T = any> {
     total: number
     offset: number
@@ -142,4 +149,5 @@ declare namespace Collibra {
   export interface PagedAttributeResponse extends PagedResponse<Attribute> {}
   export interface PagedAssetResponse extends PagedResponse<Asset> {}
   export interface PagedResponsibilityResponse extends PagedResponse<Responsibility> {}
+  export interface PagedNavigationStatisticResponse extends PagedResponse<NavigationStatistic> {}
 }

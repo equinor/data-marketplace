@@ -3,34 +3,36 @@ import type { NextApiHandler } from "next"
 import { config } from "../../config"
 import { HttpClient } from "../../lib/HttpClient"
 
+type PopularAsset = Collibra.Asset & Pick<Collibra.NavigationStatistic, "numberOfViews">
+
 const getPopularAssets = async (
-  data: any[],
+  data: PopularAsset[],
   auth: string,
   limit: number,
-): Promise<any[]> => {
-  const mostViewedStats = await HttpClient.get(`${config.COLLIBRA_BASE_URL}/navigation/most_viewed`, {
+): Promise<PopularAsset[]> => {
+  const mostViewedStats = await HttpClient.get<Collibra.PagedNavigationStatisticResponse>(`${config.COLLIBRA_BASE_URL}/navigation/most_viewed`, {
     headers: { authorization: auth },
     query: { limit, isGuestExcluded: true },
   })
 
   const assetsResponse = await Promise.all(
-    mostViewedStats.body.results.map((stat: any) => HttpClient.get(`${config.COLLIBRA_BASE_URL}/assets/${stat.assetId}`, {
+    mostViewedStats.body?.results.map((stat) => HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${stat.assetId}`, {
       headers: { authorization: auth },
-    })),
+    })) ?? [],
   )
 
   const result = [
     ...data,
     ...assetsResponse
       .map((response) => response.body)
-      .filter((response) => response.type?.name.toLowerCase() === "data product")
+      .filter((response) => response?.type.name?.toLowerCase() === "data product")
       .map((product) => ({
         ...product,
-        numberOfViews: mostViewedStats.body.results.find((stat: any) => (
-          stat.assetId === product.id
-        )).numberOfViews,
+        numberOfViews: mostViewedStats.body?.results.find((stat) => (
+          stat.assetId === product?.id
+        ))?.numberOfViews,
       })),
-  ]
+  ] as PopularAsset[]
 
   if (result.length >= limit) return result.slice(0, limit)
 
