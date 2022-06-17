@@ -58,7 +58,10 @@
       }
     },
     {
-      "files": ["**/*.{spec,test,int}.{j,t}s?(x)"],
+      "files": ["**/*.{spec,test,int}.{j,t}s?(x)", "jest.*.{j,t}s"],
+      "rules": {
+        "import/no-extraneous-dependencies": ["error", { "optionalDependencies": false, "peerDependencies": false }]
+      },
       "env": {
         "jest": true,
         "browser": true,
