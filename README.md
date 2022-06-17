@@ -7,11 +7,13 @@ An SSH key is not required, but recommended and a lot easier to manage with SSO 
 1. Fork this repository.
 2. Clone your forked repository.
 3. Add an additional remote to **this** upstream repository. You'll use this remote to sync your own fork with the team's contributions.
-  - Do this by running `git remote add upstream git@github.com:equinor/data-marketplace.git`.
-  - If you now run `git remote --verbose` you should see both an `origin` and an `upstream` remote.
-4. Install Node dependencies by running `npm install` in your terminal.
-5. Copy `.env.template` and fill in the required values (`cp .env.template .env.local`)
-6. Start up the development server by running `npm run dev`.
+    - Do this by running `git remote add upstream git@github.com:equinor/data-marketplace.git`.
+    - If you now run `git remote --verbose` you should see both an `origin` and an `upstream` remote.
+4. Make sure you're on the correct version of Node. If you have [NVM](https://github.com/nvm-sh/nvm) installed,
+   simply run `nvm use` in your terminal of choice. If you don't have NVM installed, it's highly recommended.
+5. Install Node dependencies by running `npm install` in your terminal.
+6. Copy `.env.template` and fill in the required values (`cp .env.template .env.local`)
+7. Start up the development server by running `npm run dev`.
 
 ## Building mock data
 
