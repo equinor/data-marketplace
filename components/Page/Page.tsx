@@ -24,7 +24,6 @@ export const Page: FunctionComponent = ({ children }) => {
       accounts.length > 0
       && inProgress === InteractionStatus.None
       && !msalError
-      && !localStorage.getItem("access_token")
     ) {
       setLoading(true);
 
@@ -38,7 +37,11 @@ export const Page: FunctionComponent = ({ children }) => {
           localStorage.setItem("access_token", tokenResponse.accessToken)
           setLoading(false)
         } catch (error) {
-          console.error("[Page] failed to acquire client access token", error)
+          console.error("[Page] Failed to acquire access token. Attempting login redirect", error)
+          await instance.acquireTokenRedirect({
+            account: accounts[0],
+            scopes: ["openid", "https://equinor-dev.collibra.com/user_impersonation"],
+          })
         }
       })()
     }
