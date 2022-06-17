@@ -106,7 +106,6 @@ const AssetDetailView: NextPage = () => {
           const res = await HttpClient.get(currentTab.getDataSrc(router.query.id as string), {
             headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
           })
-          console.log(res.body)
           setTabData(res.body)
         } catch (error) {
           console.error("[AssetDetailView] Failed while getting asset", router.query.id)
