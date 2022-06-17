@@ -55,7 +55,7 @@ export const AssetCard: VoidFunctionComponent<Props> = ({
         </div>
 
         {meta && (
-          <MetaContainer>
+          <MetaContainer data-testid="meta-container">
             {meta.map((m, i) => (
               <Typography variant="caption" key={`${id}-meta-${i + 1}`}>
                 {m.label}

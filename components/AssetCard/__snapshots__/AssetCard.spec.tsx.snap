@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AssetCard renders meta container 1`] = `
+<div>
+  <div
+    class="sc-3d4ccb97-0 geRdIA"
+  >
+    <a
+      href="/assets/abc-123"
+    >
+      <div>
+        <p
+          class="Typography__StyledTypography-sc-179guof-0 eza-DtJ"
+        >
+          some title
+        </p>
+      </div>
+      <div
+        class="sc-3d4ccb97-1 jcKZfI"
+        data-testid="meta-container"
+      >
+        <p
+          class="Typography__StyledTypography-sc-179guof-0 efTvKc"
+        >
+          Some label
+           
+          Some value
+        </p>
+      </div>
+      <div>
+        <p
+          class="Typography__StyledTypography-sc-179guof-0 llQfUJ sc-3d4ccb97-2 fhCdoW"
+        >
+          some description
+        </p>
+      </div>
+    </a>
+  </div>
+</div>
+`;
+
+exports[`AssetCard renders no meta container 1`] = `
+<div>
+  <div
+    class="sc-3d4ccb97-0 geRdIA"
+  >
+    <a
+      href="/assets/abc-123"
+    >
+      <div>
+        <p
+          class="Typography__StyledTypography-sc-179guof-0 eza-DtJ"
+        >
+          some title
+        </p>
+      </div>
+      <div>
+        <p
+          class="Typography__StyledTypography-sc-179guof-0 llQfUJ sc-3d4ccb97-2 fhCdoW"
+        >
+          some description
+        </p>
+      </div>
+    </a>
+  </div>
+</div>
+`;
