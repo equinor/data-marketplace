@@ -1,18 +1,18 @@
 import { Card, Search, Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
-import Link from "next/link"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import {
   ChangeEventHandler,
   FormEventHandler,
   useEffect,
-  useMemo,
   useState,
 } from "react"
 import styled from "styled-components"
 
 import { Container } from "../components/Container"
+import { Link } from "../components/Link"
 import { Section } from "../components/Section"
 import { HttpClient } from "../lib/HttpClient"
 import { fmtNumber } from "../lib/fmtNumber"
@@ -57,27 +57,6 @@ const SearchBar = styled(Search)`
   }
 `
 
-const TagsContainer = styled.div`
-  > p {
-    margin-bottom: 0.25rem;
-  }
-
-  > div {
-    display: flex;
-  }
-`
-
-const Tag = styled.span`
-  padding: 0.25rem 0.5rem calc(0.25rem + 1px);
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-  background-color: ${tokens.colors.ui.background__info.hex};
-
-  &:not(:last-child) {
-    margin-right: 0.25rem;
-  }
-`
-
 const SectionHeader = styled.header`
   display: flex;
   justify-content: space-between;
@@ -97,7 +76,12 @@ const AssetCard = styled(Card)`
 
 const AssetCardTitle = styled(Card.HeaderTitle)`
   font-weight: ${tokens.typography.paragraph.body_short_bold.fontWeight};
+  color: ${tokens.colors.text.static_icons__default.hex};
   margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 `
 
 const Frontpage: NextPage = () => {
@@ -109,8 +93,11 @@ const Frontpage: NextPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await HttpClient.get("/api/collibra/navigation/most_viewed?limit=6")
-        setPopularDataProducts(res.body.results)
+        const res = await HttpClient.get("/api/popular", {
+          headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
+          query: { limit: 6 },
+        })
+        setPopularDataProducts(res.body)
       } catch (error) {
         console.error("[Frontpage] Error while fetching most viewed data products", error)
       }
@@ -118,16 +105,6 @@ const Frontpage: NextPage = () => {
 
     return () => setPopularDataProducts([])
   }, [])
-
-  // TODO: filter out N unique tags
-  const uniquePopularTags = useMemo(() => {
-    if (!popularDataProducts) return []
-    const tags = popularDataProducts
-      .flatMap((product) => product.tags)
-      .filter((tag, i, self) => self.findIndex((selfTag) => selfTag?.id === tag?.id) === i)
-      .slice(0, 5)
-    return tags
-  }, [popularDataProducts])
 
   const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -145,48 +122,42 @@ const Frontpage: NextPage = () => {
 
   return (
     <Container>
+      <Head>
+        <title>Data Marketplace</title>
+      </Head>
+
       <SearchBarSection>
         <SearchForm onSubmit={handleSearchSubmit}>
           <SearchBar placeholder={"Search\u2026"} name="search" onChange={handleSearchChange} />
 
-          {uniquePopularTags.length > 0 && (
-          <TagsContainer>
-            <Typography variant="body_short">
-              Popular tags
-            </Typography>
-
-            <div>
-              {uniquePopularTags.map((tag) => (
-                <Tag key={tag.id}>{tag.name}</Tag>
-              ))}
-            </div>
-          </TagsContainer>
-          )}
+          {/* TODO: Get communities */}
         </SearchForm>
       </SearchBarSection>
 
       <Section>
         <SectionHeader>
           <Typography variant="h1_bold">Popular</Typography>
-          <Link href="/" passHref>
-            <Typography variant="body_short" link>See more</Typography>
+          <Link href="/" aria-label="See more popular data products" link>
+            See more
           </Link>
         </SectionHeader>
 
         <GridContainer>
           {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
             <AssetCard key={product.id}>
-              <Card.Header>
-                <AssetCardTitle as="p">{product.name}</AssetCardTitle>
-              </Card.Header>
+              <Link href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
+                <Card.Header>
+                  <AssetCardTitle as="p">{product.name}</AssetCardTitle>
+                </Card.Header>
 
-              <Card.Content>
-                <Typography variant="meta">
-                  {fmtNumber(product.numberOfViews)}
-                  {" "}
-                  views
-                </Typography>
-              </Card.Content>
+                <Card.Content>
+                  <Typography variant="meta">
+                    {fmtNumber(product.numberOfViews)}
+                    {" "}
+                    views
+                  </Typography>
+                </Card.Content>
+              </Link>
             </AssetCard>
           ))}
         </GridContainer>
