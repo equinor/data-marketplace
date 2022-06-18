@@ -1,4 +1,3 @@
-/** @type {import('next').NextConfig} */
 const getEnvironmentVariable = (environmentVariable) => {
   const unvalidatedEnvironmentVariable = process.env[environmentVariable]
   if (!unvalidatedEnvironmentVariable) {
@@ -10,6 +9,7 @@ const getEnvironmentVariable = (environmentVariable) => {
   }
 }
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   compiler: {
@@ -18,7 +18,7 @@ const nextConfig = {
   rewrites: async () => [
     {
       source: "/api/collibra/:path*",
-      destination: getEnvironmentVariable("NEXT_PUBLIC_COLLIBRA_BASE_URL"),
+      destination: `${getEnvironmentVariable("NEXT_PUBLIC_COLLIBRA_BASE_URL")}/:path*`,
     },
   ],
 }
