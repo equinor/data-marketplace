@@ -87,6 +87,14 @@ declare namespace Collibra {
     name?: string | null
   }
 
+  type Resource = ResourceReference & {
+    createdBy: string
+    createdOn: number
+    lastModifiedBy: string
+    lastModifiedOn: number
+    system: boolean
+  }
+
   export type Attribute = {
     asset: NamedResourceReference
     value: any
@@ -139,6 +147,11 @@ declare namespace Collibra {
     lastViewedDate: number
   }
 
+  export type Community = Resource & {
+    name: string
+    description: string
+  }
+
   interface PagedResponse<T = any> {
     total: number
     offset: number
@@ -150,4 +163,5 @@ declare namespace Collibra {
   export interface PagedAssetResponse extends PagedResponse<Asset> {}
   export interface PagedResponsibilityResponse extends PagedResponse<Responsibility> {}
   export interface PagedNavigationStatisticResponse extends PagedResponse<NavigationStatistic> {}
+  export interface PagedCommunityResponse extends PagedResponse<Community> {}
 }
