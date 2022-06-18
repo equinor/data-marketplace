@@ -90,14 +90,10 @@ const Search: NextPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { body } = await HttpClient.get("/api/collibra/communities", {
+        const { body } = await HttpClient.get("/api/communities", {
           headers: { authorization: `Bearer ${localStorage.getItem("access_token")}` },
-          query: {
-            // TODO: get this ID from Collibra
-            parentId: "1f63fe17-a732-4779-a290-db088803761c",
-          },
         })
-        setCommunities(body.results)
+        setCommunities(body)
       } catch (error) {
         console.error("[Search] Failed fetching communities", error)
       }
@@ -146,7 +142,7 @@ const Search: NextPage = () => {
 
             <TagsContainer>
               <EdsProvider density="compact">
-                {communities.map((community) => (
+                {communities?.map((community) => (
                   <Tag
                     active={!!router.query.community?.includes(community.id)}
                     key={community.id}
