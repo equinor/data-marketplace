@@ -3,6 +3,7 @@ import xss from "xss"
 
 import { config } from "../../../../config"
 import { HttpClient } from "../../../../lib/HttpClient"
+import { HttpError } from "../../../../lib/HttpError"
 
 const GetAssetOverview: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") {
@@ -25,7 +26,9 @@ const GetAssetOverview: NextApiHandler = async (req, res) => {
 
       res.json(attrs)
     } catch (error) {
-      res.status((error as any).statusCode ?? 500).end()
+      console.log("[GetAssetOverviewHandler]", error)
+      const err = error as HttpError
+      res.status(err.statusCode ?? 500).json(err.body)
     }
   }
 }

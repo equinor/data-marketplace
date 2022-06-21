@@ -2,6 +2,7 @@ import { NextApiHandler } from "next"
 
 import { config } from "../../../../config"
 import { HttpClient } from "../../../../lib/HttpClient"
+import { HttpError } from "../../../../lib/HttpError"
 
 const GetAssetByIDHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") {
@@ -14,7 +15,9 @@ const GetAssetByIDHandler: NextApiHandler = async (req, res) => {
 
       res.json(assetRes.body)
     } catch (error) {
-      res.status((error as any).statusCode ?? 500).end()
+      console.log("[GetAssetByIDHandler]", error)
+      const err = error as HttpError
+      res.status(err.statusCode ?? 500).json(err.body)
     }
   }
 }

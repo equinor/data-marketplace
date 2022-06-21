@@ -4,7 +4,8 @@ import { NextApiHandler } from "next"
 import xss from "xss"
 
 import { config } from "../../config"
-import { HttpClient, HttpError } from "../../lib/HttpClient"
+import { HttpClient } from "../../lib/HttpClient"
+import { HttpError } from "../../lib/HttpError"
 
 const SearchHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") {
@@ -70,8 +71,9 @@ const SearchHandler: NextApiHandler = async (req, res) => {
         results,
       })
     } catch (error) {
+      console.log("[SearchHandler]", error)
       const err = error as HttpError
-      res.status(err.statusCode ?? 500).send(err.body)
+      res.status(err.statusCode ?? 500).json(err.body)
     }
   }
 }
