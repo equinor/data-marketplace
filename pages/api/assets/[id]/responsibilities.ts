@@ -2,6 +2,7 @@ import { NextApiHandler } from "next"
 
 import { config } from "../../../../config"
 import { HttpClient } from "../../../../lib/HttpClient"
+import { HttpError } from "../../../../lib/HttpError"
 
 const AssetResponsibilitiesHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") {
@@ -44,7 +45,8 @@ const AssetResponsibilitiesHandler: NextApiHandler = async (req, res) => {
       }
     } catch (error) {
       console.log("[AssetResponsibilitiesHandler]", error)
-      res.status((error as any).statusCode ?? 500).end()
+      const err = error as HttpError
+      res.status(err.statusCode ?? 500).json(err.body)
     }
   }
 }

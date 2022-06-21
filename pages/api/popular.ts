@@ -2,6 +2,7 @@ import type { NextApiHandler } from "next"
 
 import { config } from "../../config"
 import { HttpClient } from "../../lib/HttpClient"
+import { HttpError } from "../../lib/HttpError"
 
 type PopularAsset = Collibra.Asset & Pick<Collibra.NavigationStatistic, "numberOfViews">
 
@@ -59,7 +60,8 @@ const PopularAssetsHandler: NextApiHandler = async (req, res) => {
     res.json(dataProducts)
   } catch (error) {
     console.log("[PopularAssetsHandler]", error)
-    res.status(500).end()
+    const err = error as HttpError
+    res.status(err.statusCode ?? 500).json(err.body)
   }
 }
 
