@@ -1,12 +1,14 @@
 import { PublicClientApplication, LogLevel } from "@azure/msal-browser"
 import { MsalProvider } from "@azure/msal-react"
 import type { AppProps } from "next/app"
+import { IntlProvider } from "react-intl"
 
 import "focus-visible"
 import "../styles/globals.css"
 
 import { Page } from "../components/Page"
 import { config } from "../config"
+import english from "../locales/en.json"
 
 const msalInstance = new PublicClientApplication({
   auth: {
@@ -20,7 +22,11 @@ const msalInstance = new PublicClientApplication({
   },
   system: {
     loggerOptions: {
-      loggerCallback: (level: LogLevel, message: string, containsPii: boolean): void => {
+      loggerCallback: (
+        level: LogLevel,
+        message: string,
+        containsPii: boolean,
+      ): void => {
         if (containsPii) return
 
         switch (level) {
@@ -47,10 +53,12 @@ const msalInstance = new PublicClientApplication({
 
 const App = ({ Component, pageProps }: AppProps) => (
   <MsalProvider instance={msalInstance}>
-    <Page>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Component {...pageProps} />
-    </Page>
+    <IntlProvider locale="en" messages={english}>
+      <Page>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...pageProps} />
+      </Page>
+    </IntlProvider>
   </MsalProvider>
 )
 
