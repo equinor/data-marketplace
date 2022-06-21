@@ -22,14 +22,6 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "semi": ["error", "never"],
-    "quotes": ["error", "double"],
-    "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
-    "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
-    "react/require-default-props": 0,
-    "import/prefer-default-export": 0,
-    "import/no-default-export": 1,
-    "import/order": ["error", { "newlines-between": "always", "alphabetize": { "order": "asc" } }],
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -39,7 +31,16 @@
         "ts": "never",
         "tsx": "never"
       }
-   ]
+    ],
+    "import/no-default-export": 1,
+    "import/order": ["error", { "newlines-between": "always", "alphabetize": { "order": "asc" } }],
+    "import/prefer-default-export": 0,
+    "lines-between-class-members": "off",
+    "quotes": ["error", "double"],
+    "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
+    "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
+    "react/require-default-props": 0,
+    "semi": ["error", "never"]
   },
   "overrides": [
     {
