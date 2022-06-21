@@ -53,7 +53,7 @@ const msalInstance = new PublicClientApplication({
 
 const App = ({ Component, pageProps }: AppProps) => (
   <MsalProvider instance={msalInstance}>
-    <IntlProvider locale="en" messages={english}>
+    <IntlProvider locale="en" defaultLocale="en" messages={english}>
       <Page>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Component {...pageProps} />
