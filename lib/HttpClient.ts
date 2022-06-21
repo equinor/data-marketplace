@@ -1,6 +1,8 @@
 import axios, { Axios, AxiosError } from "axios"
 import qs from "query-string"
 
+import { HttpError } from "./HttpError"
+
 type HttpMethod = "GET"
   | "DELETE"
   | "HEAD"
@@ -24,13 +26,6 @@ type HttpRequestConfig = {
   body?: any
   method?: HttpMethod,
   headers?: Record<string, any>
-}
-
-export interface HttpError {
-  body?: any
-  headers: Record<string, any>
-  statusCode: number
-  statusMessage: string
 }
 
 export class HttpClient {
@@ -64,16 +59,15 @@ export class HttpClient {
         body: res.data,
       }
     } catch (error) {
-      if (error instanceof AxiosError) {
-        throw Object.assign(new Error(`${error.config.method?.toUpperCase()} request to ${error.config.url} failed: ${error.response?.status} (${error.response?.statusText})`), {
-          body: error.response?.data,
-          code: error.code,
-          headers: error.response?.headers,
-          statusCode: error.response?.status,
-          statusMessage: error.response?.statusText,
-        })
-      }
-      throw error
+      const err = error as AxiosError
+
+      console.log(`${err.config.method?.toUpperCase()} request to ${err.config.url} failed: ${err.response?.status} (${err.response?.statusText})`)
+      throw new HttpError(
+        err.message,
+        err.response!.status,
+        err.response!.headers,
+        err.response!.data,
+      )
     }
   }
 
