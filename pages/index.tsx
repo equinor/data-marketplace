@@ -9,6 +9,7 @@ import {
   useEffect,
   useState,
 } from "react"
+import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../components/Container"
@@ -85,6 +86,7 @@ const AssetCardTitle = styled(Card.HeaderTitle)`
 `
 
 const Frontpage: NextPage = () => {
+  const intl = useIntl()
   const [popularDataProducts, setPopularDataProducts] = useState<any[]>([])
   const [searchQuery, setSearchQuery] = useState<string>("")
 
@@ -120,10 +122,14 @@ const Frontpage: NextPage = () => {
     setSearchQuery(e.target.value)
   }
 
+  const documentTitle = intl.formatMessage({ id: "frontpage_documentTitle" })
+
   return (
     <Container>
       <Head>
-        <title>Data Marketplace</title>
+        <title>
+          {documentTitle}
+        </title>
       </Head>
 
       <SearchBarSection>
@@ -136,7 +142,9 @@ const Frontpage: NextPage = () => {
 
       <Section>
         <SectionHeader>
-          <Typography variant="h1_bold">Popular</Typography>
+          <Typography variant="h1_bold">
+            <FormattedMessage id="frontpage_popularProductsHeader" />
+          </Typography>
           <Link href="/" aria-label="See more popular data products" link>
             See more
           </Link>
