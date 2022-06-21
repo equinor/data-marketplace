@@ -27,9 +27,12 @@ const SearchHandler: NextApiHandler = async (req, res) => {
       ]
 
       if (req.query.community) {
-        filters.push({ field: "community", values: [req.query.community] })
-      } else if ("community[]" in req.query) {
-        filters.push({ field: "community", values: req.query["community[]"] })
+        filters.push({
+          field: "community",
+          values: typeof req.query.community === "string"
+            ? [req.query.community]
+            : req.query.community,
+        })
       }
 
       // get search results
@@ -52,7 +55,7 @@ const SearchHandler: NextApiHandler = async (req, res) => {
       const descriptions: Record<string, string> = {}
       attrs.forEach((attr: any) => {
         const description = attr.body.results.find((a: any) => a.type.name.toLowerCase() === "description")?.value
-        descriptions[attr.body.results[0].asset.id] = xss(description)
+        descriptions[attr.body.results[0]?.asset.id] = xss(description)
       })
 
       const results = searchRes.body?.results.map((result) => ({
