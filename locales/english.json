@@ -20,5 +20,6 @@
   "navbar.titleShoppingCart": "Shopping cart",
   "navbar.taskStatistic": "Tasks: {remaining}",
   "navbar.titleRefresh": "Refresh",
-  "navbar.titleAccoutn": "Account"
+  "navbar.titleAccount": "Account",
+  "spinner.loading": "Please hold\u2026"
 }
