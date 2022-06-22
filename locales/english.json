@@ -11,5 +11,14 @@
   "search.view": "View",
   "search.lastUpdated": "Last updated on",
   "page.authenticatedLoading": "Signing you in",
-  "page.unauthenticated": "Please sign in"
+  "page.unauthenticated": "Please sign in",
+  "navbar.logo": "Equinor Data Marketplace",
+  "navbar.browse": "Browse",
+  "navbar.community": "Community",
+  "navbar.placeholderSearch": "Search",
+  "navbar.ariaUserMenu": "User menu",
+  "navbar.titleShoppingCart": "Shopping cart",
+  "navbar.taskStatistic": "Tasks: {remaining}",
+  "navbar.titleRefresh": "Refresh",
+  "navbar.titleAccoutn": "Account"
 }
