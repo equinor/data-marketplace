@@ -134,7 +134,7 @@ const Frontpage: NextPage = () => {
 
       <SearchBarSection>
         <SearchForm onSubmit={handleSearchSubmit}>
-          <SearchBar placeholder={"Search\u2026"} name="search" onChange={handleSearchChange} />
+          <SearchBar placeholder={intl.formatMessage({ id: "frontpage_placeholderSearch" })} name="search" onChange={handleSearchChange} />
 
           {/* TODO: Get communities */}
         </SearchForm>
@@ -145,8 +145,10 @@ const Frontpage: NextPage = () => {
           <Typography variant="h1_bold">
             <FormattedMessage id="frontpage_popularProductsHeader" />
           </Typography>
-          <Link href="/" aria-label="See more popular data products" link>
-            See more
+          <Link href="/" aria-label={intl.formatMessage({ id: "frontpage_ariaSeeMore" })} link>
+            <FormattedMessage
+              id="frontpage_seeMore"
+            />
           </Link>
         </SectionHeader>
 
@@ -157,12 +159,14 @@ const Frontpage: NextPage = () => {
                 <Card.Header>
                   <AssetCardTitle as="p">{product.name}</AssetCardTitle>
                 </Card.Header>
-
                 <Card.Content>
                   <Typography variant="meta">
-                    {fmtNumber(product.numberOfViews)}
-                    {" "}
-                    views
+                    <FormattedMessage
+                      id="frontpage_numberOfViews"
+                      values={{
+                        numberOfViews: fmtNumber(product.numberOfViews),
+                      }}
+                    />
                   </Typography>
                 </Card.Content>
               </Link>
