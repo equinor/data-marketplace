@@ -7,6 +7,7 @@ import {
 } from "@azure/msal-react"
 import { Typography } from "@equinor/eds-core-react"
 import { FunctionComponent, useEffect, useState } from "react"
+import { FormattedMessage } from "react-intl"
 
 import { config } from "../../config"
 import { NavBar } from "../NavBar"
@@ -51,7 +52,7 @@ export const Page: FunctionComponent = ({ children }) => {
     <>
       <AuthenticatedTemplate>
         {loading ? (
-          <Typography>Signing you in</Typography>
+          <Typography><FormattedMessage id="page.authenticatedLoading" /></Typography>
         ) : (
           <>
             <NavBar />
@@ -61,7 +62,7 @@ export const Page: FunctionComponent = ({ children }) => {
       </AuthenticatedTemplate>
 
       <UnauthenticatedTemplate>
-        <Typography>Please sign in</Typography>
+        <Typography><FormattedMessage id="page.unauthenticated" /></Typography>
       </UnauthenticatedTemplate>
     </>
   )

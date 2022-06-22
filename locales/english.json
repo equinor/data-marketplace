@@ -9,5 +9,7 @@
   "search.communitiesHeader": "Communitites",
   "search.statistic": "{count, plural, =0 {We were not able to find anything related to \u201C{searchTerm}\u201D} one {# result} other {# results}}",
   "search.view": "View",
-  "search.lastUpdated": "Last updated on"
+  "search.lastUpdated": "Last updated on",
+  "page.authenticatedLoading": "Signing you in",
+  "page.unauthenticated": "Please sign in"
 }
