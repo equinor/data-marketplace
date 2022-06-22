@@ -1,4 +1,8 @@
 {
   "frontpage_documentTitle": "Data Marketplace",
-  "frontpage_popularProductsHeader": "Popular"
+  "frontpage_popularProductsHeader": "Popular",
+  "frontpage_numberOfViews": "{numberOfViews} views",
+  "frontpage_seeMore": "See more",
+  "frontpage_placeholderSearch": "Search\u2026",
+  "frontpage_ariaSeeMore": "See more popular data products"
 }
