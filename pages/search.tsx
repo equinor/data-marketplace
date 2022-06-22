@@ -10,6 +10,7 @@ import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import { FormattedMessage, useIntl } from "react-intl"
 import styled, { css } from "styled-components"
 
 import { AssetCard } from "../components/AssetCard"
@@ -86,6 +87,7 @@ const Search: NextPage = () => {
   const [searchResults, setSearchResults] = useState<any[]>([])
 
   const router = useRouter()
+  const intl = useIntl()
 
   useEffect(() => {
     (async () => {
@@ -134,11 +136,11 @@ const Search: NextPage = () => {
     <FullPageSpinner show={isLoading}>
       <SearchPageContainer>
         <aside>
-          <Typography variant="h5" as="p">Filter</Typography>
+          <Typography variant="h5" as="p"><FormattedMessage id="search.filterHeader" /></Typography>
           <Divider variant="small" />
 
           <FilterSection>
-            <FilterSectionHeadline>Communities</FilterSectionHeadline>
+            <FilterSectionHeadline><FormattedMessage id="search.communitiesHeader" /></FilterSectionHeadline>
 
             <TagsContainer>
               <EdsProvider density="compact">
@@ -158,53 +160,45 @@ const Search: NextPage = () => {
 
         <main>
           <Section>
-            {searchResults.length > 0 ? (
-              <>
-                <SearchResultsHeader>
-                  <Typography variant="body_short">
-                    {searchResults.length}
-                    {" "}
-                    Results
-                  </Typography>
 
-                  <ViewModeActionsContainer>
-                    <Typography variant="body_short">View</Typography>
-
-                    <Button variant="ghost_icon" color="secondary">
-                      <Icon data={list} />
-                    </Button>
-
-                    <Button variant="ghost_icon" color="secondary">
-                      <Icon data={gridOn} />
-                    </Button>
-                  </ViewModeActionsContainer>
-                </SearchResultsHeader>
-
-                <SearchResultsList>
-                  {searchResults.map((resource) => (
-                    <AssetCard
-                      key={resource.id}
-                      description={resource.description}
-                      id={resource.id}
-                      title={resource.name}
-                      meta={[
-                        { label: "Last updated on", value: Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn)) },
-                      ]}
-                    />
-                  ))}
-                </SearchResultsList>
-              </>
-            ) : (
-              <Typography>
-                We were not able to find anything related to
-                {" "}
-                <b>
-                  &quot;
-                  {router.query.q}
-                  &quot;
-                </b>
+            <SearchResultsHeader>
+              <Typography variant="body_short">
+                <FormattedMessage
+                  id="search.statistic"
+                  values={{
+                    count: searchResults.length,
+                    searchTerm: (<b>{router.query.q}</b>),
+                  }}
+                />
               </Typography>
-            )}
+
+              <ViewModeActionsContainer>
+                <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
+
+                <Button variant="ghost_icon" color="secondary">
+                  <Icon data={list} />
+                </Button>
+
+                <Button variant="ghost_icon" color="secondary">
+                  <Icon data={gridOn} />
+                </Button>
+              </ViewModeActionsContainer>
+            </SearchResultsHeader>
+
+            <SearchResultsList>
+              {searchResults.map((resource) => (
+                <AssetCard
+                  key={resource.id}
+                  description={resource.description}
+                  id={resource.id}
+                  title={resource.name}
+                  meta={[
+                    { label: intl.formatMessage({ id: "search.lastUpdated" }), value: Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn)) },
+                  ]}
+                />
+              ))}
+            </SearchResultsList>
+
           </Section>
         </main>
       </SearchPageContainer>

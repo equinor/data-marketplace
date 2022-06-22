@@ -122,7 +122,7 @@ const Frontpage: NextPage = () => {
     setSearchQuery(e.target.value)
   }
 
-  const documentTitle = intl.formatMessage({ id: "frontpage_documentTitle" })
+  const documentTitle = intl.formatMessage({ id: "frontpage.documentTitle" })
 
   return (
     <Container>
@@ -134,7 +134,7 @@ const Frontpage: NextPage = () => {
 
       <SearchBarSection>
         <SearchForm onSubmit={handleSearchSubmit}>
-          <SearchBar placeholder={intl.formatMessage({ id: "frontpage_placeholderSearch" })} name="search" onChange={handleSearchChange} />
+          <SearchBar placeholder={intl.formatMessage({ id: "frontpage.placeholderSearch" })} name="search" onChange={handleSearchChange} />
 
           {/* TODO: Get communities */}
         </SearchForm>
@@ -143,11 +143,11 @@ const Frontpage: NextPage = () => {
       <Section>
         <SectionHeader>
           <Typography variant="h1_bold">
-            <FormattedMessage id="frontpage_popularProductsHeader" />
+            <FormattedMessage id="frontpage.popularProductsHeader" />
           </Typography>
-          <Link href="/" aria-label={intl.formatMessage({ id: "frontpage_ariaSeeMore" })} link>
+          <Link href="/" aria-label={intl.formatMessage({ id: "frontpage.ariaSeeMore" })} link>
             <FormattedMessage
-              id="frontpage_seeMore"
+              id="frontpage.seeMore"
             />
           </Link>
         </SectionHeader>
@@ -162,7 +162,7 @@ const Frontpage: NextPage = () => {
                 <Card.Content>
                   <Typography variant="meta">
                     <FormattedMessage
-                      id="frontpage_numberOfViews"
+                      id="frontpage.numberOfViews"
                       values={{
                         numberOfViews: fmtNumber(product.numberOfViews),
                       }}
