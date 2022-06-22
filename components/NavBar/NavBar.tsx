@@ -23,6 +23,7 @@ import {
   useState,
   VoidFunctionComponent,
 } from "react"
+import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../Container"
@@ -81,6 +82,7 @@ export const NavBar: VoidFunctionComponent = () => {
   const [searchQuery, setSearchQuery] = useState<string>("")
 
   const router = useRouter()
+  const intl = useIntl()
 
   useEffect(() => {
     setSearchQuery(router.query.q as string ?? "")
@@ -104,20 +106,19 @@ export const NavBar: VoidFunctionComponent = () => {
   return (
     <>
       <UserNavbarContainer>
-        <UserNavbar aria-label="User menu">
+        <UserNavbar aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
           <Button href="/cart" variant="ghost_icon" color="secondary">
-            <Icon data={shopping_card} title="shopping cart" />
+            <Icon data={shopping_card} title={intl.formatMessage({ id: "navbar.titleShoppingCart" })} />
           </Button>
           <Button href="/tasks" variant="ghost" color="secondary">
-            Tasks
-            {" "}
-            <span>0</span>
+            <FormattedMessage id="navbar.taskStatistic" values={{ remaining: <span>0</span> }} />
+
           </Button>
           <Button variant="ghost_icon" color="secondary">
-            <Icon data={refresh} title="refresh" />
+            <Icon data={refresh} title={intl.formatMessage({ id: "navbar.titleRefresh" })} />
           </Button>
           <Button variant="ghost_icon" color="secondary">
-            <Icon data={account_circle} title="account" />
+            <Icon data={account_circle} title={intl.formatMessage({ id: "navbar.titleAccount" })} />
           </Button>
         </UserNavbar>
       </UserNavbarContainer>
@@ -125,28 +126,28 @@ export const NavBar: VoidFunctionComponent = () => {
       <Header>
         <HeaderContentContainer>
           <LogoContainer>
-            <Typography>Equinor Data Marketplace</Typography>
+            <Typography><FormattedMessage id="navbar.logo" /></Typography>
           </LogoContainer>
 
           <nav aria-label="Main navigation">
             <ActionsContainer>
               <Link href="/browse" passHref>
                 <Button variant="ghost" color="secondary">
-                  <Icon data={explore} title="browse" />
-                  Browse
+                  <Icon data={explore} title={intl.formatMessage({ id: "navbar.browse" })} />
+                  <FormattedMessage id="navbar.browse" />
                 </Button>
               </Link>
               <Link href="/browse" passHref>
                 <Button variant="ghost" color="secondary">
-                  <Icon data={comment_discussion} title="community" />
-                  Community
+                  <Icon data={comment_discussion} title={intl.formatMessage({ id: "navbar.community" })} />
+                  <FormattedMessage id="navbar.community" />
                 </Button>
               </Link>
             </ActionsContainer>
           </nav>
 
           <SearchForm onSubmit={onSearchSubmit}>
-            <Search aria-label="sitewide" id="search-normal" placeholder="Search" onChange={onSearchChange} value={searchQuery} />
+            <Search aria-label="sitewide" id="search-normal" placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })} onChange={onSearchChange} value={searchQuery} />
           </SearchForm>
         </HeaderContentContainer>
       </Header>
