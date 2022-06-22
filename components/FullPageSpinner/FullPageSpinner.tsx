@@ -1,6 +1,7 @@
 import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { FunctionComponent, ReactElement } from "react"
+import { useIntl } from "react-intl"
 import styled, { keyframes } from "styled-components"
 
 const SpinnerContainer = styled.div`
@@ -53,12 +54,13 @@ type Props = {
 }
 
 export const FullPageSpinner: FunctionComponent<Props> = ({ children, label, show }) => {
+  const intl = useIntl()
   if (!show) return children as ReactElement
 
   return (
     <SpinnerContainer>
       <Spinner />
-      <Typography variant="body_short_bold">{label ?? "Please hold\u2026"}</Typography>
+      <Typography variant="body_short_bold">{label ?? intl.formatMessage({ id: "spinner.loading" })}</Typography>
     </SpinnerContainer>
   )
 }
