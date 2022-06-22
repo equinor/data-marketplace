@@ -8,7 +8,7 @@ import "../styles/globals.css"
 
 import { Page } from "../components/Page"
 import { config } from "../config"
-import english from "../locales/en.json"
+import englishTexts from "../locales/english.json"
 
 const msalInstance = new PublicClientApplication({
   auth: {
@@ -53,7 +53,7 @@ const msalInstance = new PublicClientApplication({
 
 const App = ({ Component, pageProps }: AppProps) => (
   <MsalProvider instance={msalInstance}>
-    <IntlProvider locale="en" defaultLocale="en" messages={english}>
+    <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
       <Page>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Component {...pageProps} />

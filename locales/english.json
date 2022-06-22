@@ -1,0 +1,13 @@
+{
+  "frontpage.documentTitle": "Data Marketplace",
+  "frontpage.popularProductsHeader": "Popular",
+  "frontpage.numberOfViews": "{numberOfViews} views",
+  "frontpage.seeMore": "See more",
+  "frontpage.placeholderSearch": "Search\u2026",
+  "frontpage.ariaSeeMore": "See more popular data products",
+  "search.filterHeader": "Filter",
+  "search.communitiesHeader": "Communitites",
+  "search.statistic": "{count, plural, =0 {We were not able to find anything related to \u201C{searchTerm}\u201D} one {# result} other {# results}}",
+  "search.view": "View",
+  "search.lastUpdated": "Last updated on"
+}
