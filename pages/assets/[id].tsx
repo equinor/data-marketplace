@@ -10,6 +10,7 @@ import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
+import { useIntl, FormattedMessage, IntlShape } from "react-intl"
 import styled from "styled-components"
 
 import { AssetTabContent } from "../../components/AssetTabContent"
@@ -43,6 +44,21 @@ const TabNavContainer = styled.aside`
   }
 `
 
+const getTabs = (intl: IntlShape) => ([
+  {
+    getDataSrc: (assetID: string) => `/api/assets/${assetID}/overview`,
+    hash: "#overview",
+    key: "overview",
+    label: intl.formatMessage({ id: "asset.overview" }),
+  },
+  {
+    getDataSrc: (assetID: string) => `/api/assets/${assetID}/responsibilities`,
+    hash: "#responsibilities",
+    key: "responsibilities",
+    label: intl.formatMessage({ id: "asset.responsibilites" }),
+  },
+])
+
 const TabLink = styled.a<{ isActive: boolean }>`
   padding: 0.5rem 0.75rem calc(0.5rem + 1px);
   display: inline-block;
@@ -54,27 +70,15 @@ const TabLink = styled.a<{ isActive: boolean }>`
   }
 `
 
-const tabs = [
-  {
-    getDataSrc: (assetID: string) => `/api/assets/${assetID}/overview`,
-    hash: "#overview",
-    key: "overview",
-    label: "Overview",
-  },
-  {
-    getDataSrc: (assetID: string) => `/api/assets/${assetID}/responsibilities`,
-    hash: "#responsibilities",
-    key: "responsibilities",
-    label: "Responsibilities",
-  },
-]
-
 const AssetDetailView: NextPage = () => {
+  const router = useRouter()
+  const intl = useIntl()
+
+  const tabs = getTabs(intl)
+
   const [currentTab, setCurrentTab] = useState<typeof tabs[0]>()
   const [assetData, setAssetData] = useState<any>()
   const [tabData, setTabData] = useState<any>()
-
-  const router = useRouter()
 
   useEffect(() => {
     if (router.query.id) {
@@ -119,10 +123,12 @@ const AssetDetailView: NextPage = () => {
     responsibilities: AssetTabs.Responsibilities,
   })[tab], [])
 
+  const generalDocumentTitle = intl.formatMessage({ id: "common.documentTitle" })
+
   return (
     <main>
       <Head>
-        <title>{assetData?.name ?? "Data Marketplace"}</title>
+        <title>{assetData?.name ?? generalDocumentTitle}</title>
       </Head>
 
       <Container>
@@ -135,7 +141,7 @@ const AssetDetailView: NextPage = () => {
 
               <Button>
                 <Icon data={shopping_cart_add} />
-                Add to cart
+                <FormattedMessage id="asset.addToCart" />
               </Button>
             </>
           )}

@@ -1,5 +1,5 @@
 {
-  "frontpage.documentTitle": "Data Marketplace",
+  "common.documentTitle": "Data Marketplace",
   "frontpage.popularProductsHeader": "Popular",
   "frontpage.numberOfViews": "{numberOfViews} views",
   "frontpage.seeMore": "See more",
@@ -21,5 +21,11 @@
   "navbar.taskStatistic": "Tasks: {remaining}",
   "navbar.titleRefresh": "Refresh",
   "navbar.titleAccount": "Account",
-  "spinner.loading": "Please hold\u2026"
+  "spinner.loading": "Please hold\u2026",
+  "asset.addToCart": "Add to cart",
+  "asset.description": "Description",
+  "asset.purpose": "Purpose",
+  "asset.timeliness": "Timeliness",
+  "asset.overview": "Overview",
+  "asset.responsibilites": "Responsibilites"
 }
