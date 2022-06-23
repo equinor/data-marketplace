@@ -122,7 +122,7 @@ const Frontpage: NextPage = () => {
     setSearchQuery(e.target.value)
   }
 
-  const documentTitle = intl.formatMessage({ id: "frontpage.documentTitle" })
+  const documentTitle = intl.formatMessage({ id: "common.documentTitle" })
 
   return (
     <Container>
