@@ -172,6 +172,8 @@ const Search: NextPage = () => {
                 />
               </Typography>
 
+              {searchResults.length > 0
+              && (
               <ViewModeActionsContainer>
                 <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
 
@@ -183,21 +185,25 @@ const Search: NextPage = () => {
                   <Icon data={gridOn} />
                 </Button>
               </ViewModeActionsContainer>
+              )}
             </SearchResultsHeader>
 
-            <SearchResultsList>
-              {searchResults.map((resource) => (
-                <AssetCard
-                  key={resource.id}
-                  description={resource.description}
-                  id={resource.id}
-                  title={resource.name}
-                  meta={[
-                    { label: intl.formatMessage({ id: "search.lastUpdated" }), value: Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn)) },
-                  ]}
-                />
-              ))}
-            </SearchResultsList>
+            {searchResults.length > 0
+              && (
+              <SearchResultsList>
+                {searchResults.map((resource) => (
+                  <AssetCard
+                    key={resource.id}
+                    description={resource.description}
+                    id={resource.id}
+                    title={resource.name}
+                    meta={[
+                      { label: intl.formatMessage({ id: "search.lastUpdated" }), value: Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn)) },
+                    ]}
+                  />
+                ))}
+              </SearchResultsList>
+              )}
 
           </Section>
         </main>
