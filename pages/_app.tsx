@@ -3,7 +3,6 @@ import { MsalProvider } from "@azure/msal-react"
 import type { AppProps } from "next/app"
 import { IntlProvider } from "react-intl"
 
-import "focus-visible"
 import "../styles/globals.css"
 
 import { Page } from "../components/Page"
