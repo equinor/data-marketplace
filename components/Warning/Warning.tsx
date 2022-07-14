@@ -21,7 +21,6 @@ const TermsView: FunctionComponent = () => (
   <div>
     <Banner>
       <BannerContainer>
-        <Banner.Icon variant="warning" />
         <p>
           <b> Security Classification</b>
           <br />
@@ -43,7 +42,6 @@ const TermsView: FunctionComponent = () => (
 
 const Cart: FunctionComponent = () => (
   <BannerContainer>
-    <Banner.Icon variant="info" />
     <p>
       <b>Access to these data products requires a VPN connection</b>
     </p>
