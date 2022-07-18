@@ -126,10 +126,10 @@ export const NavBar: VoidFunctionComponent = () => {
       <Header>
         <HeaderContentContainer>
           <LogoContainer>
-          <Link href="/" passHref>
-                <Button variant="ghost" color="secondary">
-            <Typography><FormattedMessage id="navbar.logo" /></Typography>
-            </Button>
+            <Link href="/" passHref>
+              <Button variant="ghost" color="secondary">
+                <Typography><FormattedMessage id="navbar.logo" /></Typography>
+              </Button>
             </Link>
           </LogoContainer>
 
