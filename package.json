@@ -24,7 +24,7 @@
     "@equinor/eds-tokens": "^0.7.1",
     "axios": "^0.27.2",
     "faker": "^5.5.3",
-    "next": "^12.1.5",
+    "next": "^12.2.0",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
