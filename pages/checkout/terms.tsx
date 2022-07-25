@@ -4,10 +4,37 @@ import { useRouter } from "next/router"
 import React from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
+import styled from "styled-components"
 
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Dispatch, RootState } from "../../store"
+
+const IngressContainer = styled.div`
+  margin-bottom: 1.5rem;
+
+  p:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+`
+
+const ChecboxContainer = styled.div`
+  margin-bottom: 1.5rem;
+
+  label {
+    position: relative;
+    left: -12px;
+  }
+`
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  > *:not(:last-child) {
+    margin-right: 1rem;
+  }
+`
 
 const CheckoutTermsView: NextPage = () => {
   const intl = useIntl()
@@ -29,24 +56,28 @@ const CheckoutTermsView: NextPage = () => {
   return (
     <Container>
       <CheckoutWizard>
-        <FormattedMessage
-          id="terms.ingress"
-          // eslint-disable-next-line react/no-unstable-nested-components
-          values={{ p: (chunks) => <Typography>{chunks}</Typography> }}
-        />
+        <IngressContainer>
+          <FormattedMessage
+            id="terms.ingress"
+            // eslint-disable-next-line react/no-unstable-nested-components
+            values={{ p: (chunks) => <Typography>{chunks}</Typography> }}
+          />
+        </IngressContainer>
 
         {/* TODO: Add banner */}
 
-        <Checkbox
-          name="acceptTerms"
-          label={intl.formatMessage({ id: "terms.acceptLabel" })}
-          onChange={onAcceptTerms}
-          checked={hasAcceptedTerms ?? false}
-          aria-invalid={hasAcceptedTerms ? "false" : "true"}
-          aria-required
-        />
+        <ChecboxContainer>
+          <Checkbox
+            name="acceptTerms"
+            label={intl.formatMessage({ id: "terms.acceptLabel" })}
+            onChange={onAcceptTerms}
+            checked={hasAcceptedTerms ?? false}
+            aria-invalid={hasAcceptedTerms ? "false" : "true"}
+            aria-required
+          />
+        </ChecboxContainer>
 
-        <div>
+        <ButtonContainer>
           <Button variant="outlined" color="secondary">
             {intl.formatMessage({ id: "common.cancel" })}
           </Button>
@@ -56,7 +87,7 @@ const CheckoutTermsView: NextPage = () => {
           >
             {intl.formatMessage({ id: "common.continue" })}
           </Button>
-        </div>
+        </ButtonContainer>
       </CheckoutWizard>
     </Container>
   )
