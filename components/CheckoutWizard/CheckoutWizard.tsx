@@ -7,6 +7,10 @@ import { Dispatch, RootState } from "../../store"
 
 import { CheckoutNav } from "./Nav"
 
+const CheckoutNavContainer = styled.div`
+  margin-bottom: 1.5rem;
+`
+
 const ContentContainer = styled.div`
   width: 50%;
 `
@@ -35,7 +39,9 @@ export const CheckoutWizard: FunctionComponent = ({ children }) => {
 
   return (
     <div>
-      <CheckoutNav currentStep={state.step} />
+      <CheckoutNavContainer>
+        <CheckoutNav currentStep={state.step} />
+      </CheckoutNavContainer>
 
       <ContentContainer>
         {children}
