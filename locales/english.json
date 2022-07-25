@@ -27,5 +27,6 @@
   "asset.purpose": "Purpose",
   "asset.timeliness": "Timeliness",
   "asset.overview": "Overview",
-  "asset.responsibilites": "Responsibilites"
+  "asset.responsibilites": "Responsibilites",
+  "terms.ingress": "<p>These terms and conditions create a contract between you as a data consumer and the data provider (the “Agreement”).</p><p>When you are provided access to this Data Product, you will have to ensure that the following criteria are met:</p>"
 }
