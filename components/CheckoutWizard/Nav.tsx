@@ -7,7 +7,7 @@ import {
   shopping_card,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import { VoidFunctionComponent } from "react"
+import type { VoidFunctionComponent } from "react"
 import styled from "styled-components"
 
 import { Link } from "../Link"
@@ -52,7 +52,11 @@ const NavLinkText = styled.span`
   display: block;
 `
 
-export const CheckoutNav: VoidFunctionComponent = () => (
+type Props = {
+  currentStep: number
+}
+
+export const CheckoutNav: VoidFunctionComponent<Props> = ({ currentStep }) => (
   <nav>
     <NavItemsContainer>
       <li>
@@ -64,7 +68,7 @@ export const CheckoutNav: VoidFunctionComponent = () => (
         </NavLink>
       </li>
       <li>
-        <NavLink href="/checkout/access" disabled aria-disabled="true">
+        <NavLink href="/checkout/access" disabled={currentStep < 1} aria-disabled={currentStep < 1}>
           <IconContainer>
             <Icon data={shopping_card} />
           </IconContainer>
@@ -72,7 +76,7 @@ export const CheckoutNav: VoidFunctionComponent = () => (
         </NavLink>
       </li>
       <li>
-        <NavLink href="/checkout/confirm" disabled aria-disabled="true">
+        <NavLink href="/checkout/confirm" disabled={currentStep < 2} aria-disabled={currentStep < 2}>
           <IconContainer>
             <Icon data={receipt} />
           </IconContainer>
@@ -80,7 +84,7 @@ export const CheckoutNav: VoidFunctionComponent = () => (
         </NavLink>
       </li>
       <li>
-        <NavLink href="/checkout/redirect" disabled aria-disabled="true">
+        <NavLink href="/checkout/redirect" disabled={currentStep < 3} aria-disabled={currentStep < 3}>
           <IconContainer>
             <Icon data={exit_to_app} />
           </IconContainer>
