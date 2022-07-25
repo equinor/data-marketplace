@@ -2,12 +2,14 @@ import { PublicClientApplication, LogLevel } from "@azure/msal-browser"
 import { MsalProvider } from "@azure/msal-react"
 import type { AppProps } from "next/app"
 import { IntlProvider } from "react-intl"
+import { Provider } from "react-redux"
 
 import "../styles/globals.css"
 
 import { Page } from "../components/Page"
 import { config } from "../config"
 import englishTexts from "../locales/english.json"
+import { store } from "../store"
 
 const msalInstance = new PublicClientApplication({
   auth: {
@@ -53,10 +55,12 @@ const msalInstance = new PublicClientApplication({
 const App = ({ Component, pageProps }: AppProps) => (
   <MsalProvider instance={msalInstance}>
     <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
-      <Page>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        <Component {...pageProps} />
-      </Page>
+      <Provider store={store}>
+        <Page>
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          <Component {...pageProps} />
+        </Page>
+      </Provider>
     </IntlProvider>
   </MsalProvider>
 )
