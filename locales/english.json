@@ -31,5 +31,11 @@
   "asset.overview": "Overview",
   "asset.responsibilites": "Responsibilites",
   "terms.ingress": "<p>These terms and conditions create a contract between you as a data consumer and the data provider (the “Agreement”).</p><p>When you are provided access to this Data Product, you will have to ensure that the following criteria are met:</p>",
-  "terms.acceptLabel": "I accept the Terms of Use"
+  "terms.acceptLabel": "I accept the Terms of Use",
+  "checkout.access.headline": "Why do you want access?",
+  "checkout.access.ingress": "Please provide a short description explaining why you want access.",
+  "checkout.access.exampleLabel": "Example",
+  "checkout.access.exampleBody": "As a [role] I want [description of what you want to do with the data product], so that [description of why you need the data product]",
+  "checkout.access.descriptionInput.label": "Description",
+  "checkout.access.descriptionInput.placeholder": "Please provide a description\u2026"
 }
