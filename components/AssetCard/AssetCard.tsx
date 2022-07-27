@@ -4,6 +4,8 @@ import Link from "next/link"
 import type { VoidFunctionComponent } from "react"
 import styled from "styled-components"
 
+import { TruncatedDescription } from "../helpers"
+
 const CardContainer = styled.div`
   box-shadow: ${tokens.elevation.raised};
   border-radius: ${tokens.shape.corners.borderRadius};
@@ -24,13 +26,6 @@ const MetaContainer = styled.div`
   > *:not(:last-child) {
     margin-right: 1rem;
   }
-`
-
-const TruncatedDescription = styled(Typography)<{ lines?: number }>`
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: ${({ lines }) => (lines && lines > 0 ? lines : 4)};
-  overflow: hidden;
 `
 
 type Props = {
