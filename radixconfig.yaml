@@ -1,0 +1,29 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: data-marketplace
+spec:
+  environments:
+  - name: prod
+  components:
+  - name: data-marketplace-prod
+    publicPort: http
+    ports:
+    - name: http
+      port: 3000
+    environmentConfig:
+    - environment: prod
+      resources:
+        requests:
+          memory: 512Mi
+          cpu: 100m
+        limits:
+          memory: 1Gi
+          cpu: 1000m
+      variables:
+    variables:
+    secrets:
+
+  dnsAppAlias:
+    environment: prod
+    component: data-marketplace-prod
