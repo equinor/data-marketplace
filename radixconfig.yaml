@@ -22,9 +22,6 @@ spec:
         limits:
           memory: 1Gi
           cpu: 1000m
-      variables:
-    variables:
-    secrets:
 
   dnsAppAlias:
     environment: prod
