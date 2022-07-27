@@ -1,8 +1,15 @@
 import {
-  Typography, List, Chip, Card,
+  Typography, List, Chip, Card, Button,
+  Icon,
 } from "@equinor/eds-core-react"
+import {
+  // eslint-disable-next-line camelcase
+  chevron_right,
+} from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { NextPage } from "next"
+import NextLink from "next/link"
+import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../components/Container"
@@ -31,6 +38,11 @@ const Content = styled.main`
   max-width: 50rem;
 `
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
+
 const mockData = [
   {
     id: 1,
@@ -54,33 +66,49 @@ const mockData = [
   },
 ]
 
-const CartView : NextPage = () => (
-  <Container>
-    <Content>
-      <Typography variant="h1">Cart header</Typography>
-      <CartItems>
-        {mockData.map((item) => (
-          <CartItem key={item.id}>
-            <Card elevation="raised">
-              <CardHeader>
-                <HeaderTitle>
-                  {/* This is just a dummy example */}
-                  <Tags>
-                    {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
-                  </Tags>
-                  <Typography variant="h2">{item.name}</Typography>
-                </HeaderTitle>
-              </CardHeader>
-              <CardContent>
-                <TruncatedDescription variant="body_long" lines={3}>{item.description}</TruncatedDescription>
-              </CardContent>
-            </Card>
-          </CartItem>
-        ))}
-      </CartItems>
-      <p style={{ padding: "1rem", margin: "1rem 0", backgroundColor: `${tokens.colors.ui.background__warning.rgba}` }}>Placeholder for a banner component</p>
-    </Content>
-  </Container>
-)
+const CartView : NextPage = () => {
+  const intl = useIntl()
+
+  return (
+    <Container>
+      <Content>
+        <Typography variant="h1">Cart header</Typography>
+        <CartItems>
+          {mockData.map((item) => (
+            <CartItem key={item.id}>
+              <Card elevation="raised">
+                <CardHeader>
+                  <HeaderTitle>
+                    {/* This is just a dummy example */}
+                    <Tags>
+                      {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
+                    </Tags>
+                    <Typography variant="h2">{item.name}</Typography>
+                  </HeaderTitle>
+                </CardHeader>
+                <CardContent>
+                  <TruncatedDescription variant="body_long" lines={3}>{item.description}</TruncatedDescription>
+                </CardContent>
+              </Card>
+            </CartItem>
+          ))}
+        </CartItems>
+        <p style={{ padding: "1rem", margin: "1rem 0", backgroundColor: `${tokens.colors.ui.background__warning.rgba}` }}>Placeholder for a banner component</p>
+
+        <ButtonContainer>
+          <NextLink href="/checkout/terms" passHref>
+            <Button
+              as="a"
+            >
+              {intl.formatMessage({ id: "cart.proceedToCheckout" })}
+              {/* eslint-disable-next-line camelcase */}
+              <Icon data={chevron_right} />
+            </Button>
+          </NextLink>
+        </ButtonContainer>
+      </Content>
+    </Container>
+  )
+}
 
 export default CartView

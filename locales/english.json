@@ -37,5 +37,6 @@
   "checkout.access.exampleLabel": "Example",
   "checkout.access.exampleBody": "As a [role] I want [description of what you want to do with the data product], so that [description of why you need the data product]",
   "checkout.access.descriptionInput.label": "Description",
-  "checkout.access.descriptionInput.placeholder": "Please provide a description\u2026"
+  "checkout.access.descriptionInput.placeholder": "Please provide a description\u2026",
+  "cart.proceedToCheckout": "Proceed to checkout"
 }
