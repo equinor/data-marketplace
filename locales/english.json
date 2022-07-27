@@ -38,7 +38,7 @@
   "checkout.access.exampleBody": "As a [role] I want [description of what you want to do with the data product], so that [description of why you need the data product]",
   "checkout.access.descriptionInput.label": "Description",
   "checkout.access.descriptionInput.placeholder": "Please provide a description\u2026",
-  "cart.headline": "Cart {count, plural, =0 {has no content} one {(# item)} other {(# items)}}",
+  "cart.headline": "Cart {count, plural, =0 {is empty} one {(# item)} other {(# items)}}",
   "cart.proceedToCheckout": "Proceed to checkout"
   
 }

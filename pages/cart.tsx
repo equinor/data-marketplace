@@ -1,11 +1,10 @@
+/* eslint-disable camelcase */
 import {
   Typography, List, Chip, Card, Button,
   Icon,
 } from "@equinor/eds-core-react"
 import {
-  // eslint-disable-next-line camelcase
   chevron_right,
-  // eslint-disable-next-line camelcase
   shopping_card,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
@@ -19,6 +18,15 @@ import { TruncatedDescription } from "../components/helpers"
 
 const { Item } = List
 const { Header: CardHeader, HeaderTitle: CardHeaderTitle, Content: CardContent } = Card
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+`
+const CartIcon = styled(Icon)`
+  flex-shrink: 0;
+`
 
 const CartItems = styled(List)`
   margin: 1.5rem 0;
@@ -43,14 +51,6 @@ const Content = styled.main`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-`
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 0.5rem;
-`
-const CartIcon = styled(Icon)`
-  flex-shrink: 0;
 `
 
 const mockData = [{
@@ -83,50 +83,50 @@ const CartView : NextPage = () => {
     <Container>
       <Content>
         <Title>
-          {/* eslint-disable-next-line camelcase */}
           <CartIcon data={shopping_card} />
           <Typography variant="h1">
             {intl.formatMessage({ id: "cart.headline" }, {
               count: mockData.length,
             })}
-
           </Typography>
         </Title>
-        <CartItems>
-          {mockData.map((item) => (
-            <CartItem key={item.id}>
-              <Card elevation="raised">
-                <CardHeader>
-                  <CardHeaderTitle>
-                    {/* This is just a dummy example */}
-                    <Tags>
-                      {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
-                    </Tags>
-
-                    <Typography variant="h2">{item.name}</Typography>
-
-                  </CardHeaderTitle>
-                </CardHeader>
-                <CardContent>
-                  <TruncatedDescription variant="body_long" lines={3}>{item.description}</TruncatedDescription>
-                </CardContent>
-              </Card>
-            </CartItem>
-          ))}
-        </CartItems>
+        {mockData.length > 0
+        && (
+          <CartItems>
+            {mockData.map((item) => (
+              <CartItem key={item.id}>
+                <Card elevation="raised">
+                  <CardHeader>
+                    <CardHeaderTitle>
+                      {/* This is just a dummy example */}
+                      <Tags>
+                        {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
+                      </Tags>
+                      <Typography variant="h2">{item.name}</Typography>
+                    </CardHeaderTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <TruncatedDescription variant="body_long" lines={3}>{item.description}</TruncatedDescription>
+                  </CardContent>
+                </Card>
+              </CartItem>
+            ))}
+          </CartItems>
+        ) }
         <p style={{ padding: "1rem", margin: "1rem 0", backgroundColor: `${tokens.colors.ui.background__warning.rgba}` }}>Placeholder for a banner component</p>
-
-        <ButtonContainer>
-          <NextLink href="/checkout/terms" passHref>
-            <Button
-              as="a"
-            >
-              {intl.formatMessage({ id: "cart.proceedToCheckout" })}
-              {/* eslint-disable-next-line camelcase */}
-              <Icon data={chevron_right} />
-            </Button>
-          </NextLink>
-        </ButtonContainer>
+        {mockData.length > 0
+        && (
+          <ButtonContainer>
+            <NextLink href="/checkout/terms" passHref>
+              <Button
+                as="a"
+              >
+                {intl.formatMessage({ id: "cart.proceedToCheckout" })}
+                <Icon data={chevron_right} />
+              </Button>
+            </NextLink>
+          </ButtonContainer>
+        ) }
       </Content>
     </Container>
   )
