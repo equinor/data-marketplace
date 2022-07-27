@@ -1,6 +1,7 @@
 import {
   Typography, List, Chip, Card,
 } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
 import { NextPage } from "next"
 import styled from "styled-components"
 
@@ -77,6 +78,7 @@ const CartView : NextPage = () => (
           </CartItem>
         ))}
       </CartItems>
+      <p style={{ padding: "1rem", margin: "1rem 0", backgroundColor: `${tokens.colors.ui.background__warning.rgba}` }}>Placeholder for a banner component</p>
     </Content>
   </Container>
 )
