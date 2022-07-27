@@ -3,6 +3,11 @@ kind: RadixApplication
 metadata:
   name: data-marketplace
 spec:
+  build:
+    variables:
+      ARG_COLLIBRA_BASE_URL: https://equinor-dev.collibra.com/rest/2.0
+      ARG ARG_AUTH_AUTHORITY: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0
+      ARG ARG_AUTH_CLIENT_ID: 41912e0a-18ba-46d8-98a3-634a38b8fffb
   environments:
   - name: prod
     build:
@@ -22,6 +27,10 @@ spec:
         limits:
           memory: 1Gi
           cpu: 1000m
+    variables:
+      NEXT_PUBLIC_COLLIBRA_BASE_URL: https://equinor-dev.collibra.com/rest/2.0
+      NEXT_PUBLIC_AUTH_AUTHORITY: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0
+      NEXT_PUBLIC_AUTH_CLIENT_ID: 41912e0a-18ba-46d8-98a3-634a38b8fffb
 
   dnsAppAlias:
     environment: prod
