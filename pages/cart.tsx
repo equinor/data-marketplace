@@ -5,9 +5,10 @@ import { NextPage } from "next"
 import styled from "styled-components"
 
 import { Container } from "../components/Container"
+import { TruncatedDescription } from "../components/helpers"
 
 const { Item } = List
-const { Header, HeaderTitle, Content } = Card
+const { Header: CardHeader, HeaderTitle, Content: CardContent } = Card
 
 const CartItems = styled(List)`
   margin: 1.5rem 0;
@@ -20,12 +21,27 @@ const CartItem = styled(Item)`
     margin-top: 1rem;
   }
 `
+const Tags = styled.div`
+  padding: 0.25rem 0;
+`
+
+const Content = styled.main`
+  /*  @TODO tbd */
+  max-width: 50rem;
+`
 
 const mockData = [
   {
     id: 1,
     name: "Automatic Identification System (AIS) vessel positions",
-    description: "Automatic identification system (AIS) data from the AIS transcender at the offshore subsation in the Dudgeon wind farm. The AIS data is available as a a real-time stream of raw data, and includes information about vessels such as unique identification, position, course and speed.",
+    // Will containt unknown, random HTML :/
+    description: `Automatic identification system (AIS) data from the AIS transcender at 
+    the offshore subsation in the Dudgeon wind farm. The AIS data is available as a a real-time
+    stream of raw data, and includes information about vessels such as unique identification,
+    position, course and speed. Automatic identification system (AIS) data from the AIS transcender at 
+    the offshore subsation in the Dudgeon wind farm. The AIS data is available as a a real-time
+    stream of raw data, and includes information about vessels such as unique identification,
+    position, course and speed.`,
     // Dunno anything about this yet
     domain: ["Renewables"],
   },
@@ -39,27 +55,29 @@ const mockData = [
 
 const CartView : NextPage = () => (
   <Container>
-    <Typography variant="h1">Cart header</Typography>
-    <CartItems>
-      {mockData.map((item) => (
-        <CartItem key={item.id}>
-          <Card elevation="raised">
-            <Header>
-              <HeaderTitle>
-                {/* This is just a dummy example */}
-                <div>
-                  {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
-                </div>
-                <Typography variant="h2">{item.name}</Typography>
-              </HeaderTitle>
-            </Header>
-            <Content>
-              <Typography>{item.description}</Typography>
-            </Content>
-          </Card>
-        </CartItem>
-      ))}
-    </CartItems>
+    <Content>
+      <Typography variant="h1">Cart header</Typography>
+      <CartItems>
+        {mockData.map((item) => (
+          <CartItem key={item.id}>
+            <Card elevation="raised">
+              <CardHeader>
+                <HeaderTitle>
+                  {/* This is just a dummy example */}
+                  <Tags>
+                    {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
+                  </Tags>
+                  <Typography variant="h2">{item.name}</Typography>
+                </HeaderTitle>
+              </CardHeader>
+              <CardContent>
+                <TruncatedDescription variant="body_long" lines={3}>{item.description}</TruncatedDescription>
+              </CardContent>
+            </Card>
+          </CartItem>
+        ))}
+      </CartItems>
+    </Content>
   </Container>
 )
 
