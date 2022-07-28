@@ -11,7 +11,6 @@ import {
   comment_discussion,
   explore,
   refresh,
-  shopping_card,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import Link from "next/link"
@@ -27,6 +26,8 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../Container"
+
+import { Cart } from "./Cart"
 
 const UserNavbarContainer = styled(Container)`
   width: 100%;
@@ -107,9 +108,7 @@ export const NavBar: VoidFunctionComponent = () => {
     <>
       <UserNavbarContainer>
         <UserNavbar aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
-          <Button href="/cart" variant="ghost_icon" color="secondary">
-            <Icon data={shopping_card} title={intl.formatMessage({ id: "navbar.titleShoppingCart" })} />
-          </Button>
+          <Cart />
           <Button href="/tasks" variant="ghost" color="secondary">
             <FormattedMessage id="navbar.taskStatistic" values={{ remaining: <span>0</span> }} />
 
