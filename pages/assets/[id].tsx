@@ -11,12 +11,14 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
 import { useIntl, FormattedMessage, IntlShape } from "react-intl"
+import { useDispatch } from "react-redux"
 import styled from "styled-components"
 
 import { AssetTabContent } from "../../components/AssetTabContent"
 import { AssetTabs } from "../../components/AssetTabContent/types"
 import { Container } from "../../components/Container"
 import { HttpClient } from "../../lib/HttpClient"
+import { Dispatch } from "../../store"
 
 const Header = styled.header`
   display: grid;
@@ -73,12 +75,15 @@ const TabLink = styled.a<{ isActive: boolean }>`
 const AssetDetailView: NextPage = () => {
   const router = useRouter()
   const intl = useIntl()
+  const dispatch = useDispatch<Dispatch>()
 
   const tabs = getTabs(intl)
 
   const [currentTab, setCurrentTab] = useState<typeof tabs[0]>()
   const [assetData, setAssetData] = useState<any>()
   const [tabData, setTabData] = useState<any>()
+
+  const assetId = router.query.id || ""
 
   useEffect(() => {
     if (router.query.id) {
@@ -124,6 +129,9 @@ const AssetDetailView: NextPage = () => {
   })[tab], [])
 
   const generalDocumentTitle = intl.formatMessage({ id: "common.documentTitle" })
+  const handleAddToCart = () => {
+    dispatch.checkout.addToCart(assetId as string)
+  }
 
   return (
     <main>
@@ -139,7 +147,7 @@ const AssetDetailView: NextPage = () => {
                 {assetData.name}
               </Typography>
 
-              <Button>
+              <Button onClick={handleAddToCart}>
                 <Icon data={shopping_cart_add} />
                 <FormattedMessage id="asset.addToCart" />
               </Button>
