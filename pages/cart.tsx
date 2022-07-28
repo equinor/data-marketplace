@@ -11,10 +11,12 @@ import { tokens } from "@equinor/eds-tokens"
 import { NextPage } from "next"
 import NextLink from "next/link"
 import { useIntl } from "react-intl"
+import { useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { Container } from "../components/Container"
 import { TruncatedDescription } from "../components/helpers"
+import { RootState } from "../store"
 
 const { Item } = List
 const { Header: CardHeader, HeaderTitle: CardHeaderTitle, Content: CardContent } = Card
@@ -78,6 +80,8 @@ const mockData = [{
 
 const CartView : NextPage = () => {
   const intl = useIntl()
+  const cartContent = useSelector((state: RootState) => state.checkout.cart) ?? []
+  const numberOfItems = cartContent.length
 
   return (
     <Container>
@@ -86,11 +90,11 @@ const CartView : NextPage = () => {
           <CartIcon data={shopping_card} />
           <Typography variant="h1">
             {intl.formatMessage({ id: "cart.headline" }, {
-              count: mockData.length,
+              count: numberOfItems,
             })}
           </Typography>
         </Title>
-        {mockData.length > 0
+        {numberOfItems > 0
         && (
           <CartItems>
             {mockData.map((item) => (
@@ -114,7 +118,7 @@ const CartView : NextPage = () => {
           </CartItems>
         ) }
         <p style={{ padding: "1rem", margin: "1rem 0", backgroundColor: `${tokens.colors.ui.background__warning.rgba}` }}>Placeholder for a banner component</p>
-        {mockData.length > 0
+        {numberOfItems > 0
         && (
           <ButtonContainer>
             <NextLink href="/checkout/terms" passHref>
