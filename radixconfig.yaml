@@ -3,17 +3,12 @@ kind: RadixApplication
 metadata:
   name: data-marketplace
 spec:
-  build:
-    secrets:
-    - ARG_COLLIBRA_BASE_URL
-    - ARG_AUTH_AUTHORITY
-    - ARG_AUTH_CLIENT_ID
   environments:
   - name: prod
     build:
       from: main
   components:
-  - name: data-marketplace-prod
+  - name: web
     publicPort: http
     ports:
     - name: http
@@ -34,4 +29,4 @@ spec:
 
   dnsAppAlias:
     environment: prod
-    component: data-marketplace-prod
+    component: web
