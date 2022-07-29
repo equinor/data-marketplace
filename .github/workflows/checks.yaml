@@ -8,18 +8,24 @@ on:
     branches:
       - main
 
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
 jobs:
   setup:
     name: Checkout and setup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
+        id: checkout
         uses: actions/checkout@v3
       - name: Setup node
+        id: setup-node
         uses: actions/setup-node@v3
         with:
           node-version: 16
       - name: Cache node modules
+        id: cache-node-modules
         uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
@@ -31,15 +37,24 @@ jobs:
       - name: NPM version
         run: npm --version
       - name: Install dependencies
+        id: install-dependencies
         run: |
           npm ci --cache .npm --prefer-offline
       - name: Cache base files
+        id: cache-base-files
         uses: actions/cache@v3
         with:
           path: |
             ./*
             .npm
           key: ${{ github.sha }}
+      - name: log-errors-to-slack
+        uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: failure()
+
   build:
     name: Build
     needs: setup
@@ -47,17 +62,25 @@ jobs:
     steps:
       - name: Get base files
         uses: actions/cache@v3
+        id: get-base-files
         with:
           path: |
             ./*
             .npm
           key: ${{ github.sha }}
       - name: Run build
+        id: build
         run: |
           npm run seed:mock:all
           npm run build
         env:
           NEXT_PUBLIC_COLLIBRA_BASE_URL: http://localhost:3000/
+      - name: log-errors-to-slack 📄
+        uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: failure()
 
   test:
     name: Test
@@ -65,6 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get base files
+        id: get-base-files
         uses: actions/cache@v3
         with:
           path: |
@@ -72,6 +96,12 @@ jobs:
             .npm
           key: ${{ github.sha }}
       - name: Run tests
+        id: run-tests
         run: npm test
-
+      - name: log-errors-to-slack 📄
+        uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: failure()
 
