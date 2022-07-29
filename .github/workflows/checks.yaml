@@ -74,7 +74,7 @@ jobs:
           npm run seed:mock:all
           npm run build
         env:
-          NEXT_PUBLIC_COLLIBRA_BASE_URL: http://localhost:3000/
+          NEXT_PUBLIC_COLLIBRA_BASE_URL: ${{ NEXT_PUBLIC_COLLIBRA_BASE_URL }}
       - name: log-errors-to-slack 📄
         uses: act10ns/slack@v1
         with:
