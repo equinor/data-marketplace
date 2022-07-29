@@ -11,24 +11,29 @@
     "seed:mock:popular-assets": "node scripts/seedMockPopularAssets.mjs",
     "seed:mock:tags": "node scripts/seedMockTags.mjs",
     "seed:mock:all": "npm run seed:mock:assets && npm run seed:mock:popular-assets && npm run seed:mock:tags",
-    "test": "jest"
+    "test": "jest",
+    "docker:build": "docker build -t data-marketplace/web -f Dockerfile .",
+    "docker:run": "docker run -p 3000:3000 --env-file=.env.local data-marketplace/web",
+    "docker:inspect": "docker run -p 3000:3000 --env-file=web/.env.local -it data-marketplace/web /bin/sh"
   },
   "lint-staged": {
     "*.{j,t}s?(x)": "eslint --fix"
   },
   "dependencies": {
-    "@azure/msal-browser": "^2.25.0",
-    "@azure/msal-react": "^1.4.2",
-    "@equinor/eds-core-react": "^0.20.3",
-    "@equinor/eds-icons": "^0.11.0",
+    "@azure/msal-browser": "^2.27.0",
+    "@azure/msal-react": "^1.4.3",
+    "@equinor/eds-core-react": "^0.20.4",
+    "@equinor/eds-icons": "^0.12.0",
     "@equinor/eds-tokens": "^0.7.1",
+    "@rematch/core": "^2.2.0",
     "axios": "^0.27.2",
     "faker": "^5.5.3",
-    "next": "^12.1.5",
+    "next": "^12.2.0",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-intl": "^6.0.4",
+    "react-intl": "^6.0.5",
+    "react-redux": "^8.0.2",
     "styled-components": "^5.3.5",
     "xss": "^1.0.13"
   },

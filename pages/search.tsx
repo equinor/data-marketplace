@@ -174,35 +174,35 @@ const Search: NextPage = () => {
 
               {searchResults.length > 0
               && (
-              <ViewModeActionsContainer>
-                <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
+                <ViewModeActionsContainer>
+                  <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
 
-                <Button variant="ghost_icon" color="secondary">
-                  <Icon data={list} />
-                </Button>
+                  <Button variant="ghost_icon" color="secondary">
+                    <Icon data={list} />
+                  </Button>
 
-                <Button variant="ghost_icon" color="secondary">
-                  <Icon data={gridOn} />
-                </Button>
-              </ViewModeActionsContainer>
+                  <Button variant="ghost_icon" color="secondary">
+                    <Icon data={gridOn} />
+                  </Button>
+                </ViewModeActionsContainer>
               )}
             </SearchResultsHeader>
 
             {searchResults.length > 0
               && (
-              <SearchResultsList>
-                {searchResults.map((resource) => (
-                  <AssetCard
-                    key={resource.id}
-                    description={resource.description}
-                    id={resource.id}
-                    title={resource.name}
-                    meta={[
-                      { label: intl.formatMessage({ id: "search.lastUpdated" }), value: Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn)) },
-                    ]}
-                  />
-                ))}
-              </SearchResultsList>
+                <SearchResultsList>
+                  {searchResults.map((resource) => (
+                    <AssetCard
+                      key={resource.id}
+                      description={resource.description}
+                      id={resource.id}
+                      title={resource.name}
+                      meta={[
+                        { label: intl.formatMessage({ id: "search.lastUpdated" }), value: Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn)) },
+                      ]}
+                    />
+                  ))}
+                </SearchResultsList>
               )}
 
           </Section>
