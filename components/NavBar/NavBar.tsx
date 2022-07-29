@@ -13,7 +13,7 @@ import {
   refresh,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import Link from "next/link"
+import { Link } from "../Link"
 import { useRouter } from "next/router"
 import {
   ChangeEventHandler,
@@ -125,7 +125,7 @@ export const NavBar: VoidFunctionComponent = () => {
       <Header>
         <HeaderContentContainer>
           <LogoContainer>
-            <Link href="/" passHref>
+            <Link href="/">
               <Button variant="ghost" color="secondary">
                 <Typography><FormattedMessage id="navbar.logo" /></Typography>
               </Button>
@@ -134,13 +134,13 @@ export const NavBar: VoidFunctionComponent = () => {
 
           <nav aria-label="Main navigation">
             <ActionsContainer>
-              <Link href="/browse" passHref>
+              <Link href="/browse" >
                 <Button variant="ghost" color="secondary">
                   <Icon data={explore} title={intl.formatMessage({ id: "navbar.browse" })} />
                   <FormattedMessage id="navbar.browse" />
                 </Button>
               </Link>
-              <Link href="/browse" passHref>
+              <Link href="/browse">
                 <Button variant="ghost" color="secondary">
                   <Icon data={comment_discussion} title={intl.formatMessage({ id: "navbar.community" })} />
                   <FormattedMessage id="navbar.community" />
