@@ -13,7 +13,6 @@ import {
   refresh,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import { Link } from "../Link"
 import { useRouter } from "next/router"
 import {
   ChangeEventHandler,
@@ -26,6 +25,7 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../Container"
+import { Link } from "../Link"
 
 import { Cart } from "./Cart"
 
@@ -134,7 +134,7 @@ export const NavBar: VoidFunctionComponent = () => {
 
           <nav aria-label="Main navigation">
             <ActionsContainer>
-              <Link href="/browse" >
+              <Link href="/browse">
                 <Button variant="ghost" color="secondary">
                   <Icon data={explore} title={intl.formatMessage({ id: "navbar.browse" })} />
                   <FormattedMessage id="navbar.browse" />
