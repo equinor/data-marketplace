@@ -10,12 +10,14 @@ import {
 import { tokens } from "@equinor/eds-tokens"
 import { NextPage } from "next"
 import NextLink from "next/link"
+import { useEffect, useState } from "react"
 import { useIntl } from "react-intl"
 import { useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { Container } from "../components/Container"
 import { TruncatedDescription } from "../components/helpers"
+import { HttpClient } from "../lib/HttpClient"
 import { RootState } from "../store"
 
 const { Item } = List
@@ -78,10 +80,47 @@ const mockData = [{
 
 ]
 
+type CartContent = {
+  id: string,
+  name: string,
+/*   description: any,
+  domain: string[] */
+}
+
 const CartView : NextPage = () => {
   const intl = useIntl()
-  const cartContent = useSelector((state: RootState) => state.checkout.cart) ?? []
-  const numberOfItems = cartContent.length
+  const [cartContent, setCartContent] = useState<CartContent[]>([])
+
+  const addedAssets = useSelector((state: RootState) => state.checkout.cart) ?? []
+  const numberOfItems = addedAssets.length
+
+  useEffect(() => {
+    let ignore = false
+    const first = addedAssets[0]
+
+    const getData = async () => {
+      try {
+        const allAssetNames = addedAssets.map(async (asset) => {
+          const res = await HttpClient.get(`/api/assets/${asset}`, {
+            headers: { authorization: `Bearer: ${window.localStorage.getItem("access_token")}` },
+          })
+          if (!ignore) {
+            console.log(res.body)
+            // @TODO unique content
+            setCartContent((c) => [...c, { id: first, name: res.body.name }])
+          }
+        })
+        await Promise.all(allAssetNames)
+      } catch (error) {
+        console.error(`Failed while getting assets ${first}, error`)
+      }
+    }
+
+    getData()
+    return () => {
+      ignore = true
+    }
+  }, [addedAssets])
 
   return (
     <Container>
@@ -94,6 +133,7 @@ const CartView : NextPage = () => {
             })}
           </Typography>
         </Title>
+        {numberOfItems > 0 && cartContent.map((item) => <div key={item.id}>{item.name}</div>)}
         {numberOfItems > 0
         && (
           <CartItems>
