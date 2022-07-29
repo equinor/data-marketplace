@@ -3,8 +3,6 @@ import NextLink, { LinkProps } from "next/link"
 import type { AnchorHTMLAttributes, FunctionComponent } from "react"
 import styled from "styled-components"
 
-import { config } from "../../config"
-
 const StyledLink = styled.a<{ link?: boolean }>`
   text-decoration: ${({ link }) => (link ? "underline" : "none")};
   color: ${({ link }) => (link ? tokens.colors.interactive.primary__resting.hex : "inherit")};
@@ -27,7 +25,7 @@ export const Link: FunctionComponent<Props> = ({
   if (
     typeof href === "string"
     && href.startsWith("http")
-    && new URL(config.BASE_URL).hostname !== new URL(window.location.href).hostname
+    && new URL(window.location.href).hostname !== new URL(href).hostname
   ) {
     return (
       // eslint-disable-next-line react/jsx-props-no-spreading
