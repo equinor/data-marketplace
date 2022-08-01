@@ -60,7 +60,7 @@ const ButtonContainer = styled.div`
 const mockData = [{
   id: 1,
   name: "Automatic Identification System (AIS) vessel positions",
-  // Will containt unknown, random HTML :/
+  // Will contain unknown, random HTML :/
   description: `Automatic identification system (AIS) data from the AIS transcender at 
   the offshore subsation in the Dudgeon wind farm. The AIS data is available as a a real-time
   stream of raw data, and includes information about vessels such as unique identification,
@@ -91,28 +91,33 @@ const CartView : NextPage = () => {
   const intl = useIntl()
   const [cartContent, setCartContent] = useState<CartContent[]>([])
 
-  const addedAssets = useSelector((state: RootState) => state.checkout.cart) ?? []
+  const addedAssets = useSelector((state: RootState) => state.checkout.cart)
   const numberOfItems = addedAssets.length
 
   useEffect(() => {
     let ignore = false
-    const first = addedAssets[0]
 
     const getData = async () => {
       try {
-        const allAssetNames = addedAssets.map(async (asset) => {
-          const res = await HttpClient.get(`/api/assets/${asset}`, {
+        const allAssetNames = addedAssets.map(async (assetId) => {
+          const res = await HttpClient.get(`/api/assets/${assetId}`, {
             headers: { authorization: `Bearer: ${window.localStorage.getItem("access_token")}` },
           })
           if (!ignore) {
-            console.log(res.body)
-            // @TODO unique content
-            setCartContent((c) => [...c, { id: first, name: res.body.name }])
+            setCartContent((c) => {
+              // We need to avoid duplicates, so let's just add this if the array doesn't
+              // contain an asset object with the same id.
+              // We should look into how we can improve data fetching without SSR
+              if (!c.some((asset) => asset.id === assetId)) {
+                return [...c, { id: assetId, name: res.body.name }]
+              }
+              return c
+            })
           }
         })
         await Promise.all(allAssetNames)
       } catch (error) {
-        console.error(`Failed while getting assets ${first}, error`)
+        console.error("Failed while getting asset", error)
       }
     }
 
