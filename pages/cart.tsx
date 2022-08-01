@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import {
-  Typography, List, Chip, Card, Button,
+  Typography, List, Chip, Card, Button, CircularProgress,
   Icon,
 } from "@equinor/eds-core-react"
 import {
@@ -67,6 +67,7 @@ type CartContent = {
 const CartView : NextPage = () => {
   const intl = useIntl()
   const [cartContent, setCartContent] = useState<CartContent[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const addedAssets = useSelector((state: RootState) => state.checkout.cart)
   const numberOfItems = addedAssets.length
@@ -75,6 +76,7 @@ const CartView : NextPage = () => {
     let ignore = false
 
     const getData = async () => {
+      setIsLoading(true)
       try {
         const allAssetNames = addedAssets.map(async (assetId) => {
           const assetCore = await HttpClient.get(`/api/assets/${assetId}`, {
@@ -101,6 +103,7 @@ const CartView : NextPage = () => {
               return c
             })
           }
+          setIsLoading(false)
         })
         await Promise.all(allAssetNames)
       } catch (error) {
@@ -125,8 +128,8 @@ const CartView : NextPage = () => {
             })}
           </Typography>
         </Title>
-
-        {numberOfItems > 0
+        {isLoading ? <CircularProgress />
+          : numberOfItems > 0
         && (
           <CartItems>
             {cartContent.map((item) => (
