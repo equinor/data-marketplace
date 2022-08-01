@@ -16,6 +16,7 @@ import { useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { Container } from "../components/Container"
+import { Link } from "../components/Link"
 import { TruncatedDescription } from "../components/helpers"
 import { HttpClient } from "../lib/HttpClient"
 import { RootState } from "../store"
@@ -135,22 +136,25 @@ const CartView : NextPage = () => {
             {cartContent.map((item) => (
               <CartItem key={item.id}>
                 <Card elevation="raised">
-                  <CardHeader>
-                    <CardHeaderTitle>
-                      {/* This is just a dummy example */}
-                      {item.domain && item.domain.length > 0 && (
-                        <Tags>
-                          {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
-                        </Tags>
-                      )}
-                      <Typography variant="h2">{item.name}</Typography>
-                    </CardHeaderTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: item.description }} />
-                  </CardContent>
+                  <Link href={{ pathname: "/assets/[id]", query: { id: item.id } }} title={item.name}>
 
+                    <CardHeader>
+                      <CardHeaderTitle>
+                        {/* This is just a dummy example */}
+                        {item.domain && item.domain.length > 0 && (
+                          <Tags>
+                            {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
+                          </Tags>
+                        )}
+                        <Typography variant="h2">{item.name}</Typography>
+                      </CardHeaderTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: item.description }} />
+                    </CardContent>
+                  </Link>
                 </Card>
+
               </CartItem>
             ))}
           </CartItems>
