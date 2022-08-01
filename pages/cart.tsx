@@ -94,20 +94,23 @@ const CartView : NextPage = () => {
               // contain an asset object with the same id.
               // We should look into how we can improve data fetching without SSR
               if (!c.some((asset) => asset.id === assetId)) {
-                return [...c, {
+                const cartItems = [...c, {
                   id: assetId,
                   name: assetCore.body?.name,
                   description: assetDetails.body?.description,
                   domain: ["Some tag"],
                 }]
+                return cartItems.sort((a, b) => a.name.localeCompare(b.name))
               }
               return c
             })
           }
-          setIsLoading(false)
         })
         await Promise.all(allAssetNames)
+        setIsLoading(false)
       } catch (error) {
+        // @TODO: Improve the  flow with 401 Unauthorized
+        setIsLoading(false)
         console.error("Failed while getting asset", error)
       }
     }
@@ -137,7 +140,6 @@ const CartView : NextPage = () => {
               <CartItem key={item.id}>
                 <Card elevation="raised">
                   <Link href={{ pathname: "/assets/[id]", query: { id: item.id } }} title={item.name}>
-
                     <CardHeader>
                       <CardHeaderTitle>
                         {/* This is just a dummy example */}
