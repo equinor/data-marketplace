@@ -57,34 +57,11 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 `
 
-const mockData = [{
-  id: 1,
-  name: "Automatic Identification System (AIS) vessel positions",
-  // Will contain unknown, random HTML :/
-  description: `Automatic identification system (AIS) data from the AIS transcender at 
-  the offshore subsation in the Dudgeon wind farm. The AIS data is available as a a real-time
-  stream of raw data, and includes information about vessels such as unique identification,
-  position, course and speed. Automatic identification system (AIS) data from the AIS transcender at 
-  the offshore subsation in the Dudgeon wind farm. The AIS data is available as a a real-time
-  stream of raw data, and includes information about vessels such as unique identification,
-  position, course and speed.`,
-  // Dunno anything about this yet
-  domain: ["Renewables"],
-},
-{
-  id: 2,
-  name: "Operational timeseries measurements (raw) - wind farm",
-  description: "Raw operational timeseries data exported from the wind farm management system (Bazefield) via the Bazefield2Omnia pipeline and stored as json files in omnia data lake. Ca. 350 GB of data per day representing the tags/measurements.",
-  domain: ["Renewables", "Something else"],
-},
-
-]
-
 type CartContent = {
   id: string,
   name: string,
-/*   description: any,
-  domain: string[] */
+  description: string,
+  domain?: string[]
 }
 
 const CartView : NextPage = () => {
@@ -100,16 +77,26 @@ const CartView : NextPage = () => {
     const getData = async () => {
       try {
         const allAssetNames = addedAssets.map(async (assetId) => {
-          const res = await HttpClient.get(`/api/assets/${assetId}`, {
+          const assetCore = await HttpClient.get(`/api/assets/${assetId}`, {
             headers: { authorization: `Bearer: ${window.localStorage.getItem("access_token")}` },
           })
+
+          const assetDetails = await HttpClient.get(`/api/assets/${assetId}/overview`, {
+            headers: { authorization: `Bearer: ${window.localStorage.getItem("access_token")}` },
+          })
+
           if (!ignore) {
             setCartContent((c) => {
               // We need to avoid duplicates, so let's just add this if the array doesn't
               // contain an asset object with the same id.
               // We should look into how we can improve data fetching without SSR
               if (!c.some((asset) => asset.id === assetId)) {
-                return [...c, { id: assetId, name: res.body.name }]
+                return [...c, {
+                  id: assetId,
+                  name: assetCore.body?.name,
+                  description: assetDetails.body?.description,
+                  domain: ["Some tag"],
+                }]
               }
               return c
             })
@@ -138,30 +125,34 @@ const CartView : NextPage = () => {
             })}
           </Typography>
         </Title>
-        {numberOfItems > 0 && cartContent.map((item) => <div key={item.id}>{item.name}</div>)}
+
         {numberOfItems > 0
         && (
           <CartItems>
-            {mockData.map((item) => (
+            {cartContent.map((item) => (
               <CartItem key={item.id}>
                 <Card elevation="raised">
                   <CardHeader>
                     <CardHeaderTitle>
                       {/* This is just a dummy example */}
-                      <Tags>
-                        {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
-                      </Tags>
+                      {item.domain && item.domain.length > 0 && (
+                        <Tags>
+                          {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
+                        </Tags>
+                      )}
                       <Typography variant="h2">{item.name}</Typography>
                     </CardHeaderTitle>
                   </CardHeader>
                   <CardContent>
-                    <TruncatedDescription variant="body_long" lines={3}>{item.description}</TruncatedDescription>
+                    <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: item.description }} />
                   </CardContent>
+
                 </Card>
               </CartItem>
             ))}
           </CartItems>
-        ) }
+        )}
+
         <p style={{ padding: "1rem", margin: "1rem 0", backgroundColor: `${tokens.colors.ui.background__warning.rgba}` }}>Placeholder for a banner component</p>
         {numberOfItems > 0
         && (
