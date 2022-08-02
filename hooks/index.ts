@@ -1,0 +1,1 @@
+export { useCartContent } from "./useCartContent"
