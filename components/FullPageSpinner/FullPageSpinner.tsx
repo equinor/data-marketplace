@@ -51,6 +51,7 @@ const Spinner = styled.div`
 type Props = {
   show: boolean
   label?: string
+  children: ReactElement
 }
 
 export const FullPageSpinner: FunctionComponent<Props> = ({ children, label, show }) => {
