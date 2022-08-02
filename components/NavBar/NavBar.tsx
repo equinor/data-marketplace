@@ -13,7 +13,6 @@ import {
   refresh,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import {
   ChangeEventHandler,
@@ -26,6 +25,7 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../Container"
+import { Link } from "../Link"
 
 import { Cart } from "./Cart"
 
@@ -125,18 +125,22 @@ export const NavBar: VoidFunctionComponent = () => {
       <Header>
         <HeaderContentContainer>
           <LogoContainer>
-            <Typography><FormattedMessage id="navbar.logo" /></Typography>
+            <Link href="/">
+              <Button as="a" variant="ghost" color="secondary">
+                <Typography><FormattedMessage id="navbar.logo" /></Typography>
+              </Button>
+            </Link>
           </LogoContainer>
 
           <nav aria-label="Main navigation">
             <ActionsContainer>
-              <Link href="/browse" passHref>
+              <Link href="/browse">
                 <Button variant="ghost" color="secondary">
                   <Icon data={explore} title={intl.formatMessage({ id: "navbar.browse" })} />
                   <FormattedMessage id="navbar.browse" />
                 </Button>
               </Link>
-              <Link href="/browse" passHref>
+              <Link href="/browse">
                 <Button variant="ghost" color="secondary">
                   <Icon data={comment_discussion} title={intl.formatMessage({ id: "navbar.community" })} />
                   <FormattedMessage id="navbar.community" />
