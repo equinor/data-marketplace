@@ -11,9 +11,14 @@ type CartContent = {
   domain?: string[]
 }
 
+type ErrorMessage= {
+  message: string
+}
+
 export const useCartContent = () => {
   const [cartContent, setCartContent] = useState<CartContent[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<ErrorMessage | null>(null)
 
   const addedAssets = useSelector((state: RootState) => state.checkout.cart)
 
@@ -34,7 +39,7 @@ export const useCartContent = () => {
 
           if (!ignore) {
             setCartContent((c) => {
-              // We need to avoid duplicates, so let's just add this if the array doesn't
+              // We need to avoid duplicates, so let's just add the asset if the array doesn't
               // contain an asset object with the same id.
               // We should look into how we can improve data fetching without SSR
               if (!c.some((asset) => asset.id === assetId)) {
@@ -52,10 +57,14 @@ export const useCartContent = () => {
         })
         await Promise.all(allAssetNames)
         setIsLoading(false)
-      } catch (error) {
-        // @TODO: Improve the  flow with 401 Unauthorized
+      } catch (err) {
+        let message
+        if (err instanceof Error) message = err.message
+        else message = String(error)
+
+        setError({ message })
+      } finally {
         setIsLoading(false)
-        console.error("Failed while getting asset", error)
       }
     }
 
@@ -63,6 +72,7 @@ export const useCartContent = () => {
     return () => {
       ignore = true
     }
-  }, [addedAssets])
-  return { cartContent, isLoading }
+  }, [addedAssets, error])
+
+  return { cartContent, isLoading, error }
 }
