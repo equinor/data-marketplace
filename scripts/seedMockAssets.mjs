@@ -3,7 +3,7 @@ import path from "path"
 import url from "url"
 import util from "util"
 
-import faker from "faker"
+import { faker } from "@faker-js/faker/locale/en"
 
 import { randomNumber } from "./lib/randomNumber.mjs"
 

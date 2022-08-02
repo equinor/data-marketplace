@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import util from "util"
 
-import faker from "faker"
+import { faker } from "@faker-js/faker/locale/en"
 
 import { MOCK_DATA_DIR_PATH } from "./lib/constants.mjs"
 
