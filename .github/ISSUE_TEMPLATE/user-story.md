@@ -1,7 +1,7 @@
 ---
 name: User Story
 about: Default template for User Stories
-title: "[do something]"
+title: "[Do something]"
 labels: "\U0001F4C7 user story"
 assignees: ''
 
