@@ -59,7 +59,13 @@ const ButtonContainer = styled.div`
 
 const CartView : NextPage = () => {
   const intl = useIntl()
-  const { cartContent, isLoading } = useCartContent()
+  const { cartContent, isLoading, error } = useCartContent()
+
+  // @TODO: Improve the  flow with 401 Unauthorized. We should show a banner in the
+  // user interface or something like that
+  if (error) {
+    console.log(error)
+  }
 
   const addedAssets = useSelector((state: RootState) => state.checkout.cart)
   const numberOfItems = addedAssets.length
