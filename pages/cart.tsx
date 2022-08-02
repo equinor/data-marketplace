@@ -10,7 +10,6 @@ import {
 import { tokens } from "@equinor/eds-tokens"
 import { NextPage } from "next"
 import NextLink from "next/link"
-import { useEffect, useState } from "react"
 import { useIntl } from "react-intl"
 import { useSelector } from "react-redux"
 import styled from "styled-components"
@@ -18,7 +17,7 @@ import styled from "styled-components"
 import { Container } from "../components/Container"
 import { Link } from "../components/Link"
 import { TruncatedDescription } from "../components/helpers"
-import { HttpClient } from "../lib/HttpClient"
+import { useCartContent } from "../hooks/useCartContent"
 import { RootState } from "../store"
 
 const { Item } = List
@@ -58,68 +57,12 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 `
 
-type CartContent = {
-  id: string,
-  name: string,
-  description: string,
-  domain?: string[]
-}
-
 const CartView : NextPage = () => {
   const intl = useIntl()
-  const [cartContent, setCartContent] = useState<CartContent[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const { cartContent, isLoading } = useCartContent()
 
   const addedAssets = useSelector((state: RootState) => state.checkout.cart)
   const numberOfItems = addedAssets.length
-
-  useEffect(() => {
-    let ignore = false
-
-    const getData = async () => {
-      setIsLoading(true)
-      try {
-        const allAssetNames = addedAssets.map(async (assetId) => {
-          const assetCore = await HttpClient.get(`/api/assets/${assetId}`, {
-            headers: { authorization: `Bearer: ${window.localStorage.getItem("access_token")}` },
-          })
-
-          const assetDetails = await HttpClient.get(`/api/assets/${assetId}/overview`, {
-            headers: { authorization: `Bearer: ${window.localStorage.getItem("access_token")}` },
-          })
-
-          if (!ignore) {
-            setCartContent((c) => {
-              // We need to avoid duplicates, so let's just add this if the array doesn't
-              // contain an asset object with the same id.
-              // We should look into how we can improve data fetching without SSR
-              if (!c.some((asset) => asset.id === assetId)) {
-                const cartItems = [...c, {
-                  id: assetId,
-                  name: assetCore.body?.name,
-                  description: assetDetails.body?.description,
-                  domain: ["Some tag"],
-                }]
-                return cartItems.sort((a, b) => a.name.localeCompare(b.name))
-              }
-              return c
-            })
-          }
-        })
-        await Promise.all(allAssetNames)
-        setIsLoading(false)
-      } catch (error) {
-        // @TODO: Improve the  flow with 401 Unauthorized
-        setIsLoading(false)
-        console.error("Failed while getting asset", error)
-      }
-    }
-
-    getData()
-    return () => {
-      ignore = true
-    }
-  }, [addedAssets])
 
   return (
     <Container>
