@@ -111,9 +111,7 @@ const CartView : NextPage = () => {
         )}
 
         <Banner variant="warning">
-          <p>
-            {intl.formatMessage({ id: "cart.banner.warning" })}
-          </p>
+          {intl.formatMessage({ id: "cart.banner.warning" })}
         </Banner>
         {numberOfItems > 0
         && (
