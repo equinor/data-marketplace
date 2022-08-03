@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { FunctionComponent, useEffect } from "react"
+import { FunctionComponent, useEffect, ReactNode } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
@@ -14,8 +14,11 @@ const CheckoutNavContainer = styled.div`
 const ContentContainer = styled.div`
   width: 50%;
 `
+type Props = {
+  children?: ReactNode
+};
 
-export const CheckoutWizard: FunctionComponent = ({ children }) => {
+export const CheckoutWizard: FunctionComponent<Props> = ({ children }) => {
   const state = useSelector(({ checkout }: RootState) => checkout)
   const dispatch = useDispatch<Dispatch>()
   const router = useRouter()

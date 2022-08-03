@@ -6,13 +6,19 @@ import {
   useMsalAuthentication,
 } from "@azure/msal-react"
 import { Typography } from "@equinor/eds-core-react"
-import { FunctionComponent, useEffect, useState } from "react"
+import {
+  FunctionComponent, useEffect, useState, ReactNode,
+} from "react"
 import { FormattedMessage } from "react-intl"
 
 import { config } from "../../config"
 import { NavBar } from "../NavBar"
 
-export const Page: FunctionComponent = ({ children }) => {
+type Props = {
+  children: ReactNode
+};
+
+export const Page: FunctionComponent<Props> = ({ children }) => {
   const { error: msalError } = useMsalAuthentication(InteractionType.Redirect, {
     redirectUri: `${config.BASE_URL}/auth/redirect`,
     scopes: ["openid", "https://equinor-dev.collibra.com/user_impersonation"],

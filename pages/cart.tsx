@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import {
-  Typography, List, Chip, Card, Button,
+  Typography, List, Chip, Card, Button, CircularProgress,
   Icon,
 } from "@equinor/eds-core-react"
 import {
@@ -10,11 +10,15 @@ import {
 import { NextPage } from "next"
 import NextLink from "next/link"
 import { useIntl } from "react-intl"
+import { useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { Banner } from "../components/Banner"
 import { Container } from "../components/Container"
+import { Link } from "../components/Link"
 import { TruncatedDescription } from "../components/helpers"
+import { useCartContent } from "../hooks/useCartContent"
+import { RootState } from "../store"
 
 const { Item } = List
 const { Header: CardHeader, HeaderTitle: CardHeaderTitle, Content: CardContent } = Card
@@ -52,31 +56,18 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 `
 
-const mockData = [{
-  id: 1,
-  name: "Automatic Identification System (AIS) vessel positions",
-  // Will containt unknown, random HTML :/
-  description: `Automatic identification system (AIS) data from the AIS transcender at 
-  the offshore subsation in the Dudgeon wind farm. The AIS data is available as a a real-time
-  stream of raw data, and includes information about vessels such as unique identification,
-  position, course and speed. Automatic identification system (AIS) data from the AIS transcender at 
-  the offshore subsation in the Dudgeon wind farm. The AIS data is available as a a real-time
-  stream of raw data, and includes information about vessels such as unique identification,
-  position, course and speed.`,
-  // Dunno anything about this yet
-  domain: ["Renewables"],
-},
-{
-  id: 2,
-  name: "Operational timeseries measurements (raw) - wind farm",
-  description: "Raw operational timeseries data exported from the wind farm management system (Bazefield) via the Bazefield2Omnia pipeline and stored as json files in omnia data lake. Ca. 350 GB of data per day representing the tags/measurements.",
-  domain: ["Renewables", "Something else"],
-},
-
-]
-
-const CartView: NextPage = () => {
+const CartView : NextPage = () => {
   const intl = useIntl()
+  const { cartContent, isLoading, error } = useCartContent()
+
+  // @TODO: Improve the  flow with 401 Unauthorized. We should show a banner in the
+  // user interface or something like that
+  if (error) {
+    console.log(error)
+  }
+
+  const addedAssets = useSelector((state: RootState) => state.checkout.cart)
+  const numberOfItems = addedAssets.length
 
   return (
     <Container>
@@ -85,51 +76,58 @@ const CartView: NextPage = () => {
           <CartIcon data={shopping_card} />
           <Typography variant="h1">
             {intl.formatMessage({ id: "cart.headline" }, {
-              count: mockData.length,
+              count: numberOfItems,
             })}
           </Typography>
         </Title>
-        {mockData.length > 0
-          && (
-            <CartItems>
-              {mockData.map((item) => (
-                <CartItem key={item.id}>
-                  <Card elevation="raised">
+        {isLoading ? <CircularProgress />
+          : numberOfItems > 0
+        && (
+          <CartItems>
+            {cartContent.map((item) => (
+              <CartItem key={item.id}>
+                <Card elevation="raised">
+                  <Link href={{ pathname: "/assets/[id]", query: { id: item.id } }} title={item.name}>
                     <CardHeader>
                       <CardHeaderTitle>
                         {/* This is just a dummy example */}
-                        <Tags>
-                          {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
-                        </Tags>
+                        {item.domain && item.domain.length > 0 && (
+                          <Tags>
+                            {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
+                          </Tags>
+                        )}
                         <Typography variant="h2">{item.name}</Typography>
                       </CardHeaderTitle>
                     </CardHeader>
                     <CardContent>
-                      <TruncatedDescription variant="body_long" lines={3}>{item.description}</TruncatedDescription>
+                      <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: item.description }} />
                     </CardContent>
-                  </Card>
-                </CartItem>
-              ))}
-            </CartItems>
-          )}
+                  </Link>
+                </Card>
+
+              </CartItem>
+            ))}
+          </CartItems>
+        )}
+
         <Banner variant="warning">
           <p>
             {intl.formatMessage({ id: "cart.banner.warning" })}
           </p>
         </Banner>
-        {mockData.length > 0
-          && (
-            <ButtonContainer>
-              <NextLink href="/checkout/terms" passHref>
-                <Button
-                  as="a"
-                >
-                  {intl.formatMessage({ id: "cart.proceedToCheckout" })}
-                  <Icon data={chevron_right} />
-                </Button>
-              </NextLink>
-            </ButtonContainer>
-          )}
+        {numberOfItems > 0
+        && (
+          <ButtonContainer>
+            <NextLink href="/checkout/terms" passHref>
+              <Button
+                as="a"
+              >
+                {intl.formatMessage({ id: "cart.proceedToCheckout" })}
+                <Icon data={chevron_right} />
+              </Button>
+            </NextLink>
+          </ButtonContainer>
+        ) }
       </Content>
     </Container>
   )
