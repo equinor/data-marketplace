@@ -79,12 +79,10 @@ const CheckoutTermsView: NextPage = () => {
         {/* TODO: Add banner */}
         <BannerContainer>
           <Banner variant="danger">
-            <p>
-              <Title>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</Title>
-              <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
-              <Title>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</Title>
-              <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
-            </p>
+            <Title>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</Title>
+            <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
+            <Title>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</Title>
+            <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
           </Banner>
         </BannerContainer>
         <ChecboxContainer>

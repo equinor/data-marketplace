@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import { Icon } from "@equinor/eds-core-react"
 import { warning_filled } from "@equinor/eds-icons"
-import { FunctionComponent } from "react"
+import { FunctionComponent, ReactNode } from "react"
 
 type Props = {
-  variant: string;
-  children: string;
+  variant: string
+  children: ReactNode
 }
 
 export const Banner: FunctionComponent<Props> = ({ variant, children }) => {
