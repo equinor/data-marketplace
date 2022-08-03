@@ -4,7 +4,8 @@ import { warning_filled } from "@equinor/eds-icons"
 import { FunctionComponent } from "react"
 
 type Props = {
-  variant: string
+  variant: string;
+  children: string;
 }
 
 export const Banner: FunctionComponent<Props> = ({ variant, children }) => {
