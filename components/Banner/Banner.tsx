@@ -16,7 +16,9 @@ export const Banner: FunctionComponent<Props> = ({ variant, children }) => {
 
   return (
     <div className={classNames}>
-      <div className="banner_icon"><Icon color={variant === "danger" ? "#cc0000" : "#AD6200"} data={warning_filled} /></div>
+      <div className="banner_icon">
+        <Icon color={variant === "danger" ? "#cc0000" : "#AD6200"} data={warning_filled} />
+      </div>
       <div className="banner_container">{children}</div>
     </div>
   )
