@@ -5,7 +5,6 @@ import { IntlProvider } from "react-intl"
 import { Provider } from "react-redux"
 
 import "../styles/globals.css"
-import "../styles/banner.css"
 
 import { Page } from "../components/Page"
 import { config } from "../config"

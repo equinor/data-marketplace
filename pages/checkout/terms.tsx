@@ -11,11 +11,6 @@ import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Dispatch, RootState } from "../../store"
 
-const Title = styled.div`
-  display: flex;
-  column-gap: 0.5rem;
-`
-
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
 
@@ -79,9 +74,9 @@ const CheckoutTermsView: NextPage = () => {
         {/* TODO: Add banner */}
         <BannerContainer>
           <Banner variant="danger">
-            <Title>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</Title>
+            <Typography variant="h4">{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</Typography>
             <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
-            <Title>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</Title>
+            <Typography variant="h4">{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</Typography>
             <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
           </Banner>
         </BannerContainer>
