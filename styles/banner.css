@@ -1,0 +1,40 @@
+.Cart {
+  font-family: sans-serif;
+}
+
+p {
+  margin: 0;
+}
+
+p:not(:last-of-type) {
+  margin-bottom: 0.5rem;
+}
+
+.banner {
+  display: flex;
+  padding: 1rem;
+}
+
+.banner_container {
+  width: auto;
+  font-family: sans-serif;
+  display: inline-block;
+  margin-right: 30px;
+  justify-content: center;
+}
+
+
+.banner--danger {
+  background-color: pink;
+}
+
+.banner--warning {
+  background-color:#FFE7D6;
+}
+.banner_icon   {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+  margin-right: 20px;
+}
+
