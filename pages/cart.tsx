@@ -55,8 +55,11 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 `
+const BannerContainer = styled.div`
+  margin-bottom: 1.5rem;
 
-const CartView : NextPage = () => {
+`
+const CartView: NextPage = () => {
   const intl = useIntl()
   const { cartContent, isLoading, error } = useCartContent()
 
@@ -82,50 +85,51 @@ const CartView : NextPage = () => {
         </Title>
         {isLoading ? <CircularProgress />
           : numberOfItems > 0
-        && (
-          <CartItems>
-            {cartContent.map((item) => (
-              <CartItem key={item.id}>
-                <Card elevation="raised">
-                  <Link href={{ pathname: "/assets/[id]", query: { id: item.id } }} title={item.name}>
-                    <CardHeader>
-                      <CardHeaderTitle>
-                        {/* This is just a dummy example */}
-                        {item.domain && item.domain.length > 0 && (
-                          <Tags>
-                            {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
-                          </Tags>
-                        )}
-                        <Typography variant="h2">{item.name}</Typography>
-                      </CardHeaderTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: item.description }} />
-                    </CardContent>
-                  </Link>
-                </Card>
+          && (
+            <CartItems>
+              {cartContent.map((item) => (
+                <CartItem key={item.id}>
+                  <Card elevation="raised">
+                    <Link href={{ pathname: "/assets/[id]", query: { id: item.id } }} title={item.name}>
+                      <CardHeader>
+                        <CardHeaderTitle>
+                          {/* This is just a dummy example */}
+                          {item.domain && item.domain.length > 0 && (
+                            <Tags>
+                              {item.domain.map((domain) => <Chip key={domain} style={{ display: "inline-block" }}>{domain}</Chip>)}
+                            </Tags>
+                          )}
+                          <Typography variant="h2">{item.name}</Typography>
+                        </CardHeaderTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: item.description }} />
+                      </CardContent>
+                    </Link>
+                  </Card>
 
-              </CartItem>
-            ))}
-          </CartItems>
-        )}
-
-        <Banner variant="warning">
-          <Typography>{intl.formatMessage({ id: "cart.banner.warning" })}</Typography>
-        </Banner>
+                </CartItem>
+              ))}
+            </CartItems>
+          )}
+        <BannerContainer>
+          <Banner variant="warning">
+            <Typography>{intl.formatMessage({ id: "cart.banner.warning" })}</Typography>
+          </Banner>
+        </BannerContainer>
         {numberOfItems > 0
-        && (
-          <ButtonContainer>
-            <NextLink href="/checkout/terms" passHref>
-              <Button
-                as="a"
-              >
-                {intl.formatMessage({ id: "cart.proceedToCheckout" })}
-                <Icon data={chevron_right} />
-              </Button>
-            </NextLink>
-          </ButtonContainer>
-        ) }
+          && (
+            <ButtonContainer>
+              <NextLink href="/checkout/terms" passHref>
+                <Button
+                  as="a"
+                >
+                  {intl.formatMessage({ id: "cart.proceedToCheckout" })}
+                  <Icon data={chevron_right} />
+                </Button>
+              </NextLink>
+            </ButtonContainer>
+          )}
       </Content>
     </Container>
   )
