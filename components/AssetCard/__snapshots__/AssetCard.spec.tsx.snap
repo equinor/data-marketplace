@@ -3,7 +3,7 @@
 exports[`AssetCard renders meta container 1`] = `
 <div>
   <div
-    class="sc-6dcdf034-0 sNBAb"
+    class="sc-ce74cd1f-0 dhuBPe"
   >
     <a
       href="/assets/abc-123"
@@ -16,7 +16,7 @@ exports[`AssetCard renders meta container 1`] = `
         </p>
       </div>
       <div
-        class="sc-6dcdf034-1 dfuxNb"
+        class="sc-ce74cd1f-1 YZBsu"
         data-testid="meta-container"
       >
         <p
@@ -42,7 +42,7 @@ exports[`AssetCard renders meta container 1`] = `
 exports[`AssetCard renders no meta container 1`] = `
 <div>
   <div
-    class="sc-6dcdf034-0 sNBAb"
+    class="sc-ce74cd1f-0 dhuBPe"
   >
     <a
       href="/assets/abc-123"
