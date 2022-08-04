@@ -64,7 +64,7 @@ const CartView : NextPage = () => {
   // @TODO: Improve the  flow with 401 Unauthorized. We should show a banner in the
   // user interface or something like that
   if (error) {
-    console.log(error)
+    console.log("Error loading cart content", error)
   }
 
   const addedAssets = useSelector((state: RootState) => state.checkout.cart)
