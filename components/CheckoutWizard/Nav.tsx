@@ -7,7 +7,6 @@ import {
   shopping_card,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import type { VoidFunctionComponent } from "react"
 import styled from "styled-components"
 
 import { Link } from "../Link"
@@ -56,7 +55,7 @@ type Props = {
   currentStep: number
 }
 
-export const CheckoutNav: VoidFunctionComponent<Props> = ({ currentStep }) => (
+export const CheckoutNav = ({ currentStep }: Props) => (
   <nav>
     <NavItemsContainer>
       <li>
