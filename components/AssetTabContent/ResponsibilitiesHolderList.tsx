@@ -1,6 +1,5 @@
 import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
-import { VoidFunctionComponent } from "react"
 import styled from "styled-components"
 
 const Container = styled.div`
@@ -33,10 +32,10 @@ type Props = {
   holders: ResponsibilityHolder[]
 }
 
-export const ResponsibilitiesHolderList: VoidFunctionComponent<Props> = ({
+export const ResponsibilitiesHolderList = ({
   headline,
   holders,
-}) => (
+}: Props) => (
   <Container>
     <Typography variant="overline">{headline}</Typography>
 

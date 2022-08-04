@@ -1,5 +1,4 @@
 import { Typography } from "@equinor/eds-core-react"
-import { VoidFunctionComponent } from "react"
 import { FormattedMessage } from "react-intl"
 
 import { AssetTabContentSectionContainer } from "./AssetTabContentSectionContainer"
@@ -14,7 +13,7 @@ type Props = {
   content?: OverviewContentSections
 }
 
-export const OverviewContent: VoidFunctionComponent<Props> = ({ content }) => (
+export const OverviewContent = ({ content }: Props) => (
   <div>
     {content?.description && (
       <AssetTabContentSectionContainer>
