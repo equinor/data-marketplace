@@ -1,5 +1,3 @@
-import { VoidFunctionComponent } from "react"
-
 import { OverviewContent, OverviewContentSections } from "./OverviewContent"
 import { ResponsibilitiesContent, ResponsibilitiesContentSections } from "./ResponsibilitiesContent"
 import { AssetTabs } from "./types"
@@ -9,7 +7,7 @@ type Props = {
   data: OverviewContentSections | ResponsibilitiesContentSections
 }
 
-export const AssetTabContent: VoidFunctionComponent<Props> = ({ tab, data }) => {
+export const AssetTabContent = ({ tab, data }: Props) => {
   switch (tab) {
     case AssetTabs.Overview:
       return <OverviewContent content={data as OverviewContentSections} />

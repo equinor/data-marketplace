@@ -1,4 +1,3 @@
-import { VoidFunctionComponent } from "react"
 import styled from "styled-components"
 
 import { ResponsibilitiesHolderList, ResponsibilityHolder } from "./ResponsibilitiesHolderList"
@@ -15,7 +14,7 @@ type Props = {
   content?: ResponsibilitiesContentSections
 }
 
-export const ResponsibilitiesContent: VoidFunctionComponent<Props> = ({ content }) => (
+export const ResponsibilitiesContent = ({ content }: Props) => (
   <ResponsibilitiesContentContainer>
     {content?.DATA_STEWARD && (
       <ResponsibilitiesHolderList headline="Data stewards" holders={content.DATA_STEWARD} />

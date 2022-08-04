@@ -1,7 +1,6 @@
 import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import Link from "next/link"
-import type { VoidFunctionComponent } from "react"
 import styled from "styled-components"
 
 import { TruncatedDescription } from "../helpers"
@@ -35,12 +34,12 @@ type Props = {
   title: string
 }
 
-export const AssetCard: VoidFunctionComponent<Props> = ({
+export const AssetCard = ({
   description,
   id,
   meta,
   title,
-}) => (
+}: Props) => (
   <CardContainer>
     <Link href={{ pathname: "/assets/[id]", query: { id } }}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
