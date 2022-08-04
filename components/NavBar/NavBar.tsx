@@ -19,7 +19,6 @@ import {
   FormEventHandler,
   useEffect,
   useState,
-  VoidFunctionComponent,
 } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
@@ -79,7 +78,7 @@ const SearchForm = styled.form`
   width: 100%;
 `
 
-export const NavBar: VoidFunctionComponent = () => {
+export const NavBar = () => {
   const [searchQuery, setSearchQuery] = useState<string>("")
 
   const router = useRouter()
