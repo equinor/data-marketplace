@@ -17,11 +17,7 @@ const IngressContainer = styled.div`
   p:not(:last-child) {
     margin-bottom: 1rem;
   }
-`
-
-const BannerContainer = styled.div`
-  margin-bottom: 1.5rem;
-
+  
 `
 
 const ChecboxContainer = styled.div`
@@ -30,6 +26,14 @@ const ChecboxContainer = styled.div`
   label {
     position: relative;
     left: -12px;
+  }
+
+`
+
+const TypographyHeader = styled(Typography)`
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
   }
 
 `
@@ -72,14 +76,14 @@ const CheckoutTermsView: NextPage = () => {
         </IngressContainer>
 
         {/* TODO: Add banner */}
-        <BannerContainer>
-          <Banner variant="danger">
-            <Typography variant="h4">{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</Typography>
+        <Banner variant="danger">
+          <div>
+            <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</TypographyHeader>
             <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
-            <Typography variant="h4">{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</Typography>
+            <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</TypographyHeader>
             <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
-          </Banner>
-        </BannerContainer>
+          </div>
+        </Banner>
         <ChecboxContainer>
           <Checkbox
             name="acceptTerms"
