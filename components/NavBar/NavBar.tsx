@@ -8,9 +8,9 @@ import {
 } from "@equinor/eds-core-react"
 import {
   account_circle,
-  comment_discussion,
+  // comment_discussion,
   explore,
-  refresh,
+  // refresh,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { useRouter } from "next/router"
@@ -108,13 +108,13 @@ export const NavBar = () => {
       <UserNavbarContainer>
         <UserNavbar aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
           <Cart />
+          {/* Hiding unused icons
           <Button href="/tasks" variant="ghost" color="secondary">
             <FormattedMessage id="navbar.taskStatistic" values={{ remaining: <span>0</span> }} />
-
           </Button>
           <Button variant="ghost_icon" color="secondary">
             <Icon data={refresh} title={intl.formatMessage({ id: "navbar.titleRefresh" })} />
-          </Button>
+          </Button>  */}
           <Button variant="ghost_icon" color="secondary">
             <Icon data={account_circle} title={intl.formatMessage({ id: "navbar.titleAccount" })} />
           </Button>
@@ -139,12 +139,15 @@ export const NavBar = () => {
                   <FormattedMessage id="navbar.browse" />
                 </Button>
               </Link>
+              {/*
               <Link href="/browse">
                 <Button variant="ghost" color="secondary">
-                  <Icon data={comment_discussion} title={intl.formatMessage({ id: "navbar.community" })} />
+                  <Icon data={comment_discussion}
+                   title={intl.formatMessage({ id: "navbar.community" })} />
                   <FormattedMessage id="navbar.community" />
                 </Button>
               </Link>
+              */}
             </ActionsContainer>
           </nav>
 
