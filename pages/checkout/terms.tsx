@@ -6,6 +6,7 @@ import { FormattedMessage, useIntl } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
+import { Banner } from "../../components/Banner"
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Dispatch, RootState } from "../../store"
@@ -16,6 +17,7 @@ const IngressContainer = styled.div`
   p:not(:last-child) {
     margin-bottom: 1rem;
   }
+  
 `
 
 const ChecboxContainer = styled.div`
@@ -25,6 +27,15 @@ const ChecboxContainer = styled.div`
     position: relative;
     left: -12px;
   }
+
+`
+
+const TypographyHeader = styled(Typography)`
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  }
+
 `
 
 const ButtonContainer = styled.div`
@@ -65,7 +76,14 @@ const CheckoutTermsView: NextPage = () => {
         </IngressContainer>
 
         {/* TODO: Add banner */}
-
+        <Banner variant="danger">
+          <div>
+            <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</TypographyHeader>
+            <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
+            <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</TypographyHeader>
+            <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
+          </div>
+        </Banner>
         <ChecboxContainer>
           <Checkbox
             name="acceptTerms"
