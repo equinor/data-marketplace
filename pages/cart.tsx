@@ -56,6 +56,10 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 `
 
+const BannerContainer = styled(Banner)`
+  margin-bottom: 1.5rem;
+`
+
 const CartView: NextPage = () => {
   const intl = useIntl()
   const { cartContent, isLoading, error } = useCartContent()
@@ -109,9 +113,9 @@ const CartView: NextPage = () => {
               ))}
             </CartItems>
           )}
-        <Banner variant="warning">
+        <BannerContainer variant="warning">
           <Typography>{intl.formatMessage({ id: "cart.banner.warning" })}</Typography>
-        </Banner>
+        </BannerContainer>
         {numberOfItems > 0
           && (
             <ButtonContainer>

@@ -15,7 +15,6 @@ const BannerContainer = styled.div<{ variant: string }>`
     display: flex;
     justify-content: start;
     gap: 1rem;
-    margin-bottom: 1.5rem;
     padding: 1.5rem;
 `
 
