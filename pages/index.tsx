@@ -155,7 +155,14 @@ const Frontpage: NextPage = () => {
         <GridContainer>
           {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
             <AssetCard key={product.id}>
-              <Link href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
+              <Link
+                href={{
+                  pathname: "/assets/[id]",
+                  /*  hash: "#overview", */
+                  query: { id: product.id },
+                }}
+                title={product.name}
+              >
                 <Card.Header>
                   <AssetCardTitle as="p">{product.name}</AssetCardTitle>
                 </Card.Header>
