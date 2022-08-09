@@ -1,13 +1,10 @@
 /* eslint-disable camelcase */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   Button, Divider, Icon, Typography,
 } from "@equinor/eds-core-react"
 import { shopping_cart_add } from "@equinor/eds-icons"
-import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import Head from "next/head"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
 import { useIntl, FormattedMessage, IntlShape } from "react-intl"
@@ -46,6 +43,11 @@ const TabNavContainer = styled.aside`
   }
 `
 
+const TabLink = styled(Button)`
+  display: inline-block;
+
+`
+
 const getTabs = (intl: IntlShape) => ([
   {
     getDataSrc: (assetID: string) => `/api/assets/${assetID}/overview`,
@@ -61,35 +63,37 @@ const getTabs = (intl: IntlShape) => ([
   },
 ])
 
-const TabLink = styled.a<{ isActive: boolean }>`
-  padding: 0.5rem 0.75rem calc(0.5rem + 1px);
-  display: inline-block;
-  border-radius: ${tokens.shape.button.borderRadius};
-  background-color: ${({ isActive }) => (isActive ? tokens.colors.interactive.secondary__highlight.hex : "transparent")};
-
-  &:hover {
-    background-color: ${tokens.colors.interactive.secondary__highlight.hex};
-  }
-`
-
 const AssetDetailView: NextPage = () => {
   const router = useRouter()
   const intl = useIntl()
   const dispatch = useDispatch<Dispatch>()
 
+  const logRouterChange = false
+  const logAssetFetching = false
+  const logTabContentFetching = false
+
   const tabs = getTabs(intl)
 
-  const [currentTab, setCurrentTab] = useState<typeof tabs[0]>()
+  const getInitialTab = () => {
+    const initialTab = router.asPath.split("#")[1] || "overview"
+    const tabData = tabs.find((tab) => tab.key === initialTab)
+    // Because find can in theory return undefined, so an additional ts guard here :/
+    // @TODO Better solution
+    return tabData || tabs[0]
+  }
+
+  const [currentTab, setCurrentTab] = useState<typeof tabs[0]>(getInitialTab())
   const [assetData, setAssetData] = useState<any>()
   const [tabData, setTabData] = useState<any>()
 
   const assetId = router.query.id || ""
 
   useEffect(() => {
+    let ignore = false
     if (router.query.id) {
-      if (!window.location.hash) {
-        router.replace("#overview")
-      }
+      // if (!window.location.hash) {
+      //  router.replace("#overview")
+      // }
 
       if (!assetData) {
         (async () => {
@@ -97,31 +101,78 @@ const AssetDetailView: NextPage = () => {
             const res = await HttpClient.get(`/api/assets/${router.query.id}`, {
               headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
             })
-            setAssetData(res.body)
+            if (!ignore) {
+              if (logAssetFetching) console.log("Update: asset data")
+              setAssetData(res.body)
+            }
           } catch (error) {
             console.error(`[AssetDetailView] Failed while getting asset ${router.query.id}`, error)
           }
         })()
       }
-
-      setCurrentTab(tabs.find((tab) => tab.hash === window.location.hash))
     }
-  }, [assetData, router])
+    return () => {
+      if (logAssetFetching) console.log("Clean up: asset data fetching")
+      ignore = true
+    }
+  }, [assetData, router, logAssetFetching])
 
   useEffect(() => {
-    if (currentTab && router.query.id) {
+    const urlHash = router.asPath.split("#")[1]
+    const { tab } = router.query
+
+    if (logRouterChange) console.log("Use effect: URL update, status: ", urlHash, currentTab.key)
+    if (!(urlHash === currentTab.key || tab === currentTab.key)) {
+      if (router.isReady) {
+        if (logRouterChange) console.log("Replace url", currentTab.hash)
+        router.replace(
+          { query: { ...router.query, tab: currentTab.key } },
+          { query: { tab: currentTab.key } },
+          { shallow: true },
+        )
+      }
+    }
+
+    return () => {
+      if (logRouterChange) console.log("Clean up: Route replace", currentTab.key)
+    }
+  }, [currentTab, router, logRouterChange])
+
+  useEffect(() => {
+    let ignore = false
+
+    const urlHash = router.asPath.split("#")[1]
+    const { tab } = router.query
+    if (logTabContentFetching) console.log("Use effect", router.asPath, currentTab, router.query.id, urlHash)
+    if (currentTab && router.query.id && tab === currentTab.key) {
       (async () => {
         try {
           const res = await HttpClient.get(currentTab.getDataSrc(router.query.id as string), {
             headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
           })
-          setTabData(res.body)
+          if (logTabContentFetching) console.log("fetched data for", currentTab.getDataSrc(router.query.id as string))
+          if (!ignore) {
+            if (logTabContentFetching) console.log("Update: Tab data", currentTab.getDataSrc(router.query.id as string))
+            setTabData(res.body)
+          }
         } catch (error) {
           console.error("[AssetDetailView] Failed while getting asset", router.query.id)
         }
       })()
     }
-  }, [currentTab, router])
+    return () => {
+      if (logTabContentFetching) console.log("Clean up: Tab data")
+      ignore = true
+    }
+  }, [currentTab, router, logTabContentFetching])
+
+  const handleTabChange = (key: string) => {
+    const newTab = tabs.find((tab) => tab.key === key)
+
+    if (newTab && newTab.key !== currentTab.key) {
+      setCurrentTab(newTab)
+    }
+  }
 
   const mapTabKeyToEnum = useCallback((tab: string) => ({
     overview: AssetTabs.Overview,
@@ -163,11 +214,15 @@ const AssetDetailView: NextPage = () => {
               <ul>
                 {tabs.map((tab) => (
                   <li key={tab.key}>
-                    <Link href={tab.hash} passHref>
-                      <TabLink isActive={currentTab?.hash === tab.hash}>
-                        {tab.label}
-                      </TabLink>
-                    </Link>
+
+                    <TabLink
+                      type="button"
+                      onClick={() => handleTabChange(tab.key)}
+                      variant={currentTab?.hash === tab.hash ? "contained" : "outlined"}
+                    >
+                      {tab.label}
+                    </TabLink>
+
                   </li>
                 ))}
               </ul>
