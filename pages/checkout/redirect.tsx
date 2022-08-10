@@ -12,6 +12,7 @@ import styled from "styled-components"
 
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
+import { config } from "../../config"
 
 const Ingress = styled(Typography).attrs({ variant: "ingress" })`
   margin-bottom: 0.75rem;
@@ -38,14 +39,14 @@ const CheckoutRedirectView: NextPage = () => {
 
   useEffect(() => {
     if (progress === 100) {
-      window.open("https://accessit.equinor.com", "_blank")
+      window.open(config.ACCESSIT_BASE_URL, "_blank")
     }
   }, [progress])
 
   const FormattedLink = useCallback((chunks: ReactNode[]) => (
     <Typography
       link
-      href="https://accessit.equinor.com"
+      href={config.ACCESSIT_BASE_URL}
       target="_blank"
       rel="noopener noreferrer nofollow"
     >
@@ -65,7 +66,7 @@ const CheckoutRedirectView: NextPage = () => {
             id="checkout.redirect.body"
             values={{
               a: FormattedLink,
-              link: "https://accessit.equinor.com",
+              link: config.ACCESSIT_BASE_URL,
             }}
           />
         </HelpText>
