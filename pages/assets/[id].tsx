@@ -83,7 +83,7 @@ const AssetDetailView: NextPage = () => {
   const router = useRouter()
   const intl = useIntl()
   const dispatch = useDispatch<Dispatch>()
-  const { assetData, isLoading } = useAssetData(router.query.id)
+  const { assetData, isLoading, error: assetDataError } = useAssetData(router.query.id)
   const tabs = getTabs(intl)
 
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, router))
@@ -119,7 +119,7 @@ const AssetDetailView: NextPage = () => {
           if (!ignore) {
             setTabData(res.body)
           }
-        } catch (error) {
+        } catch (err) {
           console.error("[AssetDetailView] Failed while getting asset", router.query.id)
         }
       })()
@@ -145,6 +145,10 @@ const AssetDetailView: NextPage = () => {
   const generalDocumentTitle = intl.formatMessage({ id: "common.documentTitle" })
   const handleAddToCart = () => {
     dispatch.checkout.addToCart(assetId as string)
+  }
+
+  if (assetDataError) {
+    console.log(`[AssetDetailView] Failed while getting asset ${router.query.id}`, assetDataError)
   }
 
   return (

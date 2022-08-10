@@ -2,10 +2,15 @@ import { useEffect, useState } from "react"
 
 import { HttpClient } from "../lib/HttpClient"
 
+type ErrorMessage= {
+  message: string
+}
+
 export const useAssetData = (id:string | undefined | string[]) => {
   // @TODO Are we able to type the asset data?
   const [assetData, setAssetData] = useState<any>()
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<ErrorMessage | null>(null)
 
   useEffect(() => {
     let ignore = false
@@ -20,14 +25,19 @@ export const useAssetData = (id:string | undefined | string[]) => {
           setAssetData(res.body)
         }
         setIsLoading(false)
-      } catch (error) {
-        console.error(`[AssetDetailView] Failed while getting asset ${id}`, error)
+      } catch (err) {
+        let message
+        if (err instanceof Error) message = err.message
+        else message = String(error)
+
+        setError({ message })
         setIsLoading(false)
       }
     }
 
     if (id === undefined || Array.isArray(id)) {
-      console.log("[AssetDetailView] No id while getting asset", id)
+      const message = "Id is undefined or array"
+      setError({ message })
     } else {
       getData()
     }
@@ -35,7 +45,7 @@ export const useAssetData = (id:string | undefined | string[]) => {
     return () => {
       ignore = true
     }
-  }, [id])
+  }, [id, error])
 
-  return { assetData, isLoading }
+  return { assetData, isLoading, error }
 }
