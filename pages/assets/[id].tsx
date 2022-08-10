@@ -68,10 +68,6 @@ const AssetDetailView: NextPage = () => {
   const intl = useIntl()
   const dispatch = useDispatch<Dispatch>()
 
-  const logRouterChange = false
-  const logAssetFetching = false
-  const logTabContentFetching = false
-
   const tabs = getTabs(intl)
 
   const getInitialTab = () => {
@@ -91,10 +87,6 @@ const AssetDetailView: NextPage = () => {
   useEffect(() => {
     let ignore = false
     if (router.query.id) {
-      // if (!window.location.hash) {
-      //  router.replace("#overview")
-      // }
-
       if (!assetData) {
         (async () => {
           try {
@@ -102,7 +94,6 @@ const AssetDetailView: NextPage = () => {
               headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
             })
             if (!ignore) {
-              if (logAssetFetching) console.log("Update: asset data")
               setAssetData(res.body)
             }
           } catch (error) {
@@ -112,19 +103,16 @@ const AssetDetailView: NextPage = () => {
       }
     }
     return () => {
-      if (logAssetFetching) console.log("Clean up: asset data fetching")
       ignore = true
     }
-  }, [assetData, router, logAssetFetching])
+  }, [assetData, router])
 
   useEffect(() => {
     const urlHash = router.asPath.split("#")[1]
     const { tab } = router.query
 
-    if (logRouterChange) console.log("Use effect: URL update, status: ", urlHash, currentTab.key)
     if (!(urlHash === currentTab.key || tab === currentTab.key)) {
       if (router.isReady) {
-        if (logRouterChange) console.log("Replace url", currentTab.hash)
         router.replace(
           { query: { ...router.query, tab: currentTab.key } },
           { query: { tab: currentTab.key } },
@@ -132,27 +120,19 @@ const AssetDetailView: NextPage = () => {
         )
       }
     }
-
-    return () => {
-      if (logRouterChange) console.log("Clean up: Route replace", currentTab.key)
-    }
-  }, [currentTab, router, logRouterChange])
+  }, [currentTab, router])
 
   useEffect(() => {
     let ignore = false
 
-    const urlHash = router.asPath.split("#")[1]
     const { tab } = router.query
-    if (logTabContentFetching) console.log("Use effect", router.asPath, currentTab, router.query.id, urlHash)
     if (currentTab && router.query.id && tab === currentTab.key) {
       (async () => {
         try {
           const res = await HttpClient.get(currentTab.getDataSrc(router.query.id as string), {
             headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
           })
-          if (logTabContentFetching) console.log("fetched data for", currentTab.getDataSrc(router.query.id as string))
           if (!ignore) {
-            if (logTabContentFetching) console.log("Update: Tab data", currentTab.getDataSrc(router.query.id as string))
             setTabData(res.body)
           }
         } catch (error) {
@@ -161,10 +141,9 @@ const AssetDetailView: NextPage = () => {
       })()
     }
     return () => {
-      if (logTabContentFetching) console.log("Clean up: Tab data")
       ignore = true
     }
-  }, [currentTab, router, logTabContentFetching])
+  }, [currentTab, router])
 
   const handleTabChange = (key: string) => {
     const newTab = tabs.find((tab) => tab.key === key)
