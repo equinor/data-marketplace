@@ -1,13 +1,14 @@
 import { Button, Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
+import { useRouter } from "next/router"
 import { useIntl } from "react-intl"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
-import type { RootState } from "../../store"
+import { Dispatch, RootState } from "../../store"
 
 const ContentContainer = styled.div`
   > *:not(:last-child) {
@@ -40,6 +41,13 @@ const ButtonContainer = styled.div`
 const CheckoutConfirmView: NextPage = () => {
   const intl = useIntl()
   const state = useSelector((rootState: RootState) => rootState.checkout)
+  const dispatch = useDispatch<Dispatch>()
+  const router = useRouter()
+
+  const onContinueClick = () => {
+    dispatch.checkout.setStep(3)
+    router.push("/checkout/redirect")
+  }
 
   return (
     <Container>
@@ -64,7 +72,7 @@ const CheckoutConfirmView: NextPage = () => {
             <Button variant="outlined" color="secondary">
               {intl.formatMessage({ id: "common.cancel" })}
             </Button>
-            <Button>
+            <Button onClick={onContinueClick}>
               {intl.formatMessage({ id: "common.confirm" })}
             </Button>
           </ButtonContainer>
