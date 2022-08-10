@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import {
-  Button, Divider, Icon, Typography,
+  Button, Divider, Icon, Typography, CircularProgress,
 } from "@equinor/eds-core-react"
 import { shopping_cart_add } from "@equinor/eds-icons"
 import type { NextPage } from "next"
 import Head from "next/head"
-import { useRouter } from "next/router"
+import { useRouter, NextRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
 import { useIntl, FormattedMessage, IntlShape } from "react-intl"
 import { useDispatch } from "react-redux"
@@ -14,6 +14,7 @@ import styled from "styled-components"
 import { AssetTabContent } from "../../components/AssetTabContent"
 import { AssetTabs } from "../../components/AssetTabContent/types"
 import { Container } from "../../components/Container"
+import { useAssetData } from "../../hooks"
 import { HttpClient } from "../../lib/HttpClient"
 import { Dispatch } from "../../store"
 
@@ -48,6 +49,13 @@ const TabLink = styled(Button)`
 
 `
 
+type Tab = {
+  getDataSrc: (assetID: string) => string;
+  hash: string;
+  key: string;
+  label: string;
+}
+
 const getTabs = (intl: IntlShape) => ([
   {
     getDataSrc: (assetID: string) => `/api/assets/${assetID}/overview`,
@@ -63,49 +71,25 @@ const getTabs = (intl: IntlShape) => ([
   },
 ])
 
+const getInitialTab = (tabs: Tab[], router: NextRouter) => {
+  const initialTab = router.asPath.split("#")[1] || "overview"
+  const tabData = tabs.find((tab) => tab.key === initialTab)
+  // Because find can in theory return undefined, so an additional ts guard here :/
+  // @TODO Better solution
+  return tabData || tabs[0]
+}
+
 const AssetDetailView: NextPage = () => {
   const router = useRouter()
   const intl = useIntl()
   const dispatch = useDispatch<Dispatch>()
-
+  const { assetData, isLoading } = useAssetData(router.query.id)
   const tabs = getTabs(intl)
 
-  const getInitialTab = () => {
-    const initialTab = router.asPath.split("#")[1] || "overview"
-    const tabData = tabs.find((tab) => tab.key === initialTab)
-    // Because find can in theory return undefined, so an additional ts guard here :/
-    // @TODO Better solution
-    return tabData || tabs[0]
-  }
-
-  const [currentTab, setCurrentTab] = useState<typeof tabs[0]>(getInitialTab())
-  const [assetData, setAssetData] = useState<any>()
+  const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, router))
   const [tabData, setTabData] = useState<any>()
 
   const assetId = router.query.id || ""
-
-  useEffect(() => {
-    let ignore = false
-    if (router.query.id) {
-      if (!assetData) {
-        (async () => {
-          try {
-            const res = await HttpClient.get(`/api/assets/${router.query.id}`, {
-              headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-            })
-            if (!ignore) {
-              setAssetData(res.body)
-            }
-          } catch (error) {
-            console.error(`[AssetDetailView] Failed while getting asset ${router.query.id}`, error)
-          }
-        })()
-      }
-    }
-    return () => {
-      ignore = true
-    }
-  }, [assetData, router])
 
   useEffect(() => {
     const urlHash = router.asPath.split("#")[1]
@@ -171,18 +155,19 @@ const AssetDetailView: NextPage = () => {
 
       <Container>
         <Header>
-          {assetData && (
-            <>
-              <Typography variant="h1_bold" as="h1">
-                {assetData.name}
-              </Typography>
+          {isLoading ? <CircularProgress />
+            : assetData && (
+              <>
+                <Typography variant="h1_bold" as="h1">
+                  {assetData.name}
+                </Typography>
 
-              <Button onClick={handleAddToCart}>
-                <Icon data={shopping_cart_add} />
-                <FormattedMessage id="asset.addToCart" />
-              </Button>
-            </>
-          )}
+                <Button onClick={handleAddToCart}>
+                  <Icon data={shopping_cart_add} />
+                  <FormattedMessage id="asset.addToCart" />
+                </Button>
+              </>
+            )}
         </Header>
 
         <Divider />
