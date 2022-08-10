@@ -71,7 +71,6 @@ jobs:
       - name: Run build
         id: build
         run: |
-          npm run seed:mock:all
           npm run build
         env:
           NEXT_PUBLIC_COLLIBRA_BASE_URL: ${{ secrets.NEXT_PUBLIC_COLLIBRA_BASE_URL }}
