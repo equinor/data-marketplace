@@ -125,7 +125,7 @@ export const NavBar = () => {
         <HeaderContentContainer>
           <LogoContainer>
             <Link href="/">
-              <Button as="a" variant="ghost" color="secondary">
+              <Button variant="ghost" color="secondary">
                 <Typography><FormattedMessage id="navbar.logo" /></Typography>
               </Button>
             </Link>
