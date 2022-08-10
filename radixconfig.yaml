@@ -32,3 +32,8 @@ spec:
   dnsAppAlias:
     environment: prod
     component: web
+
+  dnsExternalAlias:
+    - alias: datamarketplace.equinor.com
+      environment: prod
+      component: web
