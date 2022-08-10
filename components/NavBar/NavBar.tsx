@@ -13,6 +13,7 @@ import {
   // refresh,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import {
   ChangeEventHandler,
@@ -24,7 +25,6 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../Container"
-import { Link } from "../Link"
 
 import { Cart } from "./Cart"
 
@@ -125,7 +125,7 @@ export const NavBar = () => {
         <HeaderContentContainer>
           <LogoContainer>
             <Link href="/">
-              <Button variant="ghost" color="secondary">
+              <Button as="a" variant="ghost" color="secondary">
                 <Typography><FormattedMessage id="navbar.logo" /></Typography>
               </Button>
             </Link>
