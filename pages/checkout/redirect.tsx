@@ -1,47 +1,74 @@
 import { Progress, Typography } from "@equinor/eds-core-react"
+// import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next/types"
-import { useEffect, useState } from "react"
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react"
+import { FormattedMessage, useIntl } from "react-intl"
+import styled from "styled-components"
 
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
-import { Link } from "../../components/Link"
+
+const Ingress = styled(Typography).attrs({ variant: "ingress" })`
+  margin-bottom: 0.75rem;
+`
+
+const HelpText = styled(Typography)`
+  margin-bottom: 1.5rem;
+`
 
 const CheckoutRedirectView: NextPage = () => {
   const [progress, setProgress] = useState<number>(0)
+  const intl = useIntl()
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (Math.round(oldProgress) >= 100) return 100
-        return oldProgress + 0.1
+      setProgress((p) => {
+        if (p === 100) return 100
+        return p + 2
       })
-    }, 1)
+    }, 100)
 
     return () => clearInterval(interval)
-  }, [progress, setProgress])
+  }, [])
 
-  if (progress === 100) {
-    window.open("https://accessit.equinor.com", "_blank")
-  }
+  useEffect(() => {
+    if (progress === 100) {
+      window.open("https://accessit.equinor.com", "_blank")
+    }
+  }, [progress])
+
+  const FormattedLink = useCallback((chunks: ReactNode[]) => (
+    <Typography
+      link
+      href="https://accessit.equinor.com"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+    >
+      {chunks}
+    </Typography>
+  ), [])
 
   return (
     <Container>
       <CheckoutWizard>
-        <Typography variant="h4" as="h1">
-          Redirecting to AccessIT
-        </Typography>
+        <Typography variant="h4" as="h1" style={{ marginBottom: "0.25rem" }}>{intl.formatMessage({ id: "checkout.redirect.headline" })}</Typography>
 
-        <Typography variant="ingress">
-          You&apos;ll now get redirected to AccessIT to complete the request process.
-        </Typography>
+        <Ingress>{intl.formatMessage({ id: "checkout.redirect.ingress" })}</Ingress>
 
-        <Typography>
-          If you don&apos;t get redirected within 15 seconds, please click this this link:
-          {" "}
-          <Link href="https://accessit.equinor.com">
-            https://accessit.equinor.com
-          </Link>
-        </Typography>
+        <HelpText>
+          <FormattedMessage
+            id="checkout.redirect.body"
+            values={{
+              a: FormattedLink,
+              link: "https://accessit.equinor.com",
+            }}
+          />
+        </HelpText>
 
         <Progress.Linear
           variant="determinate"
