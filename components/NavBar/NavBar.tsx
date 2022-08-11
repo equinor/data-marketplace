@@ -13,6 +13,7 @@ import {
   // refresh,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
+import NextLink from "next/link"
 import { useRouter } from "next/router"
 import {
   ChangeEventHandler,
@@ -124,11 +125,11 @@ export const NavBar = () => {
       <Header>
         <HeaderContentContainer>
           <LogoContainer>
-            <Link href="/">
+            <NextLink href="/" passHref>
               <Button as="a" variant="ghost" color="secondary">
                 <Typography><FormattedMessage id="navbar.logo" /></Typography>
               </Button>
-            </Link>
+            </NextLink>
           </LogoContainer>
 
           <nav aria-label="Main navigation">
