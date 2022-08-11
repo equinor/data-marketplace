@@ -158,7 +158,6 @@ const Frontpage: NextPage = () => {
               <Link
                 href={{
                   pathname: "/assets/[id]",
-                  /*  hash: "#overview", */
                   query: { id: product.id },
                 }}
                 title={product.name}

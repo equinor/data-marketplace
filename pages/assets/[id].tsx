@@ -3,9 +3,9 @@ import {
   Button, Divider, Icon, Typography, CircularProgress,
 } from "@equinor/eds-core-react"
 import { shopping_cart_add } from "@equinor/eds-icons"
-import type { NextPage } from "next"
+import type { GetServerSideProps } from "next"
 import Head from "next/head"
-import { useRouter, NextRouter } from "next/router"
+import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
 import { useIntl, FormattedMessage, IntlShape } from "react-intl"
 import { useDispatch } from "react-redux"
@@ -46,7 +46,6 @@ const TabNavContainer = styled.aside`
 
 const TabLink = styled(Button)`
   display: inline-block;
-
 `
 
 type Tab = {
@@ -71,63 +70,64 @@ const getTabs = (intl: IntlShape) => ([
   },
 ])
 
-const getInitialTab = (tabs: Tab[], router: NextRouter) => {
-  const initialTab = router.asPath.split("#")[1] || "overview"
-  const tabData = tabs.find((tab) => tab.key === initialTab)
-  // Because find can in theory return undefined, so an additional ts guard here :/
-  // @TODO Better solution
+const getInitialTab = (tabs: Tab[], tabQuery: string | undefined | string[]) => {
+  const tabName = typeof tabQuery === "string" ? tabQuery : "overview"
+  const tabData = tabs.find((tab) => tab.key === tabName)
+  // Some evil user might do crazy stuff like manually editing the tab query param
   return tabData || tabs[0]
 }
 
-const AssetDetailView: NextPage = () => {
+type AssetDetailProps = {
+  assetId: string
+}
+
+const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   const router = useRouter()
   const intl = useIntl()
   const dispatch = useDispatch<Dispatch>()
-  const { assetData, isLoading, error: assetDataError } = useAssetData(router.query.id)
+
+  // const assetId = router.query.id
+  const tabQuery = router.query.tab
+
+  const { assetData, isLoading, error: assetDataError } = useAssetData(assetId)
   const tabs = getTabs(intl)
 
-  const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, router))
+  const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
   const [tabData, setTabData] = useState<any>()
 
-  const assetId = router.query.id || ""
-
   useEffect(() => {
-    const urlHash = router.asPath.split("#")[1]
     const { tab } = router.query
-
-    if (!(urlHash === currentTab.key || tab === currentTab.key)) {
-      if (router.isReady) {
-        router.replace(
-          { query: { ...router.query, tab: currentTab.key } },
-          { query: { tab: currentTab.key } },
-          { shallow: true },
-        )
-      }
+    if (!(tab === currentTab.key)) {
+      router.replace(
+        { query: { ...router.query, tab: currentTab.key } },
+        { query: { tab: currentTab.key } },
+        { shallow: true },
+      )
     }
-  }, [currentTab, router])
+  }, [currentTab, router, assetId])
 
   useEffect(() => {
     let ignore = false
 
     const { tab } = router.query
-    if (currentTab && router.query.id && tab === currentTab.key) {
+    if (currentTab && typeof assetId === "string" && tab === currentTab.key) {
       (async () => {
         try {
-          const res = await HttpClient.get(currentTab.getDataSrc(router.query.id as string), {
+          const res = await HttpClient.get(currentTab.getDataSrc(assetId), {
             headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
           })
           if (!ignore) {
             setTabData(res.body)
           }
         } catch (err) {
-          console.error("[AssetDetailView] Failed while getting asset", router.query.id)
+          console.error("[AssetDetailView] Failed while getting asset", assetId)
         }
       })()
     }
     return () => {
       ignore = true
     }
-  }, [currentTab, router])
+  }, [currentTab, router, assetId])
 
   const handleTabChange = (key: string) => {
     const newTab = tabs.find((tab) => tab.key === key)
@@ -144,11 +144,11 @@ const AssetDetailView: NextPage = () => {
 
   const generalDocumentTitle = intl.formatMessage({ id: "common.documentTitle" })
   const handleAddToCart = () => {
-    dispatch.checkout.addToCart(assetId as string)
+    if (typeof assetId === "string") dispatch.checkout.addToCart(assetId)
   }
 
   if (assetDataError) {
-    console.log(`[AssetDetailView] Failed while getting asset ${router.query.id}`, assetDataError)
+    console.log(`[AssetDetailView] Failed while getting asset ${assetId}`, assetDataError)
   }
 
   return (
@@ -202,6 +202,12 @@ const AssetDetailView: NextPage = () => {
       </Container>
     </main>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id } = context.query
+  // @TODO when we have server side token handle the case of no id or no data
+  return { props: { assetId: id } }
 }
 
 export default AssetDetailView
