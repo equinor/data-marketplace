@@ -10,10 +10,11 @@ const getPopularAssets = async (
   data: PopularAsset[],
   auth: string,
   limit: number,
+  offset = 0,
 ): Promise<PopularAsset[]> => {
   const mostViewedStats = await HttpClient.get<Collibra.PagedNavigationStatisticResponse>(`${config.COLLIBRA_BASE_URL}/navigation/most_viewed`, {
     headers: { authorization: auth },
-    query: { limit, isGuestExcluded: true },
+    query: { offset: offset * limit, limit, isGuestExcluded: true },
   })
 
   const assetsResponse = await Promise.all(
@@ -37,7 +38,7 @@ const getPopularAssets = async (
 
   if (result.length >= limit) return result.slice(0, limit)
 
-  return getPopularAssets(result, auth, limit)
+  return getPopularAssets(result, auth, limit, offset + 1)
 }
 
 const PopularAssetsHandler: NextApiHandler = async (req, res) => {
