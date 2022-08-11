@@ -18,7 +18,6 @@
 # misc
 .DS_Store
 *.pem
-/__mock-data__
 
 # debug
 npm-debug.log*
