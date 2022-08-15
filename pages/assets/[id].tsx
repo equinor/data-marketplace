@@ -13,13 +13,11 @@ import styled from "styled-components"
 
 import {
   OverviewContent,
-  OverviewContentSections,
   ResponsibilitiesContent,
-  ResponsibilitiesContentSections,
 } from "../../components/AssetTabContent"
 import { Container } from "../../components/Container"
 import { useAssetData } from "../../hooks"
-import { HttpClient } from "../../lib/HttpClient"
+import { useAssetDetails } from "../../hooks/useAssetDetails"
 import { Dispatch } from "../../store"
 
 const {
@@ -70,11 +68,10 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   const tabQuery = router.query.tab
 
   const { assetData, isLoading, error: assetDataError } = useAssetData(assetId)
-  const tabs = getTabs()
+  const { overviewData, responsibilitesData } = useAssetDetails(assetId)
 
+  const tabs = getTabs()
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
-  const [overviewData, setOverviewData] = useState<OverviewContentSections>()
-  const [responsibilitesData, setResponsibilitesData] = useState<ResponsibilitiesContentSections>()
 
   useEffect(() => {
     const { tab } = router.query
@@ -86,33 +83,6 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
       )
     }
   }, [currentTab, router, assetId])
-
-  useEffect(() => {
-    let ignore = false
-    if (typeof assetId === "string") {
-      (async () => {
-        try {
-          const overview = await HttpClient.get(`/api/assets/${assetId}/overview`, {
-            headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-          })
-
-          const responsibilities = await HttpClient.get(`/api/assets/${assetId}/responsibilities`, {
-            headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-          })
-
-          if (!ignore) {
-            setOverviewData(overview.body)
-            setResponsibilitesData(responsibilities.body)
-          }
-        } catch (err) {
-          console.error("[AssetDetailView] Failed while getting asset", assetId)
-        }
-      })()
-    }
-    return () => {
-      ignore = true
-    }
-  }, [assetId])
 
   const handleTabChange = (index: number) => {
     const newTab = tabs.find((tab) => tab.id === index)
