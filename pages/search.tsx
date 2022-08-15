@@ -4,6 +4,7 @@ import {
   EdsProvider,
   Icon,
   Typography,
+  List,
 } from "@equinor/eds-core-react"
 import { grid_on as gridOn, list } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
@@ -19,6 +20,8 @@ import { FullPageSpinner } from "../components/FullPageSpinner/FullPageSpinner"
 import { Section } from "../components/Section"
 import { HttpClient } from "../lib/HttpClient"
 import { updateCommunityFilter } from "../lib/updateCommunityFilter"
+
+const { Item } = List
 
 const SearchPageContainer = styled(Container)`
   display: grid;
@@ -75,10 +78,14 @@ const Tag = styled(Button)<{ active: boolean }>`
   }
 `
 
-const SearchResultsList = styled.ul`
-  padding: 0;
-  margin: 0;
+const SearchResultsList = styled(List)`
   list-style: none;
+`
+
+const SearchResultItem = styled(Item)`
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
 `
 
 const Search: NextPage = () => {
@@ -192,16 +199,18 @@ const Search: NextPage = () => {
               && (
                 <SearchResultsList>
                   {searchResults.map((resource) => (
-                    <AssetCard
-                      key={resource.id}
-                      description={resource.description}
-                      id={resource.id}
-                      title={resource.name}
-                      meta={[
-                        { label: intl.formatMessage({ id: "search.lastUpdated" }), value: Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn)) },
-                      ]}
-                    />
+                    <SearchResultItem key={resource.id}>
+                      <AssetCard
+                        description={resource.description}
+                        id={resource.id}
+                        title={resource.name}
+                        meta={[
+                          { label: intl.formatMessage({ id: "search.lastUpdated" }), value: Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn)) },
+                        ]}
+                      />
+                    </SearchResultItem>
                   ))}
+
                 </SearchResultsList>
               )}
 
