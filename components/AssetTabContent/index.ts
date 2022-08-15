@@ -1,1 +1,2 @@
-export { AssetTabContent } from "./AssetTabContent"
+export { OverviewContent } from "./OverviewContent"
+export { ResponsibilitiesContent } from "./ResponsibilitiesContent"
