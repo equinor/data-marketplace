@@ -11,14 +11,10 @@ type CartContent = {
   domain?: string[]
 }
 
-type ErrorMessage= {
-  message: string
-}
-
 export const useCartContent = () => {
   const [cartContent, setCartContent] = useState<CartContent[]>([])
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<ErrorMessage | null>(null)
+  const [error, setError] = useState<string>()
 
   const addedAssets = useSelector((state: RootState) => state.checkout.cart)
 
@@ -58,11 +54,9 @@ export const useCartContent = () => {
         await Promise.all(allAssetNames)
         setIsLoading(false)
       } catch (err) {
-        let message
-        if (err instanceof Error) message = err.message
-        else message = String(error)
-
-        setError({ message })
+        let msg: string = String(err)
+        if (err instanceof Error) msg = err.message
+        setError(msg)
       } finally {
         setIsLoading(false)
       }
