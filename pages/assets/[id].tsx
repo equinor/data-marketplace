@@ -1,51 +1,31 @@
 /* eslint-disable camelcase */
 import {
-  Button, Divider, Icon, Typography, CircularProgress,
+  Button, Divider, Icon, Typography, CircularProgress, Tabs,
 } from "@equinor/eds-core-react"
 import { shopping_cart_add } from "@equinor/eds-icons"
 import type { GetServerSideProps } from "next"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useIntl, FormattedMessage, IntlShape } from "react-intl"
 import { useDispatch } from "react-redux"
 import styled from "styled-components"
 
 import { AssetTabContent } from "../../components/AssetTabContent"
-import { AssetTabs } from "../../components/AssetTabContent/types"
 import { Container } from "../../components/Container"
 import { useAssetData } from "../../hooks"
 import { HttpClient } from "../../lib/HttpClient"
 import { Dispatch } from "../../store"
+
+const {
+  Tab: EdsTab, List, Panel, Panels,
+} = Tabs
 
 const Header = styled.header`
   display: grid;
   grid-template-columns: 1fr auto;
   grid-gap: 1.5rem;
   align-items: baseline;
-`
-
-const ContentContainer = styled.div`
-  display: grid;
-  grid-template-columns: minmax(10rem, 13rem) 1fr;
-  grid-gap: 1.5rem;
-`
-
-const TabNavContainer = styled.aside`
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-
-    li {
-      position: relative;
-      left: -0.75rem;
-    }
-  }
-`
-
-const TabLink = styled(Button)`
-  display: inline-block;
 `
 
 type Tab = {
@@ -94,6 +74,7 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
 
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
   const [tabData, setTabData] = useState<any>()
+  const [activeTab, setActiveTab] = useState(0)
 
   useEffect(() => {
     const { tab } = router.query
@@ -129,18 +110,25 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
     }
   }, [currentTab, router, assetId])
 
-  const handleTabChange = (key: string) => {
-    const newTab = tabs.find((tab) => tab.key === key)
+  const handleTabChange = (index: number) => {
+    console.log(index)
+    // @TODO This is just a temp hack
+    let key = ""
+    if (index === 0) key = "overview"
+    else key = "responsibilities"
 
+    const newTab = tabs.find((tab) => tab.key === key)
+    console.log(newTab)
     if (newTab && newTab.key !== currentTab.key) {
       setCurrentTab(newTab)
+      setActiveTab(index)
     }
   }
 
-  const mapTabKeyToEnum = useCallback((tab: string) => ({
+  /*  const mapTabKeyToEnum = useCallback((tab: string) => ({
     overview: AssetTabs.Overview,
     responsibilities: AssetTabs.Responsibilities,
-  })[tab], [])
+  })[tab], []) */
 
   const generalDocumentTitle = intl.formatMessage({ id: "common.documentTitle" })
   const handleAddToCart = () => {
@@ -175,30 +163,26 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
         </Header>
 
         <Divider />
+        <Tabs onChange={handleTabChange} activeTab={activeTab}>
+          <List>
+            {tabs.map((tab) => (
 
-        <ContentContainer>
-          <TabNavContainer>
-            <nav>
-              <ul>
-                {tabs.map((tab) => (
-                  <li key={tab.key}>
+              <EdsTab key={tab.key}>
+                {tab.label}
+              </EdsTab>
 
-                    <TabLink
-                      type="button"
-                      onClick={() => handleTabChange(tab.key)}
-                      variant={currentTab?.hash === tab.hash ? "contained" : "outlined"}
-                    >
-                      {tab.label}
-                    </TabLink>
+            ))}
+          </List>
+          <Panels>
+            <Panel>
+              <AssetTabContent tab={0} data={tabData} />
+            </Panel>
+            <Panel>
+              <AssetTabContent tab={1} data={tabData} />
+            </Panel>
+          </Panels>
+        </Tabs>
 
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </TabNavContainer>
-
-          <AssetTabContent tab={mapTabKeyToEnum(currentTab?.key!)!} data={tabData} />
-        </ContentContainer>
       </Container>
     </main>
   )
