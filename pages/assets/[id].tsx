@@ -67,7 +67,8 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   const tabs = getTabs()
 
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
-  const [tabData, setTabData] = useState<any>()
+  const [overviewData, setOverviewData] = useState<any>()
+  const [responsibilitesData, setResponsibilitesData] = useState<any>()
   const [activeTab, setActiveTab] = useState(0)
 
   useEffect(() => {
@@ -83,16 +84,20 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
 
   useEffect(() => {
     let ignore = false
-
-    const { tab } = router.query
-    if (currentTab && typeof assetId === "string" && tab === currentTab.key) {
+    if (typeof assetId === "string") {
       (async () => {
         try {
-          const res = await HttpClient.get(currentTab.getDataSrc(assetId), {
+          const overview = await HttpClient.get(`/api/assets/${assetId}/overview`, {
             headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
           })
+
+          const responsibilities = await HttpClient.get(`/api/assets/${assetId}/responsibilities`, {
+            headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
+          })
+
           if (!ignore) {
-            setTabData(res.body)
+            setOverviewData(overview.body)
+            setResponsibilitesData(responsibilities.body)
           }
         } catch (err) {
           console.error("[AssetDetailView] Failed while getting asset", assetId)
@@ -102,7 +107,7 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
     return () => {
       ignore = true
     }
-  }, [currentTab, router, assetId])
+  }, [assetId])
 
   const handleTabChange = (index: number) => {
     console.log(index)
@@ -168,10 +173,10 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
           </List>
           <Panels>
             <Panel>
-              <AssetTabContent tab={0} data={tabData} />
+              <AssetTabContent tab={0} data={overviewData} />
             </Panel>
             <Panel>
-              <AssetTabContent tab={1} data={tabData} />
+              <AssetTabContent tab={1} data={responsibilitesData} />
             </Panel>
           </Panels>
         </Tabs>
