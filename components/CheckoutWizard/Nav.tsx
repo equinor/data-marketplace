@@ -57,7 +57,7 @@ type Props = {
 
 export const CheckoutNav = ({ currentStep }: Props) => (
   <nav>
-    <NavItemsContainer>
+    <NavItemsContainer variant="numbered">
       <Item>
         <NavLink href="/checkout/terms">
           <IconContainer>
