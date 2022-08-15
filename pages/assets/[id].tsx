@@ -111,12 +111,7 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   }, [assetId])
 
   const handleTabChange = (index: number) => {
-    // @TODO This is just a temp hack
-    let key = ""
-    if (index === 0) key = "overview"
-    else key = "responsibilities"
-
-    const newTab = tabs.find((tab) => tab.name === key)
+    const newTab = tabs.find((tab) => tab.id === index)
     if (newTab && newTab.name !== currentTab.name) {
       setCurrentTab(newTab)
     }
