@@ -29,17 +29,14 @@ const Header = styled.header`
 `
 
 type Tab = {
-  getDataSrc: (assetID: string) => string;
   key: string;
 }
 
 const getTabs = () => ([
   {
-    getDataSrc: (assetID: string) => `/api/assets/${assetID}/overview`,
     key: "overview",
   },
   {
-    getDataSrc: (assetID: string) => `/api/assets/${assetID}/responsibilities`,
     key: "responsibilities",
   },
 ])
