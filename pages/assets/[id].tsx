@@ -62,7 +62,6 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   const intl = useIntl()
   const dispatch = useDispatch<Dispatch>()
 
-  // const assetId = router.query.id
   const tabQuery = router.query.tab
 
   const { assetData, isLoading, error: assetDataError } = useAssetData(assetId)
@@ -116,11 +115,6 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
       setCurrentTab(newTab)
     }
   }
-
-  /*  const mapTabKeyToEnum = useCallback((tab: string) => ({
-    overview: AssetTabs.Overview,
-    responsibilities: AssetTabs.Responsibilities,
-  })[tab], []) */
 
   const generalDocumentTitle = intl.formatMessage({ id: "common.documentTitle" })
   const handleAddToCart = () => {
