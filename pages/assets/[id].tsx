@@ -11,7 +11,12 @@ import { useIntl, FormattedMessage } from "react-intl"
 import { useDispatch } from "react-redux"
 import styled from "styled-components"
 
-import { OverviewContent, ResponsibilitiesContent } from "../../components/AssetTabContent"
+import {
+  OverviewContent,
+  OverviewContentSections,
+  ResponsibilitiesContent,
+  ResponsibilitiesContentSections,
+} from "../../components/AssetTabContent"
 import { Container } from "../../components/Container"
 import { useAssetData } from "../../hooks"
 import { HttpClient } from "../../lib/HttpClient"
@@ -68,8 +73,8 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   const tabs = getTabs()
 
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
-  const [overviewData, setOverviewData] = useState<any>()
-  const [responsibilitesData, setResponsibilitesData] = useState<any>()
+  const [overviewData, setOverviewData] = useState<OverviewContentSections>()
+  const [responsibilitesData, setResponsibilitesData] = useState<ResponsibilitiesContentSections>()
 
   useEffect(() => {
     const { tab } = router.query
