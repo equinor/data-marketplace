@@ -11,7 +11,7 @@ import { useIntl, FormattedMessage } from "react-intl"
 import { useDispatch } from "react-redux"
 import styled from "styled-components"
 
-import { AssetTabContent } from "../../components/AssetTabContent"
+import { OverviewContent, ResponsibilitiesContent } from "../../components/AssetTabContent"
 import { Container } from "../../components/Container"
 import { useAssetData } from "../../hooks"
 import { HttpClient } from "../../lib/HttpClient"
@@ -160,10 +160,10 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
           </List>
           <Panels>
             <Panel>
-              <AssetTabContent tab={0} data={overviewData} />
+              <OverviewContent content={overviewData} />
             </Panel>
             <Panel>
-              <AssetTabContent tab={1} data={responsibilitesData} />
+              <ResponsibilitiesContent content={responsibilitesData} />
             </Panel>
           </Panels>
         </Tabs>
