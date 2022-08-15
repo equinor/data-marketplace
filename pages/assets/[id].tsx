@@ -68,7 +68,9 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   const tabQuery = router.query.tab
 
   const { assetData, isLoading, error: assetDataError } = useAssetData(assetId)
-  const { overviewData, responsibilitesData } = useAssetDetails(assetId)
+  const {
+    overviewData, responsibilitesData, isLoading: isLoadingDetails, error: assetDetailsError,
+  } = useAssetDetails(assetId)
 
   const tabs = getTabs()
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
@@ -98,6 +100,9 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
 
   if (assetDataError) {
     console.log(`[AssetDetailView] Failed while getting asset ${assetId}`, assetDataError)
+  }
+  if (assetDetailsError) {
+    console.log(`[AssetDetailView] Failed while getting asset details ${assetId}`, assetDetailsError)
   }
 
   return (
@@ -135,10 +140,11 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
           </List>
           <Panels>
             <Panel>
-              <OverviewContent content={overviewData} />
+              {isLoadingDetails ? <CircularProgress /> : <OverviewContent content={overviewData} />}
             </Panel>
             <Panel>
-              <ResponsibilitiesContent content={responsibilitesData} />
+              {isLoadingDetails ? <CircularProgress />
+                : <ResponsibilitiesContent content={responsibilitesData} />}
             </Panel>
           </Panels>
         </Tabs>
