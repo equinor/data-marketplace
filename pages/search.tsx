@@ -197,7 +197,7 @@ const Search: NextPage = () => {
 
             {searchResults.length > 0
               && (
-                <SearchResultsList>
+                <SearchResultsList variant="numbered">
                   {searchResults.map((resource) => (
                     <SearchResultItem key={resource.id}>
                       <AssetCard
