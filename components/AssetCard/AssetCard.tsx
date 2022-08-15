@@ -10,10 +10,6 @@ const CardContainer = styled.div`
   border-radius: ${tokens.shape.corners.borderRadius};
   padding: 2rem;
 
-  &:not(:last-child) {
-    margin-bottom: 1.5rem;
-  }
-
   a > *:not(:last-child) {
     margin-bottom: 1rem;
   }
