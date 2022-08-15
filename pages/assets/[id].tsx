@@ -28,22 +28,27 @@ const Header = styled.header`
   align-items: baseline;
 `
 
+type TabName = "overview" | "responsibilities"
+
 type Tab = {
-  key: string;
+  id: number,
+  name: TabName;
 }
 
-const getTabs = () => ([
+const getTabs = (): Tab[] => ([
   {
-    key: "overview",
+    id: 0,
+    name: "overview",
   },
   {
-    key: "responsibilities",
+    id: 1,
+    name: "responsibilities",
   },
 ])
 
 const getInitialTab = (tabs: Tab[], tabQuery: string | undefined | string[]) => {
   const tabName = typeof tabQuery === "string" ? tabQuery : "overview"
-  const tabData = tabs.find((tab) => tab.key === tabName)
+  const tabData = tabs.find((tab) => tab.name === tabName)
   // Some evil user might do crazy stuff like manually editing the tab query param
   return tabData || tabs[0]
 }
@@ -66,14 +71,13 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
   const [overviewData, setOverviewData] = useState<any>()
   const [responsibilitesData, setResponsibilitesData] = useState<any>()
-  const [activeTab, setActiveTab] = useState(0)
 
   useEffect(() => {
     const { tab } = router.query
-    if (!(tab === currentTab.key)) {
+    if (!(tab === currentTab.name)) {
       router.replace(
-        { query: { ...router.query, tab: currentTab.key } },
-        { query: { tab: currentTab.key } },
+        { query: { ...router.query, tab: currentTab.name } },
+        { query: { tab: currentTab.name } },
         { shallow: true },
       )
     }
@@ -107,17 +111,14 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   }, [assetId])
 
   const handleTabChange = (index: number) => {
-    console.log(index)
     // @TODO This is just a temp hack
     let key = ""
     if (index === 0) key = "overview"
     else key = "responsibilities"
 
-    const newTab = tabs.find((tab) => tab.key === key)
-    console.log(newTab)
-    if (newTab && newTab.key !== currentTab.key) {
+    const newTab = tabs.find((tab) => tab.name === key)
+    if (newTab && newTab.name !== currentTab.name) {
       setCurrentTab(newTab)
-      setActiveTab(index)
     }
   }
 
@@ -159,7 +160,7 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
         </Header>
 
         <Divider />
-        <Tabs onChange={handleTabChange} activeTab={activeTab}>
+        <Tabs onChange={handleTabChange} activeTab={currentTab.id}>
           <List>
             <EdsTab key="overview">
               {intl.formatMessage({ id: "asset.overview" })}
