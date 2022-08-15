@@ -7,7 +7,7 @@ import type { GetServerSideProps } from "next"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { useIntl, FormattedMessage, IntlShape } from "react-intl"
+import { useIntl, FormattedMessage } from "react-intl"
 import { useDispatch } from "react-redux"
 import styled from "styled-components"
 
@@ -32,21 +32,18 @@ type Tab = {
   getDataSrc: (assetID: string) => string;
   hash: string;
   key: string;
-  label: string;
 }
 
-const getTabs = (intl: IntlShape) => ([
+const getTabs = () => ([
   {
     getDataSrc: (assetID: string) => `/api/assets/${assetID}/overview`,
     hash: "#overview",
     key: "overview",
-    label: intl.formatMessage({ id: "asset.overview" }),
   },
   {
     getDataSrc: (assetID: string) => `/api/assets/${assetID}/responsibilities`,
     hash: "#responsibilities",
     key: "responsibilities",
-    label: intl.formatMessage({ id: "asset.responsibilites" }),
   },
 ])
 
@@ -70,7 +67,7 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   const tabQuery = router.query.tab
 
   const { assetData, isLoading, error: assetDataError } = useAssetData(assetId)
-  const tabs = getTabs(intl)
+  const tabs = getTabs()
 
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
   const [tabData, setTabData] = useState<any>()
@@ -165,13 +162,12 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
         <Divider />
         <Tabs onChange={handleTabChange} activeTab={activeTab}>
           <List>
-            {tabs.map((tab) => (
-
-              <EdsTab key={tab.key}>
-                {tab.label}
-              </EdsTab>
-
-            ))}
+            <EdsTab key="overview">
+              {intl.formatMessage({ id: "asset.overview" })}
+            </EdsTab>
+            <EdsTab key="responsibilities">
+              {intl.formatMessage({ id: "asset.responsibilites" })}
+            </EdsTab>
           </List>
           <Panels>
             <Panel>
@@ -182,7 +178,6 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
             </Panel>
           </Panels>
         </Tabs>
-
       </Container>
     </main>
   )
