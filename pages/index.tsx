@@ -71,17 +71,13 @@ const GridContainer = styled.div`
   grid-gap: 1.5rem;
 `
 
-const AssetCard = styled(Card)`
-  box-shadow: ${tokens.elevation.raised};
-`
-
 const AssetCardTitle = styled(Card.HeaderTitle)`
   font-weight: ${tokens.typography.paragraph.body_short_bold.fontWeight};
   color: ${tokens.colors.text.static_icons__default.hex};
   margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   overflow: hidden;
 `
 
@@ -152,16 +148,10 @@ const Frontpage: NextPage = () => {
           </Link>
         </SectionHeader>
 
-        <GridContainer>
-          {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
-            <AssetCard key={product.id}>
-              <Link
-                href={{
-                  pathname: "/assets/[id]",
-                  query: { id: product.id },
-                }}
-                title={product.name}
-              >
+        {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
+          <GridContainer key={product.id}>
+            <Link href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
+              <Card elevation="raised">
                 <Card.Header>
                   <AssetCardTitle as="p">{product.name}</AssetCardTitle>
                 </Card.Header>
@@ -175,10 +165,11 @@ const Frontpage: NextPage = () => {
                     />
                   </Typography>
                 </Card.Content>
-              </Link>
-            </AssetCard>
-          ))}
-        </GridContainer>
+              </Card>
+            </Link>
+          </GridContainer>
+        ))}
+
       </Section>
     </Container>
   )
