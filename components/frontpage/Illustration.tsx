@@ -1,7 +1,8 @@
 export const Illustration = ({ ...rest }) => (
 
   // eslint-disable-next-line react/jsx-props-no-spreading
-  <svg viewBox="0 0 372 378" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
+  <svg viewBox="0 0 372 378" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="illustrationTitle" {...rest}>
+    <title id="illustrationTitle">Woman working by her computer</title>
     <path d="M271.435 114.421H251.795V130.123H271.435V114.421Z" fill="#9BD8F9" />
     <path d="M303.377 84.9631H283.738V130.123H303.377V84.9631Z" fill="#9BD8F9" />
     <path d="M335.319 71.321H315.68V130.119H335.319V71.321Z" fill="#9BD8F9" />
