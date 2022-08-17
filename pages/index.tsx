@@ -86,9 +86,40 @@ const AssetCardTitle = styled(Card.HeaderTitle)`
   overflow: hidden;
 `
 
-const Hero = styled.section``
+const Hero = styled.section`
+  display: grid;
+  grid-template-areas: "hero";
+  min-height: 30rem;
+  align-items: center;
+   > * {
+    grid-area: hero;
+  }
+`
 
-const HeroContent = styled.div``
+const HeroContent = styled.div`
+  /* margin: 1rem 0 1rem 5%; */
+  width: 25ch; 
+  min-width: 25ch;
+  z-index: 1;
+  align-self: start; 
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: ${tokens.shape.corners.borderRadius};
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  transition: 180ms width ease-in;
+  @media (min-width: 40rem) {
+    align-self: auto;
+    width: 50%;
+  }
+`
+
+const HeroIllustration = styled(Illustration)`
+  width: 90%;
+  justify-self: end;
+  transition: 180ms width ease-in;
+  @media (min-width: 60rem) {
+    width: 40%;
+  }
+`
 
 const Frontpage: NextPage = () => {
   const intl = useIntl()
@@ -139,11 +170,13 @@ const Frontpage: NextPage = () => {
       <Hero>
 
         <HeroContent>
-          <Typography variant="h1_bold">{intl.formatMessage({ id: "frontpage.hero.title" })}</Typography>
+          <Typography variant="h1" as="h2" style={{ marginBottom: "0.67em" }} bold>
+            {intl.formatMessage({ id: "frontpage.hero.title" })}
+          </Typography>
           <Typography variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
 
         </HeroContent>
-        <Illustration />
+        <HeroIllustration />
 
       </Hero>
       <SearchBarSection>
