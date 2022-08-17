@@ -152,7 +152,11 @@ const Frontpage: NextPage = () => {
             <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
               <Card elevation="raised">
                 <Card.Header>
-                  <AssetCardTitle as="p">{product.name}</AssetCardTitle>
+                  <AssetCardTitle>
+                    <Typography variant="h4">
+                      {product.name}
+                    </Typography>
+                  </AssetCardTitle>
                 </Card.Header>
                 <Card.Content>
                   <Typography variant="meta">
