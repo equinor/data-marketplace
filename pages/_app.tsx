@@ -1,6 +1,7 @@
 import { PublicClientApplication, LogLevel } from "@azure/msal-browser"
 import { MsalProvider } from "@azure/msal-react"
 import type { AppProps } from "next/app"
+import Head from "next/head"
 import { IntlProvider } from "react-intl"
 import { Provider } from "react-redux"
 
@@ -56,6 +57,9 @@ const App = ({ Component, pageProps }: AppProps) => (
   <MsalProvider instance={msalInstance}>
     <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
       <Provider store={store}>
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
         <Page>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <Component {...pageProps} />
