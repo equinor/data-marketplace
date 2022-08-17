@@ -9,6 +9,15 @@ export default NextAuth({
       clientId: config.AUTH_CLIENT_ID,
       clientSecret: config.AUTH_CLIENT_SECRET,
       tenantId: config.AUTH_TENANT_ID,
+      authorization: {
+        params: { scope: "openid https://equinor-dev.collibra.com/user_impersonation" },
+      },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      console.log(token, user)
+      return token
+    },
+  },
 })
