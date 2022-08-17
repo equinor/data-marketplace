@@ -15,6 +15,7 @@ import styled from "styled-components"
 import { Container } from "../components/Container"
 import { Link } from "../components/Link"
 import { Section } from "../components/Section"
+import { Illustration } from "../components/frontpage"
 import { HttpClient } from "../lib/HttpClient"
 import { fmtNumber } from "../lib/fmtNumber"
 
@@ -85,6 +86,10 @@ const AssetCardTitle = styled(Card.HeaderTitle)`
   overflow: hidden;
 `
 
+const Hero = styled.section``
+
+const HeroContent = styled.div``
+
 const Frontpage: NextPage = () => {
   const intl = useIntl()
   const [popularDataProducts, setPopularDataProducts] = useState<any[]>([])
@@ -131,7 +136,16 @@ const Frontpage: NextPage = () => {
           {documentTitle}
         </title>
       </Head>
+      <Hero>
 
+        <HeroContent>
+          <Typography variant="h1_bold">{intl.formatMessage({ id: "frontpage.hero.title" })}</Typography>
+          <Typography variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
+
+        </HeroContent>
+        <Illustration />
+
+      </Hero>
       <SearchBarSection>
         <SearchForm onSubmit={handleSearchSubmit}>
           <SearchBar placeholder={intl.formatMessage({ id: "frontpage.placeholderSearch" })} name="search" onChange={handleSearchChange} />
@@ -142,7 +156,7 @@ const Frontpage: NextPage = () => {
 
       <Section>
         <SectionHeader>
-          <Typography variant="h1_bold">
+          <Typography variant="h2">
             <FormattedMessage id="frontpage.popularProductsHeader" />
           </Typography>
         </SectionHeader>
