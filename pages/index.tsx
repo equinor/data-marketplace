@@ -89,17 +89,16 @@ const AssetCardTitle = styled(Card.HeaderTitle)`
 const Hero = styled.section`
   display: grid;
   grid-template-areas: "hero";
-  min-height: 30rem;
+  min-height: 28rem;
   align-items: center;
+  padding: 2rem 0;
    > * {
     grid-area: hero;
   }
 `
 
 const HeroContent = styled.div`
-  /* margin: 1rem 0 1rem 5%; */
-  width: 25ch; 
-  min-width: 25ch;
+  width: clamp(25ch, 60%, 600px);
   z-index: 1;
   align-self: start; 
   background-color: rgba(255, 255, 255, 0.85);
@@ -108,17 +107,12 @@ const HeroContent = styled.div`
   transition: 180ms width ease-in;
   @media (min-width: 40rem) {
     align-self: auto;
-    width: 50%;
   }
 `
 
 const HeroIllustration = styled(Illustration)`
-  width: 90%;
+  width: clamp(300px, 40%, 500px);
   justify-self: end;
-  transition: 180ms width ease-in;
-  @media (min-width: 60rem) {
-    width: 40%;
-  }
 `
 
 const Frontpage: NextPage = () => {
