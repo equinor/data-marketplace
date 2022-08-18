@@ -16,6 +16,11 @@ import { Illustration } from "../components/frontpage"
 import { HttpClient } from "../lib/HttpClient"
 import { fmtNumber } from "../lib/fmtNumber"
 
+const CardGrid = styled(Card)`
+justify-content: space-between;
+  height: 100%;
+`
+
 const SectionHeader = styled.header`
   display: flex;
   justify-content: space-between;
@@ -27,10 +32,6 @@ const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 15ch), 1fr));
   grid-gap: 1.5rem;
-`
-
-const AssetCard = styled(Card)`
-  box-shadow: ${tokens.elevation.raised};
 `
 
 const AssetCardTitle = styled(Card.HeaderTitle)`
@@ -94,6 +95,7 @@ const Frontpage: NextPage = () => {
   const documentTitle = intl.formatMessage({ id: "common.documentTitle" })
 
   return (
+
     <main>
       <Container>
         <Head>
@@ -120,16 +122,14 @@ const Frontpage: NextPage = () => {
 
           <GridContainer>
             {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
-              <AssetCard key={product.id}>
-                <Link
-                  href={{
-                    pathname: "/assets/[id]",
-                    query: { id: product.id },
-                  }}
-                  title={product.name}
-                >
+              <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
+                <CardGrid elevation="raised">
                   <Card.Header>
-                    <AssetCardTitle as="p">{product.name}</AssetCardTitle>
+                    <AssetCardTitle>
+                      <Typography variant="h4" as="h2">
+                        {product.name}
+                      </Typography>
+                    </AssetCardTitle>
                   </Card.Header>
                   <Card.Content>
                     <Typography variant="meta">
@@ -141,8 +141,8 @@ const Frontpage: NextPage = () => {
                       />
                     </Typography>
                   </Card.Content>
-                </Link>
-              </AssetCard>
+                </CardGrid>
+              </Link>
             ))}
           </GridContainer>
         </Section>

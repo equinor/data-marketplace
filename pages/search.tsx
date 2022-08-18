@@ -4,6 +4,7 @@ import {
   EdsProvider,
   Icon,
   Typography,
+  Card,
   List,
 } from "@equinor/eds-core-react"
 import { grid_on as gridOn, list } from "@equinor/eds-icons"
@@ -14,13 +15,15 @@ import { useEffect, useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled, { css } from "styled-components"
 
-import { AssetCard } from "../components/AssetCard"
 import { Container } from "../components/Container"
 import { FullPageSpinner } from "../components/FullPageSpinner/FullPageSpinner"
+import { Link } from "../components/Link"
 import { Section } from "../components/Section"
+import { TruncatedDescription } from "../components/helpers"
 import { HttpClient } from "../lib/HttpClient"
 import { updateCommunityFilter } from "../lib/updateCommunityFilter"
 
+const { Header: CardHeader, HeaderTitle: CardHeaderTitle, Content: CardContent } = Card
 const { Item } = List
 
 const SearchPageContainer = styled(Container)`
@@ -62,7 +65,7 @@ const TagsContainer = styled.div`
   grid-gap: 0.5rem;
 `
 
-const Tag = styled(Button)<{ active: boolean }>`
+const Tag = styled(Button) <{ active: boolean }>`
   padding: 0 0.5rem;
   font-size: 0.75rem;
   background-color: ${tokens.colors.infographic.primary__moss_green_13.rgba};
@@ -143,7 +146,7 @@ const Search: NextPage = () => {
     <FullPageSpinner show={isLoading}>
       <SearchPageContainer>
         <aside>
-          <Typography variant="h5" as="p"><FormattedMessage id="search.filterHeader" /></Typography>
+          <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
           <Divider variant="small" />
 
           <FilterSection>
@@ -180,19 +183,19 @@ const Search: NextPage = () => {
               </Typography>
 
               {searchResults.length > 0
-              && (
-                <ViewModeActionsContainer>
-                  <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
+                && (
+                  <ViewModeActionsContainer>
+                    <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
 
-                  <Button variant="ghost_icon" color="secondary">
-                    <Icon data={list} />
-                  </Button>
+                    <Button variant="ghost_icon" color="secondary">
+                      <Icon data={list} />
+                    </Button>
 
-                  <Button variant="ghost_icon" color="secondary">
-                    <Icon data={gridOn} />
-                  </Button>
-                </ViewModeActionsContainer>
-              )}
+                    <Button variant="ghost_icon" color="secondary">
+                      <Icon data={gridOn} />
+                    </Button>
+                  </ViewModeActionsContainer>
+                )}
             </SearchResultsHeader>
 
             {searchResults.length > 0
@@ -200,14 +203,25 @@ const Search: NextPage = () => {
                 <SearchResultsList variant="numbered">
                   {searchResults.map((resource) => (
                     <SearchResultItem key={resource.id}>
-                      <AssetCard
-                        description={resource.description}
-                        id={resource.id}
-                        title={resource.name}
-                        meta={[
-                          { label: intl.formatMessage({ id: "search.lastUpdated" }), value: Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn)) },
-                        ]}
-                      />
+                      <Link href={{ pathname: "/assets/[id]", query: { id: resource.id } }} title={resource.name}>
+                        <Card elevation="raised">
+                          <CardHeader>
+                            <CardHeaderTitle>
+                              <Typography variant="h4">
+                                {resource.name}
+                              </Typography>
+                            </CardHeaderTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <Typography variant="caption">
+                              {intl.formatMessage({ id: "search.lastUpdated" })}
+                              {" : "}
+                              {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
+                            </Typography>
+                            <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
+                          </CardContent>
+                        </Card>
+                      </Link>
                     </SearchResultItem>
                   ))}
 
