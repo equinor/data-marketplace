@@ -162,16 +162,13 @@ const Frontpage: NextPage = () => {
         </title>
       </Head>
       <Hero>
-
         <HeroContent>
           <Typography variant="h1" as="h2" style={{ marginBottom: "0.67em" }} bold>
             {intl.formatMessage({ id: "frontpage.hero.title" })}
           </Typography>
           <Typography variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
-
         </HeroContent>
         <HeroIllustration />
-
       </Hero>
       <SearchBarSection>
         <SearchForm onSubmit={handleSearchSubmit}>
