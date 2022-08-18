@@ -1,11 +1,8 @@
-import { Card, Search, Typography } from "@equinor/eds-core-react"
+import { Card, Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import Head from "next/head"
-import { useRouter } from "next/router"
 import {
-  ChangeEventHandler,
-  FormEventHandler,
   useEffect,
   useState,
 } from "react"
@@ -18,46 +15,6 @@ import { Section } from "../components/Section"
 import { Illustration } from "../components/frontpage"
 import { HttpClient } from "../lib/HttpClient"
 import { fmtNumber } from "../lib/fmtNumber"
-
-const SearchBarSection = styled(Section)`
-  max-width: 42rem;
-  margin: 0 auto;
-`
-
-const SearchForm = styled.form`
-  >:not(:last-child) {
-    margin-bottom: 0.75rem;
-  }
-`
-
-const SearchBar = styled(Search)`
-  @media screen and (min-width: 768px) {
-    height: 3.5rem;
-    padding: 0 0.75rem;
-    border-radius: 0.25rem;
-
-    > svg {
-      height: 1.75rem;
-      width: 1.75rem;
-    }
-
-    input {
-      height: 100%;
-      font-size: 1.25rem;
-      padding: 0.5rem 0.5rem calc(0.5rem + 1px);
-    }
-
-    button {
-      height: 1.75rem;
-      width: 1.75rem;
-
-      svg {
-        height: 1.5rem;
-        width: 1.5rem;
-      }
-    }
-  }
-`
 
 const SectionHeader = styled.header`
   display: flex;
@@ -118,9 +75,6 @@ const HeroIllustration = styled(Illustration)`
 const Frontpage: NextPage = () => {
   const intl = useIntl()
   const [popularDataProducts, setPopularDataProducts] = useState<any[]>([])
-  const [searchQuery, setSearchQuery] = useState<string>("")
-
-  const router = useRouter()
 
   useEffect(() => {
     (async () => {
@@ -137,20 +91,6 @@ const Frontpage: NextPage = () => {
 
     return () => setPopularDataProducts([])
   }, [])
-
-  const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-    router.push({
-      pathname: "/search",
-      query: {
-        q: searchQuery,
-      },
-    })
-  }
-
-  const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setSearchQuery(e.target.value)
-  }
 
   const documentTitle = intl.formatMessage({ id: "common.documentTitle" })
 
@@ -170,13 +110,6 @@ const Frontpage: NextPage = () => {
         </HeroContent>
         <HeroIllustration />
       </Hero>
-      <SearchBarSection>
-        <SearchForm onSubmit={handleSearchSubmit}>
-          <SearchBar placeholder={intl.formatMessage({ id: "frontpage.placeholderSearch" })} name="search" onChange={handleSearchChange} />
-
-          {/* TODO: Get communities */}
-        </SearchForm>
-      </SearchBarSection>
 
       <Section>
         <SectionHeader>
