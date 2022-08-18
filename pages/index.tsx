@@ -25,7 +25,7 @@ const SectionHeader = styled.header`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15ch), 1fr));
   grid-gap: 1.5rem;
 `
 
