@@ -141,11 +141,6 @@ const Frontpage: NextPage = () => {
           <Typography variant="h1_bold">
             <FormattedMessage id="frontpage.popularProductsHeader" />
           </Typography>
-          <Link href="/" aria-label={intl.formatMessage({ id: "frontpage.ariaSeeMore" })} link>
-            <FormattedMessage
-              id="frontpage.seeMore"
-            />
-          </Link>
         </SectionHeader>
         <GridContainer>
           {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
