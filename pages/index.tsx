@@ -94,58 +94,60 @@ const Frontpage: NextPage = () => {
   const documentTitle = intl.formatMessage({ id: "common.documentTitle" })
 
   return (
-    <Container>
-      <Head>
-        <title>
-          {documentTitle}
-        </title>
-      </Head>
-      <Hero>
-        <HeroContent>
-          <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
-            {intl.formatMessage({ id: "frontpage.hero.title" })}
-          </Typography>
-          <Typography variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
-        </HeroContent>
-        <HeroIllustration />
-      </Hero>
+    <main>
+      <Container>
+        <Head>
+          <title>
+            {documentTitle}
+          </title>
+        </Head>
+        <Hero>
+          <HeroContent>
+            <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
+              {intl.formatMessage({ id: "frontpage.hero.title" })}
+            </Typography>
+            <Typography variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
+          </HeroContent>
+          <HeroIllustration />
+        </Hero>
 
-      <Section>
-        <SectionHeader>
-          <Typography variant="h2">
-            <FormattedMessage id="frontpage.popularProductsHeader" />
-          </Typography>
-        </SectionHeader>
+        <Section>
+          <SectionHeader>
+            <Typography variant="h2">
+              <FormattedMessage id="frontpage.popularProductsHeader" />
+            </Typography>
+          </SectionHeader>
 
-        <GridContainer>
-          {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
-            <AssetCard key={product.id}>
-              <Link
-                href={{
-                  pathname: "/assets/[id]",
-                  query: { id: product.id },
-                }}
-                title={product.name}
-              >
-                <Card.Header>
-                  <AssetCardTitle as="p">{product.name}</AssetCardTitle>
-                </Card.Header>
-                <Card.Content>
-                  <Typography variant="meta">
-                    <FormattedMessage
-                      id="frontpage.numberOfViews"
-                      values={{
-                        numberOfViews: fmtNumber(product.numberOfViews),
-                      }}
-                    />
-                  </Typography>
-                </Card.Content>
-              </Link>
-            </AssetCard>
-          ))}
-        </GridContainer>
-      </Section>
-    </Container>
+          <GridContainer>
+            {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
+              <AssetCard key={product.id}>
+                <Link
+                  href={{
+                    pathname: "/assets/[id]",
+                    query: { id: product.id },
+                  }}
+                  title={product.name}
+                >
+                  <Card.Header>
+                    <AssetCardTitle as="p">{product.name}</AssetCardTitle>
+                  </Card.Header>
+                  <Card.Content>
+                    <Typography variant="meta">
+                      <FormattedMessage
+                        id="frontpage.numberOfViews"
+                        values={{
+                          numberOfViews: fmtNumber(product.numberOfViews),
+                        }}
+                      />
+                    </Typography>
+                  </Card.Content>
+                </Link>
+              </AssetCard>
+            ))}
+          </GridContainer>
+        </Section>
+      </Container>
+    </main>
   )
 }
 
