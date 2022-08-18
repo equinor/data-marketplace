@@ -61,7 +61,6 @@ const HeroContent = styled.div`
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: ${tokens.shape.corners.borderRadius};
   padding: 0.5rem 0.5rem 0.5rem 0;
-  transition: 180ms width ease-in;
   @media (min-width: 40rem) {
     align-self: auto;
   }
