@@ -50,23 +50,28 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
   if (!nbHits || nbHits === 0 || nbHits <= hitsPerPage) {
     return null
   }
+  const firstPageIndex = 0
+  const previousPageIndex = currentRefinement - 1
+  const nextPageIndex = currentRefinement + 1
+  const lastPageIndex = nbPages - 1
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <PaginationList {...rest}>
       <PaginationItem
         ariaLabel={intl.formatMessage({ id: "search.pagination.firstPage" })}
-        value={0}
         isCurrent={false}
         isDisabled={isFirstPage}
         createURL={createURL}
+  
+        href={createURL(firstPageIndex)}
         refine={refine}
       >
         <Icon data={first_page} />
       </PaginationItem>
       <PaginationItem
         ariaLabel={intl.formatMessage({ id: "search.pagination.previous" })}
-        value={currentRefinement - 1}
+        href={createURL(previousPageIndex)}
         isCurrent={false}
         isDisabled={isFirstPage}
         createURL={createURL}
@@ -79,7 +84,7 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
         <PaginationItem
           key={page}
           ariaLabel={`Page ${page + 1}`}
-          value={page}
+          href={createURL(page)}
           isCurrent={page === currentRefinement}
           isDisabled={false}
           createURL={createURL}
@@ -91,7 +96,7 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
 
       <PaginationItem
         ariaLabel={intl.formatMessage({ id: "search.pagination.next" })}
-        value={currentRefinement + 1}
+        href={createURL(nextPageIndex)}
         isCurrent={false}
         isDisabled={isLastPage}
         createURL={createURL}
@@ -102,7 +107,7 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
 
       <PaginationItem
         ariaLabel={intl.formatMessage({ id: "search.pagination.lastPage" })}
-        value={nbPages - 1}
+        href={createURL(lastPageIndex)}
         isCurrent={false}
         isDisabled={isLastPage}
         createURL={createURL}
