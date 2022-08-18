@@ -3,6 +3,8 @@
   "common.continue": "Continue",
   "common.confirm": "Confirm",
   "common.documentTitle": "Data Marketplace",
+  "frontpage.hero.title": "Find and get access to the data you need, when you need it",
+  "frontpage.hero.ingress": "Data Marketplace makes it easy to search for and request access to the data you need to do your job. Venenatis ipsum aliquet nibh at. Risus sapien erat vitae amet leo lobortis maecenas.",
   "frontpage.popularProductsHeader": "Popular",
   "frontpage.numberOfViews": "{numberOfViews} views",
   "frontpage.seeMore": "See more",
