@@ -86,12 +86,12 @@ const AssetCardTitle = styled(Card.HeaderTitle)`
   overflow: hidden;
 `
 
-const Hero = styled.section`
+const Hero = styled(Section)`
   display: grid;
   grid-template-areas: "hero";
   min-height: 28rem;
   align-items: center;
-  padding: 2rem 0;
+
    > * {
     grid-area: hero;
   }
