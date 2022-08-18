@@ -22,6 +22,10 @@ const SearchBarSection = styled(Section)`
   max-width: 42rem;
   margin: 0 auto;
 `
+const CardGrid = styled(Card)`
+justify-content: space-between;
+  height: 100%;
+`
 
 const SearchForm = styled.form`
   >:not(:last-child) {
@@ -145,10 +149,10 @@ const Frontpage: NextPage = () => {
         <GridContainer>
           {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
             <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
-              <Card elevation="raised">
+              <CardGrid elevation="raised">
                 <Card.Header>
                   <AssetCardTitle>
-                    <Typography variant="h3">
+                    <Typography variant="h4" as="h2">
                       {product.name}
                     </Typography>
                   </AssetCardTitle>
@@ -163,7 +167,7 @@ const Frontpage: NextPage = () => {
                     />
                   </Typography>
                 </Card.Content>
-              </Card>
+              </CardGrid>
             </Link>
           ))}
         </GridContainer>
