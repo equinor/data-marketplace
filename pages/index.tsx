@@ -77,7 +77,7 @@ const AssetCardTitle = styled(Card.HeaderTitle)`
   margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   overflow: hidden;
 `
 
@@ -148,7 +148,7 @@ const Frontpage: NextPage = () => {
               <Card elevation="raised">
                 <Card.Header>
                   <AssetCardTitle>
-                    <Typography variant="h4">
+                    <Typography variant="h3">
                       {product.name}
                     </Typography>
                   </AssetCardTitle>

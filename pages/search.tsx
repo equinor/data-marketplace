@@ -146,7 +146,7 @@ const Search: NextPage = () => {
     <FullPageSpinner show={isLoading}>
       <SearchPageContainer>
         <aside>
-          <Typography variant="h5" as="p"><FormattedMessage id="search.filterHeader" /></Typography>
+          <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
           <Divider variant="small" />
 
           <FilterSection>
