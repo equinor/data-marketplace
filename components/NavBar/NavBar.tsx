@@ -42,7 +42,11 @@ const HeaderContentContainer = styled(Container)`
     margin-right: 5rem;
   }
 `
+const TopBarContainer = styled(TopBar)`
+  width: 100%;
+  margin-bottom: 2rem;
 
+`
 const LogoContainer = styled.div`
   width: fit-content;
   white-space: nowrap;
@@ -57,7 +61,7 @@ const ActionsContainer = styled(TopBar.Actions)`
 `
 
 const SearchContainer = styled(TopBar.CustomContent)`
-  width: 200%;
+  width: 80%;
   background-color: ${tokens.colors.ui.background__default.hex};
   display: flex;
   justify-content: flex-end;
@@ -97,27 +101,28 @@ export const NavBar = () => {
 
   return (
     <HeaderContentContainer>
-      <LogoContainer>
-        <NextLink href="/" passHref>
-          <Button as="a" variant="ghost" color="secondary">
-            <Typography><FormattedMessage id="navbar.logo" /></Typography>
-          </Button>
-        </NextLink>
-      </LogoContainer>
-      <SearchContainer>
-        <SearchForm onSubmit={onSearchSubmit}>
-          <Search aria-label="sitewide" id="search-normal" placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })} onChange={onSearchChange} value={searchQuery} />
-        </SearchForm>
-      </SearchContainer>
-      <ActionsContainer>
-        <UserNavbar aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
-          <Cart />
-          <Button variant="ghost_icon" color="secondary">
-            <Icon data={account_circle} title={intl.formatMessage({ id: "navbar.titleAccount" })} />
-          </Button>
-        </UserNavbar>
-      </ActionsContainer>
-
+      <TopBarContainer>
+        <LogoContainer>
+          <NextLink href="/" passHref>
+            <Button as="a" variant="ghost" color="secondary">
+              <Typography><FormattedMessage id="navbar.logo" /></Typography>
+            </Button>
+          </NextLink>
+        </LogoContainer>
+        <SearchContainer>
+          <SearchForm onSubmit={onSearchSubmit}>
+            <Search aria-label="sitewide" id="search-normal" placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })} onChange={onSearchChange} value={searchQuery} />
+          </SearchForm>
+        </SearchContainer>
+        <ActionsContainer>
+          <UserNavbar aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
+            <Cart />
+            <Button variant="ghost_icon" color="secondary">
+              <Icon data={account_circle} title={intl.formatMessage({ id: "navbar.titleAccount" })} />
+            </Button>
+          </UserNavbar>
+        </ActionsContainer>
+      </TopBarContainer>
     </HeaderContentContainer>
   )
 }
