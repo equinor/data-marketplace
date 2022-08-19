@@ -9,7 +9,7 @@ import {
 import {
   account_circle,
   // comment_discussion,
-  explore,
+  // explore,
   // refresh,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
@@ -25,32 +25,18 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../Container"
-import { Link } from "../Link"
 
 import { Cart } from "./Cart"
-
-const UserNavbarContainer = styled(Container)`
-  width: 100%;
-  background-color: ${tokens.colors.ui.background__default.hex};
-  display: flex;
-  justify-content: flex-end;
-`
 
 const UserNavbar = styled.nav`
   display: flex;
   align-items: center;
   padding: 0.5rem 0;
   margin-bottom: 1rem;
-`
-
-const Header = styled.header`
+  width: 60%;
   background-color: ${tokens.colors.ui.background__default.hex};
-  width: 100%;
-  padding: 0.5rem 0;
-  position: sticky;
-  top: 0;
-  border-bottom: 2px solid ${tokens.colors.ui.background__light.hex};
-  margin-bottom: 5rem;
+  display: flex;
+  justify-content: flex-end;
 `
 
 const HeaderContentContainer = styled(Container)`
@@ -69,14 +55,17 @@ const LogoContainer = styled.div`
 
 const ActionsContainer = styled(TopBar.Actions)`
   display: flex;
+  width: 100%;
+  background-color: ${tokens.colors.ui.background__default.hex};
+  display: flex;
+  justify-content: flex-end;
 
-  > *:not(:last-child) {
-    margin-right: 0.5rem;
-  }
 `
 
 const SearchForm = styled.form`
   width: 100%;
+  align: right;
+  margin-left: 5rem;
 `
 
 export const NavBar = () => {
@@ -105,8 +94,33 @@ export const NavBar = () => {
   }
 
   return (
-    <>
-      <UserNavbarContainer>
+    <HeaderContentContainer>
+      <LogoContainer>
+        <NextLink href="/" passHref>
+          <Button as="a" variant="ghost" color="secondary">
+            <Typography><FormattedMessage id="navbar.logo" /></Typography>
+          </Button>
+        </NextLink>
+      </LogoContainer>
+      {/*  <Link href="/browse">
+                <Button variant="ghost" color="secondary">
+                  <Icon data={explore} title={intl.formatMessage({ id: "navbar.browse" })} />
+                  <FormattedMessage id="navbar.browse" />
+                </Button>
+              </Link>
+              <Link href="/browse">
+                <Button variant="ghost" color="secondary">
+                  <Icon data={comment_discussion}
+                   title={intl.formatMessage({ id: "navbar.community" })} />
+                  <FormattedMessage id="navbar.community" />
+                </Button>
+              </Link>
+  */}
+
+      <ActionsContainer>
+        <SearchForm onSubmit={onSearchSubmit}>
+          <Search aria-label="sitewide" id="search-normal" placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })} onChange={onSearchChange} value={searchQuery} />
+        </SearchForm>
         <UserNavbar aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
           <Cart />
           {/* Hiding unused icons
@@ -120,43 +134,8 @@ export const NavBar = () => {
             <Icon data={account_circle} title={intl.formatMessage({ id: "navbar.titleAccount" })} />
           </Button>
         </UserNavbar>
-      </UserNavbarContainer>
+      </ActionsContainer>
 
-      <Header>
-        <HeaderContentContainer>
-          <LogoContainer>
-            <NextLink href="/" passHref>
-              <Button as="a" variant="ghost" color="secondary">
-                <Typography><FormattedMessage id="navbar.logo" /></Typography>
-              </Button>
-            </NextLink>
-          </LogoContainer>
-
-          <nav aria-label="Main navigation">
-            <ActionsContainer>
-              <Link href="/browse">
-                <Button variant="ghost" color="secondary">
-                  <Icon data={explore} title={intl.formatMessage({ id: "navbar.browse" })} />
-                  <FormattedMessage id="navbar.browse" />
-                </Button>
-              </Link>
-              {/*
-              <Link href="/browse">
-                <Button variant="ghost" color="secondary">
-                  <Icon data={comment_discussion}
-                   title={intl.formatMessage({ id: "navbar.community" })} />
-                  <FormattedMessage id="navbar.community" />
-                </Button>
-              </Link>
-              */}
-            </ActionsContainer>
-          </nav>
-
-          <SearchForm onSubmit={onSearchSubmit}>
-            <Search aria-label="sitewide" id="search-normal" placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })} onChange={onSearchChange} value={searchQuery} />
-          </SearchForm>
-        </HeaderContentContainer>
-      </Header>
-    </>
+    </HeaderContentContainer>
   )
 }
