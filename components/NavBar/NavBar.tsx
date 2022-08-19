@@ -49,8 +49,15 @@ const LogoContainer = styled.div`
 `
 
 const ActionsContainer = styled(TopBar.Actions)`
-  display: flex;
   width: 100%;
+  background-color: ${tokens.colors.ui.background__default.hex};
+  display: flex;
+  justify-content: flex-end;
+
+`
+
+const SearchContainer = styled(TopBar.CustomContent)`
+  width: 200%;
   background-color: ${tokens.colors.ui.background__default.hex};
   display: flex;
   justify-content: flex-end;
@@ -97,10 +104,12 @@ export const NavBar = () => {
           </Button>
         </NextLink>
       </LogoContainer>
-      <ActionsContainer>
+      <SearchContainer>
         <SearchForm onSubmit={onSearchSubmit}>
           <Search aria-label="sitewide" id="search-normal" placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })} onChange={onSearchChange} value={searchQuery} />
         </SearchForm>
+      </SearchContainer>
+      <ActionsContainer>
         <UserNavbar aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
           <Cart />
           <Button variant="ghost_icon" color="secondary">
