@@ -102,34 +102,12 @@ export const NavBar = () => {
           </Button>
         </NextLink>
       </LogoContainer>
-      {/*  <Link href="/browse">
-                <Button variant="ghost" color="secondary">
-                  <Icon data={explore} title={intl.formatMessage({ id: "navbar.browse" })} />
-                  <FormattedMessage id="navbar.browse" />
-                </Button>
-              </Link>
-              <Link href="/browse">
-                <Button variant="ghost" color="secondary">
-                  <Icon data={comment_discussion}
-                   title={intl.formatMessage({ id: "navbar.community" })} />
-                  <FormattedMessage id="navbar.community" />
-                </Button>
-              </Link>
-  */}
-
       <ActionsContainer>
         <SearchForm onSubmit={onSearchSubmit}>
           <Search aria-label="sitewide" id="search-normal" placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })} onChange={onSearchChange} value={searchQuery} />
         </SearchForm>
         <UserNavbar aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
           <Cart />
-          {/* Hiding unused icons
-          <Button href="/tasks" variant="ghost" color="secondary">
-            <FormattedMessage id="navbar.taskStatistic" values={{ remaining: <span>0</span> }} />
-          </Button>
-          <Button variant="ghost_icon" color="secondary">
-            <Icon data={refresh} title={intl.formatMessage({ id: "navbar.titleRefresh" })} />
-          </Button>  */}
           <Button variant="ghost_icon" color="secondary">
             <Icon data={account_circle} title={intl.formatMessage({ id: "navbar.titleAccount" })} />
           </Button>
