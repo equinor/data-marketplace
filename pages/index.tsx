@@ -126,7 +126,7 @@ const Frontpage: NextPage = () => {
                 <CardGrid elevation="raised">
                   <Card.Header>
                     <AssetCardTitle>
-                      <Typography variant="h4" as="h2">
+                      <Typography variant="h5" as="h2">
                         {product.name}
                       </Typography>
                     </AssetCardTitle>
