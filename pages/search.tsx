@@ -207,7 +207,7 @@ const Search: NextPage = () => {
                         <Card elevation="raised">
                           <CardHeader>
                             <CardHeaderTitle>
-                              <Typography variant="h4">
+                              <Typography variant="h5" as="h2">
                                 {resource.name}
                               </Typography>
                             </CardHeaderTitle>
