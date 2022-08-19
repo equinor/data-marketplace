@@ -93,7 +93,7 @@ const CartView: NextPage = () => {
               {cartContent.map((item) => (
                 <CartItem key={item.id}>
                   <Link href={{ pathname: "/assets/[id]", query: { id: item.id } }} title={item.name}>
-                    <Card elevation="raised">
+                    <Card elevation="raised" onClick={() => {}}>
 
                       <CardHeader>
                         <CardHeaderTitle>

@@ -18,7 +18,7 @@ import { HttpClient } from "../lib/HttpClient"
 import { fmtNumber } from "../lib/fmtNumber"
 
 const CardGrid = styled(Card)`
-justify-content: space-between;
+  justify-content: space-between;
   height: 100%;
 `
 
@@ -124,7 +124,7 @@ const Frontpage: NextPage = () => {
             <GridContainer>
               {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
                 <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
-                  <CardGrid elevation="raised">
+                  <CardGrid elevation="raised" onClick={() => {}}>
                     <Card.Header>
                       <AssetCardTitle>
                         <Typography variant="h5" as="h2">
