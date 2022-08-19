@@ -206,7 +206,7 @@ const Search: NextPage = () => {
                   {searchResults.map((resource) => (
                     <SearchResultItem key={resource.id}>
                       <Link href={{ pathname: "/assets/[id]", query: { id: resource.id } }} title={resource.name}>
-                        <Card elevation="raised">
+                        <Card elevation="raised" onClick={() => {}}>
                           <CardHeader>
                             <CardHeaderTitle>
                               <Typography variant="h5" as="h2">
