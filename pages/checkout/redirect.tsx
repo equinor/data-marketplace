@@ -12,6 +12,7 @@ import styled from "styled-components"
 
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
+import { Footer } from "../../components/Footer"
 import { config } from "../../config"
 
 const Ingress = styled(Typography).attrs({ variant: "ingress" })`
@@ -55,28 +56,31 @@ const CheckoutRedirectView: NextPage = () => {
   ), [])
 
   return (
-    <Container>
-      <CheckoutWizard>
-        <Typography variant="h4" as="h1" style={{ marginBottom: "0.25rem" }}>{intl.formatMessage({ id: "checkout.redirect.headline" })}</Typography>
+    <>
+      <Container>
+        <CheckoutWizard>
+          <Typography variant="h4" as="h1" style={{ marginBottom: "0.25rem" }}>{intl.formatMessage({ id: "checkout.redirect.headline" })}</Typography>
 
-        <Ingress>{intl.formatMessage({ id: "checkout.redirect.ingress" })}</Ingress>
+          <Ingress>{intl.formatMessage({ id: "checkout.redirect.ingress" })}</Ingress>
 
-        <HelpText>
-          <FormattedMessage
-            id="checkout.redirect.body"
-            values={{
-              a: FormattedLink,
-              link: config.ACCESSIT_BASE_URL,
-            }}
+          <HelpText>
+            <FormattedMessage
+              id="checkout.redirect.body"
+              values={{
+                a: FormattedLink,
+                link: config.ACCESSIT_BASE_URL,
+              }}
+            />
+          </HelpText>
+
+          <Progress.Linear
+            variant="determinate"
+            value={progress}
           />
-        </HelpText>
-
-        <Progress.Linear
-          variant="determinate"
-          value={progress}
-        />
-      </CheckoutWizard>
-    </Container>
+        </CheckoutWizard>
+      </Container>
+      <Footer />
+    </>
   )
 }
 

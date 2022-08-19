@@ -8,6 +8,7 @@ import styled from "styled-components"
 
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
+import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
 
 const Headline = styled(Typography).attrs(() => ({ variant: "h4" }))`
@@ -60,47 +61,50 @@ const CheckoutAccessView: NextPage = () => {
   }
 
   return (
-    <Container>
-      <CheckoutWizard>
-        <Headline>
-          {intl.formatMessage({ id: "checkout.access.headline" })}
-        </Headline>
-        <Ingress>
-          {intl.formatMessage({ id: "checkout.access.ingress" })}
-        </Ingress>
+    <>
+      <Container>
+        <CheckoutWizard>
+          <Headline>
+            {intl.formatMessage({ id: "checkout.access.headline" })}
+          </Headline>
+          <Ingress>
+            {intl.formatMessage({ id: "checkout.access.ingress" })}
+          </Ingress>
 
-        <ExampleContainer>
-          <Typography variant="caption">
-            {intl.formatMessage({ id: "checkout.access.exampleLabel" })}
-          </Typography>
-          <Typography variant="caption">
-            {intl.formatMessage({ id: "checkout.access.exampleBody" })}
-          </Typography>
-        </ExampleContainer>
+          <ExampleContainer>
+            <Typography variant="caption">
+              {intl.formatMessage({ id: "checkout.access.exampleLabel" })}
+            </Typography>
+            <Typography variant="caption">
+              {intl.formatMessage({ id: "checkout.access.exampleBody" })}
+            </Typography>
+          </ExampleContainer>
 
-        <TextFieldContainer>
-          <TextField
-            multiline
-            id="desciption"
-            label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" })}
-            placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
-            onChange={onDescriptionChange}
-          />
-        </TextFieldContainer>
+          <TextFieldContainer>
+            <TextField
+              multiline
+              id="desciption"
+              label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" })}
+              placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
+              onChange={onDescriptionChange}
+            />
+          </TextFieldContainer>
 
-        <ButtonContainer>
-          <Button
-            variant="outlined"
-            color="secondary"
-          >
-            {intl.formatMessage({ id: "common.cancel" })}
-          </Button>
-          <Button disabled={description.length < 10} onClick={onContinueClick}>
-            {intl.formatMessage({ id: "common.continue" })}
-          </Button>
-        </ButtonContainer>
-      </CheckoutWizard>
-    </Container>
+          <ButtonContainer>
+            <Button
+              variant="outlined"
+              color="secondary"
+            >
+              {intl.formatMessage({ id: "common.cancel" })}
+            </Button>
+            <Button disabled={description.length < 10} onClick={onContinueClick}>
+              {intl.formatMessage({ id: "common.continue" })}
+            </Button>
+          </ButtonContainer>
+        </CheckoutWizard>
+      </Container>
+      <Footer />
+    </>
   )
 }
 

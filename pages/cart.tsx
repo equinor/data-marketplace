@@ -15,6 +15,7 @@ import styled from "styled-components"
 
 import { Banner } from "../components/Banner"
 import { Container } from "../components/Container"
+import { Footer } from "../components/Footer"
 import { Link } from "../components/Link"
 import { TruncatedDescription } from "../components/helpers"
 import { useCartContent } from "../hooks/useCartContent"
@@ -74,18 +75,19 @@ const CartView: NextPage = () => {
   const numberOfItems = addedAssets.length
 
   return (
-    <Container>
-      <Content>
-        <Title>
-          <CartIcon data={shopping_card} />
-          <Typography variant="h1">
-            {intl.formatMessage({ id: "cart.headline" }, {
-              count: numberOfItems,
-            })}
-          </Typography>
-        </Title>
-        {isLoading ? <CircularProgress />
-          : numberOfItems > 0
+    <>
+      <Container>
+        <Content>
+          <Title>
+            <CartIcon data={shopping_card} />
+            <Typography variant="h1">
+              {intl.formatMessage({ id: "cart.headline" }, {
+                count: numberOfItems,
+              })}
+            </Typography>
+          </Title>
+          {isLoading ? <CircularProgress />
+            : numberOfItems > 0
           && (
             <CartItems>
               {cartContent.map((item) => (
@@ -114,13 +116,13 @@ const CartView: NextPage = () => {
               ))}
             </CartItems>
           )}
-        {numberOfItems > 0
+          {numberOfItems > 0
         && (
           <BannerContainer variant="warning">
             <Typography>{intl.formatMessage({ id: "cart.banner.warning" })}</Typography>
           </BannerContainer>
         ) }
-        {numberOfItems > 0
+          {numberOfItems > 0
           && (
             <ButtonContainer>
               <NextLink href="/checkout/terms" passHref>
@@ -133,8 +135,10 @@ const CartView: NextPage = () => {
               </NextLink>
             </ButtonContainer>
           )}
-      </Content>
-    </Container>
+        </Content>
+      </Container>
+      <Footer />
+    </>
   )
 }
 

@@ -16,6 +16,7 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled, { css } from "styled-components"
 
 import { Container } from "../components/Container"
+import { Footer } from "../components/Footer"
 import { FullPageSpinner } from "../components/FullPageSpinner/FullPageSpinner"
 import { Link } from "../components/Link"
 import { Section } from "../components/Section"
@@ -143,46 +144,47 @@ const Search: NextPage = () => {
   }
 
   return (
-    <FullPageSpinner show={isLoading}>
-      <SearchPageContainer>
-        <aside>
-          <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
-          <Divider variant="small" />
+    <>
+      <FullPageSpinner show={isLoading}>
+        <SearchPageContainer>
+          <aside>
+            <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
+            <Divider variant="small" />
 
-          <FilterSection>
-            <FilterSectionHeadline><FormattedMessage id="search.communitiesHeader" /></FilterSectionHeadline>
+            <FilterSection>
+              <FilterSectionHeadline><FormattedMessage id="search.communitiesHeader" /></FilterSectionHeadline>
 
-            <TagsContainer>
-              <EdsProvider density="compact">
-                {communities?.map((community) => (
-                  <Tag
-                    active={!!router.query.community?.includes(community.id)}
-                    key={community.id}
-                    onClick={() => onCommunityFilterClick(community.id)}
-                  >
-                    {community.name}
-                  </Tag>
-                ))}
-              </EdsProvider>
-            </TagsContainer>
-          </FilterSection>
-        </aside>
+              <TagsContainer>
+                <EdsProvider density="compact">
+                  {communities?.map((community) => (
+                    <Tag
+                      active={!!router.query.community?.includes(community.id)}
+                      key={community.id}
+                      onClick={() => onCommunityFilterClick(community.id)}
+                    >
+                      {community.name}
+                    </Tag>
+                  ))}
+                </EdsProvider>
+              </TagsContainer>
+            </FilterSection>
+          </aside>
 
-        <main>
-          <Section>
+          <main>
+            <Section>
 
-            <SearchResultsHeader>
-              <Typography variant="body_short">
-                <FormattedMessage
-                  id="search.statistic"
-                  values={{
-                    count: searchResults.length,
-                    searchTerm: (<b>{router.query.q}</b>),
-                  }}
-                />
-              </Typography>
+              <SearchResultsHeader>
+                <Typography variant="body_short">
+                  <FormattedMessage
+                    id="search.statistic"
+                    values={{
+                      count: searchResults.length,
+                      searchTerm: (<b>{router.query.q}</b>),
+                    }}
+                  />
+                </Typography>
 
-              {searchResults.length > 0
+                {searchResults.length > 0
                 && (
                   <ViewModeActionsContainer>
                     <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
@@ -196,9 +198,9 @@ const Search: NextPage = () => {
                     </Button>
                   </ViewModeActionsContainer>
                 )}
-            </SearchResultsHeader>
+              </SearchResultsHeader>
 
-            {searchResults.length > 0
+              {searchResults.length > 0
               && (
                 <SearchResultsList variant="numbered">
                   {searchResults.map((resource) => (
@@ -228,10 +230,12 @@ const Search: NextPage = () => {
                 </SearchResultsList>
               )}
 
-          </Section>
-        </main>
-      </SearchPageContainer>
-    </FullPageSpinner>
+            </Section>
+          </main>
+        </SearchPageContainer>
+      </FullPageSpinner>
+      <Footer />
+    </>
   )
 }
 
