@@ -27,11 +27,8 @@ const UserNavbar = styled.nav`
   display: flex;
   align-items: center;
   padding: 0.5rem 0;
-  margin-bottom: 1rem;
-  width: 60%;
+  width: 100%;
   background-color: ${tokens.colors.ui.background__default.hex};
-  display: flex;
-  justify-content: flex-end;
 `
 
 const HeaderContentContainer = styled(Container)`
@@ -44,7 +41,7 @@ const HeaderContentContainer = styled(Container)`
 `
 const TopBarContainer = styled(TopBar)`
   width: 100%;
-  margin-bottom: 2rem;
+  padding-bottom: 4rem;  
 
 `
 const LogoContainer = styled.div`
