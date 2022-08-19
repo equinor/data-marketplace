@@ -6,12 +6,7 @@ import {
   TopBar,
   Typography,
 } from "@equinor/eds-core-react"
-import {
-  account_circle,
-  // comment_discussion,
-  // explore,
-  // refresh,
-} from "@equinor/eds-icons"
+import { account_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
