@@ -90,8 +90,9 @@ const CartView: NextPage = () => {
             <CartItems>
               {cartContent.map((item) => (
                 <CartItem key={item.id}>
-                  <Card elevation="raised">
-                    <Link href={{ pathname: "/assets/[id]", query: { id: item.id } }} title={item.name}>
+                  <Link href={{ pathname: "/assets/[id]", query: { id: item.id } }} title={item.name}>
+                    <Card elevation="raised">
+
                       <CardHeader>
                         <CardHeaderTitle>
                           {/* This is just a dummy example */}
@@ -106,9 +107,9 @@ const CartView: NextPage = () => {
                       <CardContent>
                         <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: item.description }} />
                       </CardContent>
-                    </Link>
-                  </Card>
 
+                    </Card>
+                  </Link>
                 </CartItem>
               ))}
             </CartItems>
