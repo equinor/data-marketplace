@@ -8,11 +8,10 @@ import styled from "styled-components"
 
 import { Banner } from "../../components/Banner"
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
+import type { CheckoutViewProps } from "../../components/CheckoutWizard/types"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
-
-import type { CheckoutViewProps } from "./types"
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
