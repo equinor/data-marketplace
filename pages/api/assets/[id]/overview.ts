@@ -1,4 +1,5 @@
 import { NextApiHandler } from "next"
+import { getToken } from "next-auth/jwt"
 import xss from "xss"
 
 import { config } from "../../../../config"
@@ -10,9 +11,17 @@ const GetAssetOverview: NextApiHandler = async (req, res) => {
     return res.status(405).end()
   }
 
+  const token = await getToken({ req })
+
+  if (!token) {
+    return res.status(401).end()
+  }
+
+  const authorization = `Bearer ${token}`
+
   try {
     const attrsRes = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
-      headers: { authorization: req.headers.authorization },
+      headers: { authorization },
       query: { assetId: req.query.id },
     })
 

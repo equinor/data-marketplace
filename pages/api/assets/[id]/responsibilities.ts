@@ -1,4 +1,5 @@
 import { NextApiHandler } from "next"
+import { getToken } from "next-auth/jwt"
 
 import { config } from "../../../../config"
 import { HttpClient } from "../../../../lib/HttpClient"
@@ -9,9 +10,17 @@ const AssetResponsibilitiesHandler: NextApiHandler = async (req, res) => {
     return res.status(405).end()
   }
 
+  const token = await getToken({ req })
+
+  if (!token) {
+    return res.status(401).end()
+  }
+
+  const authorization = `Bearer ${token}`
+
   try {
     const response = await HttpClient.get<Collibra.PagedResponsibilityResponse>(`${config.COLLIBRA_BASE_URL}/responsibilities`, {
-      headers: { authorization: req.headers.authorization },
+      headers: { authorization },
       query: { resourceIds: req.query.id },
     })
 
@@ -29,7 +38,7 @@ const AssetResponsibilitiesHandler: NextApiHandler = async (req, res) => {
     }))
 
     const usersRes = await Promise.all(usersWithRoles.map((user: any) => HttpClient.get<Collibra.User>(`${config.COLLIBRA_BASE_URL}/users/${user.id}`, {
-      headers: { authorization: req.headers.authorization },
+      headers: { authorization },
     })))
 
     const users = usersWithRoles.reduce((obj, user) => {

@@ -1,4 +1,5 @@
 import { NextApiHandler } from "next"
+import { getToken } from "next-auth/jwt"
 
 import { config } from "../../../../config"
 import { HttpClient } from "../../../../lib/HttpClient"
@@ -9,9 +10,17 @@ const GetAssetByIDHandler: NextApiHandler = async (req, res) => {
     return res.status(405).end()
   }
 
+  const token = await getToken({ req })
+
+  if (!token) {
+    return res.status(401).end()
+  }
+
+  const authorization = `Bearer ${token}`
+
   try {
     const assetRes = await HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${req.query.id}`, {
-      headers: { authorization: req.headers.authorization },
+      headers: { authorization },
     })
 
     return res.json(assetRes.body)
