@@ -7,6 +7,7 @@ import {
   shopping_card,
 } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
+import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Link } from "../Link"
@@ -55,41 +56,44 @@ type Props = {
   currentStep: number
 }
 
-export const CheckoutNav = ({ currentStep }: Props) => (
-  <nav>
-    <NavItemsContainer variant="numbered">
-      <Item>
-        <NavLink href="/checkout/terms">
-          <IconContainer>
-            <Icon data={library_books} />
-          </IconContainer>
-          <NavLinkText>Terms of Use</NavLinkText>
-        </NavLink>
-      </Item>
-      <Item>
-        <NavLink href="/checkout/access" disabled={currentStep < 1} aria-disabled={currentStep < 1}>
-          <IconContainer>
-            <Icon data={shopping_card} />
-          </IconContainer>
-          <NavLinkText>Request access</NavLinkText>
-        </NavLink>
-      </Item>
-      <Item>
-        <NavLink href="/checkout/confirm" disabled={currentStep < 2} aria-disabled={currentStep < 2}>
-          <IconContainer>
-            <Icon data={receipt} />
-          </IconContainer>
-          <NavLinkText>Confirmation</NavLinkText>
-        </NavLink>
-      </Item>
-      <Item>
-        <NavLink href="/checkout/redirect" disabled={currentStep < 3} aria-disabled={currentStep < 3}>
-          <IconContainer>
-            <Icon data={exit_to_app} />
-          </IconContainer>
-          <NavLinkText>Redirect</NavLinkText>
-        </NavLink>
-      </Item>
-    </NavItemsContainer>
-  </nav>
-)
+export const CheckoutNav = ({ currentStep }: Props) => {
+  const intl = useIntl()
+  return (
+    <nav>
+      <NavItemsContainer variant="numbered">
+        <Item>
+          <NavLink href="/checkout/terms">
+            <IconContainer>
+              <Icon data={library_books} />
+            </IconContainer>
+            <NavLinkText>{intl.formatMessage({ id: "checkout.nav.step.terms" })}</NavLinkText>
+          </NavLink>
+        </Item>
+        <Item>
+          <NavLink href="/checkout/access" disabled={currentStep < 1} aria-disabled={currentStep < 1}>
+            <IconContainer>
+              <Icon data={shopping_card} />
+            </IconContainer>
+            <NavLinkText>{intl.formatMessage({ id: "checkout.nav.step.access" })}</NavLinkText>
+          </NavLink>
+        </Item>
+        <Item>
+          <NavLink href="/checkout/confirm" disabled={currentStep < 2} aria-disabled={currentStep < 2}>
+            <IconContainer>
+              <Icon data={receipt} />
+            </IconContainer>
+            <NavLinkText>{intl.formatMessage({ id: "checkout.nav.step.confirmation" })}</NavLinkText>
+          </NavLink>
+        </Item>
+        <Item>
+          <NavLink href="/checkout/redirect" disabled={currentStep < 3} aria-disabled={currentStep < 3}>
+            <IconContainer>
+              <Icon data={exit_to_app} />
+            </IconContainer>
+            <NavLinkText>{intl.formatMessage({ id: "checkout.nav.step.redirect" })}</NavLinkText>
+          </NavLink>
+        </Item>
+      </NavItemsContainer>
+    </nav>
+  )
+}
