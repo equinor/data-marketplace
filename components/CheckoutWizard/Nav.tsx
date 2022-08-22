@@ -17,7 +17,7 @@ const NavItemsContainer = styled(List)`
   list-style: none;
   display: flex;
   justify-content: flex-start;
-
+  padding: 0;
   > li:not(:last-child) {
     margin-right: 1rem;
   }
