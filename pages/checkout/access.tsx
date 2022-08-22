@@ -66,7 +66,7 @@ const CheckoutAccessView = ({ assetId }: CheckoutViewProps) => {
   return (
     <>
       <Container>
-        <CheckoutWizard>
+        <CheckoutWizard assetId={assetId}>
           {!assetId ? <NoAsset />
             : (
               <>

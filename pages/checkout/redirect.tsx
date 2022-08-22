@@ -57,7 +57,7 @@ const CheckoutRedirectView = ({ assetId }: CheckoutViewProps) => {
   return (
     <>
       <Container>
-        <CheckoutWizard>
+        <CheckoutWizard assetId={assetId}>
           {!assetId ? <NoAsset />
             : (
               <>
