@@ -20,7 +20,7 @@ type Props = {
 
 export const Page: FunctionComponent<Props> = ({ children }) => {
   const { error: msalError } = useMsalAuthentication(InteractionType.Redirect, {
-    redirectUri: `${config.BASE_URL}/auth/redirect`,
+    redirectUri: `${config.BASE_URL}`,
     scopes: ["openid", "https://equinor-dev.collibra.com/user_impersonation"],
   })
   const { instance, inProgress, accounts } = useMsal()

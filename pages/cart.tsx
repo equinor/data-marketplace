@@ -15,6 +15,7 @@ import styled from "styled-components"
 
 import { Banner } from "../components/Banner"
 import { Container } from "../components/Container"
+import { Footer } from "../components/Footer"
 import { Link } from "../components/Link"
 import { TruncatedDescription } from "../components/helpers"
 import { useCartContent } from "../hooks/useCartContent"
@@ -74,24 +75,26 @@ const CartView: NextPage = () => {
   const numberOfItems = addedAssets.length
 
   return (
-    <Container>
-      <Content>
-        <Title>
-          <CartIcon data={shopping_card} />
-          <Typography variant="h1">
-            {intl.formatMessage({ id: "cart.headline" }, {
-              count: numberOfItems,
-            })}
-          </Typography>
-        </Title>
-        {isLoading ? <CircularProgress />
-          : numberOfItems > 0
+    <>
+      <Container>
+        <Content>
+          <Title>
+            <CartIcon data={shopping_card} />
+            <Typography variant="h1">
+              {intl.formatMessage({ id: "cart.headline" }, {
+                count: numberOfItems,
+              })}
+            </Typography>
+          </Title>
+          {isLoading ? <CircularProgress />
+            : numberOfItems > 0
           && (
             <CartItems>
               {cartContent.map((item) => (
                 <CartItem key={item.id}>
-                  <Card elevation="raised">
-                    <Link href={{ pathname: "/assets/[id]", query: { id: item.id } }} title={item.name}>
+                  <Link href={{ pathname: "/assets/[id]", query: { id: item.id } }} title={item.name}>
+                    <Card elevation="raised" onClick={() => {}}>
+
                       <CardHeader>
                         <CardHeaderTitle>
                           {/* This is just a dummy example */}
@@ -106,17 +109,20 @@ const CartView: NextPage = () => {
                       <CardContent>
                         <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: item.description }} />
                       </CardContent>
-                    </Link>
-                  </Card>
 
+                    </Card>
+                  </Link>
                 </CartItem>
               ))}
             </CartItems>
           )}
-        <BannerContainer variant="warning">
-          <Typography>{intl.formatMessage({ id: "cart.banner.warning" })}</Typography>
-        </BannerContainer>
-        {numberOfItems > 0
+          {numberOfItems > 0
+        && (
+          <BannerContainer variant="warning">
+            <Typography>{intl.formatMessage({ id: "cart.banner.warning" })}</Typography>
+          </BannerContainer>
+        ) }
+          {numberOfItems > 0
           && (
             <ButtonContainer>
               <NextLink href="/checkout/terms" passHref>
@@ -129,8 +135,10 @@ const CartView: NextPage = () => {
               </NextLink>
             </ButtonContainer>
           )}
-      </Content>
-    </Container>
+        </Content>
+      </Container>
+      <Footer />
+    </>
   )
 }
 

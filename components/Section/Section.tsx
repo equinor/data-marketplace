@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Section = styled.section`
-  &:not(:last-child) {
+  /* &:not(:last-child) { */
     margin-bottom: 2rem;
 
     @media screen and (min-width: 768px) {
@@ -15,5 +15,5 @@ export const Section = styled.section`
     @media screen and (min-width: 1200px) {
       margin-bottom: 5rem;
     }
-  }
+  /* } */
 `

@@ -10,6 +10,7 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../components/Container"
+import { Footer } from "../components/Footer"
 import { Link } from "../components/Link"
 import { Section } from "../components/Section"
 import { Illustration } from "../components/frontpage"
@@ -17,7 +18,7 @@ import { HttpClient } from "../lib/HttpClient"
 import { fmtNumber } from "../lib/fmtNumber"
 
 const CardGrid = styled(Card)`
-justify-content: space-between;
+  justify-content: space-between;
   height: 100%;
 `
 
@@ -95,59 +96,61 @@ const Frontpage: NextPage = () => {
   const documentTitle = intl.formatMessage({ id: "common.documentTitle" })
 
   return (
+    <>
+      <main>
+        <Container>
+          <Head>
+            <title>
+              {documentTitle}
+            </title>
+          </Head>
+          <Hero>
+            <HeroContent>
+              <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
+                {intl.formatMessage({ id: "frontpage.hero.title" })}
+              </Typography>
+              <Typography variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
+            </HeroContent>
+            <HeroIllustration />
+          </Hero>
 
-    <main>
-      <Container>
-        <Head>
-          <title>
-            {documentTitle}
-          </title>
-        </Head>
-        <Hero>
-          <HeroContent>
-            <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
-              {intl.formatMessage({ id: "frontpage.hero.title" })}
-            </Typography>
-            <Typography variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
-          </HeroContent>
-          <HeroIllustration />
-        </Hero>
+          <Section>
+            <SectionHeader>
+              <Typography variant="h2">
+                <FormattedMessage id="frontpage.popularProductsHeader" />
+              </Typography>
+            </SectionHeader>
 
-        <Section>
-          <SectionHeader>
-            <Typography variant="h2">
-              <FormattedMessage id="frontpage.popularProductsHeader" />
-            </Typography>
-          </SectionHeader>
-
-          <GridContainer>
-            {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
-              <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
-                <CardGrid elevation="raised">
-                  <Card.Header>
-                    <AssetCardTitle>
-                      <Typography variant="h4" as="h2">
-                        {product.name}
+            <GridContainer>
+              {popularDataProducts.length > 0 && popularDataProducts.map((product) => (
+                <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
+                  <CardGrid elevation="raised" onClick={() => {}}>
+                    <Card.Header>
+                      <AssetCardTitle>
+                        <Typography variant="h5" as="h2">
+                          {product.name}
+                        </Typography>
+                      </AssetCardTitle>
+                    </Card.Header>
+                    <Card.Content>
+                      <Typography variant="meta">
+                        <FormattedMessage
+                          id="frontpage.numberOfViews"
+                          values={{
+                            numberOfViews: fmtNumber(product.numberOfViews),
+                          }}
+                        />
                       </Typography>
-                    </AssetCardTitle>
-                  </Card.Header>
-                  <Card.Content>
-                    <Typography variant="meta">
-                      <FormattedMessage
-                        id="frontpage.numberOfViews"
-                        values={{
-                          numberOfViews: fmtNumber(product.numberOfViews),
-                        }}
-                      />
-                    </Typography>
-                  </Card.Content>
-                </CardGrid>
-              </Link>
-            ))}
-          </GridContainer>
-        </Section>
-      </Container>
-    </main>
+                    </Card.Content>
+                  </CardGrid>
+                </Link>
+              ))}
+            </GridContainer>
+          </Section>
+        </Container>
+      </main>
+      <Footer />
+    </>
   )
 }
 

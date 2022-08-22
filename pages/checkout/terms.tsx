@@ -9,6 +9,7 @@ import styled from "styled-components"
 import { Banner } from "../../components/Banner"
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
+import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
 
 const IngressContainer = styled.div`
@@ -34,8 +35,6 @@ const TypographyHeader = styled(Typography)`
   font-weight: 500;
   font-size: 1.125rem;
   line-height: 1.5rem;
-  }
-
 `
 
 const ButtonContainer = styled.div`
@@ -65,49 +64,52 @@ const CheckoutTermsView: NextPage = () => {
   }
 
   return (
-    <Container>
-      <CheckoutWizard>
-        <IngressContainer>
-          <FormattedMessage
-            id="terms.ingress"
-            // eslint-disable-next-line react/no-unstable-nested-components
-            values={{ p: (chunks) => <Typography>{chunks}</Typography> }}
-          />
-        </IngressContainer>
+    <>
+      <Container>
+        <CheckoutWizard>
+          <IngressContainer>
+            <FormattedMessage
+              id="terms.ingress"
+              // eslint-disable-next-line react/no-unstable-nested-components
+              values={{ p: (chunks) => <Typography>{chunks}</Typography> }}
+            />
+          </IngressContainer>
 
-        {/* TODO: Add banner */}
-        <Banner variant="danger">
-          <div>
-            <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</TypographyHeader>
-            <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
-            <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</TypographyHeader>
-            <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
-          </div>
-        </Banner>
-        <ChecboxContainer>
-          <Checkbox
-            name="acceptTerms"
-            label={intl.formatMessage({ id: "terms.acceptLabel" })}
-            onChange={onAcceptTerms}
-            checked={hasAcceptedTerms ?? false}
-            aria-invalid={hasAcceptedTerms ? "false" : "true"}
-            aria-required
-          />
-        </ChecboxContainer>
+          {/* TODO: Add banner */}
+          <Banner variant="danger">
+            <div>
+              <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</TypographyHeader>
+              <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
+              <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</TypographyHeader>
+              <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
+            </div>
+          </Banner>
+          <ChecboxContainer>
+            <Checkbox
+              name="acceptTerms"
+              label={intl.formatMessage({ id: "terms.acceptLabel" })}
+              onChange={onAcceptTerms}
+              checked={hasAcceptedTerms ?? false}
+              aria-invalid={hasAcceptedTerms ? "false" : "true"}
+              aria-required
+            />
+          </ChecboxContainer>
 
-        <ButtonContainer>
-          <Button variant="outlined" color="secondary">
-            {intl.formatMessage({ id: "common.cancel" })}
-          </Button>
-          <Button
-            disabled={!hasAcceptedTerms}
-            onClick={onContinue}
-          >
-            {intl.formatMessage({ id: "common.continue" })}
-          </Button>
-        </ButtonContainer>
-      </CheckoutWizard>
-    </Container>
+          <ButtonContainer>
+            <Button variant="outlined" color="secondary">
+              {intl.formatMessage({ id: "common.cancel" })}
+            </Button>
+            <Button
+              disabled={!hasAcceptedTerms}
+              onClick={onContinue}
+            >
+              {intl.formatMessage({ id: "common.continue" })}
+            </Button>
+          </ButtonContainer>
+        </CheckoutWizard>
+      </Container>
+      <Footer />
+    </>
   )
 }
 

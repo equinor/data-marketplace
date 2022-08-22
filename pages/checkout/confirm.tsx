@@ -8,6 +8,7 @@ import styled from "styled-components"
 
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
+import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
 
 const ContentContainer = styled.div`
@@ -50,35 +51,38 @@ const CheckoutConfirmView: NextPage = () => {
   }
 
   return (
-    <Container>
-      <CheckoutWizard>
-        <ContentContainer>
-          <Typography>
-            {intl.formatMessage({ id: "checkout.confirm.terms" })}
-          </Typography>
-
-          {/* TODO: Add data products */}
-
-          <QuoteContainer>
+    <>
+      <Container>
+        <CheckoutWizard>
+          <ContentContainer>
             <Typography>
-              {intl.formatMessage({ id: "checkout.confirm.description" })}
+              {intl.formatMessage({ id: "checkout.confirm.terms" })}
             </Typography>
-            <Quote>
-              <Typography>{state.data.access?.description}</Typography>
-            </Quote>
-          </QuoteContainer>
 
-          <ButtonContainer>
-            <Button variant="outlined" color="secondary">
-              {intl.formatMessage({ id: "common.cancel" })}
-            </Button>
-            <Button onClick={onContinueClick}>
-              {intl.formatMessage({ id: "common.confirm" })}
-            </Button>
-          </ButtonContainer>
-        </ContentContainer>
-      </CheckoutWizard>
-    </Container>
+            {/* TODO: Add data products */}
+
+            <QuoteContainer>
+              <Typography>
+                {intl.formatMessage({ id: "checkout.confirm.description" })}
+              </Typography>
+              <Quote>
+                <Typography>{state.data.access?.description}</Typography>
+              </Quote>
+            </QuoteContainer>
+
+            <ButtonContainer>
+              <Button variant="outlined" color="secondary">
+                {intl.formatMessage({ id: "common.cancel" })}
+              </Button>
+              <Button onClick={onContinueClick}>
+                {intl.formatMessage({ id: "common.confirm" })}
+              </Button>
+            </ButtonContainer>
+          </ContentContainer>
+        </CheckoutWizard>
+      </Container>
+      <Footer />
+    </>
   )
 }
 

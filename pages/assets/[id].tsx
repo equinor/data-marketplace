@@ -16,6 +16,7 @@ import {
   ResponsibilitiesContent,
 } from "../../components/AssetTabContent"
 import { Container } from "../../components/Container"
+import { Footer } from "../../components/Footer"
 import { useAssetData } from "../../hooks"
 import { useAssetDetails } from "../../hooks/useAssetDetails"
 import { Dispatch } from "../../store"
@@ -106,50 +107,54 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   }
 
   return (
-    <main>
-      <Head>
-        <title>{assetData?.name ?? generalDocumentTitle}</title>
-      </Head>
+    <>
+      <main>
+        <Head>
+          <title>{assetData?.name ?? generalDocumentTitle}</title>
+        </Head>
 
-      <Container>
-        <Header>
-          {isLoading ? <CircularProgress />
-            : assetData && (
-              <>
-                <Typography variant="h1_bold" as="h1">
-                  {assetData.name}
-                </Typography>
+        <Container>
+          <Header>
+            {isLoading ? <CircularProgress />
+              : assetData && (
+                <>
+                  <Typography variant="h1_bold" as="h1">
+                    {assetData.name}
+                  </Typography>
 
-                <Button onClick={handleAddToCart}>
-                  <Icon data={shopping_cart_add} />
-                  <FormattedMessage id="asset.addToCart" />
-                </Button>
-              </>
-            )}
-        </Header>
+                  <Button onClick={handleAddToCart}>
+                    <Icon data={shopping_cart_add} />
+                    <FormattedMessage id="asset.addToCart" />
+                  </Button>
+                </>
+              )}
+          </Header>
 
-        <Divider />
-        <Tabs onChange={handleTabChange} activeTab={currentTab.id}>
-          <List>
-            <EdsTab key="overview">
-              {intl.formatMessage({ id: "asset.overview" })}
-            </EdsTab>
-            <EdsTab key="responsibilities">
-              {intl.formatMessage({ id: "asset.responsibilites" })}
-            </EdsTab>
-          </List>
-          <Panels>
-            <Panel>
-              {isLoadingDetails ? <CircularProgress /> : <OverviewContent content={overviewData} />}
-            </Panel>
-            <Panel>
-              {isLoadingDetails ? <CircularProgress />
-                : <ResponsibilitiesContent content={responsibilitesData} />}
-            </Panel>
-          </Panels>
-        </Tabs>
-      </Container>
-    </main>
+          <Divider />
+          <Tabs onChange={handleTabChange} activeTab={currentTab.id}>
+            <List>
+              <EdsTab key="overview">
+                {intl.formatMessage({ id: "asset.overview" })}
+              </EdsTab>
+              <EdsTab key="responsibilities">
+                {intl.formatMessage({ id: "asset.responsibilites" })}
+              </EdsTab>
+            </List>
+            <Panels>
+              <Panel>
+                {isLoadingDetails ? <CircularProgress />
+                  : <OverviewContent content={overviewData} />}
+              </Panel>
+              <Panel>
+                {isLoadingDetails ? <CircularProgress />
+                  : <ResponsibilitiesContent content={responsibilitesData} />}
+              </Panel>
+            </Panels>
+          </Tabs>
+        </Container>
+      </main>
+      <Footer />
+    </>
   )
 }
 
