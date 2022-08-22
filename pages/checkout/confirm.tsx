@@ -6,8 +6,7 @@ import { useIntl } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
-import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
-import type { CheckoutViewProps } from "../../components/CheckoutWizard/types"
+import { CheckoutViewProps, CheckoutWizard, NoAsset } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
@@ -58,31 +57,34 @@ const CheckoutConfirmView = ({ assetId }: CheckoutViewProps) => {
     <>
       <Container>
         <CheckoutWizard>
-          <ContentContainer>
-            <Typography>
-              {intl.formatMessage({ id: "checkout.confirm.terms" })}
-            </Typography>
+          {!assetId ? <NoAsset />
+            : (
+              <ContentContainer>
+                <Typography>
+                  {intl.formatMessage({ id: "checkout.confirm.terms" })}
+                </Typography>
 
-            {/* TODO: Add data products */}
+                {/* TODO: Add data products */}
 
-            <QuoteContainer>
-              <Typography>
-                {intl.formatMessage({ id: "checkout.confirm.description" })}
-              </Typography>
-              <Quote>
-                <Typography>{state.data.access?.description}</Typography>
-              </Quote>
-            </QuoteContainer>
+                <QuoteContainer>
+                  <Typography>
+                    {intl.formatMessage({ id: "checkout.confirm.description" })}
+                  </Typography>
+                  <Quote>
+                    <Typography>{state.data.access?.description}</Typography>
+                  </Quote>
+                </QuoteContainer>
 
-            <ButtonContainer>
-              <Button variant="outlined" color="secondary">
-                {intl.formatMessage({ id: "common.cancel" })}
-              </Button>
-              <Button onClick={onContinueClick}>
-                {intl.formatMessage({ id: "common.confirm" })}
-              </Button>
-            </ButtonContainer>
-          </ContentContainer>
+                <ButtonContainer>
+                  <Button variant="outlined" color="secondary">
+                    {intl.formatMessage({ id: "common.cancel" })}
+                  </Button>
+                  <Button onClick={onContinueClick}>
+                    {intl.formatMessage({ id: "common.confirm" })}
+                  </Button>
+                </ButtonContainer>
+              </ContentContainer>
+            )}
         </CheckoutWizard>
       </Container>
       <Footer />
@@ -93,7 +95,7 @@ const CheckoutConfirmView = ({ assetId }: CheckoutViewProps) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
   // @TODO when we have server side token handle the case of no id or no data
-  return { props: { assetId: id } }
+  return { props: { assetId: id || null } }
 }
 
 export default CheckoutConfirmView
