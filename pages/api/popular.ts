@@ -9,20 +9,18 @@ type PopularAsset = Collibra.Asset & Pick<Collibra.NavigationStatistic, "numberO
 
 const getPopularAssets = async (
   data: PopularAsset[],
-  token: string,
+  authorization: string,
   limit: number,
   offset = 0,
 ): Promise<PopularAsset[]> => {
-  console.log("[getPopularAssets] token", token)
-
   const mostViewedStats = await HttpClient.get<Collibra.PagedNavigationStatisticResponse>(`${config.COLLIBRA_BASE_URL}/navigation/most_viewed`, {
-    headers: { authorization: `Bearer ${token}` },
+    headers: { authorization },
     query: { offset: offset * limit, limit, isGuestExcluded: true },
   })
 
   const assetsResponse = await Promise.all(
     mostViewedStats.body?.results.map((stat) => HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${stat.assetId}`, {
-      headers: { authorization: `Bearer ${token}` },
+      headers: { authorization },
     })) ?? [],
   )
 
@@ -41,7 +39,7 @@ const getPopularAssets = async (
 
   if (result.length >= limit) return result.slice(0, limit)
 
-  return getPopularAssets(result, token, limit, offset + 1)
+  return getPopularAssets(result, authorization, limit, offset + 1)
 }
 
 const PopularAssetsHandler: NextApiHandler = async (req, res) => {
@@ -63,7 +61,7 @@ const PopularAssetsHandler: NextApiHandler = async (req, res) => {
   }
 
   try {
-    const dataProducts = await getPopularAssets([], token.accessToken as string, limit)
+    const dataProducts = await getPopularAssets([], `Bearer ${token.accessToken}`, limit)
 
     return res.json(dataProducts)
   } catch (error) {
