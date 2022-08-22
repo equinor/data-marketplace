@@ -8,6 +8,7 @@ import styled from "styled-components"
 
 import { Banner } from "../../components/Banner"
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
+import { NoAsset } from "../../components/CheckoutWizard/NoAsset"
 import type { CheckoutViewProps } from "../../components/CheckoutWizard/types"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
@@ -67,52 +68,52 @@ const CheckoutTermsView = ({ assetId }: CheckoutViewProps) => {
     dispatch.checkout.setData({ terms: { termsAccepted: !hasAcceptedTerms } })
   }
 
-  if (!assetId) {
-    return <Container>No asset id</Container>
-  }
   return (
     <>
       <Container>
         <CheckoutWizard>
-          <IngressContainer>
-            <FormattedMessage
-              id="terms.ingress"
-              // eslint-disable-next-line react/no-unstable-nested-components
-              values={{ p: (chunks) => <Typography>{chunks}</Typography> }}
-            />
-          </IngressContainer>
+          {!assetId ? <NoAsset />
+            : (
+              <>
+                <IngressContainer>
+                  <FormattedMessage
+                    id="terms.ingress"
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    values={{ p: (chunks) => <Typography>{chunks}</Typography> }}
+                  />
+                </IngressContainer>
+                <Banner variant="danger">
+                  <div>
+                    <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</TypographyHeader>
+                    <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
+                    <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</TypographyHeader>
+                    <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
+                  </div>
+                </Banner>
+                <ChecboxContainer>
+                  <Checkbox
+                    name="acceptTerms"
+                    label={intl.formatMessage({ id: "terms.acceptLabel" })}
+                    onChange={onAcceptTerms}
+                    checked={hasAcceptedTerms ?? false}
+                    aria-invalid={hasAcceptedTerms ? "false" : "true"}
+                    aria-required
+                  />
+                </ChecboxContainer>
 
-          {/* TODO: Add banner */}
-          <Banner variant="danger">
-            <div>
-              <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</TypographyHeader>
-              <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
-              <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</TypographyHeader>
-              <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
-            </div>
-          </Banner>
-          <ChecboxContainer>
-            <Checkbox
-              name="acceptTerms"
-              label={intl.formatMessage({ id: "terms.acceptLabel" })}
-              onChange={onAcceptTerms}
-              checked={hasAcceptedTerms ?? false}
-              aria-invalid={hasAcceptedTerms ? "false" : "true"}
-              aria-required
-            />
-          </ChecboxContainer>
-
-          <ButtonContainer>
-            <Button variant="outlined" color="secondary">
-              {intl.formatMessage({ id: "common.cancel" })}
-            </Button>
-            <Button
-              disabled={!hasAcceptedTerms}
-              onClick={onContinue}
-            >
-              {intl.formatMessage({ id: "common.continue" })}
-            </Button>
-          </ButtonContainer>
+                <ButtonContainer>
+                  <Button variant="outlined" color="secondary">
+                    {intl.formatMessage({ id: "common.cancel" })}
+                  </Button>
+                  <Button
+                    disabled={!hasAcceptedTerms}
+                    onClick={onContinue}
+                  >
+                    {intl.formatMessage({ id: "common.continue" })}
+                  </Button>
+                </ButtonContainer>
+              </>
+            )}
         </CheckoutWizard>
       </Container>
       <Footer />

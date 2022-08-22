@@ -51,6 +51,7 @@
   "checkout.redirect.headline": "Redirecting to AccessIT",
   "checkout.redirect.ingress": "You'll now get redirected to AccessIT to complete the request process.",
   "checkout.redirect.body": "If you don't get redirected within 15 seconds, please click this link: <a>{link}</a>",
+  "checkout.no.asset": "In order to start the checkout process, you must first select an asset",
   "cart.headline": "Cart {count, plural, =0 {is empty} one {(# item)} other {(# items)}}",
   "cart.banner.warning": "Access to these data products requires a VPN connection ",
   "cart.proceedToCheckout": "Proceed to checkout",
