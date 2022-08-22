@@ -5,6 +5,7 @@ import {
   Icon,
   Typography,
   Card,
+  CircularProgress,
   List,
 } from "@equinor/eds-core-react"
 import { grid_on as gridOn, list } from "@equinor/eds-icons"
@@ -17,7 +18,6 @@ import styled, { css } from "styled-components"
 
 import { Container } from "../components/Container"
 import { Footer } from "../components/Footer"
-import { FullPageSpinner } from "../components/FullPageSpinner/FullPageSpinner"
 import { Link } from "../components/Link"
 import { Section } from "../components/Section"
 import { TruncatedDescription } from "../components/helpers"
@@ -39,6 +39,11 @@ const SearchResultsHeader = styled.header`
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 1rem;
+`
+
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const ViewModeActionsContainer = styled.div`
@@ -144,8 +149,12 @@ const Search: NextPage = () => {
   }
 
   return (
-    <>
-      <FullPageSpinner show={isLoading}>
+    isLoading ? (
+      <SpinnerContainer>
+        <CircularProgress />
+      </SpinnerContainer>
+    ) : (
+      <>
         <SearchPageContainer>
           <aside>
             <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
@@ -233,9 +242,9 @@ const Search: NextPage = () => {
             </Section>
           </main>
         </SearchPageContainer>
-      </FullPageSpinner>
-      <Footer />
-    </>
+        <Footer />
+      </>
+    )
   )
 }
 
