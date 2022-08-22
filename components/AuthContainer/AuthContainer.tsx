@@ -6,7 +6,7 @@ import { Container } from "../Container"
 import { Page } from "../Page"
 
 export const AuthContainer: FunctionComponent<PropsWithChildren> = ({ children }) => {
-  const { status, data } = useSession()
+  const { status } = useSession()
 
   if (status === "loading") {
     return (
@@ -25,8 +25,6 @@ export const AuthContainer: FunctionComponent<PropsWithChildren> = ({ children }
       </Container>
     )
   }
-
-  console.log(data)
 
   return (
     <Page>
