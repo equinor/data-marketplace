@@ -7,9 +7,6 @@ spec:
   - name: prod
     build:
       from: main
-  - name: test
-    build:
-      from: feature/139-oauth-proxy
   components:
   - name: web
     publicPort: http
@@ -27,30 +24,15 @@ spec:
           cpu: 100m
       variables:
         BASE_URL: https://web-data-marketplace-prod.radix.equinor.com/
-    - environment: test
-      resources:
-        memory: 128Mi
-        cpu: 50m
-      authentication:
-        oauth2:
-          clientId: 5480f5f8-8001-4ab7-95fa-f1e11450fde8
-          scope: openid profile email offline_access
-          setXAuthRequestHeaders: true
-          setAuthorizationHeader: true
-          sessionStoreType: cookie
-          cookieStore:
-            minimal: false
-          cookie:
-            name: _oauth2_proxy
-            expire: 168h0m0s
-            refresh: 60m0s
-            sameSite: lax
-      variables:
-        BASE_URL: https://web-data-marketplace-test.radix.equinor.com/
     variables:
       NEXT_PUBLIC_COLLIBRA_BASE_URL: https://equinor-dev.collibra.com/rest/2.0
-      NEXT_PUBLIC_AUTH_AUTHORITY: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0
-      NEXT_PUBLIC_AUTH_CLIENT_ID: 41912e0a-18ba-46d8-98a3-634a38b8fffb
+    secrets:
+      - AUTH_CLIENT_ID
+      - AUTH_CLIENT_SECRET
+      - AUTH_TENANT_ID
+      - AUTH_AUTHORITY
+      - NEXTAUTH_URL
+      - NEXTAUTH_SECRET
 
   dnsAppAlias:
     environment: prod
