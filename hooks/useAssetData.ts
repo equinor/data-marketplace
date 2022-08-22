@@ -14,9 +14,7 @@ export const useAssetData = (id:string | undefined | string[]) => {
     const getData = async () => {
       setIsLoading(true)
       try {
-        const res = await HttpClient.get(`/api/assets/${id}`, {
-          headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-        })
+        const res = await HttpClient.get(`/api/assets/${id}`)
         if (!ignore) {
           setAssetData(res.body)
         }
