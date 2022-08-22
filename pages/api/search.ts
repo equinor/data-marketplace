@@ -1,6 +1,7 @@
 import { STATUS_CODES } from "http"
 
 import { NextApiHandler } from "next"
+import { getToken } from "next-auth/jwt"
 import xss from "xss"
 
 import { config } from "../../config"
@@ -12,14 +13,20 @@ const SearchHandler: NextApiHandler = async (req, res) => {
     return res.status(405).json({ error: STATUS_CODES[405] })
   }
 
+  const token = await getToken({ req })
+
+  if (!token) return res.status(401).end()
+
+  const authorization = `Bearer ${token.accessToken}`
+
   try {
     // get the status id of the approved status
     const approvedStatusRes = await HttpClient.get(`${config.COLLIBRA_BASE_URL}/statuses/name/Approved`, {
-      headers: { authorization: req.headers.authorization },
+      headers: { authorization },
     })
 
     const dataProductRes = await HttpClient.get(`${config.COLLIBRA_BASE_URL}/assetTypes`, {
-      headers: { authorization: req.headers.authorization },
+      headers: { authorization },
       query: { name: "data product" },
     })
 
@@ -39,7 +46,7 @@ const SearchHandler: NextApiHandler = async (req, res) => {
 
     // get search results
     const searchRes = await HttpClient.post<{ results: any[] }>(`${config.COLLIBRA_BASE_URL}/search`, {
-      headers: { authorization: req.headers.authorization },
+      headers: { authorization },
       body: {
         keywords: req.query.q,
         filters,
@@ -49,7 +56,7 @@ const SearchHandler: NextApiHandler = async (req, res) => {
     // get description attributes for all assets returned from search
     const attrs = await Promise.all(searchRes.body?.results.map((result: any) => (
       HttpClient.get(`${config.COLLIBRA_BASE_URL}/attributes`, {
-        headers: { authorization: req.headers.authorization },
+        headers: { authorization },
         query: { assetId: result.resource.id },
       })
     )) ?? [])
