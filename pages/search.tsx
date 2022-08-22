@@ -194,50 +194,50 @@ const Search: NextPage = () => {
                 </Typography>
 
                 {searchResults.length > 0
-                  && (
-                    <ViewModeActionsContainer>
-                      <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
+                && (
+                  <ViewModeActionsContainer>
+                    <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
 
-                      <Button variant="ghost_icon" color="secondary">
-                        <Icon data={list} />
-                      </Button>
+                    <Button variant="ghost_icon" color="secondary">
+                      <Icon data={list} />
+                    </Button>
 
-                      <Button variant="ghost_icon" color="secondary">
-                        <Icon data={gridOn} />
-                      </Button>
-                    </ViewModeActionsContainer>
-                  )}
+                    <Button variant="ghost_icon" color="secondary">
+                      <Icon data={gridOn} />
+                    </Button>
+                  </ViewModeActionsContainer>
+                )}
               </SearchResultsHeader>
 
               {searchResults.length > 0
-                && (
-                  <SearchResultsList variant="numbered">
-                    {searchResults.map((resource) => (
-                      <SearchResultItem key={resource.id}>
-                        <Link href={{ pathname: "/assets/[id]", query: { id: resource.id } }} title={resource.name}>
-                          <Card elevation="raised">
-                            <CardHeader>
-                              <CardHeaderTitle>
-                                <Typography variant="h4">
-                                  {resource.name}
-                                </Typography>
-                              </CardHeaderTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <Typography variant="caption">
-                                {intl.formatMessage({ id: "search.lastUpdated" })}
-                                {" : "}
-                                {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
+              && (
+                <SearchResultsList variant="numbered">
+                  {searchResults.map((resource) => (
+                    <SearchResultItem key={resource.id}>
+                      <Link href={{ pathname: "/assets/[id]", query: { id: resource.id } }} title={resource.name}>
+                        <Card elevation="raised" onClick={() => {}}>
+                          <CardHeader>
+                            <CardHeaderTitle>
+                              <Typography variant="h5" as="h2">
+                                {resource.name}
                               </Typography>
-                              <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
-                            </CardContent>
-                          </Card>
-                        </Link>
-                      </SearchResultItem>
-                    ))}
+                            </CardHeaderTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <Typography variant="caption">
+                              {intl.formatMessage({ id: "search.lastUpdated" })}
+                              {" : "}
+                              {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
+                            </Typography>
+                            <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    </SearchResultItem>
+                  ))}
 
-                  </SearchResultsList>
-                )}
+                </SearchResultsList>
+              )}
 
             </Section>
           </main>
