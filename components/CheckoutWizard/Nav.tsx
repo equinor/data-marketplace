@@ -53,16 +53,21 @@ const NavLinkText = styled.span`
 `
 
 type Props = {
-  currentStep: number
+  currentStep: number,
+  assetId: string | null
 }
 
-export const CheckoutNav = ({ currentStep }: Props) => {
+export const CheckoutNav = ({ currentStep, assetId }: Props) => {
   const intl = useIntl()
   return (
     <nav>
       <NavItemsContainer variant="numbered">
         <Item>
-          <NavLink href="/checkout/terms">
+          <NavLink href={{
+            pathname: "/checkout/terms",
+            query: { id: assetId },
+          }}
+          >
             <IconContainer>
               <Icon data={library_books} />
             </IconContainer>
@@ -70,7 +75,14 @@ export const CheckoutNav = ({ currentStep }: Props) => {
           </NavLink>
         </Item>
         <Item>
-          <NavLink href="/checkout/access" disabled={currentStep < 1} aria-disabled={currentStep < 1}>
+          <NavLink
+            href={{
+              pathname: "/checkout/access",
+              query: { id: assetId },
+            }}
+            disabled={currentStep < 1}
+            aria-disabled={currentStep < 1}
+          >
             <IconContainer>
               <Icon data={shopping_card} />
             </IconContainer>
@@ -78,7 +90,14 @@ export const CheckoutNav = ({ currentStep }: Props) => {
           </NavLink>
         </Item>
         <Item>
-          <NavLink href="/checkout/confirm" disabled={currentStep < 2} aria-disabled={currentStep < 2}>
+          <NavLink
+            href={{
+              pathname: "/checkout/confirm",
+              query: { id: assetId },
+            }}
+            disabled={currentStep < 2}
+            aria-disabled={currentStep < 2}
+          >
             <IconContainer>
               <Icon data={receipt} />
             </IconContainer>
@@ -86,7 +105,14 @@ export const CheckoutNav = ({ currentStep }: Props) => {
           </NavLink>
         </Item>
         <Item>
-          <NavLink href="/checkout/redirect" disabled={currentStep < 3} aria-disabled={currentStep < 3}>
+          <NavLink
+            href={{
+              pathname: "/checkout/redirect",
+              query: { id: assetId },
+            }}
+            disabled={currentStep < 3}
+            aria-disabled={currentStep < 3}
+          >
             <IconContainer>
               <Icon data={exit_to_app} />
             </IconContainer>

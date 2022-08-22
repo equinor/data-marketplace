@@ -15,10 +15,11 @@ const ContentContainer = styled.div`
   width: 50%;
 `
 type Props = {
-  children?: ReactNode
+  children?: ReactNode,
+  assetId: string | null
 };
 
-export const CheckoutWizard: FunctionComponent<Props> = ({ children }) => {
+export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) => {
   const state = useSelector(({ checkout }: RootState) => checkout)
   const dispatch = useDispatch<Dispatch>()
   const router = useRouter()
@@ -43,7 +44,7 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children }) => {
   return (
     <div>
       <CheckoutNavContainer>
-        <CheckoutNav currentStep={state.step} />
+        <CheckoutNav assetId={assetId} currentStep={state.step} />
       </CheckoutNavContainer>
 
       <ContentContainer>
