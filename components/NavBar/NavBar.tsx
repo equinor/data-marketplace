@@ -20,12 +20,10 @@ import styled from "styled-components"
 
 const EDSTopBar = styled(TopBar)`
   margin-bottom: 5rem;
-  margin-left: 8rem;
-  margin-right: 8rem;
 `
 
 const EDSCustomContent = styled(TopBar.CustomContent)`
-  width: 80%;
+  width: 100%;
 `
 
 export const NavBar = () => {
