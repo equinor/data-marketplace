@@ -6,8 +6,7 @@ import { useIntl } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
-import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
-import type { CheckoutViewProps } from "../../components/CheckoutWizard/types"
+import { CheckoutWizard, CheckoutViewProps, NoAsset } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
@@ -68,43 +67,48 @@ const CheckoutAccessView = ({ assetId }: CheckoutViewProps) => {
     <>
       <Container>
         <CheckoutWizard>
-          <Headline>
-            {intl.formatMessage({ id: "checkout.access.headline" })}
-          </Headline>
-          <Ingress>
-            {intl.formatMessage({ id: "checkout.access.ingress" })}
-          </Ingress>
+          {!assetId ? <NoAsset />
+            : (
+              <>
+                <Headline>
+                  {intl.formatMessage({ id: "checkout.access.headline" })}
+                </Headline>
+                <Ingress>
+                  {intl.formatMessage({ id: "checkout.access.ingress" })}
+                </Ingress>
 
-          <ExampleContainer>
-            <Typography variant="caption">
-              {intl.formatMessage({ id: "checkout.access.exampleLabel" })}
-            </Typography>
-            <Typography variant="caption">
-              {intl.formatMessage({ id: "checkout.access.exampleBody" })}
-            </Typography>
-          </ExampleContainer>
+                <ExampleContainer>
+                  <Typography variant="caption">
+                    {intl.formatMessage({ id: "checkout.access.exampleLabel" })}
+                  </Typography>
+                  <Typography variant="caption">
+                    {intl.formatMessage({ id: "checkout.access.exampleBody" })}
+                  </Typography>
+                </ExampleContainer>
 
-          <TextFieldContainer>
-            <TextField
-              multiline
-              id="desciption"
-              label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" })}
-              placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
-              onChange={onDescriptionChange}
-            />
-          </TextFieldContainer>
+                <TextFieldContainer>
+                  <TextField
+                    multiline
+                    id="desciption"
+                    label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" })}
+                    placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
+                    onChange={onDescriptionChange}
+                  />
+                </TextFieldContainer>
 
-          <ButtonContainer>
-            <Button
-              variant="outlined"
-              color="secondary"
-            >
-              {intl.formatMessage({ id: "common.cancel" })}
-            </Button>
-            <Button disabled={description.length < 10} onClick={onContinueClick}>
-              {intl.formatMessage({ id: "common.continue" })}
-            </Button>
-          </ButtonContainer>
+                <ButtonContainer>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                  >
+                    {intl.formatMessage({ id: "common.cancel" })}
+                  </Button>
+                  <Button disabled={description.length < 10} onClick={onContinueClick}>
+                    {intl.formatMessage({ id: "common.continue" })}
+                  </Button>
+                </ButtonContainer>
+              </>
+            )}
         </CheckoutWizard>
       </Container>
       <Footer />
@@ -115,7 +119,7 @@ const CheckoutAccessView = ({ assetId }: CheckoutViewProps) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
   // @TODO when we have server side token handle the case of no id or no data
-  return { props: { assetId: id } }
+  return { props: { assetId: id || null } }
 }
 
 export default CheckoutAccessView
