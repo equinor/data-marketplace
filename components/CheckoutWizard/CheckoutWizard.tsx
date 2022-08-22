@@ -1,5 +1,7 @@
 import { useRouter } from "next/router"
-import { FunctionComponent, useEffect, ReactNode } from "react"
+import {
+  FunctionComponent, useEffect, PropsWithChildren,
+} from "react"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
@@ -14,8 +16,8 @@ const CheckoutNavContainer = styled.div`
 const ContentContainer = styled.div`
   width: 50%;
 `
-type Props = {
-  children?: ReactNode,
+type Props = PropsWithChildren & {
+/*   children?: ReactNode, */
   assetId: string | null
 };
 
