@@ -7,11 +7,10 @@ import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
+import type { CheckoutViewProps } from "../../components/CheckoutWizard/types"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
-
-import type { CheckoutViewProps } from "./types"
 
 const ContentContainer = styled.div`
   > *:not(:last-child) {
