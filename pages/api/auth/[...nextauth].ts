@@ -15,8 +15,14 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      console.log(token, user)
+    async jwt({ token, account }) {
+      if (account) {
+        Object.assign(token, {
+          tokenType: account.token_type,
+          accessToken: account.access_token,
+        })
+      }
+
       return token
     },
   },
