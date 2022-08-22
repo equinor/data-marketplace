@@ -1,6 +1,6 @@
 import { Button, Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
-import type { NextPage } from "next"
+import type { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { useIntl } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
@@ -10,6 +10,8 @@ import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
+
+import type { CheckoutViewProps } from "./types"
 
 const ContentContainer = styled.div`
   > *:not(:last-child) {
@@ -39,7 +41,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-const CheckoutConfirmView: NextPage = () => {
+const CheckoutConfirmView = ({ assetId }: CheckoutViewProps) => {
   const intl = useIntl()
   const state = useSelector((rootState: RootState) => rootState.checkout)
   const dispatch = useDispatch<Dispatch>()
@@ -47,7 +49,10 @@ const CheckoutConfirmView: NextPage = () => {
 
   const onContinueClick = () => {
     dispatch.checkout.setStep(3)
-    router.push("/checkout/redirect")
+    router.push({
+      pathname: "/checkout/redirect",
+      query: { id: assetId },
+    })
   }
 
   return (
@@ -84,6 +89,12 @@ const CheckoutConfirmView: NextPage = () => {
       <Footer />
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id } = context.query
+  // @TODO when we have server side token handle the case of no id or no data
+  return { props: { assetId: id } }
 }
 
 export default CheckoutConfirmView

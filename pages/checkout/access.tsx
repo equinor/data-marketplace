@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from "@equinor/eds-core-react"
-import type { NextPage } from "next"
+import type { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ChangeEventHandler } from "react"
 import { useIntl } from "react-intl"
@@ -10,6 +10,8 @@ import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
+
+import type { CheckoutViewProps } from "./types"
 
 const Headline = styled(Typography).attrs(() => ({ variant: "h4" }))`
   margin-bottom: 0.25rem;
@@ -41,7 +43,7 @@ const TextFieldContainer = styled.div`
   margin-bottom: 1.5rem;
 `
 
-const CheckoutAccessView: NextPage = () => {
+const CheckoutAccessView = ({ assetId }: CheckoutViewProps) => {
   const intl = useIntl()
   const dispatch = useDispatch<Dispatch>()
   const description = useSelector((state: RootState) => state.checkout.data.access?.description) ?? ""
@@ -57,7 +59,10 @@ const CheckoutAccessView: NextPage = () => {
 
   const onContinueClick = () => {
     dispatch.checkout.setStep(2)
-    router.push("/checkout/confirm")
+    router.push({
+      pathname: "/checkout/confirm",
+      query: { id: assetId },
+    })
   }
 
   return (
@@ -106,6 +111,12 @@ const CheckoutAccessView: NextPage = () => {
       <Footer />
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id } = context.query
+  // @TODO when we have server side token handle the case of no id or no data
+  return { props: { assetId: id } }
 }
 
 export default CheckoutAccessView
