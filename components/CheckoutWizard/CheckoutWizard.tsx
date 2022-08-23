@@ -9,7 +9,8 @@ import styled from "styled-components"
 import { useAssetData } from "../../hooks/useAssetData"
 import { Dispatch, RootState } from "../../store"
 
-import { CheckoutNav } from "./Nav"
+/* import { CheckoutNav } from "./Nav" */
+import { Stepper } from "./Stepper"
 import type { AssetIdProp } from "./types"
 
 const CheckoutNavContainer = styled.div`
@@ -50,10 +51,12 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
   return (
     <div>
       <Heading>{isLoading ? <CircularProgress /> : <Typography variant="h1">{assetData?.name}</Typography>}</Heading>
-      <CheckoutNavContainer>
+      {/* <CheckoutNavContainer>
         <CheckoutNav assetId={assetId} currentStep={state.step} />
+      </CheckoutNavContainer> */}
+      <CheckoutNavContainer>
+        <Stepper currentStep={state.step} />
       </CheckoutNavContainer>
-
       <ContentContainer>
         {children}
       </ContentContainer>
