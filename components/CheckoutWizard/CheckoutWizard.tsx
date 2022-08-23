@@ -17,7 +17,6 @@ const ContentContainer = styled.div`
   width: 50%;
 `
 type Props = PropsWithChildren & {
-/*   children?: ReactNode, */
   assetId: string | null
 };
 
