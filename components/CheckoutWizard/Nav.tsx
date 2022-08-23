@@ -54,7 +54,7 @@ const NavLinkText = styled.span`
 
 type Props = {
   currentStep: number,
-  assetId: string | null
+  assetId: string | undefined
 }
 
 export const CheckoutNav = ({ currentStep, assetId }: Props) => {

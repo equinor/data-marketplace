@@ -1,3 +1,3 @@
-export type CheckoutViewProps = {
-  assetId: string | null
+export type AssetIdProp = {
+  assetId: string | undefined
 }

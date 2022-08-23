@@ -6,7 +6,7 @@ import { useIntl } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
-import { CheckoutViewProps, CheckoutWizard, NoAsset } from "../../components/CheckoutWizard"
+import { AssetIdProp, CheckoutWizard, NoAsset } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
@@ -39,7 +39,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-const CheckoutConfirmView = ({ assetId }: CheckoutViewProps) => {
+const CheckoutConfirmView = ({ assetId }: AssetIdProp) => {
   const intl = useIntl()
   const state = useSelector((rootState: RootState) => rootState.checkout)
   const dispatch = useDispatch<Dispatch>()
@@ -95,7 +95,7 @@ const CheckoutConfirmView = ({ assetId }: CheckoutViewProps) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
   // @TODO when we have server side token handle the case of no id or no data
-  return { props: { assetId: id || null } }
+  return { props: { assetId: id || undefined } }
 }
 
 export default CheckoutConfirmView

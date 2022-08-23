@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { Banner } from "../../components/Banner"
-import { CheckoutWizard, NoAsset, CheckoutViewProps } from "../../components/CheckoutWizard"
+import { CheckoutWizard, NoAsset, AssetIdProp } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
@@ -46,7 +46,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-const CheckoutTermsView = ({ assetId }: CheckoutViewProps) => {
+const CheckoutTermsView = ({ assetId }: AssetIdProp) => {
   const intl = useIntl()
   const dispatch = useDispatch<Dispatch>()
   const hasAcceptedTerms = useSelector(
@@ -122,7 +122,9 @@ const CheckoutTermsView = ({ assetId }: CheckoutViewProps) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
   // @TODO when we have server side token handle the case of no id or no data
-  return { props: { assetId: id || null } }
+  // We should query for terms and the asset title and evaluate how much this will
+  // affect TTFB
+  return { props: { assetId: id || undefined } }
 }
 
 export default CheckoutTermsView
