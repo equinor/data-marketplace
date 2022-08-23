@@ -1,5 +1,7 @@
 import { useRouter } from "next/router"
-import { FunctionComponent, useEffect, ReactNode } from "react"
+import {
+  FunctionComponent, useEffect, PropsWithChildren,
+} from "react"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
@@ -14,11 +16,11 @@ const CheckoutNavContainer = styled.div`
 const ContentContainer = styled.div`
   width: 50%;
 `
-type Props = {
-  children?: ReactNode
+type Props = PropsWithChildren & {
+  assetId: string | null
 };
 
-export const CheckoutWizard: FunctionComponent<Props> = ({ children }) => {
+export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) => {
   const state = useSelector(({ checkout }: RootState) => checkout)
   const dispatch = useDispatch<Dispatch>()
   const router = useRouter()
@@ -43,7 +45,7 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children }) => {
   return (
     <div>
       <CheckoutNavContainer>
-        <CheckoutNav currentStep={state.step} />
+        <CheckoutNav assetId={assetId} currentStep={state.step} />
       </CheckoutNavContainer>
 
       <ContentContainer>
