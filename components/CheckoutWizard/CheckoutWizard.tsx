@@ -1,7 +1,7 @@
 import { CircularProgress, Typography } from "@equinor/eds-core-react"
 import { useRouter } from "next/router"
 import {
-  FunctionComponent, useEffect, PropsWithChildren,
+  FunctionComponent, useEffect, PropsWithChildren, useState,
 } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
@@ -27,6 +27,7 @@ const ContentContainer = styled.div`
 type Props = PropsWithChildren & AssetIdProp;
 
 export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) => {
+  const [currentStep, setCurrentStep] = useState(0)
   const state = useSelector(({ checkout }: RootState) => checkout)
   const dispatch = useDispatch<Dispatch>()
   const router = useRouter()
@@ -42,11 +43,13 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
 
   useEffect(() => {
     router.events.on("routeChangeComplete", () => {
-      const steps = ["terms", "access", "confirm", "redirect"]
+      const steps = ["terms", "access", "redirect"]
       const stepByPathName = steps.findIndex((step) => router.pathname.includes(step))
-      dispatch.checkout.setStep(stepByPathName)
+      // @TODO If a user manually refresh other steps than number 1, this logic
+      // for current step will fail. See issue #83
+      setCurrentStep(stepByPathName)
     })
-  }, [router, dispatch])
+  }, [router])
 
   return (
     <div>
@@ -55,7 +58,7 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
         <CheckoutNav assetId={assetId} currentStep={state.step} />
       </CheckoutNavContainer> */}
       <CheckoutNavContainer>
-        <Stepper currentStep={state.step} />
+        <Stepper currentStep={currentStep} />
       </CheckoutNavContainer>
       <ContentContainer>
         {children}
