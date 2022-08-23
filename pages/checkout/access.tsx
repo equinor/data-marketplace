@@ -58,7 +58,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
   const onContinueClick = () => {
     dispatch.checkout.setStep(2)
     router.push({
-      pathname: "/checkout/confirm",
+      pathname: "/checkout/redirect",
       query: { id: assetId },
     })
   }
