@@ -12,7 +12,7 @@ import {
 import { grid_on as gridOn, list } from "@equinor/eds-icons"
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -55,15 +55,11 @@ const ViewModeActionsContainer = styled.div`
   }
 `
 
-const FilterSection = styled(Section)`
-  &:not(:last-child) {
-    margin-bottom: 1.25rem;
-  }
-`
-
-const FilterSectionHeadline = styled(Typography).attrs(() => ({ variant: "body_short_bold" }))`
-  margin-bottom: 0.5rem;
-`
+const UnstyledList = styled.ul`
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  `
 
 const CheckboxContainer = styled.div`
   display: flex;
@@ -144,22 +140,24 @@ const Search: NextPage = () => {
             <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
             <Divider variant="small" />
 
-            <FilterSection>
-              <FilterSectionHeadline><FormattedMessage id="search.communitiesHeader" /></FilterSectionHeadline>
-
+            <fieldset>
+              <legend><FormattedMessage id="search.communitiesHeader" /></legend>
               <CheckboxContainer>
                 <EdsProvider density="compact">
                   {communities?.map((community) => (
-                    <Checkbox
-                      label={community.name}
-                      key={community.id}
-                      checked={!!router.query.community?.includes(community.id)}
-                      onChange={() => onCommunityFilterClick(community.id)}
-                    />
+                    <UnstyledList key={community.id}>
+                      <Checkbox
+                        label={community.name}
+                        key={community.id}
+                        checked={!!router.query.community?.includes(community.id)}
+                        onChange={() => onCommunityFilterClick(community.id)}
+                      />
+                    </UnstyledList>
                   ))}
                 </EdsProvider>
               </CheckboxContainer>
-            </FilterSection>
+            </fieldset>
+
           </aside>
 
           <main>
