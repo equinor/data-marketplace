@@ -9,7 +9,7 @@ import {
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { CheckoutWizard, NoAsset, CheckoutViewProps } from "../../components/CheckoutWizard"
+import { CheckoutWizard, NoAsset, AssetIdProp } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { config } from "../../config"
@@ -22,7 +22,7 @@ const HelpText = styled(Typography)`
   margin-bottom: 1.5rem;
 `
 
-const CheckoutRedirectView = ({ assetId }: CheckoutViewProps) => {
+const CheckoutRedirectView = ({ assetId }: AssetIdProp) => {
   const [progress, setProgress] = useState<number>(0)
   const intl = useIntl()
 
@@ -91,7 +91,7 @@ const CheckoutRedirectView = ({ assetId }: CheckoutViewProps) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
   // @TODO when we have server side token handle the case of no id or no data
-  return { props: { assetId: id || null } }
+  return { props: { assetId: id || undefined } }
 }
 
 export default CheckoutRedirectView

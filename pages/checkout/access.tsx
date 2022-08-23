@@ -6,7 +6,7 @@ import { useIntl } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
-import { CheckoutWizard, CheckoutViewProps, NoAsset } from "../../components/CheckoutWizard"
+import { CheckoutWizard, AssetIdProp, NoAsset } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
@@ -41,7 +41,7 @@ const TextFieldContainer = styled.div`
   margin-bottom: 1.5rem;
 `
 
-const CheckoutAccessView = ({ assetId }: CheckoutViewProps) => {
+const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
   const intl = useIntl()
   const dispatch = useDispatch<Dispatch>()
   const description = useSelector((state: RootState) => state.checkout.data.access?.description) ?? ""
@@ -119,7 +119,7 @@ const CheckoutAccessView = ({ assetId }: CheckoutViewProps) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
   // @TODO when we have server side token handle the case of no id or no data
-  return { props: { assetId: id || null } }
+  return { props: { assetId: id || undefined } }
 }
 
 export default CheckoutAccessView

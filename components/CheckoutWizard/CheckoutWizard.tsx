@@ -1,3 +1,4 @@
+import { CircularProgress, Typography } from "@equinor/eds-core-react"
 import { useRouter } from "next/router"
 import {
   FunctionComponent, useEffect, PropsWithChildren,
@@ -5,26 +6,30 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
+import { useAssetData } from "../../hooks/useAssetData"
 import { Dispatch, RootState } from "../../store"
 
 import { CheckoutNav } from "./Nav"
+import type { AssetIdProp } from "./types"
 
 const CheckoutNavContainer = styled.div`
-  margin-bottom: 1.5rem;
+  margin: 1.5rem 0;
+`
+
+const Heading = styled.div`
+  min-height: 48px;
 `
 
 const ContentContainer = styled.div`
   width: 50%;
 `
-type Props = PropsWithChildren & {
-  assetId: string | null
-};
+type Props = PropsWithChildren & AssetIdProp;
 
 export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) => {
   const state = useSelector(({ checkout }: RootState) => checkout)
   const dispatch = useDispatch<Dispatch>()
   const router = useRouter()
-
+  const { assetData, isLoading } = useAssetData(assetId)
   useEffect(() => {
     const localCheckoutData = JSON.parse(window.localStorage.getItem("checkout_data") ?? "{}")
     dispatch.checkout.setData(localCheckoutData)
@@ -44,6 +49,7 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
 
   return (
     <div>
+      <Heading>{isLoading ? <CircularProgress /> : <Typography variant="h1">{assetData?.name}</Typography>}</Heading>
       <CheckoutNavContainer>
         <CheckoutNav assetId={assetId} currentStep={state.step} />
       </CheckoutNavContainer>
