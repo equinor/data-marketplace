@@ -6,15 +6,15 @@ import {
   Typography,
   Card,
   CircularProgress,
+  Checkbox,
   List,
 } from "@equinor/eds-core-react"
 import { grid_on as gridOn, list } from "@equinor/eds-icons"
-import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 
 import { Container } from "../components/Container"
 import { Footer } from "../components/Footer"
@@ -65,26 +65,10 @@ const FilterSectionHeadline = styled(Typography).attrs(() => ({ variant: "body_s
   margin-bottom: 0.5rem;
 `
 
-const TagsContainer = styled.div`
+const CheckboxContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   grid-gap: 0.5rem;
-`
-
-const Tag = styled(Button) <{ active: boolean }>`
-  padding: 0 0.5rem;
-  font-size: 0.75rem;
-  background-color: ${tokens.colors.infographic.primary__moss_green_13.rgba};
-  border: none;
-  color: ${tokens.colors.text.static_icons__default.hex};
-  ${({ active }) => active && css`
-    box-shadow: 0 0 0 2px ${tokens.colors.infographic.primary__moss_green_55.rgba};
-  `}
-
-  &:hover {
-    background-color: ${tokens.colors.infographic.primary__moss_green_34.rgba};
-    border: none;
-  }
 `
 
 const SearchResultsList = styled(List)`
@@ -163,19 +147,18 @@ const Search: NextPage = () => {
             <FilterSection>
               <FilterSectionHeadline><FormattedMessage id="search.communitiesHeader" /></FilterSectionHeadline>
 
-              <TagsContainer>
+              <CheckboxContainer>
                 <EdsProvider density="compact">
                   {communities?.map((community) => (
-                    <Tag
-                      active={!!router.query.community?.includes(community.id)}
+                    <Checkbox
+                      label={community.name}
                       key={community.id}
-                      onClick={() => onCommunityFilterClick(community.id)}
-                    >
-                      {community.name}
-                    </Tag>
+                      checked={!!router.query.community?.includes(community.id)}
+                      onChange={() => onCommunityFilterClick(community.id)}
+                    />
                   ))}
                 </EdsProvider>
-              </TagsContainer>
+              </CheckboxContainer>
             </FilterSection>
           </aside>
 
@@ -194,50 +177,50 @@ const Search: NextPage = () => {
                 </Typography>
 
                 {searchResults.length > 0
-                && (
-                  <ViewModeActionsContainer>
-                    <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
+                  && (
+                    <ViewModeActionsContainer>
+                      <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
 
-                    <Button variant="ghost_icon" color="secondary">
-                      <Icon data={list} />
-                    </Button>
+                      <Button variant="ghost_icon" color="secondary">
+                        <Icon data={list} />
+                      </Button>
 
-                    <Button variant="ghost_icon" color="secondary">
-                      <Icon data={gridOn} />
-                    </Button>
-                  </ViewModeActionsContainer>
-                )}
+                      <Button variant="ghost_icon" color="secondary">
+                        <Icon data={gridOn} />
+                      </Button>
+                    </ViewModeActionsContainer>
+                  )}
               </SearchResultsHeader>
 
               {searchResults.length > 0
-              && (
-                <SearchResultsList variant="numbered">
-                  {searchResults.map((resource) => (
-                    <SearchResultItem key={resource.id}>
-                      <Link href={{ pathname: "/assets/[id]", query: { id: resource.id } }} title={resource.name}>
-                        <Card elevation="raised" onClick={() => {}}>
-                          <CardHeader>
-                            <CardHeaderTitle>
-                              <Typography variant="h5" as="h2">
-                                {resource.name}
+                && (
+                  <SearchResultsList variant="numbered">
+                    {searchResults.map((resource) => (
+                      <SearchResultItem key={resource.id}>
+                        <Link href={{ pathname: "/assets/[id]", query: { id: resource.id } }} title={resource.name}>
+                          <Card elevation="raised" onClick={() => {}}>
+                            <CardHeader>
+                              <CardHeaderTitle>
+                                <Typography variant="h5" as="h2">
+                                  {resource.name}
+                                </Typography>
+                              </CardHeaderTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <Typography variant="caption">
+                                {intl.formatMessage({ id: "search.lastUpdated" })}
+                                {" : "}
+                                {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
                               </Typography>
-                            </CardHeaderTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <Typography variant="caption">
-                              {intl.formatMessage({ id: "search.lastUpdated" })}
-                              {" : "}
-                              {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
-                            </Typography>
-                            <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    </SearchResultItem>
-                  ))}
+                              <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
+                            </CardContent>
+                          </Card>
+                        </Link>
+                      </SearchResultItem>
+                    ))}
 
-                </SearchResultsList>
-              )}
+                  </SearchResultsList>
+                )}
 
             </Section>
           </main>
