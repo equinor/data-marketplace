@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import { JWT } from "next-auth/jwt"
 import ADProvider from "next-auth/providers/azure-ad"
+import qs from "query-string"
 
 import { config } from "../../../config"
 import { HttpClient } from "../../../lib/HttpClient"
@@ -27,32 +28,33 @@ type RefreshTokenResponse = {
 
 const tryAccessTokenRefresh = async (token: Token): Promise<Token> => {
   try {
-    const res = await HttpClient.post<RefreshTokenResponse>("https://login.microsoftonline.com/common/oauth2/v2.0/token", {
+    const res = await HttpClient.post<RefreshTokenResponse>(`https://login.microsoftonline.com/${config.AUTH_TENANT_ID}/oauth2/v2.0/token`, {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: {
+      body: qs.stringify({
         client_id: config.AUTH_CLIENT_ID,
         scope: SCOPE,
         redirect_uri: "http://localhost:3000/api/auth/callback/azure-ad",
         grant_type: "refresh_token",
         client_secret: config.AUTH_CLIENT_SECRET,
         refresh_token: token.refreshToken,
-      },
+      }),
     })
 
     if (!res.body) {
       throw new Error(`No body in response from ${res.headers.origin}`)
     }
 
-    console.log("[tryAccessTokenRefresh] Access token successfully refreshed")
-
     return {
       ...token,
       accessToken: res.body.access_token,
       expiresAt: Date.now() + res.body.expires_in * 1000,
       refreshToken: res.body.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+      error: undefined,
     }
   } catch (error) {
     console.error("[tryAccessTokenRefresh] Token refresh failed", error)
+
+    // return old token with an error for the client
     return {
       ...token,
       error: "RefreshAccessTokenError",
@@ -82,13 +84,13 @@ export default NextAuth({
           // expires_at is a value representing in how many seconds the token expires.
           // we store it as a number representing how long since epoc it expires at.
           // that way we can do Date comparison to figure out when to refresh it.
-          expiresAt: Date.now() + account.expires_at! * 1000,
+          expiresAt: account.expires_at! * 1000,
           refreshToken: account.refresh_token,
         })
       }
 
       if (Date.now() > (token as Token).expiresAt) {
-        return tryAccessTokenRefresh(token)
+        return tryAccessTokenRefresh(token as Token)
       }
 
       return token
