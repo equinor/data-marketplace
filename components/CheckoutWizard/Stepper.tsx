@@ -1,4 +1,5 @@
 import { List } from "@equinor/eds-core-react"
+import { FunctionComponent } from "react"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -15,7 +16,7 @@ type Props = {
   currentStep: number,
 }
 
-export const Stepper = ({ currentStep }: Props) => {
+export const Stepper: FunctionComponent<Props> = ({ currentStep }) => {
   const intl = useIntl()
   return (
     <StyledStepper variant="numbered">
