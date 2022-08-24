@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 import {
   FunctionComponent, useEffect, PropsWithChildren, useState,
 } from "react"
+import { useIntl } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
@@ -24,6 +25,7 @@ const Heading = styled.div`
 const ContentContainer = styled.div`
   width: 50%;
 `
+
 type Props = PropsWithChildren & AssetIdProp;
 
 export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) => {
@@ -31,6 +33,7 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
   const state = useSelector(({ checkout }: RootState) => checkout)
   const dispatch = useDispatch<Dispatch>()
   const router = useRouter()
+  const intl = useIntl()
   const { assetData, isLoading } = useAssetData(assetId)
   useEffect(() => {
     const localCheckoutData = JSON.parse(window.localStorage.getItem("checkout_data") ?? "{}")
@@ -53,7 +56,15 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
 
   return (
     <div>
-      <Heading>{isLoading ? <CircularProgress /> : <Typography variant="h1">{assetData?.name}</Typography>}</Heading>
+      <Heading>
+
+        {isLoading ? <CircularProgress /> : (
+          <Typography variant="h1">
+            <Typography variant="overline" as="div">{intl.formatMessage({ id: "checkout.title.eyebrow" })}</Typography>
+            {assetData?.name}
+          </Typography>
+        )}
+      </Heading>
       {/* <CheckoutNavContainer>
         <CheckoutNav assetId={assetId} currentStep={state.step} />
       </CheckoutNavContainer> */}
