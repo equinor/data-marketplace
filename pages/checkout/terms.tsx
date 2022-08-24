@@ -1,5 +1,5 @@
 import { Button, Checkbox, Typography } from "@equinor/eds-core-react"
-import { NextPage } from "next"
+import type { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import React from "react"
 import { FormattedMessage, useIntl } from "react-intl"
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { Banner } from "../../components/Banner"
-import { CheckoutWizard } from "../../components/CheckoutWizard/CheckoutWizard"
+import { CheckoutWizard, NoAsset, CheckoutViewProps } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { Dispatch, RootState } from "../../store"
@@ -46,7 +46,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-const CheckoutTermsView: NextPage = () => {
+const CheckoutTermsView = ({ assetId }: CheckoutViewProps) => {
   const intl = useIntl()
   const dispatch = useDispatch<Dispatch>()
   const hasAcceptedTerms = useSelector(
@@ -55,7 +55,10 @@ const CheckoutTermsView: NextPage = () => {
   const router = useRouter()
 
   const onContinue = () => {
-    router.push("/checkout/access")
+    router.push({
+      pathname: "/checkout/access",
+      query: { id: assetId },
+    })
     dispatch.checkout.setStep(1)
   }
 
@@ -66,51 +69,60 @@ const CheckoutTermsView: NextPage = () => {
   return (
     <>
       <Container>
-        <CheckoutWizard>
-          <IngressContainer>
-            <FormattedMessage
-              id="terms.ingress"
-              // eslint-disable-next-line react/no-unstable-nested-components
-              values={{ p: (chunks) => <Typography>{chunks}</Typography> }}
-            />
-          </IngressContainer>
+        <CheckoutWizard assetId={assetId}>
+          {!assetId ? <NoAsset />
+            : (
+              <>
+                <IngressContainer>
+                  <FormattedMessage
+                    id="terms.ingress"
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    values={{ p: (chunks) => <Typography>{chunks}</Typography> }}
+                  />
+                </IngressContainer>
+                <Banner variant="danger">
+                  <div>
+                    <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</TypographyHeader>
+                    <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
+                    <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</TypographyHeader>
+                    <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
+                  </div>
+                </Banner>
+                <ChecboxContainer>
+                  <Checkbox
+                    name="acceptTerms"
+                    label={intl.formatMessage({ id: "terms.acceptLabel" })}
+                    onChange={onAcceptTerms}
+                    checked={hasAcceptedTerms ?? false}
+                    aria-invalid={hasAcceptedTerms ? "false" : "true"}
+                    aria-required
+                  />
+                </ChecboxContainer>
 
-          {/* TODO: Add banner */}
-          <Banner variant="danger">
-            <div>
-              <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</TypographyHeader>
-              <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
-              <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</TypographyHeader>
-              <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
-            </div>
-          </Banner>
-          <ChecboxContainer>
-            <Checkbox
-              name="acceptTerms"
-              label={intl.formatMessage({ id: "terms.acceptLabel" })}
-              onChange={onAcceptTerms}
-              checked={hasAcceptedTerms ?? false}
-              aria-invalid={hasAcceptedTerms ? "false" : "true"}
-              aria-required
-            />
-          </ChecboxContainer>
-
-          <ButtonContainer>
-            <Button variant="outlined" color="secondary">
-              {intl.formatMessage({ id: "common.cancel" })}
-            </Button>
-            <Button
-              disabled={!hasAcceptedTerms}
-              onClick={onContinue}
-            >
-              {intl.formatMessage({ id: "common.continue" })}
-            </Button>
-          </ButtonContainer>
+                <ButtonContainer>
+                  <Button variant="outlined" color="secondary">
+                    {intl.formatMessage({ id: "common.cancel" })}
+                  </Button>
+                  <Button
+                    disabled={!hasAcceptedTerms}
+                    onClick={onContinue}
+                  >
+                    {intl.formatMessage({ id: "common.continue" })}
+                  </Button>
+                </ButtonContainer>
+              </>
+            )}
         </CheckoutWizard>
       </Container>
       <Footer />
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id } = context.query
+  // @TODO when we have server side token handle the case of no id or no data
+  return { props: { assetId: id || null } }
 }
 
 export default CheckoutTermsView

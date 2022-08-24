@@ -5,10 +5,11 @@ import {
 import { shopping_cart_add } from "@equinor/eds-icons"
 import type { GetServerSideProps } from "next"
 import Head from "next/head"
+import NextLink from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useIntl, FormattedMessage } from "react-intl"
-import { useDispatch } from "react-redux"
+/* import { useDispatch } from "react-redux" */
 import styled from "styled-components"
 
 import {
@@ -19,7 +20,7 @@ import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { useAssetData } from "../../hooks"
 import { useAssetDetails } from "../../hooks/useAssetDetails"
-import { Dispatch } from "../../store"
+/* import { Dispatch } from "../../store" */
 
 const {
   Tab: EdsTab, List, Panel, Panels,
@@ -64,7 +65,8 @@ type AssetDetailProps = {
 const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   const router = useRouter()
   const intl = useIntl()
-  const dispatch = useDispatch<Dispatch>()
+  // @TODO Should we still save the id in the store
+  /* const dispatch = useDispatch<Dispatch>() */
 
   const tabQuery = router.query.tab
 
@@ -95,9 +97,6 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   }
 
   const generalDocumentTitle = intl.formatMessage({ id: "common.documentTitle" })
-  const handleAddToCart = () => {
-    if (typeof assetId === "string") dispatch.checkout.addToCart(assetId)
-  }
 
   if (assetDataError) {
     console.log(`[AssetDetailView] Failed while getting asset ${assetId}`, assetDataError)
@@ -121,11 +120,18 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
                   <Typography variant="h1_bold" as="h1">
                     {assetData.name}
                   </Typography>
-
-                  <Button onClick={handleAddToCart}>
-                    <Icon data={shopping_cart_add} />
-                    <FormattedMessage id="asset.addToCart" />
-                  </Button>
+                  <NextLink
+                    href={{
+                      pathname: "/checkout/terms",
+                      query: { id: assetId },
+                    }}
+                    passHref
+                  >
+                    <Button as="a">
+                      <Icon data={shopping_cart_add} />
+                      <FormattedMessage id="asset.getAccess" />
+                    </Button>
+                  </NextLink>
                 </>
               )}
           </Header>
