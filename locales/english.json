@@ -59,8 +59,5 @@
   "checkout.nav.step.confirmation": "Confirmation",
   "checkout.nav.step.redirect": "Redirect",
   "checkout.title.eyebrow": "Request access to",
-  "cart.headline": "Cart {count, plural, =0 {is empty} one {(# item)} other {(# items)}}",
-  "cart.banner.warning": "Access to these data products requires a VPN connection ",
-  "cart.proceedToCheckout": "Proceed to checkout",
   "footer.copyright": "Copyright © Equinor 2022"
 }
