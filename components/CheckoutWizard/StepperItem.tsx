@@ -2,6 +2,7 @@
 import { List, Typography, Icon } from "@equinor/eds-core-react"
 import { check_circle_outlined } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
+import { FunctionComponent } from "react"
 import styled from "styled-components"
 
 const { Item } = List
@@ -49,7 +50,7 @@ type Props = {
   currentStep: number
 }
 
-export const StepperItem = ({ label, index, currentStep }: Props) => {
+export const StepperItem: FunctionComponent<Props> = ({ label, index, currentStep }) => {
   const active = currentStep === index
   const finished = currentStep > index
   return (
