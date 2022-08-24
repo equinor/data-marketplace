@@ -6,11 +6,6 @@ RUN npm ci
 
 FROM node:lts-alpine AS builder
 WORKDIR /opt/app
-# The base url will vary with environment, so better move it to build SECRET when we need more environments
-ENV NEXT_PUBLIC_BASE_URL https://web-data-marketplace-prod.radix.equinor.com/
-ENV NEXT_PUBLIC_COLLIBRA_BASE_URL https://equinor-dev.collibra.com/rest/2.0
-ENV NEXT_PUBLIC_AUTH_AUTHORITY https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0
-ENV NEXT_PUBLIC_AUTH_CLIENT_ID 41912e0a-18ba-46d8-98a3-634a38b8fffb
 COPY . .
 COPY --from=dependencies /opt/app/node_modules ./node_modules
 RUN npm run build
