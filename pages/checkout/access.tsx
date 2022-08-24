@@ -123,7 +123,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
   // @TODO when we have server side token handle the case of no id or no data
-  return { props: { assetId: id || undefined } }
+  return { props: { assetId: id || null } }
 }
 
 export default CheckoutAccessView
