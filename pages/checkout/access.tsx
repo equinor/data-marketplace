@@ -3,13 +3,12 @@ import type { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ChangeEventHandler } from "react"
 import { useIntl } from "react-intl"
-import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { CheckoutWizard, AssetIdProp, NoAsset } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
-import { Dispatch, RootState } from "../../store"
+import { useCheckoutData } from "../../hooks/useCheckoutData"
 
 const Headline = styled(Typography).attrs(() => ({ variant: "h4" }))`
   margin-bottom: 0.25rem;
@@ -43,20 +42,21 @@ const TextFieldContainer = styled.div`
 
 const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
   const intl = useIntl()
-  const dispatch = useDispatch<Dispatch>()
-  const description = useSelector((state: RootState) => state.checkout.data.access?.description) ?? ""
   const router = useRouter()
+  const { checkoutData, setCheckoutData } = useCheckoutData()
 
+  const description = checkoutData?.access?.description || ""
   const onDescriptionChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    dispatch.checkout.setData({
+    setCheckoutData({
+      ...checkoutData,
       access: {
+        ...checkoutData.access,
         description: e.target.value,
       },
     })
   }
 
   const onContinueClick = () => {
-    dispatch.checkout.setStep(2)
     router.push({
       pathname: "/checkout/redirect",
       query: { id: assetId },
@@ -93,6 +93,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                     label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" })}
                     placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
                     onChange={onDescriptionChange}
+                    value={checkoutData?.access?.description}
                   />
                 </TextFieldContainer>
 
@@ -103,7 +104,10 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                   >
                     {intl.formatMessage({ id: "common.cancel" })}
                   </Button>
-                  <Button disabled={description.length < 10} onClick={onContinueClick}>
+                  <Button
+                    disabled={description.length < 10}
+                    onClick={onContinueClick}
+                  >
                     {intl.formatMessage({ id: "common.continue" })}
                   </Button>
                 </ButtonContainer>
