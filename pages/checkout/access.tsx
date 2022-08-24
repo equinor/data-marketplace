@@ -89,7 +89,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                 <TextFieldContainer>
                   <TextField
                     multiline
-                    id="desciption"
+                    id="description"
                     label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" })}
                     placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
                     onChange={onDescriptionChange}
