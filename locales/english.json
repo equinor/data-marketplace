@@ -3,6 +3,8 @@
   "common.continue": "Continue",
   "common.confirm": "Confirm",
   "common.documentTitle": "Data Marketplace",
+  "auth.loading": "Signing you in\u2026",
+  "auth.prompt": "Please sign in",
   "frontpage.hero.title": "Find and get access to the data you need, when you need it",
   "frontpage.hero.ingress": "Data Marketplace makes it easy to search for and request access to the data you need to do your job. Venenatis ipsum aliquet nibh at. Risus sapien erat vitae amet leo lobortis maecenas.",
   "frontpage.popularProductsHeader": "Popular",
@@ -54,5 +56,4 @@
   "cart.banner.warning": "Access to these data products requires a VPN connection ",
   "cart.proceedToCheckout": "Proceed to checkout",
   "footer.copyright": "Copyright © Equinor 2022"
-
 }

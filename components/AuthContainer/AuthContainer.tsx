@@ -1,17 +1,19 @@
 import { Typography } from "@equinor/eds-core-react"
 import { signIn, useSession } from "next-auth/react"
 import type { FunctionComponent, PropsWithChildren } from "react"
+import { useIntl } from "react-intl"
 
 import { Container } from "../Container"
 import { Page } from "../Page"
 
 export const AuthContainer: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const { data, status } = useSession()
+  const intl = useIntl()
 
   if (status === "loading") {
     return (
       <Container>
-        <Typography>Signing you in&hellip;</Typography>
+        <Typography>{intl.formatMessage({ id: "auth.loading" })}</Typography>
       </Container>
     )
   }
@@ -21,7 +23,7 @@ export const AuthContainer: FunctionComponent<PropsWithChildren> = ({ children }
 
     return (
       <Container>
-        <Typography>Please sign in</Typography>
+        <Typography>{intl.formatMessage({ id: "auth.prompt" })}</Typography>
       </Container>
     )
   }
