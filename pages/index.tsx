@@ -80,10 +80,7 @@ const Frontpage: NextPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await HttpClient.get("/api/popular", {
-          headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-          query: { limit: 6 },
-        })
+        const res = await HttpClient.get("/api/popular", { query: { limit: 6 } })
         setPopularDataProducts(res.body)
       } catch (error) {
         console.error("[Frontpage] Error while fetching most viewed data products", error)

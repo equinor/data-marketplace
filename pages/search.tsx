@@ -96,9 +96,7 @@ const Search: NextPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { body } = await HttpClient.get("/api/communities", {
-          headers: { authorization: `Bearer ${localStorage.getItem("access_token")}` },
-        })
+        const { body } = await HttpClient.get("/api/communities")
         setCommunities(body)
       } catch (error) {
         console.error("[Search] Failed fetching communities", error)
@@ -112,10 +110,7 @@ const Search: NextPage = () => {
     if (router.query.q) {
       (async () => {
         try {
-          const { body } = await HttpClient.get("/api/search", {
-            headers: { authorization: `Bearer ${localStorage.getItem("access_token")}` },
-            query: router.query,
-          })
+          const { body } = await HttpClient.get("/api/search", { query: router.query })
 
           setSearchResults(body.results.map((result: any) => result.resource))
           setIsLoading(false)
