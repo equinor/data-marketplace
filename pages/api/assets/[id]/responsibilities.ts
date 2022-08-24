@@ -16,7 +16,7 @@ const AssetResponsibilitiesHandler: NextApiHandler = async (req, res) => {
     return res.status(401).end()
   }
 
-  const authorization = `Bearer ${token}`
+  const authorization = `Bearer ${token.accessToken}`
 
   try {
     const response = await HttpClient.get<Collibra.PagedResponsibilityResponse>(`${config.COLLIBRA_BASE_URL}/responsibilities`, {
