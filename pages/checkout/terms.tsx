@@ -124,7 +124,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // @TODO when we have server side token handle the case of no id or no data
   // We should query for terms and the asset title and evaluate how much this will
   // affect TTFB
-  return { props: { assetId: id || undefined } }
+  return { props: { assetId: id || null } }
 }
 
 export default CheckoutTermsView
