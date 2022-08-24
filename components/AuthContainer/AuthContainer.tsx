@@ -6,7 +6,7 @@ import { Container } from "../Container"
 import { Page } from "../Page"
 
 export const AuthContainer: FunctionComponent<PropsWithChildren> = ({ children }) => {
-  const { status } = useSession()
+  const { data, status } = useSession()
 
   if (status === "loading") {
     return (
@@ -16,7 +16,7 @@ export const AuthContainer: FunctionComponent<PropsWithChildren> = ({ children }
     )
   }
 
-  if (status !== "authenticated") {
+  if (status !== "authenticated" || data?.error === "RefreshAccessTokenError") {
     signIn("azure-ad")
 
     return (
