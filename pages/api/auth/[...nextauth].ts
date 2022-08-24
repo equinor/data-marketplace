@@ -33,7 +33,7 @@ const tryAccessTokenRefresh = async (token: Token): Promise<Token> => {
       body: qs.stringify({
         client_id: config.AUTH_CLIENT_ID,
         scope: SCOPE,
-        redirect_uri: "http://localhost:3000/api/auth/callback/azure-ad",
+        redirect_uri: `${config.BASE_URL}/api/auth/callback/azure-ad`,
         grant_type: "refresh_token",
         client_secret: config.AUTH_CLIENT_SECRET,
         refresh_token: token.refreshToken,
@@ -81,9 +81,11 @@ export default NextAuth({
         Object.assign(token, {
           tokenType: account.token_type,
           accessToken: account.access_token,
-          // expires_at is a value representing in how many seconds the token expires.
-          // we store it as a number representing how long since epoc it expires at.
-          // that way we can do Date comparison to figure out when to refresh it.
+          /* expires_at is a value representing how many **seconds** since epoc
+           * the token expires at. we store it as a number representing how many
+           * **milliseconds** since epoc it expires at. that way we can do Date
+           * comparison to figure out when to refresh it.
+           */
           expiresAt: account.expires_at! * 1000,
           refreshToken: account.refresh_token,
         })
