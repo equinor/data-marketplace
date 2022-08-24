@@ -4,11 +4,9 @@ import {
   FunctionComponent, useEffect, PropsWithChildren, useState,
 } from "react"
 import { useIntl } from "react-intl"
-import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { useAssetData } from "../../hooks/useAssetData"
-import { Dispatch, RootState } from "../../store"
 
 import { Stepper } from "./Stepper"
 import type { AssetIdProp } from "./types"
@@ -29,19 +27,11 @@ type Props = PropsWithChildren & AssetIdProp;
 
 export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) => {
   const [currentStep, setCurrentStep] = useState(0)
-  const state = useSelector(({ checkout }: RootState) => checkout)
-  const dispatch = useDispatch<Dispatch>()
   const router = useRouter()
   const intl = useIntl()
   const { assetData, isLoading } = useAssetData(assetId)
-  useEffect(() => {
-    const localCheckoutData = JSON.parse(window.localStorage.getItem("checkout_data") ?? "{}")
-    dispatch.checkout.setData(localCheckoutData)
-  }, [dispatch])
-
-  useEffect(() => {
-    window.localStorage.setItem("checkout_data", JSON.stringify(state.data))
-  }, [state.data])
+  // @TODO We might or might not need this initial value later on
+  // const localCheckoutData = JSON.parse(window.localStorage.getItem("checkout_data") ?? "{}")
 
   useEffect(() => {
     router.events.on("routeChangeComplete", () => {

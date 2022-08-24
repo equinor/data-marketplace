@@ -21,7 +21,6 @@
     "@equinor/eds-core-react": "^0.20.4",
     "@equinor/eds-icons": "^0.12.0",
     "@equinor/eds-tokens": "^0.7.1",
-    "@rematch/core": "^2.2.0",
     "axios": "^0.27.2",
     "next": "^12.2.3",
     "next-auth": "^4.10.3",
@@ -29,7 +28,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intl": "^6.0.5",
-    "react-redux": "^8.0.2",
     "styled-components": "^5.3.5",
     "use-local-storage-state": "^18.1.1",
     "xss": "^1.0.13"
