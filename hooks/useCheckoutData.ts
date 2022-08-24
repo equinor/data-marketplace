@@ -10,7 +10,7 @@ type CheckoutData = {
 }
 
 export const useCheckoutData = () => {
-  const [checkoutData, setCheckoutData] = useLocalStorageState<CheckoutData>("checkout_test", {
+  const [checkoutData, setCheckoutData] = useLocalStorageState<CheckoutData>("checkout_data", {
     defaultValue: {},
   })
   return { checkoutData, setCheckoutData }
