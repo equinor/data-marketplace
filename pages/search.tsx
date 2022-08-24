@@ -55,20 +55,31 @@ const ViewModeActionsContainer = styled.div`
   }
 `
 
-const UnstyledList = styled.ul`
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-  `
-
 const CheckboxContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  grid-gap: 0.5rem;
+  grid-gap: 0.3rem;
+  
 `
 
 const SearchResultsList = styled(List)`
-  list-style: none;
+  list-style: none
+`
+
+const CommunityList = styled(List)`
+padding-inline-start: 0;
+font-weight: 500;
+font-size: 0.8rem;
+line-height: 1rem;
+`
+
+const FieldSetStyle = styled.fieldset`
+  border: 0;
+  padding: 0;
+  
+`
+const LegendC = styled.legend`
+  margin-bottom: 0.5rem;
 `
 
 const SearchResultItem = styled(Item)`
@@ -140,23 +151,23 @@ const Search: NextPage = () => {
             <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
             <Divider variant="small" />
 
-            <fieldset>
-              <legend><FormattedMessage id="search.communitiesHeader" /></legend>
+            <FieldSetStyle>
+              <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
               <CheckboxContainer>
                 <EdsProvider density="compact">
                   {communities?.map((community) => (
-                    <UnstyledList key={community.id}>
+                    <CommunityList key={community.id}>
                       <Checkbox
                         label={community.name}
                         key={community.id}
                         checked={!!router.query.community?.includes(community.id)}
                         onChange={() => onCommunityFilterClick(community.id)}
                       />
-                    </UnstyledList>
+                    </CommunityList>
                   ))}
                 </EdsProvider>
               </CheckboxContainer>
-            </fieldset>
+            </FieldSetStyle>
 
           </aside>
 
