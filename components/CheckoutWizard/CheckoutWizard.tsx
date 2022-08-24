@@ -10,7 +10,6 @@ import styled from "styled-components"
 import { useAssetData } from "../../hooks/useAssetData"
 import { Dispatch, RootState } from "../../store"
 
-/* import { CheckoutNav } from "./Nav" */
 import { Stepper } from "./Stepper"
 import type { AssetIdProp } from "./types"
 
@@ -65,9 +64,6 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
           </Typography>
         )}
       </Heading>
-      {/* <CheckoutNavContainer>
-        <CheckoutNav assetId={assetId} currentStep={state.step} />
-      </CheckoutNavContainer> */}
       <CheckoutNavContainer>
         <Stepper currentStep={currentStep} />
       </CheckoutNavContainer>
