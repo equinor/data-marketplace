@@ -30,7 +30,6 @@ spec:
       - AUTH_CLIENT_ID
       - AUTH_CLIENT_SECRET
       - AUTH_TENANT_ID
-      - AUTH_AUTHORITY
       - NEXTAUTH_URL
       - NEXTAUTH_SECRET
 
