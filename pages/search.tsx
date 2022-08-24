@@ -68,9 +68,6 @@ const SearchResultsList = styled(List)`
 
 const CommunityList = styled(List)`
 padding-inline-start: 0;
-font-weight: 500;
-font-size: 0.8rem;
-line-height: 1rem;
 `
 
 const FieldSetStyle = styled.fieldset`
