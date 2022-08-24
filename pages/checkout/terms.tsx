@@ -3,14 +3,13 @@ import type { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import React from "react"
 import { FormattedMessage, useIntl } from "react-intl"
-import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { Banner } from "../../components/Banner"
 import { CheckoutWizard, NoAsset, AssetIdProp } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
-import { Dispatch, RootState } from "../../store"
+import { useCheckoutData } from "../../hooks/useCheckoutData"
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
@@ -48,22 +47,23 @@ const ButtonContainer = styled.div`
 
 const CheckoutTermsView = ({ assetId }: AssetIdProp) => {
   const intl = useIntl()
-  const dispatch = useDispatch<Dispatch>()
-  const hasAcceptedTerms = useSelector(
-    (state: RootState) => state.checkout.data.terms?.termsAccepted,
-  )
   const router = useRouter()
 
+  const { checkoutData, setCheckoutData } = useCheckoutData()
+
+  const hasAcceptedTerms = checkoutData?.terms?.termsAccepted
   const onContinue = () => {
     router.push({
       pathname: "/checkout/access",
       query: { id: assetId },
     })
-    dispatch.checkout.setStep(1)
   }
 
   const onAcceptTerms = () => {
-    dispatch.checkout.setData({ terms: { termsAccepted: !hasAcceptedTerms } })
+    setCheckoutData({
+      ...checkoutData,
+      terms: { ...checkoutData.terms, termsAccepted: !hasAcceptedTerms },
+    })
   }
 
   return (
