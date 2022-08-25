@@ -22,7 +22,7 @@
     "@equinor/eds-icons": "^0.12.0",
     "@equinor/eds-tokens": "^0.7.1",
     "axios": "^0.27.2",
-    "next": "^12.2.3",
+    "next": "^12.2.4",
     "next-auth": "^4.10.3",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
