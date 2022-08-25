@@ -15,9 +15,7 @@ export const useAssetDetails = (assetId: string) => {
     const getData = async () => {
       setIsLoading(true)
       try {
-        const overview = await HttpClient.get(`/api/assets/${assetId}/overview`, {
-          headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-        })
+        const overview = await HttpClient.get(`/api/assets/${assetId}/overview`)
 
         const responsibilities = await HttpClient.get(`/api/assets/${assetId}/responsibilities`, {
           headers: { authorization: `Bearer ${window.localStorage.getItem("access_token")}` },

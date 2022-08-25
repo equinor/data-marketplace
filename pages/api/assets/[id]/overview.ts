@@ -17,7 +17,7 @@ const GetAssetOverview: NextApiHandler = async (req, res) => {
     return res.status(401).end()
   }
 
-  const authorization = `Bearer ${token}`
+  const authorization = `Bearer ${token.accessToken}`
 
   try {
     const attrsRes = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
