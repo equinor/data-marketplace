@@ -1,17 +1,19 @@
 import { Button, Checkbox, Typography } from "@equinor/eds-core-react"
-import type { GetServerSideProps } from "next"
+import type { GetServerSideProps, NextPage } from "next"
+import { getToken } from "next-auth/jwt"
 import { useRouter } from "next/router"
 import React from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
+import xss from "xss"
 
 import { Banner } from "../../components/Banner"
-import {
-  CheckoutWizard, NoAsset, AssetIdProp, CancelButton,
-} from "../../components/CheckoutWizard"
+import { CheckoutWizard, NoAsset, CancelButton } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
+import { config } from "../../config"
 import { useCheckoutData } from "../../hooks/useCheckoutData"
+import { HttpClient } from "../../lib/HttpClient"
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
@@ -45,7 +47,15 @@ const ButtonContainer = styled.div`
   }
 `
 
-const CheckoutTermsView = ({ assetId }: AssetIdProp) => {
+type Props = {
+  assetId: string
+  rightsToUse?: {
+    name: string
+    value: string
+  }
+}
+
+const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
   const intl = useIntl()
   const router = useRouter()
 
@@ -82,12 +92,8 @@ const CheckoutTermsView = ({ assetId }: AssetIdProp) => {
                   />
                 </IngressContainer>
                 <Banner variant="danger">
-                  <div>
-                    <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading1" })}</TypographyHeader>
-                    <Typography>{intl.formatMessage({ id: "terms.banner.danger.description1" })}</Typography>
-                    <TypographyHeader>{intl.formatMessage({ id: "terms.banner.danger.heading2" })}</TypographyHeader>
-                    <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
-                  </div>
+                  <TypographyHeader>{rightsToUse?.name}</TypographyHeader>
+                  <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
                 </Banner>
                 <CheckboxContainer>
                   <Checkbox
@@ -117,12 +123,90 @@ const CheckoutTermsView = ({ assetId }: AssetIdProp) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.query
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+  const { id } = query
   // @TODO when we have server side token handle the case of no id or no data
   // We should query for terms and the asset title and evaluate how much this will
   // affect TTFB
-  return { props: { assetId: id || null } }
+
+  const defaultPageProps: Props = { assetId: id as string }
+
+  const token = await getToken({ req })
+
+  const authorization = `Bearer ${token!.accessToken}`
+
+  try {
+    const { body: dataProduct } = await HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${id}`, {
+      headers: { authorization },
+    })
+
+    if (!dataProduct || !dataProduct.domain.name) {
+      return { props: defaultPageProps }
+    }
+
+    const { body: domain } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/domains`, {
+      headers: { authorization },
+      query: {
+        name: `${dataProduct.domain.name.split(" ")[0]} - rights-to-use`,
+        nameMatchMode: "ANYWHERE",
+      },
+    })
+
+    const { body: approvedStatus } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/statuses`, {
+      headers: { authorization },
+      query: {
+        name: "approved",
+        nameMatchMode: "ANYWHERE",
+      },
+    })
+
+    if (!approvedStatus || approvedStatus?.results.length === 0) {
+      return { props: defaultPageProps }
+    }
+
+    const approvedStatusID = approvedStatus.results[0].id
+
+    const { body: rtuAsset } = await HttpClient.get<Collibra.PagedAssetResponse>(`${config.COLLIBRA_BASE_URL}/assets`, {
+      headers: { authorization },
+      query: {
+        domainId: domain!.results[0].id,
+        statusId: approvedStatusID,
+      },
+    })
+
+    if (!rtuAsset || rtuAsset?.results.length === 0) {
+      return { props: defaultPageProps }
+    }
+
+    const { body: attributes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
+      headers: { authorization },
+      query: { assetId: rtuAsset!.results[0].id },
+    })
+
+    if (!attributes || attributes.results.length === 0) {
+      return { props: defaultPageProps }
+    }
+
+    const terms = attributes.results.find((attr) => /terms and conditions/i.test(attr.type.name!))
+
+    if (!terms) {
+      return { props: defaultPageProps }
+    }
+
+    return {
+      props: {
+        ...defaultPageProps,
+        rightsToUse: {
+          name: terms.asset.name,
+          value: xss(terms.value),
+        },
+      },
+    }
+  } catch (error) {
+    console.error(`[CheckoutTermsView] in getServersideProps - Failed getting rights-to-use for asset ${id}`, error)
+
+    return { props: defaultPageProps }
+  }
 }
 
 export default CheckoutTermsView
