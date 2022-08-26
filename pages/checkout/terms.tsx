@@ -141,6 +141,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!dataProduct || !dataProduct.domain.name) {
+      console.warn("[CheckoutTermsView] No data product or domain name found for", id)
       return { props: defaultPageProps }
     }
 
@@ -152,7 +153,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       },
     })
 
-    const { body: approvedStatus } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/statuses`, {
+    if (!domain || domain.total === 0) {
+      console.warn("[ChekcoutTermsView] No rights-to-use domain found for", dataProduct.domain.name)
+      return { props: defaultPageProps }
+    }
+
+    const { body: statuses } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/statuses`, {
       headers: { authorization },
       query: {
         name: "approved",
@@ -160,13 +166,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       },
     })
 
-    if (!approvedStatus || approvedStatus?.results.length === 0) {
+    if (!statuses || statuses.total === 0) {
+      console.warn("[CheckoutTermsView] No status ID found for `Approved` status")
       return { props: defaultPageProps }
     }
 
-    const approvedStatusID = approvedStatus.results[0].id
+    const approvedStatusID = statuses.results[0].id
 
-    const { body: rtuAsset } = await HttpClient.get<Collibra.PagedAssetResponse>(`${config.COLLIBRA_BASE_URL}/assets`, {
+    const { body: rtuAssets } = await HttpClient.get<Collibra.PagedAssetResponse>(`${config.COLLIBRA_BASE_URL}/assets`, {
       headers: { authorization },
       query: {
         domainId: domain!.results[0].id,
@@ -174,22 +181,25 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       },
     })
 
-    if (!rtuAsset || rtuAsset?.results.length === 0) {
+    if (!rtuAssets || rtuAssets.total === 0) {
+      console.log("[CheckoutTermsView] No rights-to-use asset found in domain", domain.results[0].name, `(ID: ${domain.results[0].id})`)
       return { props: defaultPageProps }
     }
 
     const { body: attributes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
       headers: { authorization },
-      query: { assetId: rtuAsset!.results[0].id },
+      query: { assetId: rtuAssets!.results[0].id },
     })
 
-    if (!attributes || attributes.results.length === 0) {
+    if (!attributes || attributes.total === 0) {
+      console.log("[CheckoutTermsView] No attributes found for rights to use asset", rtuAssets.results[0].name, `(ID: ${rtuAssets.results[0].id})`)
       return { props: defaultPageProps }
     }
 
     const terms = attributes.results.find((attr) => /terms and conditions/i.test(attr.type.name!))
 
     if (!terms) {
+      console.log("[CheckoutTermsView] No terms and conditions found for rights to use asset", rtuAssets.results[0].name, `(ID: ${rtuAssets.results[0].id})`)
       return { props: defaultPageProps }
     }
 
