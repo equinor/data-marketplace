@@ -1,23 +1,10 @@
-import { Typography } from "@equinor/eds-core-react"
-import { tokens } from "@equinor/eds-tokens"
+import { Typography, Table } from "@equinor/eds-core-react"
 import styled from "styled-components"
 
-const Container = styled.div`
-  > p {
-    margin-bottom: 0.25rem;
-  }
-
-  > div:not(:last-child) {
-    margin-bottom: 0.75rem;
-  }
-`
-
-const ResponsibilityRow = styled.div`
-  border-bottom: 1px solid ${tokens.colors.ui.background__medium.hex};
+const TableCell = styled(Table.Cell)`
   padding: 0.75rem 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
   column-gap: 0.5rem;
+  width: 20rem;
 `
 
 export type ResponsibilityHolder = {
@@ -36,19 +23,24 @@ export const ResponsibilitiesHolderList = ({
   headline,
   holders,
 }: Props) => (
-  <Container>
-    <Typography variant="overline">{headline}</Typography>
+  <Table>
+    <Table.Body>
+      <Typography variant="overline">{headline}</Typography>
 
-    {holders.map((holder) => (
-      <ResponsibilityRow key={holder.id}>
-        <Typography>
-          {holder.firstName}
-          {" "}
-          {holder.lastName}
-        </Typography>
-
-        <Typography variant="body_short" href={`mailto:${holder.email.toLowerCase()}`} link>{holder.email.toLowerCase()}</Typography>
-      </ResponsibilityRow>
-    ))}
-  </Container>
+      {holders.map((holder) => (
+        <Table.Row key={holder.id}>
+          <TableCell>
+            <Typography>
+              {holder.firstName}
+              {" "}
+              {holder.lastName}
+            </Typography>
+          </TableCell>
+          <TableCell>
+            <Typography variant="body_short" href={`mailto:${holder.email.toLowerCase()}`} link>{holder.email.toLowerCase()}</Typography>
+          </TableCell>
+        </Table.Row>
+      ))}
+    </Table.Body>
+  </Table>
 )
