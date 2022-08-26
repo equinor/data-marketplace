@@ -15,6 +15,7 @@ import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { config } from "../../config"
 import { useCheckoutData } from "../../hooks"
+import { HttpClient } from "../../lib/HttpClient"
 
 const HelpText = styled(Typography)`
   margin-bottom: 1.5rem;
@@ -28,17 +29,52 @@ const CheckoutRedirectView: NextPage = () => {
   const [progress, setProgress] = useState<number>(0)
   const intl = useIntl()
   const { checkoutData } = useCheckoutData()
+  const [collibraWorkflowError, setCollibraWorkflowError] = useState<Error>()
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((p) => {
-        if (p === 100) return 100
-        return p + 2
-      })
-    }, 100)
+    let ignore = false
 
-    return () => clearInterval(interval)
-  }, [])
+    if (!ignore) {
+      (async () => {
+        try {
+          const res = await HttpClient.post<Collibra.WorkflowInstance>("/api/workflows", {
+            body: {
+              assetId: checkoutData.asset?.id,
+              termsAccepted: checkoutData.terms?.termsAccepted,
+              description: checkoutData.access?.description,
+            },
+          })
+          console.log(res.body)
+        } catch (error) {
+          console.error("[CheckoutRedirectView] Failed to send checkout data to Collibra:", error)
+          setCollibraWorkflowError(new Error(intl.formatMessage({ id: "checkout.redirect.collibraWorkflowError" })))
+        }
+      })()
+    }
+
+    return () => {
+      ignore = true
+    }
+  }, [checkoutData, intl])
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>
+
+    if (!collibraWorkflowError) {
+      interval = setInterval(() => {
+        setProgress((p) => {
+          if (p === 100) return 100
+          return p + 2
+        })
+      }, 100)
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval)
+      }
+    }
+  }, [collibraWorkflowError])
 
   useEffect(() => {
     if (progress === 100) {
