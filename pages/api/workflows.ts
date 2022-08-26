@@ -1,6 +1,10 @@
 import type { NextApiHandler } from "next"
 import { getToken } from "next-auth/jwt"
 
+import { config } from "../../config"
+import { HttpClient } from "../../lib/HttpClient"
+import { HttpError } from "../../lib/HttpError"
+
 const WorkflowsHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "POST") {
     return res.status(405).end()
@@ -36,7 +40,31 @@ const WorkflowsHandler: NextApiHandler = async (req, res) => {
     return res.status(400).end()
   }
 
-  return res.status(501).end()
+  const authorization = `Bearer ${token.accessToken}`
+
+  try {
+    const workflowDefinitionsRes = await HttpClient.get<Collibra.PagedWorkflowDefinitionResponse>(`${config.COLLIBRA_BASE_URL}/workflowDefinitions`, {
+      headers: { authorization },
+      query: {
+        assetId: req.body.assetId,
+        name: "Request Access",
+      },
+    })
+
+    if (!workflowDefinitionsRes.body || workflowDefinitionsRes.body.total === 0) {
+      throw new HttpError(`Failed getting workflow definitions for asset ${req.body.assetId}`, workflowDefinitionsRes.statusCode, workflowDefinitionsRes.headers, workflowDefinitionsRes.body)
+    }
+
+    return res.status(501).end()
+  } catch (error) {
+    console.error("[WorkflowsHandler]", error)
+
+    if (error instanceof HttpError) {
+      return res.status(error.statusCode).json(error.body)
+    }
+
+    return res.status(500).end()
+  }
 }
 
 export default WorkflowsHandler
