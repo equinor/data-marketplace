@@ -24,9 +24,11 @@ export const ResponsibilitiesHolderList = ({
   holders,
 }: Props) => (
   <Table>
-    <Table.Body>
+    <Table.Caption>
       <Typography variant="overline">{headline}</Typography>
-
+    </Table.Caption>
+    <Table.Head />
+    <Table.Body>
       {holders.map((holder) => (
         <Table.Row key={holder.id}>
           <TableCell>
