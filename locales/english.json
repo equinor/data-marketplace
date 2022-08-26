@@ -56,5 +56,7 @@
   "checkout.nav.step.access": "Request access",
   "checkout.nav.step.redirect": "Redirect",
   "checkout.title.eyebrow": "Request access to",
-  "footer.copyright": "Copyright © Equinor 2022"
+  "footer.copyright": "Copyright © Equinor 2022",
+  "responsibility.header.name": "Name",
+  "responsibility.header.email": "Email ID"
 }

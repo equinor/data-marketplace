@@ -1,4 +1,5 @@
 import { Typography, Table } from "@equinor/eds-core-react"
+import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 const TableCell = styled(Table.Cell)`
@@ -22,27 +23,40 @@ type Props = {
 export const ResponsibilitiesHolderList = ({
   headline,
   holders,
-}: Props) => (
-  <Table>
-    <Table.Caption>
-      <Typography variant="overline">{headline}</Typography>
-    </Table.Caption>
-    <Table.Head />
-    <Table.Body>
-      {holders.map((holder) => (
-        <Table.Row key={holder.id}>
+}: Props) => {
+  const intl = useIntl()
+
+  return (
+    <Table>
+      <Table.Caption>
+        <Typography variant="overline">{headline}</Typography>
+      </Table.Caption>
+      <Table.Head>
+        <Table.Row>
           <TableCell>
-            <Typography>
-              {holder.firstName}
-              {" "}
-              {holder.lastName}
-            </Typography>
+            {intl.formatMessage({ id: "responsibility.header.name" })}
           </TableCell>
           <TableCell>
-            <Typography variant="body_short" href={`mailto:${holder.email.toLowerCase()}`} link>{holder.email.toLowerCase()}</Typography>
+            {intl.formatMessage({ id: "responsibility.header.email" })}
           </TableCell>
         </Table.Row>
-      ))}
-    </Table.Body>
-  </Table>
-)
+      </Table.Head>
+      <Table.Body>
+        {holders.map((holder) => (
+          <Table.Row key={holder.id}>
+            <TableCell>
+              <Typography>
+                {holder.firstName}
+                {" "}
+                {holder.lastName}
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Typography variant="body_short" href={`mailto:${holder.email.toLowerCase()}`} link>{holder.email.toLowerCase()}</Typography>
+            </TableCell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  )
+}
