@@ -55,6 +55,12 @@ const WorkflowsHandler: NextApiHandler = async (req, res) => {
       throw new HttpError(`Failed getting workflow definitions for asset ${req.body.assetId}`, workflowDefinitionsRes.statusCode, workflowDefinitionsRes.headers, workflowDefinitionsRes.body)
     }
 
+    const { body: user } = await HttpClient.get<Collibra.User>(`${config.COLLIBRA_BASE_URL}/users/current`, {
+      headers: { authorization },
+    })
+
+    console.log(user)
+
     return res.status(501).end()
   } catch (error) {
     console.error("[WorkflowsHandler]", error)
