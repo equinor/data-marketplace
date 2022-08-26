@@ -6,7 +6,9 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Banner } from "../../components/Banner"
-import { CheckoutWizard, NoAsset, AssetIdProp } from "../../components/CheckoutWizard"
+import {
+  CheckoutWizard, NoAsset, AssetIdProp, CancelButton,
+} from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { useCheckoutData } from "../../hooks/useCheckoutData"
@@ -100,9 +102,7 @@ const CheckoutTermsView = ({ assetId }: AssetIdProp) => {
                 </ChecboxContainer>
 
                 <ButtonContainer>
-                  <Button variant="outlined" color="secondary">
-                    {intl.formatMessage({ id: "common.cancel" })}
-                  </Button>
+                  <CancelButton assetId={assetId} />
                   <Button
                     disabled={!hasAcceptedTerms}
                     onClick={onContinue}

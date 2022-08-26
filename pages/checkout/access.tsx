@@ -5,7 +5,9 @@ import { ChangeEventHandler } from "react"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { CheckoutWizard, AssetIdProp, NoAsset } from "../../components/CheckoutWizard"
+import {
+  CheckoutWizard, AssetIdProp, NoAsset, CancelButton,
+} from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { useCheckoutData } from "../../hooks/useCheckoutData"
@@ -98,12 +100,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                 </TextFieldContainer>
 
                 <ButtonContainer>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                  >
-                    {intl.formatMessage({ id: "common.cancel" })}
-                  </Button>
+                  <CancelButton assetId={assetId} />
                   <Button
                     disabled={description.length < 10}
                     onClick={onContinueClick}
