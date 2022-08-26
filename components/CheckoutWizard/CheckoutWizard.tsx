@@ -32,10 +32,10 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
   const { assetData, isLoading } = useAssetData(assetId)
   // @TODO We might or might not need this initial value later on
   // const localCheckoutData = JSON.parse(window.localStorage.getItem("checkout_data") ?? "{}")
+  const steps = ["terms", "access", "redirect"]
 
   useEffect(() => {
     const handleRouteChange = () => {
-      const steps = ["terms", "access", "redirect"]
       const stepByPathName = steps.findIndex((step) => router.pathname.includes(step))
       // @TODO If a user manually refresh other steps than number 1, this logic
       // for current step will fail. See issue #83
@@ -48,6 +48,22 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
       router.events.off("routeChangeComplete", handleRouteChange)
     }
   }, [router])
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      const isInTheCheckoutFlow = steps.find((step) => url.includes(step))
+      if (isInTheCheckoutFlow === undefined) {
+        // todo remove data from local storage
+      }
+    }
+
+    router.events.on("routeChangeStart", handleRouteChange)
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange)
+    }
+  }, [])
 
   return (
     <div>
