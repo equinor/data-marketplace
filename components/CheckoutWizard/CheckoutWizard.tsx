@@ -34,9 +34,6 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
   const { assetData, isLoading } = useAssetData(assetId)
   const { removeItem } = useCheckoutData()
 
-  // @TODO We might or might not need this initial value later on
-  // const localCheckoutData = JSON.parse(window.localStorage.getItem("checkout_data") ?? "{}")
-
   useEffect(() => {
     const handleRouteChange = () => {
       const stepByPathName = steps.findIndex((step) => router.pathname.includes(step))
