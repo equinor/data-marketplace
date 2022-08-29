@@ -64,6 +64,7 @@ const CheckoutTermsView = ({ assetId }: AssetIdProp) => {
   const onAcceptTerms = () => {
     setCheckoutData({
       ...checkoutData,
+      assetId,
       terms: { ...checkoutData.terms, termsAccepted: !hasAcceptedTerms },
     })
   }
