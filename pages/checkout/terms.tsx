@@ -32,12 +32,6 @@ const CheckboxContainer = styled.div`
   }
 `
 
-const TypographyHeader = styled(Typography)`
-  font-weight: 500;
-  font-size: 1.125rem;
-  line-height: 1.5rem;
-`
-
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -92,7 +86,7 @@ const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
                   />
                 </IngressContainer>
                 <Banner variant="danger">
-                  <TypographyHeader>{rightsToUse?.name}</TypographyHeader>
+                  <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
                   <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
                 </Banner>
                 <CheckboxContainer>
