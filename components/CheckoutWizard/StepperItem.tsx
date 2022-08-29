@@ -28,7 +28,6 @@ const StepperIndex = styled.div<{ active?: boolean }>`
   color: ${({ active }) => (active ? "white" : "var(--disabledText)")};
   background-color: ${({ active }) => (active ? "var(--mossGreen)" : "white")};
   border-color: ${({ active }) => (active ? "var(--mossGreen)" : "var(--disabledText)")};
-  
 `
 
 const StepperTitle = styled(Typography)<{ finished?: boolean}>`

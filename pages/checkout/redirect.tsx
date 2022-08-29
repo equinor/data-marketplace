@@ -61,10 +61,10 @@ const CheckoutRedirectView = ({ assetId }: AssetIdProp) => {
           {!assetId ? <NoAsset />
             : (
               <>
-                <Typography variant="h4" as="h1" style={{ marginBottom: "0.25rem" }}>{intl.formatMessage({ id: "checkout.redirect.headline" })}</Typography>
-
+                <Typography variant="h4" as="h1" style={{ marginBottom: "0.25rem" }}>
+                  {intl.formatMessage({ id: "checkout.redirect.headline" })}
+                </Typography>
                 <Ingress>{intl.formatMessage({ id: "checkout.redirect.ingress" })}</Ingress>
-
                 <HelpText>
                   <FormattedMessage
                     id="checkout.redirect.body"
@@ -74,7 +74,6 @@ const CheckoutRedirectView = ({ assetId }: AssetIdProp) => {
                     }}
                   />
                 </HelpText>
-
                 <Progress.Linear
                   variant="determinate"
                   value={progress}

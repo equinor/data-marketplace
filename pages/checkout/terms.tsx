@@ -19,7 +19,6 @@ const IngressContainer = styled.div`
   p:not(:last-child) {
     margin-bottom: 1rem;
   }
-  
 `
 
 const ChecboxContainer = styled.div`
@@ -29,7 +28,6 @@ const ChecboxContainer = styled.div`
     position: relative;
     left: -12px;
   }
-
 `
 
 const TypographyHeader = styled(Typography)`
@@ -101,7 +99,6 @@ const CheckoutTermsView = ({ assetId }: AssetIdProp) => {
                     aria-required
                   />
                 </ChecboxContainer>
-
                 <ButtonContainer>
                   <CancelButton assetId={assetId} />
                   <Button

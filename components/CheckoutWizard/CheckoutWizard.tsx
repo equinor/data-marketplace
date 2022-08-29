@@ -67,7 +67,6 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
   return (
     <div>
       <Heading>
-
         {isLoading ? <CircularProgress /> : (
           <Typography variant="h1">
             <Typography variant="overline" as="div">{intl.formatMessage({ id: "checkout.title.eyebrow" })}</Typography>
