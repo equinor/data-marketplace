@@ -1,11 +1,8 @@
 import { Card, Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
-import type { NextPage } from "next"
+import type { NextPage, GetServerSideProps } from "next"
+import { getToken } from "next-auth/jwt"
 import Head from "next/head"
-import {
-  useEffect,
-  useState,
-} from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -14,6 +11,7 @@ import { Footer } from "../components/Footer"
 import { Link } from "../components/Link"
 import { Section } from "../components/Section"
 import { Illustration } from "../components/frontpage"
+import { config } from "../config"
 import { HttpClient } from "../lib/HttpClient"
 import { fmtNumber } from "../lib/fmtNumber"
 
@@ -72,23 +70,14 @@ const HeroIllustration = styled(Illustration)`
   width: clamp(300px, 40%, 500px);
   justify-self: end;
 `
+type PopularAsset = Collibra.Asset & Pick<Collibra.NavigationStatistic, "numberOfViews">
 
-const Frontpage: NextPage = () => {
+type Props = {
+  popularDataProducts: PopularAsset[]
+}
+
+const Frontpage: NextPage<Props> = ({ popularDataProducts }) => {
   const intl = useIntl()
-  const [popularDataProducts, setPopularDataProducts] = useState<any[]>([])
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await HttpClient.get("/api/popular", { query: { limit: 6 } })
-        setPopularDataProducts(res.body)
-      } catch (error) {
-        console.error("[Frontpage] Error while fetching most viewed data products", error)
-      }
-    })()
-
-    return () => setPopularDataProducts([])
-  }, [])
 
   const documentTitle = intl.formatMessage({ id: "common.documentTitle" })
 
@@ -149,6 +138,55 @@ const Frontpage: NextPage = () => {
       <Footer />
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const token = await getToken({ req })
+
+  const authorization = `Bearer ${token!.accessToken}`
+  const limit = 6
+  const offset = 0
+
+  const getPopularAssets = async (
+    data: PopularAsset[],
+
+  ): Promise<PopularAsset[]> => {
+    const mostViewedStats = await HttpClient.get<Collibra.PagedNavigationStatisticResponse>(`${config.COLLIBRA_BASE_URL}/navigation/most_viewed`, {
+      headers: { authorization },
+      query: { offset: offset * limit, limit, isGuestExcluded: true },
+    })
+
+    const assetsResponse = await Promise.all(
+      mostViewedStats.body?.results.map((stat) => HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${stat.assetId}`, {
+        headers: { authorization },
+      })) ?? [],
+    )
+
+    const result = [
+      ...data,
+      ...assetsResponse
+        .map((response) => response.body)
+        .filter((response) => response?.type.name?.toLowerCase() === "data product")
+        .map((product) => ({
+          ...product,
+          numberOfViews: mostViewedStats.body?.results.find((stat) => (
+            stat.assetId === product?.id
+          ))?.numberOfViews,
+        })),
+    ] as PopularAsset[]
+
+    if (result.length >= limit) return result.slice(0, limit)
+
+    return getPopularAssets(result)
+  }
+  try {
+    const dataProducts = await getPopularAssets([])
+    return { props: { popularDataProducts: dataProducts } }
+  } catch (error) {
+    console.error("[Frontpage] in getServersideProps - Failed getting 6 most popular products", error)
+
+    return { props: { popularDataProducts: [] } }
+  }
 }
 
 export default Frontpage
