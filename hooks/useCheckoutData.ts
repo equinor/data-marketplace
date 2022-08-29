@@ -7,6 +7,7 @@ type CheckoutData = {
   access?: {
     description: string
   }
+  assetId?: string
 }
 
 export const useCheckoutData = () => {
