@@ -1,6 +1,10 @@
 /* eslint-disable camelcase */
 import {
-  Button, TextField, Typography, Icon,
+  Button,
+  TextField,
+  Typography,
+  Icon,
+  Progress,
 } from "@equinor/eds-core-react"
 import { error_filled } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
@@ -10,15 +14,22 @@ import { ChangeEventHandler, useState } from "react"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { CheckoutWizard, NoAsset, CancelButton } from "../../components/CheckoutWizard"
+import {
+  CancelButton,
+  CheckoutWizard,
+  NoAsset,
+} from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { useCheckoutData } from "../../hooks/useCheckoutData"
+import { HttpClient } from "../../lib/HttpClient"
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 1.5rem;
+  align-items: center;
+
   > *:not(:last-child) {
     margin-right: 1rem;
   }
@@ -26,6 +37,10 @@ const ButtonContainer = styled.div`
 const FakeHelperText = styled(Typography)`
   color: ${tokens.colors.text.static_icons__tertiary.hex};
   margin: ${tokens.spacings.comfortable.small} 0 0  ${tokens.spacings.comfortable.small};
+`
+
+const ContinueButtonText = styled.span<{ invisible: boolean }>`
+  visibility: ${({ invisible }) => (invisible ? "hidden" : "visible")};
 `
 
 const MIN_LENGTH = 10
@@ -36,6 +51,8 @@ const CheckoutAccessView: NextPage = () => {
   const router = useRouter()
   const { checkoutData, setCheckoutData } = useCheckoutData()
   const [error, setError] = useState(false)
+  const [collibraWorkflowError, setCollibraWorkflowError] = useState<Error>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const description = checkoutData?.access?.description
   const onDescriptionChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -48,15 +65,30 @@ const CheckoutAccessView: NextPage = () => {
     })
   }
 
-  const onContinueClick = () => {
+  const onContinueClick = async () => {
     if ((description && description.length < MIN_LENGTH) || description === undefined || description === "") {
       setError(true)
     } else {
       setError(false)
-      router.push({
-        pathname: "/checkout/redirect",
-        query: { id: checkoutData.asset?.id },
-      })
+      try {
+        setIsLoading(true)
+        await HttpClient.post<Collibra.WorkflowInstance>("/api/workflows", {
+          body: {
+            assetId: checkoutData.asset?.id,
+            termsAccepted: checkoutData.terms?.termsAccepted,
+            description: checkoutData.access?.description,
+          },
+        })
+        router.push({
+          pathname: "/checkout/redirect",
+          query: { id: checkoutData.asset?.id },
+        })
+        setIsLoading(false)
+      } catch (err) {
+        setIsLoading(false)
+        console.error("[CheckoutRedirectView] Failed to send checkout data to Collibra:", err)
+        setCollibraWorkflowError(new Error(intl.formatMessage({ id: "checkout.redirect.collibraWorkflowError" })))
+      }
     }
   }
 
@@ -82,13 +114,21 @@ const CheckoutAccessView: NextPage = () => {
                 helperIcon={error && <Icon data={error_filled} />}
                 aria-required
               />
+
               <FakeHelperText group="input" variant="helper">{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
+
               <ButtonContainer>
+                {collibraWorkflowError && <Typography variant="body_short" color={tokens.colors.interactive.danger__text.hex}>{collibraWorkflowError.message}</Typography>}
                 <CancelButton assetId={checkoutData.asset?.id} />
                 <Button
                   onClick={onContinueClick}
+                  disabled={isLoading}
                 >
-                  {intl.formatMessage({ id: "common.continue" })}
+                  {isLoading ? (
+                    <Progress.Circular variant="indeterminate" />
+                  ) : (
+                    <ContinueButtonText invisible={isLoading}>{intl.formatMessage({ id: "common.continue" })}</ContinueButtonText>
+                  )}
                 </Button>
               </ButtonContainer>
             </>
