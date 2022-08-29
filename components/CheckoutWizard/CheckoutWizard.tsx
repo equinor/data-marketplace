@@ -7,6 +7,7 @@ import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { useAssetData } from "../../hooks/useAssetData"
+import { useCheckoutData } from "../../hooks/useCheckoutData"
 
 import { Stepper } from "./Stepper"
 import type { AssetIdProp } from "./types"
@@ -30,6 +31,8 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
   const router = useRouter()
   const intl = useIntl()
   const { assetData, isLoading } = useAssetData(assetId)
+  const { removeItem } = useCheckoutData()
+
   // @TODO We might or might not need this initial value later on
   // const localCheckoutData = JSON.parse(window.localStorage.getItem("checkout_data") ?? "{}")
   const steps = ["terms", "access", "redirect"]
@@ -48,11 +51,12 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
       router.events.off("routeChangeComplete", handleRouteChange)
     }
   }, [router])
+
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       const isInTheCheckoutFlow = steps.find((step) => url.includes(step))
       if (isInTheCheckoutFlow === undefined) {
-        // todo remove data from local storage
+        removeItem()
       }
     }
 
