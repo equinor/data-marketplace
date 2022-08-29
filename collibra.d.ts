@@ -185,7 +185,7 @@ declare namespace Collibra {
     workflowDefinitionId: string
     businessItemIds: string[]
     businessItemType: "ASSET" | "DOMAIN" | "COMMUNITY" | "GLOBAL"
-    formProperties: Record<string, string>
+    formProperties: Record<string, any>
     guestUserId: string
     sendNotification: boolean
   }
@@ -384,7 +384,7 @@ declare namespace Collibra {
     statusIds: string[]
   }
 
-  type WorkflowTask = {
+  export type WorkflowTask = {
     id: string
     system: boolean
     resourceType: ResourceType
