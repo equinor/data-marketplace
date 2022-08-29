@@ -77,9 +77,7 @@ const WorkflowsHandler: NextApiHandler = async (req, res) => {
         workflowDefinitionId: workflowDefinitionsRes.body.results[0].id,
         businessItemIds: [req.body.assetId],
         businessItemType: "ASSET",
-        formProperties: {},
         guestUserId: user.id,
-        sendNotification: true,
       } as Collibra.StartWorkflowInstanceRequest,
     })
 
@@ -87,7 +85,49 @@ const WorkflowsHandler: NextApiHandler = async (req, res) => {
       throw new HttpError("Unable to instantiate workflow instance", 500, {}, workflowInstances)
     }
 
-    return res.status(201).end()
+    const acceptRTUtask = workflowInstances[0].tasks.find((task) => task.type === "acceptrejectrtu")
+
+    if (!acceptRTUtask) {
+      throw new HttpError("Collibra gave no task to accept Terms and Conditions", 500, {})
+    }
+
+    const { body: tasks } = await HttpClient.post<Collibra.WorkflowTask[]>(`${config.COLLIBRA_BASE_URL}/workflowTasks/completed`, {
+      headers: { authorization },
+      body: {
+        formProperties: {
+          accept: req.body.termsAccepted,
+          reject: !req.body.termsAccepted,
+        },
+        taskIds: [acceptRTUtask.id],
+      },
+    })
+
+    if (!tasks || tasks.length === 0) {
+      throw new HttpError("Collibra provided no new tasks, when one was needed to complete checkout", 500, {})
+    }
+
+    const reasonForAccessTask = tasks.find((task) => task.type === "reasonforaccess")
+
+    if (!reasonForAccessTask) {
+      throw new HttpError("Colliba provided no task to provide Reason for Access when it was expected to be the next one", 500, {})
+    }
+
+    const { body: nextTasks } = await HttpClient.post<Collibra.WorkflowTask[]>(`${config.COLLIBRA_BASE_URL}/workflowTasks/completed`, {
+      headers: { authorization },
+      body: {
+        formProperties: {
+          NextAccess: true,
+          accessMethod: "",
+          cancelAccess: false,
+          purpose: req.body.description,
+        },
+        taskIds: [reasonForAccessTask.id],
+      },
+    })
+
+    console.log(nextTasks)
+
+    return res.status(501).end()
   } catch (error) {
     console.error("[WorkflowsHandler]", error)
 
