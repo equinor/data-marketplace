@@ -1,7 +1,7 @@
 import { Button, TextField, Typography } from "@equinor/eds-core-react"
 import type { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
-import { ChangeEventHandler } from "react"
+import { ChangeEventHandler, useState } from "react"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -42,10 +42,14 @@ const TextFieldContainer = styled.div`
   margin-bottom: 1.5rem;
 `
 
+const MIN_LENGTH = 10
+const MAX_LENGTH = 200
+
 const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
   const intl = useIntl()
   const router = useRouter()
   const { checkoutData, setCheckoutData } = useCheckoutData()
+  const [errors, setErrors] = useState({})
 
   const description = checkoutData?.access?.description || ""
   const onDescriptionChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -59,10 +63,14 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
   }
 
   const onContinueClick = () => {
-    router.push({
-      pathname: "/checkout/redirect",
-      query: { id: assetId },
-    })
+    if (description.length < MIN_LENGTH) {
+      setErrors({ ...errors, min: true })
+    } else {
+      router.push({
+        pathname: "/checkout/redirect",
+        query: { id: assetId },
+      })
+    }
   }
 
   return (
@@ -95,14 +103,15 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                     label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" })}
                     placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
                     onChange={onDescriptionChange}
-                    value={checkoutData?.access?.description}
+                    value={description}
+                    maxLength={MAX_LENGTH}
                   />
                 </TextFieldContainer>
 
                 <ButtonContainer>
                   <CancelButton assetId={assetId} />
                   <Button
-                    disabled={description.length < 10}
+                    /* disabled={description.length < 10} */
                     onClick={onContinueClick}
                   >
                     {intl.formatMessage({ id: "common.continue" })}
