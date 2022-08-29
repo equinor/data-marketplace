@@ -1,3 +1,5 @@
+import { STATUS_CODES } from "http"
+
 import type { NextApiHandler } from "next"
 import { getToken } from "next-auth/jwt"
 
@@ -55,18 +57,43 @@ const WorkflowsHandler: NextApiHandler = async (req, res) => {
       throw new HttpError(`Failed getting workflow definitions for asset ${req.body.assetId}`, workflowDefinitionsRes.statusCode, workflowDefinitionsRes.headers, workflowDefinitionsRes.body)
     }
 
+    const requestAccessWorkflowDef = workflowDefinitionsRes.body.results.find((def) => def.processId === "requestAccessDataProduct")
+
+    if (!requestAccessWorkflowDef) {
+      throw new HttpError(`No requestAccessDataProduct for asset ${req.body.assetId}`, 400, {})
+    }
+
     const { body: user } = await HttpClient.get<Collibra.User>(`${config.COLLIBRA_BASE_URL}/users/current`, {
       headers: { authorization },
     })
 
-    console.log(user)
+    if (!user) {
+      throw new HttpError("No currently logged in user found", 401, {})
+    }
 
-    return res.status(501).end()
+    const { body: workflowInstances } = await HttpClient.post<Collibra.WorkflowInstance[]>(`${config.COLLIBRA_BASE_URL}/workflowInstances`, {
+      headers: { authorization },
+      body: {
+        workflowDefinitionId: workflowDefinitionsRes.body.results[0].id,
+        businessItemIds: [req.body.assetId],
+        businessItemType: "ASSET",
+        formProperties: {},
+        guestUserId: user.id,
+        sendNotification: true,
+      } as Collibra.StartWorkflowInstanceRequest,
+    })
+
+    if (!workflowInstances || workflowInstances.length === 0) {
+      throw new HttpError("Unable to instantiate workflow instance", 500, {}, workflowInstances)
+    }
+
+    return res.status(201).end()
   } catch (error) {
     console.error("[WorkflowsHandler]", error)
 
     if (error instanceof HttpError) {
-      return res.status(error.statusCode).json(error.body)
+      const statusCode = error.statusCode || 500
+      return res.status(statusCode).json(error.body ?? STATUS_CODES[statusCode])
     }
 
     return res.status(500).end()
