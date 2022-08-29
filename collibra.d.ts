@@ -95,14 +95,17 @@ declare namespace Collibra {
     system: boolean
   }
 
+  type NamedResource = Resource & {
+    name?: string | null
+  }
+
   export type Attribute = {
     asset: NamedResourceReference
     value: any
     type: NamedResourceReference
   }
 
-  export type Asset = Resource & {
-    name: string
+  export type Asset = NamedResource & {
     displayName: string
     articulationScore: number
     excludedFromAutoHyperlinking: boolean
@@ -190,7 +193,7 @@ declare namespace Collibra {
     sendNotification: boolean
   }
 
-  type Role = NamedResourceReference & {
+  type Role = NamedResource & {
     description: string
     permissions:
     | "EDGE"
