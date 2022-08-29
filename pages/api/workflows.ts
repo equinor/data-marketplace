@@ -71,7 +71,7 @@ const WorkflowsHandler: NextApiHandler = async (req, res) => {
       throw new HttpError("No currently logged in user found", 401, {})
     }
 
-    const { body: workflowInstances } = await HttpClient.post<Collibra.WorkflowInstance[]>(`${config.COLLIBRA_BASE_URL}/workflowInstances`, {
+    const { body: workflowInstanceTasks } = await HttpClient.post<Collibra.WorkflowInstance[]>(`${config.COLLIBRA_BASE_URL}/workflowInstances`, {
       headers: { authorization },
       body: {
         workflowDefinitionId: workflowDefinitionsRes.body.results[0].id,
@@ -81,11 +81,11 @@ const WorkflowsHandler: NextApiHandler = async (req, res) => {
       } as Collibra.StartWorkflowInstanceRequest,
     })
 
-    if (!workflowInstances || workflowInstances.length === 0) {
-      throw new HttpError("Unable to instantiate workflow instance", 500, {}, workflowInstances)
+    if (!workflowInstanceTasks || workflowInstanceTasks.length === 0) {
+      throw new HttpError("Unable to instantiate workflow instance", 500, {}, workflowInstanceTasks)
     }
 
-    const acceptRTUtask = workflowInstances[0].tasks.find((task) => task.type === "acceptrejectrtu")
+    const acceptRTUtask = workflowInstanceTasks[0].tasks.find((task) => task.type === "acceptrejectrtu")
 
     if (!acceptRTUtask) {
       throw new HttpError("Collibra gave no task to accept Terms and Conditions", 500, {})
@@ -112,7 +112,7 @@ const WorkflowsHandler: NextApiHandler = async (req, res) => {
       throw new HttpError("Colliba provided no task to provide Reason for Access when it was expected to be the next one", 500, {})
     }
 
-    const { body: nextTasks } = await HttpClient.post<Collibra.WorkflowTask[]>(`${config.COLLIBRA_BASE_URL}/workflowTasks/completed`, {
+    const { body: finalTasks } = await HttpClient.post<Collibra.WorkflowTask[]>(`${config.COLLIBRA_BASE_URL}/workflowTasks/completed`, {
       headers: { authorization },
       body: {
         formProperties: {
@@ -125,14 +125,34 @@ const WorkflowsHandler: NextApiHandler = async (req, res) => {
       },
     })
 
-    console.log(nextTasks)
+    if (!finalTasks || finalTasks.length === 0) {
+      throw new HttpError("Collibra provided no new tasks, when one was needed to complete checkout", 500, {})
+    }
 
-    return res.status(501).end()
+    const accessRequestTask = finalTasks.find((task) => task.type === "duaccessrequest")
+
+    if (!accessRequestTask) {
+      throw new HttpError("Collibra provided no Request Access task when one was expected", 500, {})
+    }
+
+    await HttpClient.post(`${config.COLLIBRA_BASE_URL}/workflowTasks/completed`, {
+      headers: { authorization },
+      body: {
+        formProperties: {
+          accessIT: "",
+          acesssLink: true,
+          cancelApplyAccess: false,
+        },
+        taskIds: [accessRequestTask.id],
+      },
+    })
+
+    return res.status(201).end()
   } catch (error) {
     console.error("[WorkflowsHandler]", error)
 
     if (error instanceof HttpError) {
-      const statusCode = error.statusCode || 500
+      const statusCode = error.statusCode >= 400 ? error.statusCode : 500
       return res.status(statusCode).json(error.body ?? STATUS_CODES[statusCode])
     }
 
