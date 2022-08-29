@@ -1,8 +1,9 @@
 import { Button, Checkbox, Typography } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 import xss from "xss"
@@ -32,6 +33,11 @@ const CheckboxContainer = styled.div`
   }
 `
 
+const ValidationError = styled.span`
+  display: block;
+  color: ${tokens.colors.interactive.danger__resting.hex}
+`
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -52,15 +58,20 @@ type Props = {
 const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
   const intl = useIntl()
   const router = useRouter()
-
+  const [error, setError] = useState(false)
   const { checkoutData, setCheckoutData } = useCheckoutData()
 
   const hasAcceptedTerms = checkoutData?.terms?.termsAccepted
   const onContinue = () => {
-    router.push({
-      pathname: "/checkout/access",
-      query: { id: assetId },
-    })
+    if (hasAcceptedTerms) {
+      setError(false)
+      router.push({
+        pathname: "/checkout/access",
+        query: { id: assetId },
+      })
+    } else {
+      setError(true)
+    }
   }
 
   const onAcceptTerms = () => {
@@ -98,11 +109,11 @@ const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
                     aria-invalid={hasAcceptedTerms ? "false" : "true"}
                     aria-required
                   />
+                  {error && <ValidationError role="alert">You must accept the terms</ValidationError> }
                 </CheckboxContainer>
                 <ButtonContainer>
                   <CancelButton assetId={assetId} />
                   <Button
-                    disabled={!hasAcceptedTerms}
                     onClick={onContinue}
                   >
                     {intl.formatMessage({ id: "common.continue" })}
