@@ -51,8 +51,8 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      const isInTheCheckoutFlow = steps.find((step) => url.includes(step))
-      if (isInTheCheckoutFlow === undefined) {
+      const isInTheCheckoutFlow = url.startsWith("/checkout")
+      if (!isInTheCheckoutFlow) {
         removeItem()
       }
     }
