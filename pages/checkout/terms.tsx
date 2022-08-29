@@ -21,7 +21,7 @@ const IngressContainer = styled.div`
   }
 `
 
-const ChecboxContainer = styled.div`
+const CheckboxContainer = styled.div`
   margin-bottom: 1.5rem;
 
   label {
@@ -89,7 +89,7 @@ const CheckoutTermsView = ({ assetId }: AssetIdProp) => {
                     <Typography>{intl.formatMessage({ id: "terms.banner.danger.description2" })}</Typography>
                   </div>
                 </Banner>
-                <ChecboxContainer>
+                <CheckboxContainer>
                   <Checkbox
                     name="acceptTerms"
                     label={intl.formatMessage({ id: "terms.acceptLabel" })}
@@ -98,7 +98,7 @@ const CheckoutTermsView = ({ assetId }: AssetIdProp) => {
                     aria-invalid={hasAcceptedTerms ? "false" : "true"}
                     aria-required
                   />
-                </ChecboxContainer>
+                </CheckboxContainer>
                 <ButtonContainer>
                   <CancelButton assetId={assetId} />
                   <Button
