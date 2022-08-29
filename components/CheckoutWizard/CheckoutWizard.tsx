@@ -10,7 +10,7 @@ import { useAssetData } from "../../hooks/useAssetData"
 import { useCheckoutData } from "../../hooks/useCheckoutData"
 
 import { Stepper } from "./Stepper"
-import type { AssetIdProp } from "./types"
+import type { AssetIdProp, CheckoutSteps } from "./types"
 
 const CheckoutNavContainer = styled.div`
   margin: 1.5rem 0;
@@ -23,6 +23,7 @@ const Heading = styled.div`
 const ContentContainer = styled.div`
   width: 50%;
 `
+const steps: CheckoutSteps[] = ["terms", "access", "redirect"]
 
 type Props = PropsWithChildren & AssetIdProp;
 
@@ -35,7 +36,6 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
 
   // @TODO We might or might not need this initial value later on
   // const localCheckoutData = JSON.parse(window.localStorage.getItem("checkout_data") ?? "{}")
-  const steps = ["terms", "access", "redirect"]
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -62,12 +62,10 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
 
     router.events.on("routeChangeStart", handleRouteChange)
 
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:
     return () => {
       router.events.off("routeChangeStart", handleRouteChange)
     }
-  }, [])
+  }, [router.events, removeItem])
 
   return (
     <div>
