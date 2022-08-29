@@ -42,7 +42,7 @@ const ButtonContainer = styled.div`
 `
 
 type Props = {
-  assetId: string
+  assetId?: string | null
   rightsToUse?: {
     name: string
     value: string
@@ -66,7 +66,7 @@ const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
   const onAcceptTerms = () => {
     setCheckoutData({
       ...checkoutData,
-      assetId,
+      assetId: assetId ?? "",
       terms: { ...checkoutData.terms, termsAccepted: !hasAcceptedTerms },
     })
   }
@@ -74,7 +74,7 @@ const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
   return (
     <>
       <Container>
-        <CheckoutWizard assetId={assetId}>
+        <CheckoutWizard assetId={assetId ?? ""}>
           {!assetId ? <NoAsset />
             : (
               <>
@@ -123,7 +123,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   // We should query for terms and the asset title and evaluate how much this will
   // affect TTFB
 
-  const defaultPageProps: Props = { assetId: id as string }
+  const defaultPageProps: Props = { assetId: id as string || null }
 
   const token = await getToken({ req })
 
