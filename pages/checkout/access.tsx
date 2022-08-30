@@ -57,7 +57,7 @@ const CheckoutAccessView: NextPage = () => {
   }
 
   const onContinueClick = () => {
-    if (description && description.length < MIN_LENGTH) {
+    if ((description && description.length < MIN_LENGTH) || description === undefined) {
       setError(true)
     } else {
       setError(false)
@@ -95,6 +95,7 @@ const CheckoutAccessView: NextPage = () => {
                 meta={description ? `${description && description.length}` : "0"}
                 helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : ""}
                 helperIcon={error && <Icon data={error_filled} />}
+                aria-required
               />
               <FakeHelperText group="input" variant="helper">{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
               <ButtonContainer>
