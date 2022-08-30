@@ -4,15 +4,13 @@ import {
 } from "@equinor/eds-core-react"
 import { error_filled } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import type { GetServerSideProps } from "next"
+import type { NextPage } from "next"
 import { useRouter } from "next/router"
 import { ChangeEventHandler, useState } from "react"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
-import {
-  CheckoutWizard, AssetIdProp, NoAsset, CancelButton,
-} from "../../components/CheckoutWizard"
+import { CheckoutWizard, NoAsset, CancelButton } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { useCheckoutData } from "../../hooks/useCheckoutData"
@@ -41,7 +39,7 @@ const FakeHelperText = styled(Typography)`
 const MIN_LENGTH = 10
 const MAX_LENGTH = 250
 
-const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
+const CheckoutAccessView: NextPage = () => {
   const intl = useIntl()
   const router = useRouter()
   const { checkoutData, setCheckoutData } = useCheckoutData()
@@ -65,7 +63,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
       setError(false)
       router.push({
         pathname: "/checkout/redirect",
-        query: { id: assetId },
+        query: { id: checkoutData.asset?.id },
       })
     }
   }
@@ -73,52 +71,47 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
   return (
     <>
       <Container>
-        <CheckoutWizard assetId={assetId}>
-          {!assetId ? <NoAsset />
-            : (
-              <>
-                <Headline>
-                  {intl.formatMessage({ id: "checkout.access.headline" })}
-                </Headline>
-                <Ingress>
-                  {intl.formatMessage({ id: "checkout.access.ingress" })}
-                </Ingress>
-                <TextField
-                  multiline
-                  id="description"
-                  label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
-                  placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
-                  onChange={onDescriptionChange}
-                  value={description}
-                  rows={4}
-                  variant={error ? "error" : "default"}
-                  maxLength={MAX_LENGTH}
-                  meta={description ? `${description && description.length}` : "0"}
-                  helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : ""}
-                  helperIcon={error && <Icon data={error_filled} />}
-                />
-                <FakeHelperText group="input" variant="helper">{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
-                <ButtonContainer>
-                  <CancelButton assetId={assetId} />
-                  <Button
-                    onClick={onContinueClick}
-                  >
-                    {intl.formatMessage({ id: "common.continue" })}
-                  </Button>
-                </ButtonContainer>
-              </>
-            )}
+        <CheckoutWizard assetName={checkoutData.asset?.name}>
+          {!checkoutData.asset ? (
+            <NoAsset />
+          ) : (
+            <>
+              <Headline>
+                {intl.formatMessage({ id: "checkout.access.headline" })}
+              </Headline>
+              <Ingress>
+                {intl.formatMessage({ id: "checkout.access.ingress" })}
+              </Ingress>
+              <TextField
+                multiline
+                id="description"
+                label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
+                placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
+                onChange={onDescriptionChange}
+                value={description}
+                rows={4}
+                variant={error ? "error" : "default"}
+                maxLength={MAX_LENGTH}
+                meta={description ? `${description && description.length}` : "0"}
+                helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : ""}
+                helperIcon={error && <Icon data={error_filled} />}
+              />
+              <FakeHelperText group="input" variant="helper">{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
+              <ButtonContainer>
+                <CancelButton assetId={checkoutData.asset?.id} />
+                <Button
+                  onClick={onContinueClick}
+                >
+                  {intl.formatMessage({ id: "common.continue" })}
+                </Button>
+              </ButtonContainer>
+            </>
+          )}
         </CheckoutWizard>
       </Container>
       <Footer />
     </>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.query
-  // @TODO when we have server side token handle the case of no id or no data
-  return { props: { assetId: id || null } }
 }
 
 export default CheckoutAccessView

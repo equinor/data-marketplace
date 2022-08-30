@@ -44,14 +44,14 @@ const ButtonContainer = styled.div`
 `
 
 type Props = {
-  assetId?: string | null
+  asset?: Collibra.Asset | null
   rightsToUse?: {
     name: string
     value: string
   }
 }
 
-const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
+const CheckoutTermsView: NextPage<Props> = ({ asset, rightsToUse }) => {
   const intl = useIntl()
   const router = useRouter()
   const [error, setError] = useState(false)
@@ -63,7 +63,7 @@ const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
       setError(false)
       router.push({
         pathname: "/checkout/access",
-        query: { id: assetId },
+        query: { id: asset?.id },
       })
     } else {
       setError(true)
@@ -73,7 +73,10 @@ const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
   const onAcceptTerms = () => {
     setCheckoutData({
       ...checkoutData,
-      assetId: assetId ?? "",
+      asset: {
+        id: asset?.id ?? "",
+        name: asset?.name ?? "",
+      },
       terms: { ...checkoutData.terms, termsAccepted: !hasAcceptedTerms },
     })
   }
@@ -81,8 +84,8 @@ const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
   return (
     <>
       <Container>
-        <CheckoutWizard assetId={assetId ?? ""}>
-          {!assetId ? <NoAsset />
+        <CheckoutWizard assetName={asset?.name}>
+          {!asset?.id ? <NoAsset />
             : (
               <>
                 <IngressContainer>
@@ -108,7 +111,7 @@ const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
                   {error && <ValidationError>{intl.formatMessage({ id: "terms.accept.errorMessage" })}</ValidationError> }
                 </CheckboxContainer>
                 <ButtonContainer>
-                  <CancelButton assetId={assetId} />
+                  <CancelButton assetId={asset?.id} />
                   <Button
                     onClick={onContinue}
                   >
@@ -130,7 +133,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   // We should query for terms and the asset title and evaluate how much this will
   // affect TTFB
 
-  const defaultPageProps: Props = { assetId: id as string || null }
+  const defaultPageProps: Props = { asset: null }
 
   const token = await getToken({ req })
 
@@ -206,7 +209,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
     return {
       props: {
-        ...defaultPageProps,
+        asset: dataProduct,
         rightsToUse: {
           name: terms.asset.name,
           value: xss(terms.value),
