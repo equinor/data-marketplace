@@ -57,7 +57,7 @@ const CheckoutAccessView: NextPage = () => {
   }
 
   const onContinueClick = () => {
-    if ((description && description.length < MIN_LENGTH) || description === undefined) {
+    if ((description && description.length < MIN_LENGTH) || description === undefined || description === "") {
       setError(true)
     } else {
       setError(false)
