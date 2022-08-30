@@ -1,4 +1,4 @@
-import { CircularProgress, Typography } from "@equinor/eds-core-react"
+import { Typography } from "@equinor/eds-core-react"
 import { useRouter } from "next/router"
 import {
   FunctionComponent, useEffect, PropsWithChildren, useState,
@@ -6,11 +6,10 @@ import {
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { useAssetData } from "../../hooks/useAssetData"
 import { useCheckoutData } from "../../hooks/useCheckoutData"
 
 import { Stepper } from "./Stepper"
-import type { AssetIdProp, CheckoutSteps } from "./types"
+import type { CheckoutSteps } from "./types"
 
 const CheckoutNavContainer = styled.div`
   margin: 1.5rem 0;
@@ -25,13 +24,14 @@ const ContentContainer = styled.div`
 `
 const steps: CheckoutSteps[] = ["terms", "access", "redirect"]
 
-type Props = PropsWithChildren & AssetIdProp;
+type Props = PropsWithChildren & {
+  assetName?: string
+}
 
-export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) => {
+export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }) => {
   const [currentStep, setCurrentStep] = useState(0)
   const router = useRouter()
   const intl = useIntl()
-  const { assetData, isLoading } = useAssetData(assetId)
   const { removeItem } = useCheckoutData()
 
   useEffect(() => {
@@ -67,12 +67,10 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ children, assetId }) 
   return (
     <div>
       <Heading>
-        {isLoading ? <CircularProgress /> : (
-          <Typography variant="h1">
-            <Typography variant="overline" as="div">{intl.formatMessage({ id: "checkout.title.eyebrow" })}</Typography>
-            {assetData?.name}
-          </Typography>
-        )}
+        <Typography variant="h1">
+          <Typography variant="overline" as="div">{intl.formatMessage({ id: "checkout.title.eyebrow" })}</Typography>
+          {assetName}
+        </Typography>
       </Heading>
       <CheckoutNavContainer>
         <Stepper currentStep={currentStep} />
