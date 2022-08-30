@@ -27,6 +27,8 @@ type RefreshTokenResponse = {
 }
 
 const tryAccessTokenRefresh = async (token: Token): Promise<Token> => {
+  console.log("[NextAuth] Attempting to refresh access token")
+
   try {
     const res = await HttpClient.post<RefreshTokenResponse>(`https://login.microsoftonline.com/${config.AUTH_TENANT_ID}/oauth2/v2.0/token`, {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -78,6 +80,8 @@ export default NextAuth({
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
+        console.log("[NextAuth] User signed in. Retrieving access token")
+
         Object.assign(token, {
           tokenType: account.token_type,
           accessToken: account.access_token,
@@ -92,6 +96,7 @@ export default NextAuth({
       }
 
       if (Date.now() > (token as Token).expiresAt) {
+        console.log(`[NextAuth] Access token expired at ${new Date()}`)
         return tryAccessTokenRefresh(token as Token)
       }
 
