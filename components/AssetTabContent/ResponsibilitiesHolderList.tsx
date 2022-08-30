@@ -3,8 +3,6 @@ import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 const TableCell = styled(Table.Cell)`
-  padding: 0.75rem 0;
-  column-gap: 0.5rem;
   width: 20rem;
 `
 
