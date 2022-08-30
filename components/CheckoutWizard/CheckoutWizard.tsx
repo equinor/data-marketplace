@@ -1,4 +1,5 @@
 import { Typography } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
 import { useRouter } from "next/router"
 import {
   FunctionComponent, useEffect, PropsWithChildren, useState,
@@ -12,7 +13,7 @@ import { Stepper } from "./Stepper"
 import type { CheckoutSteps } from "./types"
 
 const CheckoutNavContainer = styled.div`
-  margin: 1.5rem 0;
+  margin-block: ${tokens.spacings.comfortable.x_large} ${tokens.spacings.comfortable.xxx_large}  ;
 `
 
 const Heading = styled.div`
