@@ -6,6 +6,7 @@ RUN npm ci
 
 FROM node:lts-alpine AS builder
 WORKDIR /opt/app
+ENV NEXT_PUBLIC_COLLIBRA_BASE_URL https://equinor-dev.collibra.com/rest/2.0
 COPY . .
 COPY --from=dependencies /opt/app/node_modules ./node_modules
 RUN npm run build
