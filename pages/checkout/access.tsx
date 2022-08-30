@@ -11,7 +11,7 @@ import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import {
-  CheckoutWizard, AssetIdProp, NoAsset, CancelButton, HelperTextStyles,
+  CheckoutWizard, AssetIdProp, NoAsset, CancelButton,
 } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
@@ -33,7 +33,9 @@ const ButtonContainer = styled.div`
     margin-right: 1rem;
   }
 `
-const FakeHelperText = styled(HelperTextStyles)` 
+const FakeHelperText = styled(Typography)`
+  /* Couldn't find this colour in the tokens, but it's the same as the helperText */  
+  color: rgb(111, 111, 111); 
   margin: ${tokens.spacings.comfortable.small} 0 0  ${tokens.spacings.comfortable.small};
 `
 
@@ -96,7 +98,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                   helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : ""}
                   helperIcon={error && <Icon data={error_filled} />}
                 />
-                <FakeHelperText>{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
+                <FakeHelperText group="input" variant="helper">{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
                 <ButtonContainer>
                   <CancelButton assetId={assetId} />
                   <Button
