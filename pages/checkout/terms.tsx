@@ -112,7 +112,7 @@ const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
                     aria-invalid={hasAcceptedTerms ? "false" : "true"}
                     aria-required
                   />
-                  {error && <ValidationError>You must accept the terms</ValidationError> }
+                  {error && <ValidationError>{intl.formatMessage({ id: "terms.accept.errorMessage" })}</ValidationError> }
                 </CheckboxContainer>
                 <ButtonContainer>
                   <CancelButton assetId={assetId} />
