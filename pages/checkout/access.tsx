@@ -38,12 +38,18 @@ const ButtonContainer = styled.div`
   }
 `
 
+const CharCounter = styled.span`
+  margin-top: 0.25rem;
+  display: flex;
+  justify-content: flex-end;
+`
+
 const TextFieldContainer = styled.div`
   margin-bottom: 1.5rem;
 `
 
 const MIN_LENGTH = 10
-const MAX_LENGTH = 200
+const MAX_LENGTH = 250
 
 const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
   const intl = useIntl()
@@ -107,6 +113,9 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                     value={description}
                     maxLength={MAX_LENGTH}
                   />
+                  <CharCounter>
+                    <Typography variant="overline">{description && description.length}</Typography>
+                  </CharCounter>
                   {error && (
                     <ValidationError>
                       <FormattedMessage
@@ -122,7 +131,6 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                 <ButtonContainer>
                   <CancelButton assetId={assetId} />
                   <Button
-                    /* disabled={description.length < 10} */
                     onClick={onContinueClick}
                   >
                     {intl.formatMessage({ id: "common.continue" })}
