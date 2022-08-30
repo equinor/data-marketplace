@@ -6,7 +6,7 @@ import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import {
-  CheckoutWizard, AssetIdProp, NoAsset, CancelButton,
+  CheckoutWizard, AssetIdProp, NoAsset, CancelButton, ValidationError,
 } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
@@ -49,9 +49,9 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
   const intl = useIntl()
   const router = useRouter()
   const { checkoutData, setCheckoutData } = useCheckoutData()
-  const [errors, setErrors] = useState({})
+  const [error, setError] = useState(false)
 
-  const description = checkoutData?.access?.description || ""
+  const description = checkoutData?.access?.description
   const onDescriptionChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setCheckoutData({
       ...checkoutData,
@@ -63,9 +63,10 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
   }
 
   const onContinueClick = () => {
-    if (description.length < MIN_LENGTH) {
-      setErrors({ ...errors, min: true })
+    if (description && description.length < MIN_LENGTH) {
+      setError(true)
     } else {
+      setError(false)
       router.push({
         pathname: "/checkout/redirect",
         query: { id: assetId },
@@ -106,6 +107,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                     value={description}
                     maxLength={MAX_LENGTH}
                   />
+                  {error && <ValidationError>Error</ValidationError>}
                 </TextFieldContainer>
 
                 <ButtonContainer>
