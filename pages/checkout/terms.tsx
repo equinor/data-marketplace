@@ -89,11 +89,11 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, rightsToUse }) => {
             : (
               <>
                 <IngressContainer>
-                  <FormattedMessage
-                    id="terms.ingress"
-                    // eslint-disable-next-line react/no-unstable-nested-components
-                    values={{ p: (chunks) => <Typography>{chunks}</Typography> }}
-                  />
+                  <Typography variant="ingress">
+                    <FormattedMessage
+                      id="terms.ingress"
+                    />
+                  </Typography>
                 </IngressContainer>
                 <Banner variant="danger">
                   <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
