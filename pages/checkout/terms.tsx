@@ -9,7 +9,9 @@ import styled from "styled-components"
 import xss from "xss"
 
 import { Banner } from "../../components/Banner"
-import { CheckoutWizard, NoAsset, CancelButton } from "../../components/CheckoutWizard"
+import {
+  CheckoutWizard, NoAsset, AssetIdProp, CancelButton, ValidationError,
+} from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { config } from "../../config"
@@ -33,9 +35,10 @@ const CheckboxContainer = styled.div`
   }
 `
 
-const ValidationError = styled.span`
-  display: block;
-  color: ${tokens.colors.interactive.danger__resting.hex}
+const TypographyHeader = styled(Typography)`
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
 `
 
 const ButtonContainer = styled.div`
@@ -109,7 +112,7 @@ const CheckoutTermsView: NextPage<Props> = ({ assetId, rightsToUse }) => {
                     aria-invalid={hasAcceptedTerms ? "false" : "true"}
                     aria-required
                   />
-                  {error && <ValidationError role="alert">You must accept the terms</ValidationError> }
+                  {error && <ValidationError>You must accept the terms</ValidationError> }
                 </CheckboxContainer>
                 <ButtonContainer>
                   <CancelButton assetId={assetId} />
