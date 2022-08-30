@@ -72,7 +72,6 @@ const CheckoutAccessView: NextPage = () => {
                 multiline
                 id="description"
                 label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
-                placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
                 onChange={onDescriptionChange}
                 value={description}
                 rows={4}

@@ -45,7 +45,6 @@
   "terms.banner.danger.description2": "Data from these Data Products can only be shared with restricted groups within Equinor. External sharing is prohibited.",
   "checkout.access.exampleBody": "As a [role] I want [description of what you want to do with the data product], so that [description of why you need the data product]",
   "checkout.access.descriptionInput.label": "Why do you need access? (max. {maxLength} characters)",
-  "checkout.access.descriptionInput.placeholder": "Please provide a description",
   "checkout.access.descriptionInput.errorMessage": "This field is required and you must add at least {minLength} characters",
   "checkout.redirect.headline": "Redirecting to AccessIT",
   "checkout.redirect.ingress": "You'll now get redirected to AccessIT to complete the request process.",
