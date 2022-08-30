@@ -36,7 +36,7 @@
   "asset.timeliness": "Timeliness",
   "asset.overview": "Overview",
   "asset.responsibilites": "Responsibilites",
-  "terms.ingress": "<p>These terms and conditions create a contract between you as a data consumer and the data provider (the “Agreement”).</p><p>When you are provided access to this Data Product, you will have to ensure that the following criteria are met:</p>",
+  "terms.ingress": "Access to this Data Product requires you to adhere to the following conditions:",
   "terms.acceptLabel": "I accept the Terms of Use",
   "terms.accept.errorMessage": "You must accept the Terms of Use",
   "terms.banner.danger.heading1": "Security Classification",
