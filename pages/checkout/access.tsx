@@ -94,7 +94,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                   rows={4}
                   variant={error ? "error" : "default"}
                   maxLength={MAX_LENGTH}
-                  meta={`${description && description.length}`}
+                  meta={description ? `${description && description.length}` : "0"}
                   helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : ""}
                   helperIcon={error && <Icon data={error_filled} />}
                 />
