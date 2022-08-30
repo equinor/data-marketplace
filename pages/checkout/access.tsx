@@ -15,14 +15,6 @@ import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { useCheckoutData } from "../../hooks/useCheckoutData"
 
-const Headline = styled(Typography).attrs(() => ({ variant: "h4" }))`
-  margin-bottom: 0.25rem;
-`
-
-const Ingress = styled(Typography).attrs(() => ({ variant: "ingress" }))`
-  margin-bottom: 2rem;
-`
-
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -76,12 +68,6 @@ const CheckoutAccessView: NextPage = () => {
             <NoAsset />
           ) : (
             <>
-              <Headline>
-                {intl.formatMessage({ id: "checkout.access.headline" })}
-              </Headline>
-              <Ingress>
-                {intl.formatMessage({ id: "checkout.access.ingress" })}
-              </Ingress>
               <TextField
                 multiline
                 id="description"
