@@ -1,12 +1,16 @@
-import { Button, TextField, Typography } from "@equinor/eds-core-react"
+/* eslint-disable camelcase */
+import {
+  Button, TextField, Typography, Icon,
+} from "@equinor/eds-core-react"
+import { error_filled } from "@equinor/eds-icons"
 import type { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ChangeEventHandler, useState } from "react"
-import { useIntl, FormattedMessage } from "react-intl"
+import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import {
-  CheckoutWizard, AssetIdProp, NoAsset, CancelButton, ValidationError,
+  CheckoutWizard, AssetIdProp, NoAsset, CancelButton,
 } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
@@ -32,9 +36,7 @@ const ButtonContainer = styled.div`
 const TextFieldContainer = styled.div`
   margin-bottom: 1.5rem;
 `
-const StyledTextField = styled(TextField)`
-resize: none;
-`
+
 const MIN_LENGTH = 10
 const MAX_LENGTH = 250
 
@@ -67,6 +69,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
     }
   }
 
+  const helperText = error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : intl.formatMessage({ id: "checkout.access.exampleBody" })
   return (
     <>
       <Container>
@@ -82,7 +85,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                 </Ingress>
 
                 <TextFieldContainer>
-                  <StyledTextField
+                  <TextField
                     multiline
                     id="description"
                     label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
@@ -90,21 +93,13 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                     onChange={onDescriptionChange}
                     value={description}
                     rows={4}
-                    style={{ resize: "none" }}
+                    variant={error ? "error" : "default"}
                     maxLength={MAX_LENGTH}
                     meta={`${description && description.length}`}
-                    helperText={intl.formatMessage({ id: "checkout.access.exampleBody" })}
+                    helperText={helperText}
+                    helperIcon={error && <Icon data={error_filled} title="Error" />}
                   />
-                  {error && (
-                    <ValidationError>
-                      <FormattedMessage
-                        id="checkout.access.descriptionInput.errorMessage"
-                        values={{
-                          minLength: MIN_LENGTH,
-                        }}
-                      />
-                    </ValidationError>
-                  )}
+
                 </TextFieldContainer>
 
                 <ButtonContainer>
