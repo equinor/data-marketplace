@@ -20,15 +20,6 @@ const Ingress = styled(Typography).attrs(() => ({ variant: "ingress" }))`
   margin-bottom: 2rem;
 `
 
-const ExampleContainer = styled.div`
-  display: flex;
-  margin-bottom: 1.5rem;
-
-  p:first-child {
-    margin-right: 1rem;
-  }
-`
-
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -41,7 +32,9 @@ const ButtonContainer = styled.div`
 const TextFieldContainer = styled.div`
   margin-bottom: 1.5rem;
 `
-
+const StyledTextField = styled(TextField)`
+resize: none;
+`
 const MIN_LENGTH = 10
 const MAX_LENGTH = 250
 
@@ -88,25 +81,19 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                   {intl.formatMessage({ id: "checkout.access.ingress" })}
                 </Ingress>
 
-                <ExampleContainer>
-                  <Typography variant="caption">
-                    {intl.formatMessage({ id: "checkout.access.exampleLabel" })}
-                  </Typography>
-                  <Typography variant="caption">
-                    {intl.formatMessage({ id: "checkout.access.exampleBody" })}
-                  </Typography>
-                </ExampleContainer>
-
                 <TextFieldContainer>
-                  <TextField
+                  <StyledTextField
                     multiline
                     id="description"
                     label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
                     placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
                     onChange={onDescriptionChange}
                     value={description}
+                    rows={4}
+                    style={{ resize: "none" }}
                     maxLength={MAX_LENGTH}
                     meta={`${description && description.length}`}
+                    helperText={intl.formatMessage({ id: "checkout.access.exampleBody" })}
                   />
                   {error && (
                     <ValidationError>

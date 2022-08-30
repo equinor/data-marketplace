@@ -45,7 +45,6 @@
   "terms.banner.danger.description2": "Data from these Data Products can only be shared with restricted groups within Equinor. External sharing is prohibited.",
   "checkout.access.headline": "Why do you want access?",
   "checkout.access.ingress": "Please provide a short description explaining why you want access.",
-  "checkout.access.exampleLabel": "Example",
   "checkout.access.exampleBody": "As a [role] I want [description of what you want to do with the data product], so that [description of why you need the data product]",
   "checkout.access.descriptionInput.label": "Description (max. {maxLength} characters)",
   "checkout.access.descriptionInput.placeholder": "Please provide a description\u2026",
