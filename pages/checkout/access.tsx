@@ -11,7 +11,7 @@ import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import {
-  CheckoutWizard, AssetIdProp, NoAsset, CancelButton,
+  CheckoutWizard, AssetIdProp, NoAsset, CancelButton, HelperTextStyles,
 } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
@@ -33,11 +33,7 @@ const ButtonContainer = styled.div`
     margin-right: 1rem;
   }
 `
-const FakeHelperText = styled(Typography)`
-  /* Stole styles form the helper text since variant="helper" has a runtime error */
-  font-size: 0.750rem;
-  line-height: 1.33em;
-  letter-spacing: 0.013em;
+const FakeHelperText = styled(HelperTextStyles)` 
   margin: ${tokens.spacings.comfortable.small} 0 0  ${tokens.spacings.comfortable.small};
 `
 
@@ -98,7 +94,7 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                   maxLength={MAX_LENGTH}
                   meta={`${description && description.length}`}
                   helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : ""}
-                  helperIcon={error && <Icon data={error_filled} title="Error" />}
+                  helperIcon={error && <Icon data={error_filled} />}
                 />
                 <FakeHelperText>{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
                 <ButtonContainer>
