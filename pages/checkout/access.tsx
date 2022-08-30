@@ -38,12 +38,6 @@ const ButtonContainer = styled.div`
   }
 `
 
-const CharCounter = styled.span`
-  margin-top: 0.25rem;
-  display: flex;
-  justify-content: flex-end;
-`
-
 const TextFieldContainer = styled.div`
   margin-bottom: 1.5rem;
 `
@@ -112,10 +106,8 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                     onChange={onDescriptionChange}
                     value={description}
                     maxLength={MAX_LENGTH}
+                    meta={`${description && description.length}`}
                   />
-                  <CharCounter>
-                    <Typography variant="overline">{description && description.length}</Typography>
-                  </CharCounter>
                   {error && (
                     <ValidationError>
                       <FormattedMessage
