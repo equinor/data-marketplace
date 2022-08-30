@@ -1,5 +1,4 @@
 import { Button, Checkbox, Typography } from "@equinor/eds-core-react"
-import { tokens } from "@equinor/eds-tokens"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import { useRouter } from "next/router"
@@ -10,7 +9,7 @@ import xss from "xss"
 
 import { Banner } from "../../components/Banner"
 import {
-  CheckoutWizard, NoAsset, AssetIdProp, CancelButton, ValidationError,
+  CheckoutWizard, NoAsset, CancelButton, ValidationError,
 } from "../../components/CheckoutWizard"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
@@ -33,12 +32,6 @@ const CheckboxContainer = styled.div`
     position: relative;
     left: -12px;
   }
-`
-
-const TypographyHeader = styled(Typography)`
-  font-weight: 500;
-  font-size: 1.125rem;
-  line-height: 1.5rem;
 `
 
 const ButtonContainer = styled.div`
