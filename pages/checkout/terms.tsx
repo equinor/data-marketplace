@@ -1,4 +1,5 @@
 import { Button, Checkbox, Typography } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import { useRouter } from "next/router"
@@ -7,7 +8,6 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 import xss from "xss"
 
-import { Banner } from "../../components/Banner"
 import {
   CheckoutWizard, NoAsset, CancelButton, ValidationError,
 } from "../../components/CheckoutWizard"
@@ -41,6 +41,12 @@ const ButtonContainer = styled.div`
   > *:not(:last-child) {
     margin-right: 1rem;
   }
+`
+
+const InfoBox = styled.div`
+  background-color: ${tokens.colors.ui.background__info.hex};
+  padding: ${tokens.spacings.comfortable.medium};
+  margin-bottom: ${tokens.spacings.comfortable.medium}
 `
 
 type Props = {
@@ -95,10 +101,10 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, rightsToUse }) => {
                     />
                   </Typography>
                 </IngressContainer>
-                <Banner variant="danger">
+                <InfoBox>
                   <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
                   <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
-                </Banner>
+                </InfoBox>
                 <CheckboxContainer>
                   <Checkbox
                     name="acceptTerms"
