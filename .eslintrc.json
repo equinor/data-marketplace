@@ -48,25 +48,18 @@
     {
       "files": ["*.ts?(x)"],
       "rules": {
-        "no-shadow": "off",
         "@typescript-eslint/no-shadow": ["error"],
-        "no-unused-vars": "off",
-        "@typescript-eslint/no-unused-vars": ["error"]
-      }
-    },
-    {
-      "files": ["pages/**/*.{j,t}s?(x)"],
-      "rules": {
-        "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": ["error"],
-        "no-undef": "off"
+        "no-shadow": "off",
+        "no-undef": "off",
+        "no-unused-vars": "off"
       }
     },
     {
       "files": ["pages/**/*.{j,t}s?(x)"],
       "rules": {
-        "import/prefer-default-export": 2,
-        "import/no-default-export": 0
+        "import/no-default-export": 0,
+        "import/prefer-default-export": 2
       }
     },
     {
