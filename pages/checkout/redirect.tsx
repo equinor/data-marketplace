@@ -1,4 +1,5 @@
 import { Progress, Typography } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next/types"
 import {
   ReactNode,
@@ -15,12 +16,12 @@ import { Footer } from "../../components/Footer"
 import { config } from "../../config"
 import { useCheckoutData } from "../../hooks"
 
-const Ingress = styled(Typography).attrs({ variant: "ingress" })`
-  margin-bottom: 0.75rem;
-`
-
 const HelpText = styled(Typography)`
   margin-bottom: 1.5rem;
+`
+
+const Redirect = styled.div`
+  margin-block: ${tokens.spacings.comfortable.xx_large}
 `
 
 const CheckoutRedirectView: NextPage = () => {
@@ -64,25 +65,27 @@ const CheckoutRedirectView: NextPage = () => {
             <NoAsset />
           ) : (
             <>
-              <Typography variant="h4" as="h1" style={{ marginBottom: "0.25rem" }}>
+              <Typography variant="ingress">
                 {intl.formatMessage({ id: "checkout.redirect.headline" })}
               </Typography>
-              <Ingress>{intl.formatMessage({ id: "checkout.redirect.ingress" })}</Ingress>
-              <HelpText>
-                <FormattedMessage
-                  id="checkout.redirect.body"
-                  values={{
-                    a: FormattedLink,
-                    link: config.ACCESSIT_BASE_URL,
-                  }}
+              <Redirect>
+                <Typography variant="caption">{intl.formatMessage({ id: "checkout.redirect.label" })}</Typography>
+                <Progress.Linear
+                  variant="determinate"
+                  value={progress}
                 />
-              </HelpText>
-              <Progress.Linear
-                variant="determinate"
-                value={progress}
-              />
+              </Redirect>
             </>
           )}
+          <HelpText>
+            <FormattedMessage
+              id="checkout.redirect.body"
+              values={{
+                a: FormattedLink,
+                link: config.ACCESSIT_BASE_URL,
+              }}
+            />
+          </HelpText>
         </CheckoutWizard>
       </Container>
       <Footer />
