@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import {
-  Button, TextField, Typography, Icon,
+  Button, TextField, Typography, Icon, Tooltip,
 } from "@equinor/eds-core-react"
 import { error_filled } from "@equinor/eds-icons"
 import type { GetServerSideProps } from "next"
@@ -85,21 +85,22 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                 </Ingress>
 
                 <TextFieldContainer>
-                  <TextField
-                    multiline
-                    id="description"
-                    label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
-                    placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
-                    onChange={onDescriptionChange}
-                    value={description}
-                    rows={4}
-                    variant={error ? "error" : "default"}
-                    maxLength={MAX_LENGTH}
-                    meta={`${description && description.length}`}
-                    helperText={helperText}
-                    helperIcon={error && <Icon data={error_filled} title="Error" />}
-                  />
-
+                  <Tooltip placement="bottom" title={intl.formatMessage({ id: "checkout.access.exampleBody" })}>
+                    <TextField
+                      multiline
+                      id="description"
+                      label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
+                      placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
+                      onChange={onDescriptionChange}
+                      value={description}
+                      rows={4}
+                      variant={error ? "error" : "default"}
+                      maxLength={MAX_LENGTH}
+                      meta={`${description && description.length}`}
+                      helperText={helperText}
+                      helperIcon={error && <Icon data={error_filled} title="Error" />}
+                    />
+                  </Tooltip>
                 </TextFieldContainer>
 
                 <ButtonContainer>
