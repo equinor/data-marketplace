@@ -2,7 +2,7 @@ import { Button, TextField, Typography } from "@equinor/eds-core-react"
 import type { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ChangeEventHandler, useState } from "react"
-import { useIntl } from "react-intl"
+import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
 import {
@@ -101,13 +101,22 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                   <TextField
                     multiline
                     id="description"
-                    label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" })}
+                    label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
                     placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
                     onChange={onDescriptionChange}
                     value={description}
                     maxLength={MAX_LENGTH}
                   />
-                  {error && <ValidationError>Error</ValidationError>}
+                  {error && (
+                    <ValidationError>
+                      <FormattedMessage
+                        id="checkout.access.descriptionInput.errorMessage"
+                        values={{
+                          minLength: MIN_LENGTH,
+                        }}
+                      />
+                    </ValidationError>
+                  )}
                 </TextFieldContainer>
 
                 <ButtonContainer>
