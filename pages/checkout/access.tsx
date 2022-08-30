@@ -34,8 +34,7 @@ const ButtonContainer = styled.div`
   }
 `
 const FakeHelperText = styled(Typography)`
-  /* Couldn't find this colour in the tokens, but it's the same as the helperText */  
-  color: rgb(111, 111, 111); 
+  color: ${tokens.colors.text.static_icons__tertiary.hex};
   margin: ${tokens.spacings.comfortable.small} 0 0  ${tokens.spacings.comfortable.small};
 `
 
