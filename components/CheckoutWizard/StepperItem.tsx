@@ -37,6 +37,7 @@ const StepperTitle = styled(Typography)<{ finished?: boolean}>`
   margin-right: var(--size1);
 `
 const Title = styled.span<{ active?: boolean, finished?: boolean }>`
+  white-space: nowrap;
   background-color: white;
   padding-right: var(--size1);
   color: ${({ active, finished }) => (active || finished ? "var(--defaultText)" : "var(--disabledText)")};

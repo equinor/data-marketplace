@@ -52,7 +52,7 @@
   "checkout.no.asset": "In order to checkout, you must first select an asset",
   "checkout.nav.step.terms": "Terms of Use",
   "checkout.nav.step.access": "Request access",
-  "checkout.nav.step.redirect": "Redirect",
+  "checkout.nav.step.redirect": "Redirect to AccessIT",
   "checkout.title.eyebrow": "Request access to",
   "footer.copyright": "Copyright © Equinor 2022",
   "responsibility.header.name": "Name",
