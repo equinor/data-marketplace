@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
 import {
-  Button, TextField, Typography, Icon, Tooltip,
+  Button, TextField, Typography, Icon,
 } from "@equinor/eds-core-react"
 import { error_filled } from "@equinor/eds-icons"
+import { tokens } from "@equinor/eds-tokens"
 import type { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ChangeEventHandler, useState } from "react"
@@ -27,14 +28,17 @@ const Ingress = styled(Typography).attrs(() => ({ variant: "ingress" }))`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-
+  margin-top: 1.5rem;
   > *:not(:last-child) {
     margin-right: 1rem;
   }
 `
-
-const TextFieldContainer = styled.div`
-  margin-bottom: 1.5rem;
+const FakeHelperText = styled(Typography)`
+  /* Stole styles form the helper text since variant="helper" has a runtime error */
+  font-size: 0.750rem;
+  line-height: 1.33em;
+  letter-spacing: 0.013em;
+  margin: ${tokens.spacings.comfortable.small} 0 0  ${tokens.spacings.comfortable.small};
 `
 
 const MIN_LENGTH = 10
@@ -69,7 +73,6 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
     }
   }
 
-  const helperText = error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : intl.formatMessage({ id: "checkout.access.exampleBody" })
   return (
     <>
       <Container>
@@ -83,26 +86,21 @@ const CheckoutAccessView = ({ assetId }: AssetIdProp) => {
                 <Ingress>
                   {intl.formatMessage({ id: "checkout.access.ingress" })}
                 </Ingress>
-
-                <TextFieldContainer>
-                  <Tooltip placement="bottom" title={intl.formatMessage({ id: "checkout.access.exampleBody" })}>
-                    <TextField
-                      multiline
-                      id="description"
-                      label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
-                      placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
-                      onChange={onDescriptionChange}
-                      value={description}
-                      rows={4}
-                      variant={error ? "error" : "default"}
-                      maxLength={MAX_LENGTH}
-                      meta={`${description && description.length}`}
-                      helperText={helperText}
-                      helperIcon={error && <Icon data={error_filled} title="Error" />}
-                    />
-                  </Tooltip>
-                </TextFieldContainer>
-
+                <TextField
+                  multiline
+                  id="description"
+                  label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
+                  placeholder={intl.formatMessage({ id: "checkout.access.descriptionInput.placeholder" })}
+                  onChange={onDescriptionChange}
+                  value={description}
+                  rows={4}
+                  variant={error ? "error" : "default"}
+                  maxLength={MAX_LENGTH}
+                  meta={`${description && description.length}`}
+                  helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : ""}
+                  helperIcon={error && <Icon data={error_filled} title="Error" />}
+                />
+                <FakeHelperText>{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
                 <ButtonContainer>
                   <CancelButton assetId={assetId} />
                   <Button
