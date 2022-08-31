@@ -43,6 +43,13 @@ const ContinueButtonText = styled.span<{ invisible: boolean }>`
   visibility: ${({ invisible }) => (invisible ? "hidden" : "visible")};
 `
 
+const ButtonProgressContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
+
 const MIN_LENGTH = 10
 const MAX_LENGTH = 250
 
@@ -124,11 +131,12 @@ const CheckoutAccessView: NextPage = () => {
                   onClick={onContinueClick}
                   disabled={isLoading}
                 >
-                  {isLoading ? (
-                    <Progress.Circular variant="indeterminate" />
-                  ) : (
-                    <ContinueButtonText invisible={isLoading}>{intl.formatMessage({ id: "common.continue" })}</ContinueButtonText>
+                  {isLoading && (
+                    <ButtonProgressContainer>
+                      <Progress.Circular variant="indeterminate" size={24} style={{ display: "block" }} />
+                    </ButtonProgressContainer>
                   )}
+                  <ContinueButtonText invisible={isLoading}>{intl.formatMessage({ id: "common.continue" })}</ContinueButtonText>
                 </Button>
               </ButtonContainer>
             </>
