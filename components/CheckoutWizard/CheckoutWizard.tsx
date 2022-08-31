@@ -26,7 +26,7 @@ const ContentContainer = styled.div`
 const steps: CheckoutSteps[] = ["terms", "access", "redirect"]
 
 type Props = PropsWithChildren & {
-  assetName?: string
+  assetName?: string | null
 }
 
 export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }) => {

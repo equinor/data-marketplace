@@ -90,7 +90,7 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, rightsToUse }) => {
   return (
     <>
       <Container>
-        <CheckoutWizard assetName={asset?.name}>
+        <CheckoutWizard assetName={checkoutData.asset?.name}>
           {!asset?.id ? <NoAsset />
             : (
               <>

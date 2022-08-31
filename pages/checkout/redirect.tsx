@@ -37,7 +37,9 @@ const CheckoutRedirectView: NextPage = () => {
       })
     }, 100)
 
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(interval)
+    }
   }, [])
 
   useEffect(() => {
