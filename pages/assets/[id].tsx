@@ -9,7 +9,6 @@ import NextLink from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useIntl, FormattedMessage } from "react-intl"
-/* import { useDispatch } from "react-redux" */
 import styled from "styled-components"
 
 import {
@@ -20,7 +19,6 @@ import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
 import { useAssetData } from "../../hooks"
 import { useAssetDetails } from "../../hooks/useAssetDetails"
-/* import { Dispatch } from "../../store" */
 
 const {
   Tab: EdsTab, List, Panel, Panels,
@@ -65,8 +63,6 @@ type AssetDetailProps = {
 const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   const router = useRouter()
   const intl = useIntl()
-  // @TODO Should we still save the id in the store
-  /* const dispatch = useDispatch<Dispatch>() */
 
   const tabQuery = router.query.tab
 
