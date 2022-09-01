@@ -37,6 +37,10 @@ const StyledTabs = styled(Tabs)`
 margin-top: 48px;
 `
 
+const AssetHeading = styled(Typography)`
+  font-size: 2.5rem;
+`
+
 type TabName = "overview" | "responsibilities"
 
 type Tab = {
@@ -118,9 +122,9 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
 
         <Container>
           <Header>
-            <Typography style={{ fontSize: "2.5rem" }} variant="h1">
+            <AssetHeading variant="h1">
               {asset.name}
-            </Typography>
+            </AssetHeading>
             <NextLink
               href={{
                 pathname: "/checkout/terms",
