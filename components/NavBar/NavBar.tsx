@@ -97,6 +97,7 @@ export const NavBar = () => {
             id="user-menu"
             placement="bottom-end"
             open={isUserMenuOpen}
+            onClose={() => setIsUserMenuOpen(false)}
           >
             <Menu.Item onClick={onSignOutClick}>
               <Icon data={power} />
