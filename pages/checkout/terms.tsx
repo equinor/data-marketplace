@@ -80,10 +80,7 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
   useEffect(() => {
     if (asset) {
-      setCheckoutData({
-        ...checkoutData,
-        asset: { id: asset.id, name: asset.name },
-      })
+      setCheckoutData({ asset: { id: asset.id, name: asset.name } })
     }
   }, [asset])
 
@@ -167,7 +164,6 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
     asset,
     formError,
     hasAcceptedTerms,
-    intl,
     rightsToUse,
     checkoutData,
   ])
@@ -186,14 +182,8 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
-  // @TODO when we have server side token handle the case of no id or no data
-  // We should query for terms and the asset title and evaluate how much this will
-  // affect TTFB
-
   const defaultPageProps: Props = { asset: null }
-
   const token = await getToken({ req })
-
   const authorization = `Bearer ${token!.accessToken}`
 
   try {
