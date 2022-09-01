@@ -7,14 +7,13 @@ import { ResponsibilitiesHolderList, ResponsibilityHolder } from "./Responsibili
 export type ResponsibilitiesContentSections = Record<"DATA_OFFICE_ADMIN" | "DATA_STEWARD" | "OWNER" | "TECHNICAL_STEWARD", ResponsibilityHolder[]>
 
 const Responsibilities = styled.div`
-
   display: inline-flex;
   flex-direction: column;
   gap: ${tokens.spacings.comfortable.xx_large};
 `
 const Intro = styled.div`
   margin-bottom: ${tokens.spacings.comfortable.xx_large};
-  max-width: 650px;
+  max-width: 60ch;
 `
 const ResponsibilitiesWrapper = styled.div`
   padding:  ${tokens.spacings.comfortable.x_large} 0;
