@@ -40,5 +40,7 @@
   "checkout.title.eyebrow": "Request access to",
   "footer.copyright": "Copyright © Equinor 2022",
   "responsibility.header.name": "Name",
-  "responsibility.header.email": "Email"
+  "responsibility.header.email": "Email",
+  "responsibility.intro.header": "Get in touch",
+  "responsibility.intro.ingress": "Have a question about this data product? Get in touch with the data steward if you have any general questions. Technical questions or issues, contact the technical steward."
 }

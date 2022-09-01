@@ -5,12 +5,8 @@ import styled from "styled-components"
 
 import { AssetTabContentSectionContainer } from "./AssetTabContentSectionContainer"
 
-/* const StyledTypography = styled(Typography)`
-  margin-bottom: ${tokens.spacings.comfortable.small}
-` */
-
 const Overview = styled.div`
-  padding: ${tokens.spacings.comfortable.x_large} 0;
+  padding-top: ${tokens.spacings.comfortable.x_large};
   display: flex;
   flex-direction: column;
   gap: ${tokens.spacings.comfortable.x_large};
