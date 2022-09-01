@@ -153,18 +153,28 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
   const token = await getToken({ req })
   const authorization = `Bearer ${token!.accessToken}`
+  const defaultPageProps = { asset: null }
 
   try {
     const { body: dataProduct } = await HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${id}`, {
       headers: { authorization },
     })
 
-    const { body: attrsRes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
+    if (!dataProduct) {
+      console.warn("[AssetDetailView] No data product  found for", id)
+      return { props: defaultPageProps }
+    }
+
+    const { body: attributes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
       headers: { authorization },
       query: { assetId: id },
     })
 
-    const overviewData = attrsRes?.results.filter((attr) => [
+    if (!attributes) {
+      console.warn("[AssetDetailView] No attribute response found for", id)
+    }
+
+    const overviewData = attributes?.results.filter((attr) => [
       "description",
       "purpose",
       "timeliness",
@@ -173,23 +183,23 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       [attr.type.name!.toLowerCase().replace(/\s/g, "_")]: xss(attr.value),
     }), {})
 
-    const response = await HttpClient.get<Collibra.PagedResponsibilityResponse>(`${config.COLLIBRA_BASE_URL}/responsibilities`, {
+    const { body: responsibilities } = await HttpClient.get<Collibra.PagedResponsibilityResponse>(`${config.COLLIBRA_BASE_URL}/responsibilities`, {
       headers: { authorization },
       query: { resourceIds: id },
     })
 
-    if (!response.body) {
-      return { props: { asset: null } }
+    if (!attributes) {
+      console.warn("[AssetDetailView] No responsibilites found for", id)
     }
 
     // filter out results that are not a "Role" and "User" type
-    const usersWithRoles = response.body.results.filter((result: any) => (
+    const usersWithRoles = (responsibilities && responsibilities.results.filter((result: any) => (
       result.role.resourceType === "Role"
         && result.owner.resourceType === "User"
     )).map((responsibility: any) => ({
       role: responsibility.role.name.toUpperCase().replace(/\s/g, "_"),
       id: responsibility.owner.id,
-    }))
+    }))) || []
 
     const usersRes = await Promise.all(usersWithRoles.map((user: any) => HttpClient.get<Collibra.User>(`${config.COLLIBRA_BASE_URL}/users/${user.id}`, {
       headers: { authorization },
@@ -222,7 +232,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
         [user.role]: [transformedUser],
       }
     }, {} as Record<string, any[]>)
-
+    console.log(users)
     return {
       props: {
         asset: dataProduct,
@@ -233,7 +243,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   } catch (error) {
     console.error(`[AssetDetailView] in getServerSideProps - Failed getting asset details for asset ${id}`, error)
 
-    return { props: { asset: null } }
+    return { props: defaultPageProps }
   }
 }
 
