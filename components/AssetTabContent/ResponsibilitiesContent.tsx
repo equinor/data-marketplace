@@ -17,7 +17,7 @@ const Intro = styled.div`
   max-width: 60ch;
 `
 const ResponsibilitiesWrapper = styled.div`
-  padding:  ${tokens.spacings.comfortable.x_large} 0;
+  padding-top:  ${tokens.spacings.comfortable.x_large};
 `
 
 type Props = {
