@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import {
-  Button, Divider, Icon, Typography, Tabs,
+  Button, Icon, Typography, Tabs,
 } from "@equinor/eds-core-react"
 import { shopping_cart_add } from "@equinor/eds-icons"
 import type { GetServerSideProps, NextPage } from "next"
@@ -32,6 +32,9 @@ const Header = styled.header`
   grid-template-columns: 1fr auto;
   grid-gap: 1.5rem;
   align-items: baseline;
+`
+const StyledTabs = styled(Tabs)`
+margin-top: 48px;
 `
 
 type TabName = "overview" | "responsibilities"
@@ -115,7 +118,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
 
         <Container>
           <Header>
-            <Typography variant="h1_bold" as="h1">
+            <Typography style={{ fontSize: "2.5rem" }} variant="h1">
               {asset.name}
             </Typography>
             <NextLink
@@ -132,8 +135,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
             </NextLink>
           </Header>
 
-          <Divider />
-          <Tabs onChange={handleTabChange} activeTab={currentTab.id}>
+          <StyledTabs onChange={handleTabChange} activeTab={currentTab.id}>
             <List>
               <EdsTab key="overview">
                 {intl.formatMessage({ id: "asset.overview" })}
@@ -150,7 +152,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
                 <ResponsibilitiesContent content={responsibilitiesData} />
               </Panel>
             </Panels>
-          </Tabs>
+          </StyledTabs>
         </Container>
       </main>
       <Footer />
