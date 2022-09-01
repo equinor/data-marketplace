@@ -1,9 +1,18 @@
 import { Typography, Table } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 const TableCell = styled(Table.Cell)`
   width: 20rem;
+`
+
+const StyledCaption = styled(Table.Caption)`
+  margin-bottom: ${tokens.spacings.comfortable.medium}
+`
+
+const HeaderCell = styled(Table.Cell)`
+  background-color: ${tokens.colors.infographic.primary__moss_green_13.hex};
 `
 
 export type ResponsibilityHolder = {
@@ -26,17 +35,17 @@ export const ResponsibilitiesHolderList = ({
 
   return (
     <Table>
-      <Table.Caption>
-        <Typography variant="overline">{headline}</Typography>
-      </Table.Caption>
+      <StyledCaption>
+        <Typography variant="h5" as="div">{headline}</Typography>
+      </StyledCaption>
       <Table.Head>
         <Table.Row>
-          <TableCell>
+          <HeaderCell>
             {intl.formatMessage({ id: "responsibility.header.name" })}
-          </TableCell>
-          <TableCell>
+          </HeaderCell>
+          <HeaderCell>
             {intl.formatMessage({ id: "responsibility.header.email" })}
-          </TableCell>
+          </HeaderCell>
         </Table.Row>
       </Table.Head>
       <Table.Body>
