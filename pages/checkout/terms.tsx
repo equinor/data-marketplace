@@ -10,12 +10,12 @@ import xss from "xss"
 
 import {
   CheckoutWizard, NoAsset, CancelButton, ValidationError,
-} from "../../components/CheckoutWizard"
-import { Container } from "../../components/Container"
-import { Footer } from "../../components/Footer"
-import { config } from "../../config"
-import { useCheckoutData } from "../../hooks/useCheckoutData"
-import { HttpClient } from "../../lib/HttpClient"
+} from "components/CheckoutWizard"
+import { Container } from "components/Container"
+import { Footer } from "components/Footer"
+import { config } from "config"
+import { useCheckoutData } from "hooks/useCheckoutData"
+import { HttpClient } from "lib/HttpClient"
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;

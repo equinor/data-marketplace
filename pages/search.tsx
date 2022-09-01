@@ -16,13 +16,13 @@ import React, { useEffect, useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { Container } from "../components/Container"
-import { Footer } from "../components/Footer"
-import { Link } from "../components/Link"
-import { Section } from "../components/Section"
-import { TruncatedDescription } from "../components/helpers"
-import { HttpClient } from "../lib/HttpClient"
-import { updateCommunityFilter } from "../lib/updateCommunityFilter"
+import { Container } from "components/Container"
+import { Footer } from "components/Footer"
+import { Link } from "components/Link"
+import { Section } from "components/Section"
+import { TruncatedDescription } from "components/helpers"
+import { HttpClient } from "lib/HttpClient"
+import { updateCommunityFilter } from "lib/updateCommunityFilter"
 
 const { Header: CardHeader, HeaderTitle: CardHeaderTitle, Content: CardContent } = Card
 const { Item } = List

@@ -7,10 +7,10 @@ import {
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { useCheckoutData } from "../../hooks/useCheckoutData"
-
 import { Stepper } from "./Stepper"
 import type { CheckoutSteps } from "./types"
+
+import { useCheckoutData } from "hooks/useCheckoutData"
 
 const CheckoutNavContainer = styled.div`
   margin-block: ${tokens.spacings.comfortable.x_large} ${tokens.spacings.comfortable.xxx_large}  ;

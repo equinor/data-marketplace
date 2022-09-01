@@ -10,11 +10,11 @@ import {
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { CheckoutWizard, NoAsset } from "../../components/CheckoutWizard"
-import { Container } from "../../components/Container"
-import { Footer } from "../../components/Footer"
-import { config } from "../../config"
-import { useCheckoutData } from "../../hooks"
+import { CheckoutWizard, NoAsset } from "components/CheckoutWizard"
+import { Container } from "components/Container"
+import { Footer } from "components/Footer"
+import { config } from "config"
+import { useCheckoutData } from "hooks"
 
 const HelpText = styled(Typography)`
   margin-bottom: 1.5rem;

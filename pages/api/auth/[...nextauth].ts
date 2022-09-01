@@ -3,8 +3,8 @@ import { JWT } from "next-auth/jwt"
 import ADProvider from "next-auth/providers/azure-ad"
 import qs from "query-string"
 
-import { config } from "../../../config"
-import { HttpClient } from "../../../lib/HttpClient"
+import { config } from "config"
+import { HttpClient } from "lib/HttpClient"
 
 const SCOPE = "openid offline_access https://equinor-dev.collibra.com/user_impersonation"
 

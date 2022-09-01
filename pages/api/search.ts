@@ -4,9 +4,9 @@ import { NextApiHandler } from "next"
 import { getToken } from "next-auth/jwt"
 import xss from "xss"
 
-import { config } from "../../config"
-import { HttpClient } from "../../lib/HttpClient"
-import { HttpError } from "../../lib/HttpError"
+import { config } from "config"
+import { HttpClient } from "lib/HttpClient"
+import { HttpError } from "lib/HttpError"
 
 const SearchHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") {

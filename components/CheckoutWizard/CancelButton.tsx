@@ -3,9 +3,9 @@ import Link from "next/link"
 import { FunctionComponent } from "react"
 import { useIntl } from "react-intl"
 
-import { useCheckoutData } from "../../hooks/useCheckoutData"
-
 import type { AssetIdProp } from "./types"
+
+import { useCheckoutData } from "hooks/useCheckoutData"
 
 export const CancelButton: FunctionComponent<AssetIdProp> = ({ assetId }) => {
   const intl = useIntl()

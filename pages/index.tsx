@@ -9,13 +9,13 @@ import {
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { Container } from "../components/Container"
-import { Footer } from "../components/Footer"
-import { Link } from "../components/Link"
-import { Section } from "../components/Section"
-import { Illustration } from "../components/frontpage"
-import { HttpClient } from "../lib/HttpClient"
-import { fmtNumber } from "../lib/fmtNumber"
+import { Container } from "components/Container"
+import { Footer } from "components/Footer"
+import { Link } from "components/Link"
+import { Section } from "components/Section"
+import { Illustration } from "components/frontpage"
+import { HttpClient } from "lib/HttpClient"
+import { fmtNumber } from "lib/fmtNumber"
 
 const CardGrid = styled(Card)`
   justify-content: space-between;

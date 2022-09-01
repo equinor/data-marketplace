@@ -1,9 +1,9 @@
 import type { NextApiHandler } from "next"
 import { getToken } from "next-auth/jwt"
 
-import { config } from "../../config"
-import { HttpClient } from "../../lib/HttpClient"
-import { HttpError } from "../../lib/HttpError"
+import { config } from "config"
+import { HttpClient } from "lib/HttpClient"
+import { HttpError } from "lib/HttpError"
 
 type PopularAsset = Collibra.Asset & Pick<Collibra.NavigationStatistic, "numberOfViews">
 
