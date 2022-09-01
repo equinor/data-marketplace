@@ -1,24 +1,27 @@
 /* eslint-disable camelcase */
 import {
-  Button, Divider, Icon, Typography, CircularProgress, Tabs,
+  Button, Divider, Icon, Typography, Tabs,
 } from "@equinor/eds-core-react"
 import { shopping_cart_add } from "@equinor/eds-icons"
-import type { GetServerSideProps } from "next"
+import type { GetServerSideProps, NextPage } from "next"
+import { getToken } from "next-auth/jwt"
 import Head from "next/head"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
+import xss from "xss"
 
 import {
   OverviewContent,
   ResponsibilitiesContent,
+  OverviewContentSections, ResponsibilitiesContentSections,
 } from "../../components/AssetTabContent"
 import { Container } from "../../components/Container"
 import { Footer } from "../../components/Footer"
-import { useAssetData } from "../../hooks"
-import { useAssetDetails } from "../../hooks/useAssetDetails"
+import { config } from "../../config"
+import { HttpClient } from "../../lib/HttpClient"
 
 const {
   Tab: EdsTab, List, Panel, Panels,
@@ -57,33 +60,30 @@ const getInitialTab = (tabs: Tab[], tabQuery: string | undefined | string[]) => 
 }
 
 type AssetDetailProps = {
-  assetId: string
+  asset?: Collibra.Asset | null,
+  overviewData?: OverviewContentSections,
+  responsibilitiesData?: ResponsibilitiesContentSections
 }
 
-const AssetDetailView = ({ assetId }: AssetDetailProps) => {
+const AssetDetailView: NextPage<AssetDetailProps> = ({
+  asset,
+  overviewData, responsibilitiesData,
+}) => {
   const router = useRouter()
   const intl = useIntl()
 
   const tabQuery = router.query.tab
-
-  const { assetData, isLoading, error: assetDataError } = useAssetData(assetId)
-  const {
-    overviewData, responsibilitesData, isLoading: isLoadingDetails, error: assetDetailsError,
-  } = useAssetDetails(assetId)
-
   const tabs = getTabs()
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
+  if (!asset) {
+    return (
+      <div>
+        Banner - issues with fetching the asset - TODO figure out what to do here
+      </div>
+    )
+  }
 
-  useEffect(() => {
-    const { tab } = router.query
-    if (!(tab === currentTab.name)) {
-      router.replace(
-        { query: { ...router.query, tab: currentTab.name } },
-        { query: { tab: currentTab.name } },
-        { shallow: true },
-      )
-    }
-  }, [currentTab, router, assetId])
+  const { id: assetId } = asset
 
   const handleTabChange = (index: number) => {
     const newTab = tabs.find((tab) => tab.id === index)
@@ -94,42 +94,32 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
 
   const generalDocumentTitle = intl.formatMessage({ id: "common.documentTitle" })
 
-  if (assetDataError) {
-    console.log(`[AssetDetailView] Failed while getting asset ${assetId}`, assetDataError)
-  }
-  if (assetDetailsError) {
-    console.log(`[AssetDetailView] Failed while getting asset details ${assetId}`, assetDetailsError)
-  }
-
   return (
     <>
       <main>
         <Head>
-          <title>{assetData?.name ?? generalDocumentTitle}</title>
+          <title>{asset?.name ?? generalDocumentTitle}</title>
         </Head>
 
         <Container>
           <Header>
-            {isLoading ? <CircularProgress />
-              : assetData && (
-                <>
-                  <Typography variant="h1_bold" as="h1">
-                    {assetData.name}
-                  </Typography>
-                  <NextLink
-                    href={{
-                      pathname: "/checkout/terms",
-                      query: { id: assetId },
-                    }}
-                    passHref
-                  >
-                    <Button as="a">
-                      <Icon data={shopping_cart_add} />
-                      <FormattedMessage id="asset.getAccess" />
-                    </Button>
-                  </NextLink>
-                </>
-              )}
+            <>
+              <Typography variant="h1_bold" as="h1">
+                {asset.name}
+              </Typography>
+              <NextLink
+                href={{
+                  pathname: "/checkout/terms",
+                  query: { id: assetId },
+                }}
+                passHref
+              >
+                <Button as="a">
+                  <Icon data={shopping_cart_add} />
+                  <FormattedMessage id="asset.getAccess" />
+                </Button>
+              </NextLink>
+            </>
           </Header>
 
           <Divider />
@@ -144,12 +134,10 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
             </List>
             <Panels>
               <Panel>
-                {isLoadingDetails ? <CircularProgress />
-                  : <OverviewContent content={overviewData} />}
+                <OverviewContent content={overviewData} />
               </Panel>
               <Panel>
-                {isLoadingDetails ? <CircularProgress />
-                  : <ResponsibilitiesContent content={responsibilitesData} />}
+                <ResponsibilitiesContent content={responsibilitiesData} />
               </Panel>
             </Panels>
           </Tabs>
@@ -160,10 +148,93 @@ const AssetDetailView = ({ assetId }: AssetDetailProps) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.query
-  // @TODO when we have server side token handle the case of no id or no data
-  return { props: { assetId: id } }
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+  const { id } = query
+
+  const token = await getToken({ req })
+  const authorization = `Bearer ${token!.accessToken}`
+
+  try {
+    const { body: dataProduct } = await HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${id}`, {
+      headers: { authorization },
+    })
+
+    const { body: attrsRes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
+      headers: { authorization },
+      query: { assetId: id },
+    })
+
+    const overviewData = attrsRes?.results.filter((attr) => [
+      "description",
+      "purpose",
+      "timeliness",
+    ].includes(attr.type.name!.toLowerCase())).reduce((obj, attr) => ({
+      ...obj,
+      [attr.type.name!.toLowerCase().replace(/\s/g, "_")]: xss(attr.value),
+    }), {})
+
+    const response = await HttpClient.get<Collibra.PagedResponsibilityResponse>(`${config.COLLIBRA_BASE_URL}/responsibilities`, {
+      headers: { authorization },
+      query: { resourceIds: id },
+    })
+
+    if (!response.body) {
+      return { props: { asset: null } }
+    }
+
+    // filter out results that are not a "Role" and "User" type
+    const usersWithRoles = response.body.results.filter((result: any) => (
+      result.role.resourceType === "Role"
+        && result.owner.resourceType === "User"
+    )).map((responsibility: any) => ({
+      role: responsibility.role.name.toUpperCase().replace(/\s/g, "_"),
+      id: responsibility.owner.id,
+    }))
+
+    const usersRes = await Promise.all(usersWithRoles.map((user: any) => HttpClient.get<Collibra.User>(`${config.COLLIBRA_BASE_URL}/users/${user.id}`, {
+      headers: { authorization },
+    })))
+
+    const users = usersWithRoles.reduce((obj, user) => {
+      const collibraUser = usersRes.find((r) => r.body?.id === user.id)?.body
+
+      if (!collibraUser) return obj
+
+      const transformedUser = {
+        ...user,
+        firstName: collibraUser.firstName,
+        lastName: collibraUser.lastName,
+        email: collibraUser.emailAddress,
+      }
+
+      if (user.role in obj) {
+        return {
+          ...obj,
+          [user.role]: [
+            ...obj[user.role],
+            transformedUser,
+          ],
+        }
+      }
+
+      return {
+        ...obj,
+        [user.role]: [transformedUser],
+      }
+    }, {} as Record<string, any[]>)
+
+    return {
+      props: {
+        asset: dataProduct,
+        overviewData,
+        responsibilitiesData: users,
+      },
+    }
+  } catch (error) {
+    console.error(`[AssetDetailView] in getServerSideProps - Failed getting asset details for asset ${id}`, error)
+
+    return { props: { asset: null } }
+  }
 }
 
 export default AssetDetailView
