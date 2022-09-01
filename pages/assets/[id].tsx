@@ -244,7 +244,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
         [user.role]: [transformedUser],
       }
     }, {} as Record<string, any[]>)
-    console.log(users)
+
     return {
       props: {
         asset: dataProduct,
