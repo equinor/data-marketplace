@@ -1,11 +1,13 @@
 import { ErrSource } from "./types"
 
 export class __Error__ extends Error {
-  private code: string
+  code: string
+  details?: any
 
-  constructor(message: string, source: ErrSource, code: string) {
+  constructor(message: string, source: ErrSource, code: string, details?: any) {
     super(message)
-    this.code = `E_${source}.${code}`
+    this.code = `E${source}${code}`
+    this.details = details
   }
 
   toString(): string {
