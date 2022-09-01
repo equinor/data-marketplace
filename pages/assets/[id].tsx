@@ -212,9 +212,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
       const transformedUser = {
         ...user,
-        firstName: collibraUser.firstName,
-        lastName: collibraUser.lastName,
-        email: collibraUser.emailAddress,
+        firstName: collibraUser.firstName || null,
+        lastName: collibraUser.lastName || null,
+        email: collibraUser.emailAddress || null,
       }
 
       if (user.role in obj) {
