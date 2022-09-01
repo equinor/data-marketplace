@@ -6,7 +6,7 @@ import { ErrSource } from "./types"
  * external service returns unexpected data or fails outright.
  */
 export class ExternalError extends __Error__ {
-  constructor(message: string, code: string) {
-    super(message, ErrSource.External, code)
+  constructor(message: string, code: string, details?: any) {
+    super(message, ErrSource.External, code, details)
   }
 }
