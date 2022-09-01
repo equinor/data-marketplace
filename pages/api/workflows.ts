@@ -3,9 +3,9 @@ import { STATUS_CODES } from "http"
 import type { NextApiHandler } from "next"
 import { getToken } from "next-auth/jwt"
 
-import { config } from "../../config"
-import { HttpClient } from "../../lib/HttpClient"
-import { HttpError } from "../../lib/HttpError"
+import { config } from "config"
+import { HttpClient } from "lib/HttpClient"
+import { HttpError } from "lib/HttpError"
 
 const WorkflowsHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "POST") {

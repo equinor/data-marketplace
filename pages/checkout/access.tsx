@@ -18,11 +18,11 @@ import {
   CancelButton,
   CheckoutWizard,
   NoAsset,
-} from "../../components/CheckoutWizard"
-import { Container } from "../../components/Container"
-import { Footer } from "../../components/Footer"
-import { useCheckoutData } from "../../hooks/useCheckoutData"
-import { HttpClient } from "../../lib/HttpClient"
+} from "components/CheckoutWizard"
+import { Container } from "components/Container"
+import { Footer } from "components/Footer"
+import { useCheckoutData } from "hooks/useCheckoutData"
+import { HttpClient } from "lib/HttpClient"
 
 const ButtonContainer = styled.div`
   display: flex;

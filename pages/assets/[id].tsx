@@ -17,11 +17,11 @@ import {
   OverviewContent,
   ResponsibilitiesContent,
   OverviewContentSections, ResponsibilitiesContentSections,
-} from "../../components/AssetTabContent"
-import { Container } from "../../components/Container"
-import { Footer } from "../../components/Footer"
-import { config } from "../../config"
-import { HttpClient } from "../../lib/HttpClient"
+} from "components/AssetTabContent"
+import { Container } from "components/Container"
+import { Footer } from "components/Footer"
+import { config } from "config"
+import { HttpClient } from "lib/HttpClient"
 
 const {
   Tab: EdsTab, List, Panel, Panels,

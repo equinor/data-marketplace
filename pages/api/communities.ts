@@ -1,9 +1,9 @@
 import { NextApiHandler } from "next"
 import { getToken } from "next-auth/jwt"
 
-import { config } from "../../config"
-import { HttpClient } from "../../lib/HttpClient"
-import { HttpError } from "../../lib/HttpError"
+import { config } from "config"
+import { HttpClient } from "lib/HttpClient"
+import { HttpError } from "lib/HttpError"
 
 const CommunitiesHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") {
