@@ -8,7 +8,7 @@ import { getToken } from "next-auth/jwt"
 import Head from "next/head"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
 import xss from "xss"
@@ -75,6 +75,18 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
   const tabQuery = router.query.tab
   const tabs = getTabs()
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
+
+  useEffect(() => {
+    const { tab } = router.query
+    if (!(tab === currentTab.name)) {
+      router.replace(
+        { query: { ...router.query, tab: currentTab.name } },
+        { query: { tab: currentTab.name } },
+        { shallow: true },
+      )
+    }
+  }, [currentTab, router])
+
   if (!asset) {
     return (
       <div>
