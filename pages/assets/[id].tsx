@@ -115,23 +115,21 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
 
         <Container>
           <Header>
-            <>
-              <Typography variant="h1_bold" as="h1">
-                {asset.name}
-              </Typography>
-              <NextLink
-                href={{
-                  pathname: "/checkout/terms",
-                  query: { id: assetId },
-                }}
-                passHref
-              >
-                <Button as="a">
-                  <Icon data={shopping_cart_add} />
-                  <FormattedMessage id="asset.getAccess" />
-                </Button>
-              </NextLink>
-            </>
+            <Typography variant="h1_bold" as="h1">
+              {asset.name}
+            </Typography>
+            <NextLink
+              href={{
+                pathname: "/checkout/terms",
+                query: { id: assetId },
+              }}
+              passHref
+            >
+              <Button as="a">
+                <Icon data={shopping_cart_add} />
+                <FormattedMessage id="asset.getAccess" />
+              </Button>
+            </NextLink>
           </Header>
 
           <Divider />
