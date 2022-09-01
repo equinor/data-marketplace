@@ -1,21 +1,33 @@
-import { Button, Checkbox, Typography } from "@equinor/eds-core-react"
+/* eslint-disable camelcase */
+import {
+  Banner,
+  Button,
+  Checkbox,
+  Icon,
+  Typography,
+} from "@equinor/eds-core-react"
+import { warning_filled } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import { useRouter } from "next/router"
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 import xss from "xss"
 
 import {
-  CheckoutWizard, NoAsset, CancelButton, ValidationError,
+  CheckoutWizard,
+  NoAsset,
+  CancelButton,
+  ValidationError,
 } from "components/CheckoutWizard"
 import { Container } from "components/Container"
 import { Footer } from "components/Footer"
 import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { HttpClient } from "lib/HttpClient"
+import { ERR_CODES, ExternalError } from "lib/errors"
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
@@ -51,81 +63,120 @@ const InfoBox = styled.div`
 
 type Props = {
   asset?: Collibra.Asset | null
+  error?: { code: string, message: string }
   rightsToUse?: {
     name: string
     value: string
   }
 }
 
-const CheckoutTermsView: NextPage<Props> = ({ asset, rightsToUse }) => {
+const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
   const intl = useIntl()
   const router = useRouter()
-  const [error, setError] = useState(false)
+  const [formError, setFormError] = useState(false)
   const { checkoutData, setCheckoutData } = useCheckoutData()
 
   const hasAcceptedTerms = checkoutData?.terms?.termsAccepted
-  const onContinue = () => {
-    if (hasAcceptedTerms) {
-      setError(false)
-      router.push({
-        pathname: "/checkout/access",
-        query: { id: asset?.id },
-      })
-    } else {
-      setError(true)
-    }
-  }
 
-  const onAcceptTerms = () => {
-    setCheckoutData({
-      ...checkoutData,
-      asset: {
-        id: asset?.id ?? "",
-        name: asset?.name ?? "",
-      },
-      terms: { ...checkoutData.terms, termsAccepted: !hasAcceptedTerms },
-    })
-  }
+  useEffect(() => {
+    if (asset) {
+      setCheckoutData({
+        ...checkoutData,
+        asset: { id: asset.id, name: asset.name },
+      })
+    }
+  }, [asset])
+
+  const ViewContent = useCallback(() => {
+    if (error) {
+      return (
+        <Banner>
+          <Banner.Icon variant="warning">
+            <Icon data={warning_filled} />
+          </Banner.Icon>
+          <Banner.Message>
+            {error.message}
+          </Banner.Message>
+        </Banner>
+      )
+    }
+
+    if (!asset?.id) {
+      return <NoAsset />
+    }
+
+    const onContinue = () => {
+      if (hasAcceptedTerms) {
+        setFormError(false)
+        router.push({
+          pathname: "/checkout/access",
+          query: { id: asset?.id },
+        })
+      } else {
+        setFormError(true)
+      }
+    }
+
+    const onAcceptTerms = () => {
+      setCheckoutData({
+        ...checkoutData,
+        asset: {
+          id: asset?.id ?? "",
+          name: asset?.name ?? "",
+        },
+        terms: { ...checkoutData.terms, termsAccepted: !hasAcceptedTerms },
+      })
+    }
+
+    return (
+      <>
+        <IngressContainer>
+          <FormattedMessage
+            id="terms.ingress"
+            // eslint-disable-next-line react/no-unstable-nested-components
+            values={{ p: (chunks) => <Typography variant="ingress">{chunks}</Typography> }}
+          />
+        </IngressContainer>
+        <InfoBox>
+          <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
+          <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
+        </InfoBox>
+        <CheckboxContainer>
+          <Checkbox
+            name="acceptTerms"
+            label={intl.formatMessage({ id: "terms.acceptLabel" })}
+            onChange={onAcceptTerms}
+            checked={hasAcceptedTerms ?? false}
+            aria-invalid={hasAcceptedTerms ? "false" : "true"}
+            aria-required
+          />
+          {formError && <ValidationError>{intl.formatMessage({ id: "terms.accept.errorMessage" })}</ValidationError> }
+        </CheckboxContainer>
+        <ButtonContainer>
+          <CancelButton assetId={asset?.id} />
+          <Button
+            onClick={onContinue}
+          >
+            {intl.formatMessage({ id: "common.continue" })}
+          </Button>
+        </ButtonContainer>
+      </>
+    )
+  }, [
+    error,
+    asset,
+    formError,
+    hasAcceptedTerms,
+    intl,
+    rightsToUse,
+    checkoutData,
+  ])
 
   return (
     <>
       <Container>
         <CheckoutWizard assetName={checkoutData.asset?.name}>
-          {!asset?.id ? <NoAsset />
-            : (
-              <>
-                <IngressContainer>
-                  <FormattedMessage
-                    id="terms.ingress"
-                    // eslint-disable-next-line react/no-unstable-nested-components
-                    values={{ p: (chunks) => <Typography variant="ingress">{chunks}</Typography> }}
-                  />
-                </IngressContainer>
-                <InfoBox>
-                  <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
-                  <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
-                </InfoBox>
-                <CheckboxContainer>
-                  <Checkbox
-                    name="acceptTerms"
-                    label={intl.formatMessage({ id: "terms.acceptLabel" })}
-                    onChange={onAcceptTerms}
-                    checked={hasAcceptedTerms ?? false}
-                    aria-invalid={hasAcceptedTerms ? "false" : "true"}
-                    aria-required
-                  />
-                  {error && <ValidationError>{intl.formatMessage({ id: "terms.accept.errorMessage" })}</ValidationError> }
-                </CheckboxContainer>
-                <ButtonContainer>
-                  <CancelButton assetId={asset?.id} />
-                  <Button
-                    onClick={onContinue}
-                  >
-                    {intl.formatMessage({ id: "common.continue" })}
-                  </Button>
-                </ButtonContainer>
-              </>
-            )}
+          <ViewContent />
         </CheckoutWizard>
       </Container>
       <Footer />
@@ -151,8 +202,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!dataProduct || !dataProduct.domain.name) {
-      console.warn("[CheckoutTermsView] No data product or domain name found for", id)
-      return { props: defaultPageProps }
+      throw new ExternalError(
+        "There was an error while trying to get information about this data product",
+        ERR_CODES.MISSING_DATA,
+        `No data product or domain name found for ${id}`,
+      )
     }
 
     const { body: domain } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/domains`, {
@@ -164,8 +218,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!domain || domain.total === 0) {
-      console.warn("[ChekcoutTermsView] No rights-to-use domain found for", dataProduct.domain.name)
-      return { props: defaultPageProps }
+      throw new ExternalError(
+        "There was an error while trying to get the Terms and Conditions",
+        ERR_CODES.MISSING_DATA,
+        `No rights-to-use domain found for ${dataProduct.domain.name}`,
+      )
     }
 
     const { body: statuses } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/statuses`, {
@@ -177,8 +234,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!statuses || statuses.total === 0) {
-      console.warn("[CheckoutTermsView] No status ID found for `Approved` status")
-      return { props: defaultPageProps }
+      throw new ExternalError(
+        "There was an error while trying to get the Terms and Conditions",
+        ERR_CODES.MISSING_DATA,
+        "No status ID found for `Approved` status",
+      )
     }
 
     const approvedStatusID = statuses.results[0].id
@@ -192,8 +252,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!rtuAssets || rtuAssets.total === 0) {
-      console.log("[CheckoutTermsView] No rights-to-use asset found in domain", domain.results[0].name, `(ID: ${domain.results[0].id})`)
-      return { props: defaultPageProps }
+      throw new ExternalError(
+        "There was an error while trying to get the Terms and Conditions",
+        ERR_CODES.MISSING_DATA,
+        `No rights-to-use asset found in domain ${domain.results[0].name} (ID: ${domain.results[0].id})`,
+      )
     }
 
     const { body: attributes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
@@ -202,15 +265,21 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!attributes || attributes.total === 0) {
-      console.log("[CheckoutTermsView] No attributes found for rights to use asset", rtuAssets.results[0].name, `(ID: ${rtuAssets.results[0].id})`)
-      return { props: defaultPageProps }
+      throw new ExternalError(
+        "There was an error while trying to get the Terms and Conditions",
+        ERR_CODES.MISSING_DATA,
+        `No attributes found for rights to use asset ${rtuAssets.results[0].name} (ID: ${rtuAssets.results[0].id})`,
+      )
     }
 
     const terms = attributes.results.find((attr) => /terms and conditions/i.test(attr.type.name!))
 
     if (!terms) {
-      console.log("[CheckoutTermsView] No terms and conditions found for rights to use asset", rtuAssets.results[0].name, `(ID: ${rtuAssets.results[0].id})`)
-      return { props: defaultPageProps }
+      throw new ExternalError(
+        "There was an error while trying to get the Terms and Conditions",
+        ERR_CODES.MISSING_DATA,
+        `No terms and conditions found for rights to use asset ${rtuAssets.results[0].name} (ID: ${rtuAssets.results[0].id})`,
+      )
     }
 
     return {
@@ -223,9 +292,23 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       },
     }
   } catch (error) {
-    console.error(`[CheckoutTermsView] in getServersideProps - Failed getting rights-to-use for asset ${id}`, error)
+    console.error("[CheckoutTermsView]", error)
 
-    return { props: defaultPageProps }
+    if (error instanceof ExternalError) {
+      return {
+        props: {
+          ...defaultPageProps,
+          error: {
+            code: error.code,
+            message: error.message,
+          },
+        },
+      }
+    }
+
+    return {
+      props: defaultPageProps,
+    }
   }
 }
 
