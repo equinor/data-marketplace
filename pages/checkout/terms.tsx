@@ -61,9 +61,15 @@ const InfoBox = styled.div`
   margin-bottom: ${tokens.spacings.comfortable.medium}
 `
 
+const DataSourceErrorContainer = styled.div`
+  > *:not(:last-child) {
+    margin-bottom: ${tokens.spacings.comfortable.medium};
+  }
+`
+
 type Props = {
   asset?: Collibra.Asset | null
-  error?: { code: string, message: string }
+  error?: string
   rightsToUse?: {
     name: string
     value: string
@@ -87,14 +93,22 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
   const ViewContent = useCallback(() => {
     if (error) {
       return (
-        <Banner>
-          <Banner.Icon variant="warning">
-            <Icon data={warning_filled} />
-          </Banner.Icon>
-          <Banner.Message>
-            {error.message}
-          </Banner.Message>
-        </Banner>
+        <DataSourceErrorContainer>
+          <Banner>
+            <Banner.Icon variant="warning">
+              <Icon data={warning_filled} />
+            </Banner.Icon>
+            <Banner.Message>
+              {intl.formatMessage({ id: `terms.error.${error}.bannerMessage`, defaultMessage: "We were unable to get the necessary data from Collibra" })}
+            </Banner.Message>
+          </Banner>
+
+          {error.endsWith(ERR_CODES.MISSING_DATA) && (
+            <Typography variant="body_short">
+              {intl.formatMessage({ id: `terms.error.${error}.additional` })}
+            </Typography>
+          )}
+        </DataSourceErrorContainer>
       )
     }
 
@@ -192,11 +206,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!dataProduct || !dataProduct.domain.name) {
-      throw new ExternalError(
-        "There was an error while trying to get information about this data product",
-        ERR_CODES.MISSING_DATA,
-        `No data product or domain name found for ${id}`,
-      )
+      throw new ExternalError(`No data product or domain name found for ${id}`, ERR_CODES.MISSING_DATA)
     }
 
     const { body: domain } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/domains`, {
@@ -208,11 +218,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!domain || domain.total === 0) {
-      throw new ExternalError(
-        "There was an error while trying to get the Terms and Conditions",
-        ERR_CODES.MISSING_DATA,
-        `No rights-to-use domain found for ${dataProduct.domain.name}`,
-      )
+      throw new ExternalError(`No rights-to-use domain found for ${dataProduct.domain.name}`, ERR_CODES.MISSING_DATA)
     }
 
     const { body: statuses } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/statuses`, {
@@ -224,11 +230,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!statuses || statuses.total === 0) {
-      throw new ExternalError(
-        "There was an error while trying to get the Terms and Conditions",
-        ERR_CODES.MISSING_DATA,
-        "No status ID found for `Approved` status",
-      )
+      throw new ExternalError("No status ID found for `Approved` status", ERR_CODES.MISSING_DATA)
     }
 
     const approvedStatusID = statuses.results[0].id
@@ -242,11 +244,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!rtuAssets || rtuAssets.total === 0) {
-      throw new ExternalError(
-        "There was an error while trying to get the Terms and Conditions",
-        ERR_CODES.MISSING_DATA,
-        `No rights-to-use asset found in domain ${domain.results[0].name} (ID: ${domain.results[0].id})`,
-      )
+      throw new ExternalError(`No rights-to-use asset found in domain ${domain.results[0].name} (ID: ${domain.results[0].id})`, ERR_CODES.MISSING_DATA)
     }
 
     const { body: attributes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
@@ -255,21 +253,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     })
 
     if (!attributes || attributes.total === 0) {
-      throw new ExternalError(
-        "There was an error while trying to get the Terms and Conditions",
-        ERR_CODES.MISSING_DATA,
-        `No attributes found for rights to use asset ${rtuAssets.results[0].name} (ID: ${rtuAssets.results[0].id})`,
-      )
+      throw new ExternalError(`No attributes found for rights to use asset ${rtuAssets.results[0].name} (ID: ${rtuAssets.results[0].id})`, ERR_CODES.MISSING_DATA)
     }
 
     const terms = attributes.results.find((attr) => /terms and conditions/i.test(attr.type.name!))
 
     if (!terms) {
-      throw new ExternalError(
-        "There was an error while trying to get the Terms and Conditions",
-        ERR_CODES.MISSING_DATA,
-        `No terms and conditions found for rights to use asset ${rtuAssets.results[0].name} (ID: ${rtuAssets.results[0].id})`,
-      )
+      throw new ExternalError(`No terms and conditions found for rights to use asset ${rtuAssets.results[0].name} (ID: ${rtuAssets.results[0].id})`, ERR_CODES.MISSING_DATA)
     }
 
     return {
@@ -288,10 +278,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       return {
         props: {
           ...defaultPageProps,
-          error: {
-            code: error.code,
-            message: error.message,
-          },
+          error: error.code,
         },
       }
     }
