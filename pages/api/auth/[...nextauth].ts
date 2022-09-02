@@ -89,8 +89,11 @@ export default NextAuth({
            * the token expires at. we store it as a number representing how many
            * **milliseconds** since epoc it expires at. that way we can do Date
            * comparison to figure out when to refresh it.
+           *
+           * we also subtract five minutes from it so that we're sure to refresh
+           * the token **before** it expires.
            */
-          expiresAt: account.expires_at! * 1000,
+          expiresAt: account.expires_at! * 1000 - 60000 * 5,
           refreshToken: account.refresh_token,
         })
       }
