@@ -23,7 +23,7 @@
     "@equinor/eds-tokens": "^0.7.1",
     "@next/bundle-analyzer": "^12.2.5",
     "axios": "^0.27.2",
-    "next": "^12.2.4",
+    "next": "^12.2.5",
     "next-auth": "^4.10.3",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
