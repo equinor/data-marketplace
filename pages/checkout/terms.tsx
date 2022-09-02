@@ -86,7 +86,13 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
   useEffect(() => {
     if (asset) {
-      setCheckoutData({ asset: { id: asset.id, name: asset.name } })
+      setCheckoutData({
+        asset: {
+          ...(checkoutData.asset ?? {}),
+          id: asset.id,
+          name: asset.name,
+        },
+      })
     }
   }, [asset])
 
