@@ -36,19 +36,9 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
   const { removeItem } = useCheckoutData()
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      const stepByPathName = steps.findIndex((step) => router.pathname.includes(step))
-      // @TODO If a user manually refresh other steps than number 1, this logic
-      // for current step will fail. See issue #83
-      setCurrentStep(stepByPathName)
-    }
-
-    router.events.on("routeChangeComplete", handleRouteChange)
-
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange)
-    }
-  }, [router])
+    const stepByPathname = steps.findIndex((step) => router.pathname.includes(step))
+    setCurrentStep(stepByPathname)
+  }, [])
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
