@@ -87,6 +87,7 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
   useEffect(() => {
     if (asset) {
       setCheckoutData({
+        ...checkoutData,
         asset: {
           ...(checkoutData.asset ?? {}),
           id: asset.id,
@@ -94,7 +95,7 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
         },
       })
     }
-  }, [asset])
+  }, [asset, checkoutData, setCheckoutData])
 
   const ViewContent = useCallback(() => {
     if (error) {
