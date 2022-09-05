@@ -63,7 +63,8 @@ const CheckboxContainer = styled.div`
 `
 
 const SearchResultsList = styled(List)`
-  list-style: none
+  list-style: none;
+  padding: 0; 
 `
 
 const CommunityList = styled(List)`
@@ -124,7 +125,7 @@ const Search: NextPage = () => {
 
   const onCommunityFilterClick = (id: string) => {
     const filters = updateCommunityFilter(id, router.query.community)
-
+    console.log(filters)
     router.push({
       pathname: router.pathname,
       query: { ...router.query, community: filters },
