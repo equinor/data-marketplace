@@ -29,7 +29,7 @@ const SearchPageContainer = styled.div`
   margin-top: ${tokens.spacings.comfortable.x_large};
   display: grid;
   grid-template-columns: 15rem 1fr;
-  grid-gap: 2.5rem;
+  grid-gap: ${tokens.spacings.comfortable.xx_large};
   align-items: baseline;
 `
 
@@ -37,7 +37,7 @@ const SearchResultsHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 1rem;
+  margin-bottom: ${tokens.spacings.comfortable.medium};
 `
 
 const SpinnerContainer = styled.div`
@@ -48,7 +48,7 @@ const SpinnerContainer = styled.div`
 const CheckboxContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  grid-gap: 0.3rem;
+  grid-gap:${tokens.spacings.comfortable.x_small};
   
 `
 
@@ -67,12 +67,12 @@ const FieldSetStyle = styled.fieldset`
   
 `
 const LegendC = styled.legend`
-  margin-bottom: 0.5rem;
+  margin-bottom: ${tokens.spacings.comfortable.small};
 `
 
 const SearchResultItem = styled(Item)`
   &:not(:last-child) {
-    margin-bottom: 1.5rem;
+    margin-bottom: ${tokens.spacings.comfortable.large}
   }
 `
 
