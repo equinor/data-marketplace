@@ -7,6 +7,7 @@ import {
   Checkbox,
   List,
 } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
 import React, { useEffect, useState, useMemo } from "react"
@@ -24,7 +25,8 @@ import { updateCommunityFilter } from "lib/updateCommunityFilter"
 const { Header: CardHeader, HeaderTitle: CardHeaderTitle, Content: CardContent } = Card
 const { Item } = List
 
-const SearchPageContainer = styled(Container)`
+const SearchPageContainer = styled.div`
+  margin-top: ${tokens.spacings.comfortable.x_large};
   display: grid;
   grid-template-columns: 15rem 1fr;
   grid-gap: 2.5rem;
@@ -135,58 +137,63 @@ const Search: NextPage = () => {
       </SpinnerContainer>
     ) : (
       <>
-        <SearchPageContainer>
-          <aside>
-            <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
-            <Divider variant="small" />
+        <Container>
+          <Typography variant="h1">
+            {intl.formatMessage({ id: "search.header" })}
+          </Typography>
+          <SearchPageContainer>
 
-            <FieldSetStyle>
-              <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
-              <CheckboxContainer>
-                <EdsProvider density="compact">
-                  {communities?.map((community) => (
-                    <CommunityList key={community.id}>
-                      <Checkbox
-                        label={community.name}
-                        key={community.id}
-                        checked={!!router.query.community?.includes(community.id)}
-                        onChange={() => onCommunityFilterClick(community.id)}
-                      />
-                    </CommunityList>
-                  ))}
-                </EdsProvider>
-              </CheckboxContainer>
-            </FieldSetStyle>
-          </aside>
+            <aside>
+              <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
+              <Divider variant="small" />
 
-          <main>
-            <Section>
+              <FieldSetStyle>
+                <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
+                <CheckboxContainer>
+                  <EdsProvider density="compact">
+                    {communities?.map((community) => (
+                      <CommunityList key={community.id}>
+                        <Checkbox
+                          label={community.name}
+                          key={community.id}
+                          checked={!!router.query.community?.includes(community.id)}
+                          onChange={() => onCommunityFilterClick(community.id)}
+                        />
+                      </CommunityList>
+                    ))}
+                  </EdsProvider>
+                </CheckboxContainer>
+              </FieldSetStyle>
+            </aside>
 
-              <SearchResultsHeader>
-                <Typography variant="body_short">
-                  {searchResults.length === 0 && numberOfFilters > 0
-                    ? (
-                      <FormattedMessage
-                        id="search.no.results.with.filters"
-                        values={{
-                          numberOfFilters,
-                          searchTerm: (<b>{router.query.q}</b>),
-                        }}
-                      />
-                    )
-                    : (
-                      <FormattedMessage
-                        id="search.results"
-                        values={{
-                          count: searchResults.length,
-                          searchTerm: (<b>{router.query.q}</b>),
-                        }}
-                      />
-                    ) }
-                </Typography>
-              </SearchResultsHeader>
+            <main>
+              <Section>
 
-              {searchResults.length > 0
+                <SearchResultsHeader>
+                  <Typography variant="body_short">
+                    {searchResults.length === 0 && numberOfFilters > 0
+                      ? (
+                        <FormattedMessage
+                          id="search.no.results.with.filters"
+                          values={{
+                            numberOfFilters,
+                            searchTerm: (<b>{router.query.q}</b>),
+                          }}
+                        />
+                      )
+                      : (
+                        <FormattedMessage
+                          id="search.results"
+                          values={{
+                            count: searchResults.length,
+                            searchTerm: (<b>{router.query.q}</b>),
+                          }}
+                        />
+                      ) }
+                  </Typography>
+                </SearchResultsHeader>
+
+                {searchResults.length > 0
                 && (
                   <SearchResultsList variant="numbered">
                     {searchResults.map((resource) => (
@@ -216,9 +223,10 @@ const Search: NextPage = () => {
                   </SearchResultsList>
                 )}
 
-            </Section>
-          </main>
-        </SearchPageContainer>
+              </Section>
+            </main>
+          </SearchPageContainer>
+        </Container>
         <Footer />
       </>
     )

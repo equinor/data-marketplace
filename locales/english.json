@@ -8,6 +8,7 @@
   "frontpage.hero.ingress": "Data Marketplace makes it easy to search for and request access to the data you need to do your job. Venenatis ipsum aliquet nibh at. Risus sapien erat vitae amet leo lobortis maecenas.",
   "frontpage.popularProductsHeader": "Popular",
   "frontpage.numberOfViews": "{numberOfViews} views",
+  "search.header": "Search results",
   "search.filterHeader": "Filter",
   "search.communitiesHeader": "Communitites",
   "search.results": "{count, plural, =0 {We were not able to find anything related to \u201C{searchTerm}\u201D} one {# result} other {# results}}",
