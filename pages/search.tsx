@@ -30,16 +30,12 @@ const SearchPageContainer = styled.div`
   display: grid;
   grid-template-columns: 15rem 1fr;
   grid-gap: ${tokens.spacings.comfortable.xx_large};
-  align-items: baseline;
 `
 
 const SearchResultsHeader = styled(Typography)`
   margin-bottom: ${tokens.spacings.comfortable.medium};
-`
-
-const SpinnerContainer = styled.div`
-  display: flex;
-  justify-content: center;
+  /* Same line height as the filter header, pixel perfect ftw */
+  line-height: 1.600em;
 `
 
 const CheckboxContainer = styled.div`
@@ -128,66 +124,66 @@ const Search: NextPage = () => {
   }, [router.query.community])
 
   return (
-    isLoading ? (
-      <SpinnerContainer>
-        <CircularProgress />
-      </SpinnerContainer>
-    ) : (
-      <>
-        <Container>
-          <Typography variant="h1">
-            {intl.formatMessage({ id: "search.header" })}
-          </Typography>
-          <SearchPageContainer>
+    <>
+      <Container>
+        <Typography variant="h1">
+          {intl.formatMessage({ id: "search.header" })}
+        </Typography>
+        <SearchPageContainer>
 
-            <aside>
-              <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
-              <Divider variant="small" />
+          <aside>
+            <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
+            <Divider variant="small" />
 
-              <FieldSetStyle>
-                <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
-                <CheckboxContainer>
-                  <EdsProvider density="compact">
-                    {communities?.map((community) => (
-                      <CommunityList key={community.id}>
-                        <Checkbox
-                          label={community.name}
-                          key={community.id}
-                          checked={!!router.query.community?.includes(community.id)}
-                          onChange={() => onCommunityFilterClick(community.id)}
+            <FieldSetStyle>
+              <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
+              <CheckboxContainer>
+                <EdsProvider density="compact">
+                  {communities?.map((community) => (
+                    <CommunityList key={community.id}>
+                      <Checkbox
+                        label={community.name}
+                        key={community.id}
+                        checked={!!router.query.community?.includes(community.id)}
+                        onChange={() => onCommunityFilterClick(community.id)}
+                      />
+                    </CommunityList>
+                  ))}
+                </EdsProvider>
+              </CheckboxContainer>
+            </FieldSetStyle>
+          </aside>
+
+          <main>
+            {isLoading ? (
+              <CircularProgress />
+            )
+              : (
+                <Section>
+
+                  <SearchResultsHeader variant="body_short">
+                    {searchResults.length === 0 && numberOfFilters > 0
+                      ? (
+                        <FormattedMessage
+                          id="search.no.results.with.filters"
+                          values={{
+                            numberOfFilters,
+                            searchTerm: (<b>{router.query.q}</b>),
+                          }}
                         />
-                      </CommunityList>
-                    ))}
-                  </EdsProvider>
-                </CheckboxContainer>
-              </FieldSetStyle>
-            </aside>
+                      )
+                      : (
+                        <FormattedMessage
+                          id="search.results"
+                          values={{
+                            count: searchResults.length,
+                            searchTerm: (<b>{router.query.q}</b>),
+                          }}
+                        />
+                      ) }
+                  </SearchResultsHeader>
 
-            <main>
-              <Section>
-                <SearchResultsHeader variant="body_short">
-                  {searchResults.length === 0 && numberOfFilters > 0
-                    ? (
-                      <FormattedMessage
-                        id="search.no.results.with.filters"
-                        values={{
-                          numberOfFilters,
-                          searchTerm: (<b>{router.query.q}</b>),
-                        }}
-                      />
-                    )
-                    : (
-                      <FormattedMessage
-                        id="search.results"
-                        values={{
-                          count: searchResults.length,
-                          searchTerm: (<b>{router.query.q}</b>),
-                        }}
-                      />
-                    ) }
-                </SearchResultsHeader>
-
-                {searchResults.length > 0
+                  {searchResults.length > 0
                 && (
                   <SearchResultsList variant="numbered">
                     {searchResults.map((resource) => (
@@ -217,13 +213,13 @@ const Search: NextPage = () => {
                   </SearchResultsList>
                 )}
 
-              </Section>
-            </main>
-          </SearchPageContainer>
-        </Container>
-        <Footer />
-      </>
-    )
+                </Section>
+              ) }
+          </main>
+        </SearchPageContainer>
+      </Container>
+      <Footer />
+    </>
   )
 }
 
