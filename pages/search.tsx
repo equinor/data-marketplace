@@ -33,10 +33,7 @@ const SearchPageContainer = styled.div`
   align-items: baseline;
 `
 
-const SearchResultsHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+const SearchResultsHeader = styled(Typography)`
   margin-bottom: ${tokens.spacings.comfortable.medium};
 `
 
@@ -168,29 +165,26 @@ const Search: NextPage = () => {
 
             <main>
               <Section>
-
-                <SearchResultsHeader>
-                  <Typography variant="body_short">
-                    {searchResults.length === 0 && numberOfFilters > 0
-                      ? (
-                        <FormattedMessage
-                          id="search.no.results.with.filters"
-                          values={{
-                            numberOfFilters,
-                            searchTerm: (<b>{router.query.q}</b>),
-                          }}
-                        />
-                      )
-                      : (
-                        <FormattedMessage
-                          id="search.results"
-                          values={{
-                            count: searchResults.length,
-                            searchTerm: (<b>{router.query.q}</b>),
-                          }}
-                        />
-                      ) }
-                  </Typography>
+                <SearchResultsHeader variant="body_short">
+                  {searchResults.length === 0 && numberOfFilters > 0
+                    ? (
+                      <FormattedMessage
+                        id="search.no.results.with.filters"
+                        values={{
+                          numberOfFilters,
+                          searchTerm: (<b>{router.query.q}</b>),
+                        }}
+                      />
+                    )
+                    : (
+                      <FormattedMessage
+                        id="search.results"
+                        values={{
+                          count: searchResults.length,
+                          searchTerm: (<b>{router.query.q}</b>),
+                        }}
+                      />
+                    ) }
                 </SearchResultsHeader>
 
                 {searchResults.length > 0
