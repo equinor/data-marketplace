@@ -1,15 +1,12 @@
 import {
-  Button,
   Divider,
   EdsProvider,
-  Icon,
   Typography,
   Card,
   CircularProgress,
   Checkbox,
   List,
 } from "@equinor/eds-core-react"
-import { grid_on as gridOn, list } from "@equinor/eds-icons"
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
 import React, { useEffect, useState, useMemo } from "react"
@@ -44,15 +41,6 @@ const SearchResultsHeader = styled.header`
 const SpinnerContainer = styled.div`
   display: flex;
   justify-content: center;
-`
-
-const ViewModeActionsContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: 0.5rem;
-  }
 `
 
 const CheckboxContainer = styled.div`
@@ -196,21 +184,6 @@ const Search: NextPage = () => {
                       />
                     ) }
                 </Typography>
-
-                {searchResults.length > 0
-                  && (
-                    <ViewModeActionsContainer>
-                      <Typography variant="body_short"><FormattedMessage id="search.view" /></Typography>
-
-                      <Button variant="ghost_icon" color="secondary">
-                        <Icon data={list} />
-                      </Button>
-
-                      <Button variant="ghost_icon" color="secondary">
-                        <Icon data={gridOn} />
-                      </Button>
-                    </ViewModeActionsContainer>
-                  )}
               </SearchResultsHeader>
 
               {searchResults.length > 0
