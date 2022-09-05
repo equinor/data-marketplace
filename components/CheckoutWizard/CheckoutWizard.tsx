@@ -33,12 +33,24 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
   const [currentStep, setCurrentStep] = useState(0)
   const router = useRouter()
   const intl = useIntl()
-  const { removeItem } = useCheckoutData()
+  const { checkoutData, removeItem } = useCheckoutData()
 
   useEffect(() => {
     const stepByPathname = steps.findIndex((step) => router.pathname.includes(step))
+
+    if (stepByPathname > 0 && !(checkoutData as any)[steps[stepByPathname - 1]]) {
+      // this will recursively redirect until the user ends up at either
+      // a step after a step with data or until the first step
+      router.push({
+        pathname: `/checkout/${steps[stepByPathname - 1]}`,
+        query: {
+          id: router.query.id,
+        },
+      })
+    }
+
     setCurrentStep(stepByPathname)
-  }, [])
+  }, [router])
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
