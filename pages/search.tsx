@@ -12,7 +12,7 @@ import {
 import { grid_on as gridOn, list } from "@equinor/eds-icons"
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useMemo } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -125,12 +125,20 @@ const Search: NextPage = () => {
 
   const onCommunityFilterClick = (id: string) => {
     const filters = updateCommunityFilter(id, router.query.community)
-    console.log(filters)
     router.push({
       pathname: router.pathname,
       query: { ...router.query, community: filters },
     })
   }
+
+  const numberOfFilters = useMemo(() => {
+    const appliedFilters = router.query.community
+    if (!appliedFilters) return 0
+    if (typeof appliedFilters === "string") {
+      return 1
+    }
+    return appliedFilters.length
+  }, [router.query.community])
 
   return (
     isLoading ? (
@@ -161,7 +169,6 @@ const Search: NextPage = () => {
                 </EdsProvider>
               </CheckboxContainer>
             </FieldSetStyle>
-
           </aside>
 
           <main>
@@ -169,13 +176,25 @@ const Search: NextPage = () => {
 
               <SearchResultsHeader>
                 <Typography variant="body_short">
-                  <FormattedMessage
-                    id="search.statistic"
-                    values={{
-                      count: searchResults.length,
-                      searchTerm: (<b>{router.query.q}</b>),
-                    }}
-                  />
+                  {searchResults.length === 0 && numberOfFilters > 0
+                    ? (
+                      <FormattedMessage
+                        id="search.no.results.with.filters"
+                        values={{
+                          numberOfFilters,
+                          searchTerm: (<b>{router.query.q}</b>),
+                        }}
+                      />
+                    )
+                    : (
+                      <FormattedMessage
+                        id="search.results"
+                        values={{
+                          count: searchResults.length,
+                          searchTerm: (<b>{router.query.q}</b>),
+                        }}
+                      />
+                    ) }
                 </Typography>
 
                 {searchResults.length > 0
