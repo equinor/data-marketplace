@@ -204,7 +204,7 @@ const Search: NextPage = () => {
                             <CardContent>
                               <Typography variant="caption">
                                 {intl.formatMessage({ id: "search.lastUpdated" })}
-                                {" : "}
+                                {": "}
                                 {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
                               </Typography>
                               <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
