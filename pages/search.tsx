@@ -6,11 +6,15 @@ import {
   CircularProgress,
   Checkbox,
   List,
+  Pagination,
+
 } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
-import React, { useEffect, useState, useMemo } from "react"
+import React, {
+  useEffect, useState, useMemo, MouseEvent, KeyboardEvent,
+} from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -63,17 +67,22 @@ const FieldSetStyle = styled.fieldset`
 const LegendC = styled.legend`
   margin-bottom: ${tokens.spacings.comfortable.small};
 `
+/* Needs a wrapper because if we use the Pagination Component, the class is added to the
+pagination nav, not the container containing the with item results component */
+const PaginationContainer = styled.div`
+  margin-top: ${tokens.spacings.comfortable.large};
+`
 
 const SearchResultItem = styled(Item)`
   &:not(:last-child) {
-    margin-bottom: ${tokens.spacings.comfortable.large}
+    margin-bottom: ${tokens.spacings.comfortable.large};
   }
 `
 
+const HITS_PER_PAGE = 20
+
 const Search: NextPage = () => {
-  /* const [isLoading, setIsLoading] = useState<boolean>(true) */
   const [communities, setCommunities] = useState<any[]>([])
-  // const [searchResults, setSearchResults] = useState<any[]>([])
   const {
     searchResults = [], total, isLoading, error: searchResultError,
   } = useSearchResults()
@@ -99,6 +108,14 @@ const Search: NextPage = () => {
     })
   }
 
+  const onPaginationChange = (event: MouseEvent | KeyboardEvent | null, page: number) => {
+    const offset = page - 1
+    router.replace(
+      { query: { ...router.query, offset } },
+      { query: { ...router.query, offset } },
+      { shallow: true },
+    )
+  }
   const numberOfFilters = useMemo(() => {
     const appliedFilters = router.query.community
     if (!appliedFilters) return 0
@@ -144,34 +161,35 @@ const Search: NextPage = () => {
           </aside>
 
           <main>
-            {isLoading ? (
-              <CircularProgress />
-            )
-              : (
-                <Section>
-                  <SearchResultsHeader variant="body_short">
-                    {searchResults.length === 0 && numberOfFilters > 0
-                      ? (
-                        <FormattedMessage
-                          id="search.no.results.with.filters"
-                          values={{
-                            numberOfFilters,
-                            searchTerm: (<b>{router.query.q}</b>),
-                          }}
-                        />
-                      )
-                      : (
-                        <FormattedMessage
-                          id="search.results"
-                          values={{
-                            count: total,
-                            searchTerm: (<b>{router.query.q}</b>),
-                          }}
-                        />
-                      ) }
-                  </SearchResultsHeader>
+            <Section>
+              {isLoading ? (
+                <CircularProgress />
+              )
+                : (
+                  <>
+                    <SearchResultsHeader variant="body_short">
+                      {searchResults.length === 0 && numberOfFilters > 0
+                        ? (
+                          <FormattedMessage
+                            id="search.no.results.with.filters"
+                            values={{
+                              numberOfFilters,
+                              searchTerm: (<b>{router.query.q}</b>),
+                            }}
+                          />
+                        )
+                        : (
+                          <FormattedMessage
+                            id="search.results"
+                            values={{
+                              count: total,
+                              searchTerm: (<b>{router.query.q}</b>),
+                            }}
+                          />
+                        ) }
+                    </SearchResultsHeader>
 
-                  {searchResults.length > 0
+                    {searchResults.length > 0
                 && (
                   <SearchResultsList variant="numbered">
                     {searchResults.map((resource: any) => (
@@ -200,9 +218,20 @@ const Search: NextPage = () => {
 
                   </SearchResultsList>
                 )}
-
-                </Section>
-              ) }
+                  </>
+                )}
+              {total !== undefined && total > HITS_PER_PAGE
+                   && (
+                     <PaginationContainer>
+                       <Pagination
+                         itemsPerPage={HITS_PER_PAGE}
+                         onChange={onPaginationChange}
+                         totalItems={total}
+                         withItemIndicator
+                       />
+                     </PaginationContainer>
+                   )}
+            </Section>
           </main>
         </SearchPageContainer>
       </Container>
