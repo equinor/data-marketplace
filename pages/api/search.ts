@@ -50,6 +50,8 @@ const SearchHandler: NextApiHandler = async (req, res) => {
       body: {
         keywords: req.query.q,
         filters,
+        limit: 20,
+        offset: req.query.offset ?? 0,
       },
     })
 
