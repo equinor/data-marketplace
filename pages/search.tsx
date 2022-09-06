@@ -207,7 +207,7 @@ const Search: NextPage = () => {
                               <Typography variant="caption">
                                 {intl.formatMessage({ id: "search.lastUpdated" })}
                                 {": "}
-                                {Intl.DateTimeFormat("nb").format(new Date(resource.lastModifiedOn))}
+                                {intl.formatDate(new Date(resource.lastModifiedOn), { day: "2-digit", year: "numeric", month: "long" })}
                               </Typography>
                               <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
                             </CardContent>
