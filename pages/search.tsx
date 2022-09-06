@@ -19,6 +19,7 @@ import { Footer } from "components/Footer"
 import { Link } from "components/Link"
 import { Section } from "components/Section"
 import { TruncatedDescription } from "components/helpers"
+import { useSearchResults } from "hooks"
 import { HttpClient } from "lib/HttpClient"
 import { updateCommunityFilter } from "lib/updateCommunityFilter"
 
@@ -70,10 +71,12 @@ const SearchResultItem = styled(Item)`
 `
 
 const Search: NextPage = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  /* const [isLoading, setIsLoading] = useState<boolean>(true) */
   const [communities, setCommunities] = useState<any[]>([])
-  const [searchResults, setSearchResults] = useState<any[]>([])
-
+  // const [searchResults, setSearchResults] = useState<any[]>([])
+  const {
+    searchResults = [], total, isLoading, error: searchResultError,
+  } = useSearchResults()
   const router = useRouter()
   const intl = useIntl()
 
@@ -87,24 +90,6 @@ const Search: NextPage = () => {
       }
     })()
   }, [])
-
-  useEffect(() => {
-    setIsLoading(true)
-
-    if (router.query.q) {
-      (async () => {
-        try {
-          const { body } = await HttpClient.get("/api/search", { query: router.query })
-
-          setSearchResults(body.results.map((result: any) => result.resource))
-          setIsLoading(false)
-        } catch (error) {
-          console.error("[Search] Failed fetching search results", error)
-          setIsLoading(false)
-        }
-      })()
-    }
-  }, [router])
 
   const onCommunityFilterClick = (id: string) => {
     const filters = updateCommunityFilter(id, router.query.community)
@@ -122,6 +107,10 @@ const Search: NextPage = () => {
     }
     return appliedFilters.length
   }, [router.query.community])
+
+  if (searchResultError) {
+    console.log("[Search] Failed fetching search results", searchResultError)
+  }
 
   return (
     <>
@@ -160,7 +149,6 @@ const Search: NextPage = () => {
             )
               : (
                 <Section>
-
                   <SearchResultsHeader variant="body_short">
                     {searchResults.length === 0 && numberOfFilters > 0
                       ? (
@@ -176,7 +164,7 @@ const Search: NextPage = () => {
                         <FormattedMessage
                           id="search.results"
                           values={{
-                            count: searchResults.length,
+                            count: total,
                             searchTerm: (<b>{router.query.q}</b>),
                           }}
                         />
@@ -186,7 +174,7 @@ const Search: NextPage = () => {
                   {searchResults.length > 0
                 && (
                   <SearchResultsList variant="numbered">
-                    {searchResults.map((resource) => (
+                    {searchResults.map((resource: any) => (
                       <SearchResultItem key={resource.id}>
                         <Link href={{ pathname: "/assets/[id]", query: { id: resource.id } }} title={resource.name}>
                           <Card elevation="raised" onClick={() => {}}>
