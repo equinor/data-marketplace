@@ -9,6 +9,7 @@ import {
 import { error_filled } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import { ChangeEventHandler, useState } from "react"
 import { useIntl } from "react-intl"
@@ -101,6 +102,13 @@ const CheckoutAccessView: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>
+          {intl.formatMessage({ id: "checkout.prefix.title" })}
+          -
+          {intl.formatMessage({ id: "checkout.nav.step.access" })}
+        </title>
+      </Head>
       <main>
         <Container>
           <CheckoutWizard assetName={checkoutData.asset?.name}>
