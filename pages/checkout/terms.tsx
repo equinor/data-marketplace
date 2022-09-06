@@ -10,6 +10,7 @@ import { warning_filled } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import React, { useCallback, useEffect, useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
@@ -191,6 +192,13 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
   return (
     <>
+      <Head>
+        <title>
+          {intl.formatMessage({ id: "checkout.prefix.title" })}
+          -
+          {intl.formatMessage({ id: "checkout.nav.step.terms" })}
+        </title>
+      </Head>
       <main>
         <Container>
           <CheckoutWizard assetName={checkoutData.asset?.name}>

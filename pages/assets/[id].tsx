@@ -111,13 +111,11 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
     }
   }
 
-  const generalDocumentTitle = intl.formatMessage({ id: "common.documentTitle" })
-
   return (
     <>
       <main>
         <Head>
-          <title>{asset?.name ?? generalDocumentTitle}</title>
+          <title>{asset?.name}</title>
         </Head>
 
         <Container>

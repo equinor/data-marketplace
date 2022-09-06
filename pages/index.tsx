@@ -1,7 +1,6 @@
 import { Card, Typography, CircularProgress } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
-import Head from "next/head"
 import {
   useEffect,
   useState,
@@ -90,17 +89,10 @@ const Frontpage: NextPage = () => {
     return () => setPopularDataProducts([])
   }, [])
 
-  const documentTitle = intl.formatMessage({ id: "common.documentTitle" })
-
   return (
     <>
       <main>
         <Container>
-          <Head>
-            <title>
-              {documentTitle}
-            </title>
-          </Head>
           <Hero>
             <HeroContent>
               <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
