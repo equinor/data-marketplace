@@ -3,10 +3,10 @@ import type { AppProps } from "next/app"
 import Head from "next/head"
 import { IntlProvider } from "react-intl"
 
-import "../styles/globals.css"
+import "styles/globals.css"
 
-import { AuthContainer } from "../components/AuthContainer"
-import englishTexts from "../locales/english.json"
+import { AuthContainer } from "components/AuthContainer"
+import englishTexts from "locales/english.json"
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
   <SessionProvider session={session}>
