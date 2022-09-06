@@ -24,7 +24,6 @@ export const useSearchResults = () => {
           }
           setIsLoading(false)
         } catch (err) {
-          console.error("[Search] Failed fetching search results", error)
           let msg: string = String(err)
           if (err instanceof Error) msg = err.message
           setError(msg)
@@ -34,7 +33,6 @@ export const useSearchResults = () => {
     }
 
     getData()
-    console.log(setSearchResults)
 
     return () => {
       ignore = true
