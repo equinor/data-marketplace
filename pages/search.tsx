@@ -50,13 +50,9 @@ const CheckboxContainer = styled.div`
   
 `
 
-const SearchResultsList = styled(List)`
+const UnstyledList = styled(List)`
   list-style: none;
   padding: 0; 
-`
-
-const CommunityList = styled(List)`
-padding-inline-start: 0;
 `
 
 const FieldSetStyle = styled.fieldset`
@@ -131,36 +127,38 @@ const Search: NextPage = () => {
 
   return (
     <>
-      <Container>
-        <Typography variant="h1">
-          {intl.formatMessage({ id: "search.header" })}
-        </Typography>
-        <SearchPageContainer>
+      <main>
+        <Container>
+          <Typography variant="h1">
+            {intl.formatMessage({ id: "search.header" })}
+          </Typography>
+          <SearchPageContainer>
 
-          <aside>
-            <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
-            <Divider variant="small" />
+            <aside>
+              <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
+              <Divider variant="small" />
 
-            <FieldSetStyle>
-              <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
-              <CheckboxContainer>
-                <EdsProvider density="compact">
-                  {communities?.map((community) => (
-                    <CommunityList key={community.id}>
-                      <Checkbox
-                        label={community.name}
-                        key={community.id}
-                        checked={!!router.query.community?.includes(community.id)}
-                        onChange={() => onCommunityFilterClick(community.id)}
-                      />
-                    </CommunityList>
-                  ))}
-                </EdsProvider>
-              </CheckboxContainer>
-            </FieldSetStyle>
-          </aside>
+              <FieldSetStyle>
+                <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
+                <CheckboxContainer>
+                  <EdsProvider density="compact">
+                    {communities?.map((community) => (
+                      <UnstyledList key={community.id}>
+                        <Item>
+                          <Checkbox
+                            label={community.name}
+                            key={community.id}
+                            checked={!!router.query.community?.includes(community.id)}
+                            onChange={() => onCommunityFilterClick(community.id)}
+                          />
+                        </Item>
+                      </UnstyledList>
+                    ))}
+                  </EdsProvider>
+                </CheckboxContainer>
+              </FieldSetStyle>
+            </aside>
 
-          <main>
             <Section>
               {isLoading ? (
                 <CircularProgress />
@@ -191,7 +189,7 @@ const Search: NextPage = () => {
 
                     {searchResults.length > 0
                 && (
-                  <SearchResultsList variant="numbered">
+                  <UnstyledList variant="numbered">
                     {searchResults.map((resource: any) => (
                       <SearchResultItem key={resource.id}>
                         <Link href={{ pathname: "/assets/[id]", query: { id: resource.id } }} title={resource.name}>
@@ -216,7 +214,7 @@ const Search: NextPage = () => {
                       </SearchResultItem>
                     ))}
 
-                  </SearchResultsList>
+                  </UnstyledList>
                 )}
                   </>
                 )}
@@ -232,9 +230,10 @@ const Search: NextPage = () => {
                      </PaginationContainer>
                    )}
             </Section>
-          </main>
-        </SearchPageContainer>
-      </Container>
+
+          </SearchPageContainer>
+        </Container>
+      </main>
       <Footer />
     </>
   )
