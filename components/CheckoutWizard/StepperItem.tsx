@@ -11,7 +11,7 @@ const StyledStepperItem = styled(Item)`
   display: grid;
   grid-template-columns: min-content 1fr;
   --size1: calc(8 / 16 * 1rem);
-  --disabledText: ${tokens.colors.interactive.disabled__text.hex};
+  --disabledText: ${tokens.colors.text.static_icons__default.hex};
   --mossGreen: ${tokens.colors.interactive.primary__resting.hex};
   --defaultText: ${tokens.colors.text.static_icons__default.hex};
   --mediumGrey: ${tokens.colors.ui.background__medium.hex};
