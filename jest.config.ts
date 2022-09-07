@@ -12,7 +12,6 @@ export default nextJest({ dir: "./" })({
     "node_modules"
   ],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-  // preset: "ts-jest",
   testEnvironment: "jest-environment-jsdom",
   testMatch: [
     "**/*.{spec,test,int}.{j,t}s?(x)"
