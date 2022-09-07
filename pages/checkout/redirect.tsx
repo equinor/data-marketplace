@@ -11,7 +11,7 @@ import {
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { CheckoutWizard, NoAsset } from "components/CheckoutWizard"
+import { CheckoutWizard, NoAsset, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Container } from "components/Container"
 import { Footer } from "components/Footer"
 import { config } from "config"
@@ -64,9 +64,7 @@ const CheckoutRedirectView: NextPage = () => {
     <>
       <Head>
         <title>
-          {intl.formatMessage({ id: "checkout.prefix.title" })}
-          -
-          {intl.formatMessage({ id: "checkout.nav.step.redirect" })}
+          {formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.redirect" }))}
         </title>
       </Head>
       <main>

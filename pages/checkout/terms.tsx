@@ -22,6 +22,7 @@ import {
   NoAsset,
   CancelButton,
   ValidationError,
+  formatCheckoutTitle,
 } from "components/CheckoutWizard"
 import { Container } from "components/Container"
 import { Footer } from "components/Footer"
@@ -194,9 +195,7 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
     <>
       <Head>
         <title>
-          {intl.formatMessage({ id: "checkout.prefix.title" })}
-          -
-          {intl.formatMessage({ id: "checkout.nav.step.terms" })}
+          {formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.terms" }))}
         </title>
       </Head>
       <main>
