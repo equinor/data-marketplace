@@ -61,35 +61,38 @@ const CheckoutRedirectView: NextPage = () => {
 
   return (
     <>
-      <Container>
-        <CheckoutWizard assetName={checkoutData.asset?.name}>
-          {!checkoutData.asset ? (
-            <NoAsset />
-          ) : (
-            <>
-              <Typography variant="ingress">
-                {intl.formatMessage({ id: "checkout.redirect.headline" })}
-              </Typography>
-              <Redirect>
-                <Typography variant="caption">{intl.formatMessage({ id: "checkout.redirect.label" })}</Typography>
-                <Progress.Linear
-                  variant="determinate"
-                  value={progress}
-                />
-              </Redirect>
-            </>
-          )}
-          <HelpText>
-            <FormattedMessage
-              id="checkout.redirect.body"
-              values={{
-                a: FormattedLink,
-                link: config.ACCESSIT_BASE_URL,
-              }}
-            />
-          </HelpText>
-        </CheckoutWizard>
-      </Container>
+      <main>
+        <Container>
+          <CheckoutWizard assetName={checkoutData.asset?.name}>
+            {!checkoutData.asset ? (
+              <NoAsset />
+            ) : (
+              <>
+                <Typography variant="ingress">
+                  {intl.formatMessage({ id: "checkout.redirect.headline" })}
+                </Typography>
+                <Redirect>
+                  <Typography variant="caption">{intl.formatMessage({ id: "checkout.redirect.label" })}</Typography>
+                  <Progress.Linear
+                    variant="determinate"
+                    value={progress}
+                    aria-label={intl.formatMessage({ id: "checkout.redirect.progess.arialabel" })}
+                  />
+                </Redirect>
+              </>
+            )}
+            <HelpText>
+              <FormattedMessage
+                id="checkout.redirect.body"
+                values={{
+                  a: FormattedLink,
+                  link: config.ACCESSIT_BASE_URL,
+                }}
+              />
+            </HelpText>
+          </CheckoutWizard>
+        </Container>
+      </main>
       <Footer />
     </>
   )
