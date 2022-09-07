@@ -101,48 +101,50 @@ const CheckoutAccessView: NextPage = () => {
 
   return (
     <>
-      <Container>
-        <CheckoutWizard assetName={checkoutData.asset?.name}>
-          {!checkoutData.asset ? (
-            <NoAsset />
-          ) : (
-            <>
-              <TextField
-                multiline
-                id="description"
-                label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
-                onChange={onDescriptionChange}
-                value={description}
-                rows={4}
-                variant={error ? "error" : "default"}
-                maxLength={MAX_LENGTH}
-                meta={description ? `${description && description.length}` : "0"}
-                helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : ""}
-                helperIcon={error && <Icon data={error_filled} />}
-                aria-required
-              />
+      <main>
+        <Container>
+          <CheckoutWizard assetName={checkoutData.asset?.name}>
+            {!checkoutData.asset ? (
+              <NoAsset />
+            ) : (
+              <>
+                <TextField
+                  multiline
+                  id="description"
+                  label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
+                  onChange={onDescriptionChange}
+                  value={description}
+                  rows={4}
+                  variant={error ? "error" : "default"}
+                  maxLength={MAX_LENGTH}
+                  meta={description ? `${description && description.length}` : "0"}
+                  helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : undefined}
+                  helperIcon={error && <Icon data={error_filled} />}
+                  aria-required
+                />
 
-              <FakeHelperText group="input" variant="helper">{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
+                <FakeHelperText group="input" variant="helper">{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
 
-              <ButtonContainer>
-                {collibraWorkflowError && <Typography variant="body_short" color={tokens.colors.interactive.danger__text.hex}>{collibraWorkflowError.message}</Typography>}
-                <CancelButton assetId={checkoutData.asset?.id} />
-                <Button
-                  onClick={onContinueClick}
-                  disabled={isLoading}
-                >
-                  {isLoading && (
-                    <ButtonProgressContainer>
-                      <Progress.Circular variant="indeterminate" size={24} style={{ display: "block" }} />
-                    </ButtonProgressContainer>
-                  )}
-                  <ContinueButtonText invisible={isLoading}>{intl.formatMessage({ id: "common.continue" })}</ContinueButtonText>
-                </Button>
-              </ButtonContainer>
-            </>
-          )}
-        </CheckoutWizard>
-      </Container>
+                <ButtonContainer>
+                  {collibraWorkflowError && <Typography variant="body_short" color={tokens.colors.interactive.danger__text.hex}>{collibraWorkflowError.message}</Typography>}
+                  <CancelButton assetId={checkoutData.asset?.id} />
+                  <Button
+                    onClick={onContinueClick}
+                    disabled={isLoading}
+                  >
+                    {isLoading && (
+                      <ButtonProgressContainer>
+                        <Progress.Circular variant="indeterminate" size={24} style={{ display: "block" }} />
+                      </ButtonProgressContainer>
+                    )}
+                    <ContinueButtonText invisible={isLoading}>{intl.formatMessage({ id: "common.continue" })}</ContinueButtonText>
+                  </Button>
+                </ButtonContainer>
+              </>
+            )}
+          </CheckoutWizard>
+        </Container>
+      </main>
       <Footer />
     </>
   )
