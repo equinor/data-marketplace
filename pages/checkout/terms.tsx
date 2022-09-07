@@ -191,11 +191,13 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
   return (
     <>
-      <Container>
-        <CheckoutWizard assetName={checkoutData.asset?.name}>
-          <ViewContent />
-        </CheckoutWizard>
-      </Container>
+      <main>
+        <Container>
+          <CheckoutWizard assetName={checkoutData.asset?.name}>
+            <ViewContent />
+          </CheckoutWizard>
+        </Container>
+      </main>
       <Footer />
     </>
   )
