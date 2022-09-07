@@ -19,6 +19,7 @@ import {
   CancelButton,
   CheckoutWizard,
   NoAsset,
+  formatCheckoutTitle,
 } from "components/CheckoutWizard"
 import { Container } from "components/Container"
 import { Footer } from "components/Footer"
@@ -104,9 +105,7 @@ const CheckoutAccessView: NextPage = () => {
     <>
       <Head>
         <title>
-          {intl.formatMessage({ id: "checkout.prefix.title" })}
-          -
-          {intl.formatMessage({ id: "checkout.nav.step.access" })}
+          {formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.access" }))}
         </title>
       </Head>
       <main>
