@@ -17,14 +17,19 @@ const UnstyledList = styled(List)`
   list-style: none;
 `
 
-const TopBorderBox = styled.div`
-  box-shadow: 0px -1px 0px ${tokens.colors.ui.background__medium.hex};
+const FooterContainer = styled.div`
+  background-color: ${tokens.colors.infographic.primary__slate_blue.hex};
   height: ${FOOTER_HEIGHT};
   display: grid;
   align-items: center;
 `
 
+const InvertedText = styled(Typography)`
+  color: ${tokens.colors.ui.background__default.hex}; 
+`
+
 const FooterLink = styled(List.Item)`
+    color: ${tokens.colors.ui.background__default.hex}; 
     &:not(:last-child) {
       margin-bottom: ${tokens.spacings.comfortable.small};
     }
@@ -47,7 +52,7 @@ const Link = styled.a`
   }
 `
 
-const StyledFooter = styled.footer`
+const FooterContent = styled.footer`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -73,11 +78,11 @@ export const Footer = () => {
   const intl = useIntl()
   return (
     <FooterWrapper>
-      <TopBorderBox>
-        <StyledFooter>
-          <Typography variant="body_short">
+      <FooterContainer>
+        <FooterContent>
+          <InvertedText variant="body_short">
             {intl.formatMessage({ id: "footer.copyright" })}
-          </Typography>
+          </InvertedText>
           <UnstyledList>
             <FooterLink>
               <Link href="https://github.com/equinor/data-marketplace">
@@ -93,8 +98,8 @@ export const Footer = () => {
               </Link>
             </FooterLink>
           </UnstyledList>
-        </StyledFooter>
-      </TopBorderBox>
+        </FooterContent>
+      </FooterContainer>
     </FooterWrapper>
   )
 }
