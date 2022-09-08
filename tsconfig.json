@@ -21,7 +21,9 @@
         "lint": {
           "validProperties": [
             "margin-block",
-            "margin-inline"
+            "margin-inline",
+            "padding-block",
+            "padding-inline"
           ]
         }
       }
