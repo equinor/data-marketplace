@@ -1,4 +1,8 @@
-import { Card, Typography, CircularProgress } from "@equinor/eds-core-react"
+/* eslint-disable camelcase */
+import {
+  Card, Typography, CircularProgress, Banner, Icon,
+} from "@equinor/eds-core-react"
+import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import {
@@ -26,6 +30,13 @@ const SectionHeader = styled.header`
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 1.5rem;
+`
+
+const InfoIcon = styled(Banner.Icon)`
+  
+  @media screen and (max-width: 550px) {
+    display: none; 
+  }
 `
 
 const GridContainer = styled.div`
@@ -98,7 +109,15 @@ const Frontpage: NextPage = () => {
               <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
                 {intl.formatMessage({ id: "frontpage.hero.title" })}
               </Typography>
-              <Typography variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
+              <Typography style={{ marginBottom: tokens.spacings.comfortable.medium }} variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
+              <Banner>
+                <InfoIcon>
+                  <Icon data={info_circle} />
+                </InfoIcon>
+                <Banner.Message>
+                  {intl.formatMessage({ id: "frontpage.disclaimer" })}
+                </Banner.Message>
+              </Banner>
             </HeroContent>
             <HeroIllustration />
           </Hero>
