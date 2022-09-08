@@ -44,14 +44,17 @@ const SearchHandler: NextApiHandler = async (req, res) => {
       })
     }
 
+    const limit = 20
+    const offset = limit * (Number.isNaN(Number(req.query.offset)) ? 0 : Number(req.query.offset))
+
     // get search results
     const searchRes = await HttpClient.post<{ results: any[] }>(`${config.COLLIBRA_BASE_URL}/search`, {
       headers: { authorization },
       body: {
         keywords: req.query.q,
         filters,
-        limit: 20,
-        offset: req.query.offset ?? 0,
+        limit,
+        offset,
       },
     })
 
