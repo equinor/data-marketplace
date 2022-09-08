@@ -33,7 +33,6 @@ const SectionHeader = styled.header`
 `
 
 const InfoIcon = styled(Banner.Icon)`
-  
   @media screen and (max-width: 550px) {
     display: none; 
   }

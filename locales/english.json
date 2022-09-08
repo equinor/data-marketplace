@@ -46,6 +46,8 @@
   "checkout.title.eyebrow": "Request access to",
   "checkout.prefix.title": "Checkout",
   "footer.copyright": "Copyright © Equinor 2022",
+  "footer.maintained": "Developed and maintained by EDB",
+  "footer.feedback": "Provide feedback",
   "responsibility.header.name": "Name",
   "responsibility.header.email": "Email",
   "responsibility.intro.header": "Get in touch",
