@@ -7,7 +7,7 @@
   "frontpage.hero.title": "Find the data you need",
   "frontpage.hero.ingress": "Equinor Data Marketplace makes it easy to find and request access to the data you need.",
   "frontpage.disclaimer": "Data Marketplace is currently in beta. Some functionality might be limited, but we’re constantly working to improve your experience.",
-  "frontpage.popularProductsHeader": "Popular",
+  "frontpage.popularProductsHeader": "Popular data products",
   "frontpage.numberOfViews": "{numberOfViews} views",
   "search.header": "Search results",
   "search.title": "Search for assets",

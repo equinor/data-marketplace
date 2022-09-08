@@ -44,7 +44,7 @@ const GridContainer = styled.div`
   grid-gap: 1.5rem;
 `
 
-const AssetCardTitle = styled(Card.HeaderTitle)`
+const Title = styled(Typography)`
   font-weight: ${tokens.typography.paragraph.body_short_bold.fontWeight};
   color: ${tokens.colors.text.static_icons__default.hex};
   margin: 0;
@@ -52,6 +52,10 @@ const AssetCardTitle = styled(Card.HeaderTitle)`
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+`
+
+const Views = styled(Typography)`
+  justify-self: end;
 `
 
 const Hero = styled(Section)`
@@ -133,22 +137,23 @@ const Frontpage: NextPage = () => {
                   <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
                     <CardGrid elevation="raised" onClick={() => {}}>
                       <Card.Header>
-                        <AssetCardTitle>
-                          <Typography variant="h5" as="h2">
-                            {product.name}
-                          </Typography>
-                        </AssetCardTitle>
+                        <Card.HeaderTitle>
+                          <Views variant="meta">
+                            <FormattedMessage
+                              id="frontpage.numberOfViews"
+                              values={{
+                                numberOfViews: fmtNumber(product.numberOfViews),
+                              }}
+                            />
+                          </Views>
+                          <Title>
+                            <Typography variant="h5" as="h2">
+                              {product.name}
+                            </Typography>
+                          </Title>
+                        </Card.HeaderTitle>
                       </Card.Header>
-                      <Card.Content>
-                        <Typography variant="meta">
-                          <FormattedMessage
-                            id="frontpage.numberOfViews"
-                            values={{
-                              numberOfViews: fmtNumber(product.numberOfViews),
-                            }}
-                          />
-                        </Typography>
-                      </Card.Content>
+                      <Card.Content />
                     </CardGrid>
                   </Link>
                 ))}
