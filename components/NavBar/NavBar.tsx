@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@equinor/eds-core-react"
 import { account_circle, power } from "@equinor/eds-icons"
+import { tokens } from "@equinor/eds-tokens"
 import { signOut } from "next-auth/react"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
@@ -21,8 +22,18 @@ import {
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-const EDSTopBar = styled(TopBar)`
+const TopbarWrapper = styled.div`
+  box-shadow: ${tokens.elevation.none};
+  border-bottom: 2px solid ${tokens.colors.ui.background__light.rgba};
   margin-bottom: 5rem;
+`
+
+const EDSTopBar = styled(TopBar)`
+  padding-inline: var(--layout-padding-inline);
+  border-bottom: 0;
+  box-shadow: none;
+  max-width: var(--layout-max-width);
+  margin-inline:  auto;
 `
 
 const EDSCustomContent = styled(TopBar.CustomContent)`
@@ -64,48 +75,50 @@ export const NavBar = () => {
   const onSignOutClick = () => signOut()
 
   return (
-    <EDSTopBar>
-      <TopBar.Header>
-        <NextLink href="/" passHref>
-          <Button as="a" variant="ghost" color="secondary">
-            <Typography><FormattedMessage id="navbar.logo" /></Typography>
-          </Button>
-        </NextLink>
-      </TopBar.Header>
-      <EDSCustomContent>
-        <form onSubmit={onSearchSubmit}>
-          <Search aria-label="sitewide" id="search-normal" placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })} onChange={onSearchChange} value={searchQuery} />
-        </form>
-      </EDSCustomContent>
-      <TopBar.Actions>
-        <nav aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
-          <Button
-            ref={userMenuAnchor}
-            aria-controls="user-menu"
-            aria-haspopup="true"
-            id="user-menu-anchor"
-            variant="ghost_icon"
-            color="secondary"
-            onClick={onUserMenuAnchorClick}
-          >
-            <Icon data={account_circle} title={intl.formatMessage({ id: "navbar.titleAccount" })} />
-          </Button>
+    <TopbarWrapper>
+      <EDSTopBar>
+        <TopBar.Header>
+          <NextLink href="/" passHref>
+            <Button as="a" variant="ghost" color="secondary">
+              <Typography><FormattedMessage id="navbar.logo" /></Typography>
+            </Button>
+          </NextLink>
+        </TopBar.Header>
+        <EDSCustomContent>
+          <form onSubmit={onSearchSubmit}>
+            <Search aria-label="sitewide" id="search-normal" placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })} onChange={onSearchChange} value={searchQuery} />
+          </form>
+        </EDSCustomContent>
+        <TopBar.Actions>
+          <nav aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
+            <Button
+              ref={userMenuAnchor}
+              aria-controls="user-menu"
+              aria-haspopup="true"
+              id="user-menu-anchor"
+              variant="ghost_icon"
+              color="secondary"
+              onClick={onUserMenuAnchorClick}
+            >
+              <Icon data={account_circle} title={intl.formatMessage({ id: "navbar.titleAccount" })} />
+            </Button>
 
-          <Menu
-            anchorEl={userMenuAnchor.current}
-            aria-labelledby="user-menu-anchor"
-            id="user-menu"
-            placement="bottom-end"
-            open={isUserMenuOpen}
-            onClose={() => setIsUserMenuOpen(false)}
-          >
-            <Menu.Item onClick={onSignOutClick}>
-              <Icon data={power} />
-              Sign out
-            </Menu.Item>
-          </Menu>
-        </nav>
-      </TopBar.Actions>
-    </EDSTopBar>
+            <Menu
+              anchorEl={userMenuAnchor.current}
+              aria-labelledby="user-menu-anchor"
+              id="user-menu"
+              placement="bottom-end"
+              open={isUserMenuOpen}
+              onClose={() => setIsUserMenuOpen(false)}
+            >
+              <Menu.Item onClick={onSignOutClick}>
+                <Icon data={power} />
+                Sign out
+              </Menu.Item>
+            </Menu>
+          </nav>
+        </TopBar.Actions>
+      </EDSTopBar>
+    </TopbarWrapper>
   )
 }
