@@ -26,12 +26,11 @@ type BackgroundProps = {
 }
 
 const BackgroundContainer = styled.div.attrs<BackgroundProps>(({ isHighlighted }) => (isHighlighted
-  ? {
-    className: "background-highlight",
-  }
-  : {
-    className: "",
-  }))<BackgroundProps>`
+ && {
+   className: "background-highlight",
+ }
+
+))<BackgroundProps>`
   background-color: ${({ isHighlighted }) => (isHighlighted ? "var(--highlight-colour)" : tokens.colors.ui.background__default.hex)} ;
 `
 
