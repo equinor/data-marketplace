@@ -27,8 +27,8 @@
           ]
         }
       }
-    ]  
+    ]
   },
-  "include": ["next-env.d.ts", "collibra.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "collibra.d.ts", "data-marketplace.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
