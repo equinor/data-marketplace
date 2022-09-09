@@ -112,7 +112,7 @@ const Frontpage: NextPage = () => {
               <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
                 {intl.formatMessage({ id: "frontpage.hero.title" })}
               </Typography>
-              <Typography style={{ marginBottom: tokens.spacings.comfortable.medium }} variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
+              <Typography style={{ marginBottom: tokens.spacings.comfortable.x_large }} variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
               <Banner>
                 <InfoIcon>
                   <Icon data={info_circle} />
