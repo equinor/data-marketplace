@@ -3,6 +3,11 @@ import qs from "query-string"
 
 import { HttpError } from "./HttpError"
 
+type HttpClientConfig = {
+  baseURL?: string
+  headers?: Record<string, any>
+}
+
 type HttpMethod = "GET"
 | "DELETE"
 | "HEAD"
@@ -28,22 +33,19 @@ type HttpRequestConfig = {
   headers?: Record<string, any>
 }
 
-export class HttpClient {
-  private static instance: Axios
+export class __HttpClient__ {
+  private client: Axios
 
-  private static getInstance(): Axios {
-    if (!HttpClient.instance) {
-      HttpClient.instance = axios.create()
-    }
-    return HttpClient.instance
+  constructor(cfg?: HttpClientConfig) {
+    this.client = axios.create(cfg)
   }
 
-  private static async request<T>(
+  private async request<T>(
     url: string,
     config: HttpRequestConfig,
   ): Promise<HttpResponse<T>> {
     try {
-      const res = await HttpClient.getInstance().request({
+      const res = await this.client.request({
         data: config.body,
         headers: config.headers,
         method: config.method ?? "GET",
@@ -71,31 +73,33 @@ export class HttpClient {
     }
   }
 
-  public static async get<T = any>(
+  public async get<T = any>(
     url: string,
     config?: Omit<HttpRequestConfig, "method" | "body">,
   ): Promise<HttpResponse<T>> {
-    return HttpClient.request(url, { ...config, method: "GET" })
+    return this.request(url, { ...config, method: "GET" })
   }
 
-  public static async post<T = any>(
+  public async post<T = any>(
     url: string,
     config?: Omit<HttpRequestConfig, "method">,
   ): Promise<HttpResponse<T>> {
-    return HttpClient.request(url, { ...config, method: "POST" })
+    return this.request(url, { ...config, method: "POST" })
   }
 
-  public static async patch<T = any>(
+  public async patch<T = any>(
     url: string,
     config?: Omit<HttpRequestConfig, "method">,
   ): Promise<HttpResponse<T>> {
-    return HttpClient.request(url, { ...config, method: "PATCH" })
+    return this.request(url, { ...config, method: "PATCH" })
   }
 
-  public static async delete<T = any>(
+  public async delete<T = any>(
     url: string,
     config?: Omit<HttpRequestConfig, "method">,
   ): Promise<HttpResponse<T>> {
-    return HttpClient.request(url, { ...config, method: "DELETE" })
+    return this.request(url, { ...config, method: "DELETE" })
   }
 }
+
+export const HttpClient = new __HttpClient__()
