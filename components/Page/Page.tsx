@@ -17,16 +17,17 @@ const PageWrapper = styled.div`
 
 type Props = {
   children: ReactNode
+  documentTitle?: string
 };
 
-export const Page: FunctionComponent<Props> = ({ children }) => {
+export const Page: FunctionComponent<Props> = ({ documentTitle, children }) => {
   const intl = useIntl()
 
   return (
     <PageWrapper>
       <Head>
         <title>
-          {intl.formatMessage({ id: "common.documentTitle" })}
+          {documentTitle || intl.formatMessage({ id: "common.documentTitle" })}
         </title>
       </Head>
       <NavBar />

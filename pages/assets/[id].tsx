@@ -5,7 +5,6 @@ import {
 import { shopping_cart_add } from "@equinor/eds-icons"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
-import Head from "next/head"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
 import { useState, useEffect } from "react"
@@ -112,11 +111,8 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
   }
 
   return (
-    <Page>
+    <Page documentTitle={asset.name || undefined}>
       <main>
-        <Head>
-          <title>{asset?.name}</title>
-        </Head>
         <Section>
           <Header>
             <AssetHeading variant="h1">

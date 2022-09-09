@@ -11,7 +11,6 @@ import {
 } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
-import Head from "next/head"
 import { useRouter } from "next/router"
 import React, {
   useEffect, useState, useMemo, MouseEvent, KeyboardEvent,
@@ -126,10 +125,7 @@ const Search: NextPage = () => {
   }
 
   return (
-    <Page>
-      <Head>
-        <title>{intl.formatMessage({ id: "search.title" })}</title>
-      </Head>
+    <Page documentTitle={intl.formatMessage({ id: "search.title" })}>
       <main>
         <Section>
           <Typography variant="h1">

@@ -1,6 +1,5 @@
 import { Progress, Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
-import Head from "next/head"
 import type { NextPage } from "next/types"
 import {
   ReactNode,
@@ -60,12 +59,7 @@ const CheckoutRedirectView: NextPage = () => {
   ), [])
 
   return (
-    <Page>
-      <Head>
-        <title>
-          {formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.redirect" }))}
-        </title>
-      </Head>
+    <Page documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.redirect" }))}>
       <main>
         <CheckoutWizard assetName={checkoutData.asset?.name}>
           {!checkoutData.asset ? (
