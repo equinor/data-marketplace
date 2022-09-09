@@ -21,8 +21,7 @@ import {
   NoAsset,
   formatCheckoutTitle,
 } from "components/CheckoutWizard"
-import { Container } from "components/Container"
-import { Footer } from "components/Footer"
+import { Page } from "components/Page"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { HttpClient } from "lib/HttpClient"
 
@@ -102,58 +101,56 @@ const CheckoutAccessView: NextPage = () => {
   }
 
   return (
-    <>
+    <Page>
       <Head>
         <title>
           {formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.access" }))}
         </title>
       </Head>
       <main>
-        <Container>
-          <CheckoutWizard assetName={checkoutData.asset?.name}>
-            {!checkoutData.asset ? (
-              <NoAsset />
-            ) : (
-              <>
-                <TextField
-                  multiline
-                  id="description"
-                  label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
-                  onChange={onDescriptionChange}
-                  value={description}
-                  rows={4}
-                  variant={error ? "error" : "default"}
-                  maxLength={MAX_LENGTH}
-                  meta={description ? `${description && description.length}` : "0"}
-                  helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : undefined}
-                  helperIcon={error && <Icon data={error_filled} />}
-                  aria-required
-                />
+        <CheckoutWizard assetName={checkoutData.asset?.name}>
+          {!checkoutData.asset ? (
+            <NoAsset />
+          ) : (
+            <>
+              <TextField
+                multiline
+                id="description"
+                label={intl.formatMessage({ id: "checkout.access.descriptionInput.label" }, { maxLength: MAX_LENGTH })}
+                onChange={onDescriptionChange}
+                value={description}
+                rows={4}
+                variant={error ? "error" : "default"}
+                maxLength={MAX_LENGTH}
+                meta={description ? `${description && description.length}` : "0"}
+                helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : undefined}
+                helperIcon={error && <Icon data={error_filled} />}
+                aria-required
+              />
 
-                <FakeHelperText group="input" variant="helper">{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
+              <FakeHelperText group="input" variant="helper">{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
 
-                <ButtonContainer>
-                  {collibraWorkflowError && <Typography variant="body_short" color={tokens.colors.interactive.danger__text.hex}>{collibraWorkflowError.message}</Typography>}
-                  <CancelButton assetId={checkoutData.asset?.id} />
-                  <Button
-                    onClick={onContinueClick}
-                    disabled={isLoading}
-                  >
-                    {isLoading && (
-                      <ButtonProgressContainer>
-                        <Progress.Circular variant="indeterminate" size={24} style={{ display: "block" }} />
-                      </ButtonProgressContainer>
-                    )}
-                    <ContinueButtonText invisible={isLoading}>{intl.formatMessage({ id: "common.continue" })}</ContinueButtonText>
-                  </Button>
-                </ButtonContainer>
-              </>
-            )}
-          </CheckoutWizard>
-        </Container>
+              <ButtonContainer>
+                {collibraWorkflowError && <Typography variant="body_short" color={tokens.colors.interactive.danger__text.hex}>{collibraWorkflowError.message}</Typography>}
+                <CancelButton assetId={checkoutData.asset?.id} />
+                <Button
+                  onClick={onContinueClick}
+                  disabled={isLoading}
+                >
+                  {isLoading && (
+                    <ButtonProgressContainer>
+                      <Progress.Circular variant="indeterminate" size={24} style={{ display: "block" }} />
+                    </ButtonProgressContainer>
+                  )}
+                  <ContinueButtonText invisible={isLoading}>{intl.formatMessage({ id: "common.continue" })}</ContinueButtonText>
+                </Button>
+              </ButtonContainer>
+            </>
+          )}
+        </CheckoutWizard>
       </main>
-      <Footer />
-    </>
+
+    </Page>
   )
 }
 

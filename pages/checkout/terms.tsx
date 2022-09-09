@@ -24,8 +24,7 @@ import {
   ValidationError,
   formatCheckoutTitle,
 } from "components/CheckoutWizard"
-import { Container } from "components/Container"
-import { Footer } from "components/Footer"
+import { Page } from "components/Page"
 import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { HttpClient } from "lib/HttpClient"
@@ -192,21 +191,18 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
   ])
 
   return (
-    <>
+    <Page>
       <Head>
         <title>
           {formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.terms" }))}
         </title>
       </Head>
       <main>
-        <Container>
-          <CheckoutWizard assetName={checkoutData.asset?.name}>
-            <ViewContent />
-          </CheckoutWizard>
-        </Container>
+        <CheckoutWizard assetName={checkoutData.asset?.name}>
+          <ViewContent />
+        </CheckoutWizard>
       </main>
-      <Footer />
-    </>
+    </Page>
   )
 }
 
