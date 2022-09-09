@@ -12,9 +12,8 @@ import {
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { Container } from "components/Container"
-import { Footer } from "components/Footer"
 import { Link } from "components/Link"
+import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { Illustration } from "components/frontpage"
 import { HttpClient } from "lib/HttpClient"
@@ -58,7 +57,7 @@ const Views = styled(Typography)`
   justify-self: end;
 `
 
-const Hero = styled(Section)`
+const Hero = styled.div`
   display: grid;
   grid-template-areas: "hero";
   min-height: 28rem;
@@ -104,9 +103,9 @@ const Frontpage: NextPage = () => {
   }, [])
 
   return (
-    <>
+    <Page>
       <main>
-        <Container>
+        <Section>
           <Hero>
             <HeroContent>
               <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
@@ -124,46 +123,44 @@ const Frontpage: NextPage = () => {
             </HeroContent>
             <HeroIllustration />
           </Hero>
-
-          <Section>
-            <SectionHeader>
-              <Typography variant="h2">
-                <FormattedMessage id="frontpage.popularProductsHeader" />
-              </Typography>
-            </SectionHeader>
-            {popularDataProducts.length > 0 ? (
-              <GridContainer>
-                {popularDataProducts.map((product) => (
-                  <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
-                    <CardGrid elevation="raised" onClick={() => {}}>
-                      <Card.Header>
-                        <Card.HeaderTitle>
-                          <Views variant="meta">
-                            <FormattedMessage
-                              id="frontpage.numberOfViews"
-                              values={{
-                                numberOfViews: fmtNumber(product.numberOfViews),
-                              }}
-                            />
-                          </Views>
-                          <Title>
-                            <Typography variant="h5" as="h2">
-                              {product.name}
-                            </Typography>
-                          </Title>
-                        </Card.HeaderTitle>
-                      </Card.Header>
-                      <Card.Content />
-                    </CardGrid>
-                  </Link>
-                ))}
-              </GridContainer>
-            ) : <CircularProgress />}
-          </Section>
-        </Container>
+        </Section>
+        <Section highlight>
+          <SectionHeader>
+            <Typography variant="h2">
+              <FormattedMessage id="frontpage.popularProductsHeader" />
+            </Typography>
+          </SectionHeader>
+          {popularDataProducts.length > 0 ? (
+            <GridContainer>
+              {popularDataProducts.map((product) => (
+                <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
+                  <CardGrid elevation="raised" onClick={() => {}}>
+                    <Card.Header>
+                      <Card.HeaderTitle>
+                        <Views variant="meta">
+                          <FormattedMessage
+                            id="frontpage.numberOfViews"
+                            values={{
+                              numberOfViews: fmtNumber(product.numberOfViews),
+                            }}
+                          />
+                        </Views>
+                        <Title>
+                          <Typography variant="h5" as="h2">
+                            {product.name}
+                          </Typography>
+                        </Title>
+                      </Card.HeaderTitle>
+                    </Card.Header>
+                    <Card.Content />
+                  </CardGrid>
+                </Link>
+              ))}
+            </GridContainer>
+          ) : <CircularProgress />}
+        </Section>
       </main>
-      <Footer />
-    </>
+    </Page>
   )
 }
 

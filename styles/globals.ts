@@ -10,12 +10,6 @@ body {
   
 }
 
-#__next {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -28,6 +22,7 @@ a {
 :root {
   --layout-padding-inline: ${tokens.spacings.comfortable.medium};
   --layout-max-width: none;
+  --highlight-colour: ${tokens.colors.infographic.primary__moss_green_13.hex};
 
   @media screen and (min-width: 768px) {
     --layout-padding-inline: ${tokens.spacings.comfortable.large};
