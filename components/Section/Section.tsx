@@ -7,7 +7,7 @@ const StyledSection = styled.section`
     max-width: var(--layout-max-width);
     margin-inline: auto;
     padding-bottom: 2rem;
-
+    padding-inline: var(--layout-padding-inline);
     @media screen and (min-width: 768px) {
       padding-bottom: 2.5rem;
     }
