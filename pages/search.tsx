@@ -19,9 +19,8 @@ import React, {
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { Container } from "components/Container"
-import { Footer } from "components/Footer"
 import { Link } from "components/Link"
+import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { TruncatedDescription } from "components/helpers"
 import { useSearchResults } from "hooks"
@@ -127,12 +126,12 @@ const Search: NextPage = () => {
   }
 
   return (
-    <>
+    <Page>
       <Head>
         <title>{intl.formatMessage({ id: "search.title" })}</title>
       </Head>
       <main>
-        <Container>
+        <Section>
           <Typography variant="h1">
             {intl.formatMessage({ id: "search.header" })}
           </Typography>
@@ -162,8 +161,7 @@ const Search: NextPage = () => {
                 </CheckboxContainer>
               </FieldSetStyle>
             </aside>
-
-            <Section>
+            <div>
               {isLoading ? (
                 <CircularProgress />
               )
@@ -233,13 +231,11 @@ const Search: NextPage = () => {
                        />
                      </PaginationContainer>
                    )}
-            </Section>
-
+            </div>
           </SearchPageContainer>
-        </Container>
+        </Section>
       </main>
-      <Footer />
-    </>
+    </Page>
   )
 }
 
