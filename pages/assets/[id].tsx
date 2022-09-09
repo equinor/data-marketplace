@@ -18,8 +18,8 @@ import {
   ResponsibilitiesContent,
   OverviewContentSections, ResponsibilitiesContentSections,
 } from "components/AssetTabContent"
-import { Container } from "components/Container"
-import { Footer } from "components/Footer"
+import { Page } from "components/Page"
+import { Section } from "components/Section"
 import { config } from "config"
 import { HttpClient } from "lib/HttpClient"
 
@@ -112,13 +112,12 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
   }
 
   return (
-    <>
+    <Page>
       <main>
         <Head>
           <title>{asset?.name}</title>
         </Head>
-
-        <Container>
+        <Section>
           <Header>
             <AssetHeading variant="h1">
               {asset.name}
@@ -155,10 +154,9 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
               </Panel>
             </Panels>
           </StyledTabs>
-        </Container>
+        </Section>
       </main>
-      <Footer />
-    </>
+    </Page>
   )
 }
 
