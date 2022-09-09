@@ -7,18 +7,7 @@ const StyledSection = styled.section`
     max-width: var(--layout-max-width);
     margin-inline: auto;
     padding-bottom: 2rem;
-    padding-inline: var(--layout-padding-inline);
-    @media screen and (min-width: 768px) {
-      padding-bottom: 2.5rem;
-    }
-
-    @media screen and (min-width: 992px) {
-      padding-bottom: 3.5rem;
-    }
-
-    @media screen and (min-width: 1200px) {
-      padding-bottom: 5rem;
-    }
+    padding: var(--layout-padding-block) var(--layout-padding-inline);
 `
 
 type BackgroundProps = {
