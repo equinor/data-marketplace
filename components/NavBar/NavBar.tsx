@@ -25,7 +25,7 @@ import styled from "styled-components"
 const TopbarWrapper = styled.div`
   box-shadow: ${tokens.elevation.none};
   border-bottom: 2px solid ${tokens.colors.ui.background__light.rgba};
-  margin-bottom: 5rem;
+  background-color: ${tokens.colors.ui.background__default.hex};
 `
 
 const EDSTopBar = styled(TopBar)`
