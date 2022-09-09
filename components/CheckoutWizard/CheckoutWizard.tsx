@@ -7,6 +7,8 @@ import {
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
+import { Section } from "../Section"
+
 import { Stepper } from "./Stepper"
 import type { CheckoutSteps } from "./types"
 
@@ -68,7 +70,7 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
   }, [router.events, removeItem])
 
   return (
-    <div>
+    <Section>
       <Heading>
         <Typography variant="h1">
           <Typography variant="overline" as="div">{intl.formatMessage({ id: "checkout.title.eyebrow" })}</Typography>
@@ -81,6 +83,6 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
       <ContentContainer>
         {children}
       </ContentContainer>
-    </div>
+    </Section>
   )
 }

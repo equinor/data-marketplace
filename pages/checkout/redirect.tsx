@@ -12,8 +12,7 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { CheckoutWizard, NoAsset, formatCheckoutTitle } from "components/CheckoutWizard"
-import { Container } from "components/Container"
-import { Footer } from "components/Footer"
+import { Page } from "components/Page"
 import { config } from "config"
 import { useCheckoutData } from "hooks"
 
@@ -61,46 +60,45 @@ const CheckoutRedirectView: NextPage = () => {
   ), [])
 
   return (
-    <>
+    <Page>
       <Head>
         <title>
           {formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.redirect" }))}
         </title>
       </Head>
       <main>
-        <Container>
-          <CheckoutWizard assetName={checkoutData.asset?.name}>
-            {!checkoutData.asset ? (
-              <NoAsset />
-            ) : (
-              <>
-                <Typography variant="ingress">
-                  {intl.formatMessage({ id: "checkout.redirect.headline" })}
-                </Typography>
-                <Redirect>
-                  <Typography variant="caption">{intl.formatMessage({ id: "checkout.redirect.label" })}</Typography>
-                  <Progress.Linear
-                    variant="determinate"
-                    value={progress}
-                    aria-label={intl.formatMessage({ id: "checkout.redirect.progess.arialabel" })}
-                  />
-                </Redirect>
-              </>
-            )}
-            <HelpText>
-              <FormattedMessage
-                id="checkout.redirect.body"
-                values={{
-                  a: FormattedLink,
-                  link: config.ACCESSIT_BASE_URL,
-                }}
-              />
-            </HelpText>
-          </CheckoutWizard>
-        </Container>
+        <CheckoutWizard assetName={checkoutData.asset?.name}>
+          {!checkoutData.asset ? (
+            <NoAsset />
+          ) : (
+            <>
+              <Typography variant="ingress">
+                {intl.formatMessage({ id: "checkout.redirect.headline" })}
+              </Typography>
+              <Redirect>
+                <Typography variant="caption">{intl.formatMessage({ id: "checkout.redirect.label" })}</Typography>
+                <Progress.Linear
+                  variant="determinate"
+                  value={progress}
+                  aria-label={intl.formatMessage({ id: "checkout.redirect.progess.arialabel" })}
+                />
+              </Redirect>
+            </>
+          )}
+          <HelpText>
+            <FormattedMessage
+              id="checkout.redirect.body"
+              values={{
+                a: FormattedLink,
+                link: config.ACCESSIT_BASE_URL,
+              }}
+            />
+          </HelpText>
+        </CheckoutWizard>
+
       </main>
-      <Footer />
-    </>
+
+    </Page>
   )
 }
 

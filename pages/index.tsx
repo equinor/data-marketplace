@@ -124,7 +124,6 @@ const Frontpage: NextPage = () => {
             <HeroIllustration />
           </Hero>
         </Section>
-
         <Section highlight>
           <SectionHeader>
             <Typography variant="h2">
