@@ -1,5 +1,6 @@
 import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
+import { FunctionComponent, PropsWithChildren } from "react"
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
@@ -23,23 +24,29 @@ type Props = {
   content?: OverviewContentSections
 }
 
+const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) => (
+  <Typography style={{ marginBottom: tokens.spacings.comfortable.small }} variant="h3" as="h2">
+    {children}
+  </Typography>
+)
+
 export const OverviewContent = ({ content }: Props) => (
   <Overview>
     {content?.description && (
       <AssetTabContentSectionContainer>
-        <Typography style={{ marginBottom: tokens.spacings.comfortable.small }} variant="h3" as="h2"><FormattedMessage id="asset.description" /></Typography>
+        <OverviewSubTitle><FormattedMessage id="asset.description" /></OverviewSubTitle>
         <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: content.description }} />
       </AssetTabContentSectionContainer>
     )}
     {content?.purpose && (
       <AssetTabContentSectionContainer>
-        <Typography style={{ marginBottom: tokens.spacings.comfortable.small }} variant="h3" as="h2"><FormattedMessage id="asset.purpose" /></Typography>
+        <OverviewSubTitle><FormattedMessage id="asset.purpose" /></OverviewSubTitle>
         <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: content.purpose }} />
       </AssetTabContentSectionContainer>
     )}
     {content?.timeliness && (
       <AssetTabContentSectionContainer>
-        <Typography style={{ marginBottom: tokens.spacings.comfortable.small }} variant="h3" as="h2"><FormattedMessage id="asset.timeliness" /></Typography>
+        <OverviewSubTitle><FormattedMessage id="asset.timeliness" /></OverviewSubTitle>
         <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: content.timeliness }} />
       </AssetTabContentSectionContainer>
     )}
