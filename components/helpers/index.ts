@@ -1,1 +1,0 @@
-export { TruncatedDescription } from "./TruncatedDescription"
