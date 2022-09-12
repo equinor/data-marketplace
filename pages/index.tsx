@@ -135,7 +135,7 @@ const Frontpage: NextPage = () => {
                             }}
                           />
                         </Views>
-                        <Typography variant="h5" as="h2" lines={2}>
+                        <Typography variant="h5" as="h3" lines={2}>
                           {product.name}
                         </Typography>
                       </Card.HeaderTitle>
