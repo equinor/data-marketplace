@@ -124,7 +124,7 @@ const Frontpage: NextPage = () => {
             <GridContainer>
               {popularDataProducts.map((product) => (
                 <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
-                  <CardGrid elevation="raised" onClick={() => {}}>
+                  <CardGrid elevation="raised">
                     <Card.Header>
                       <Card.HeaderTitle>
                         <Views variant="meta">
