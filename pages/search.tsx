@@ -220,6 +220,8 @@ const Search: NextPage = () => {
                          onChange={onPaginationChange}
                          totalItems={total}
                          withItemIndicator
+                         defaultPage={Number.isNaN(Number(router.query.offset))
+                           ? 1 : Number(router.query.offset) + 1}
                        />
                      </PaginationContainer>
                    )}
