@@ -43,16 +43,6 @@ const GridContainer = styled.div`
   grid-gap: 1.5rem;
 `
 
-const Title = styled(Typography)`
-  font-weight: ${tokens.typography.paragraph.body_short_bold.fontWeight};
-  color: ${tokens.colors.text.static_icons__default.hex};
-  margin: 0;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-`
-
 const Views = styled(Typography)`
   justify-self: end;
 `
@@ -145,11 +135,9 @@ const Frontpage: NextPage = () => {
                             }}
                           />
                         </Views>
-                        <Title>
-                          <Typography variant="h5" as="h2">
-                            {product.name}
-                          </Typography>
-                        </Title>
+                        <Typography variant="h5" as="h2" lines={2}>
+                          {product.name}
+                        </Typography>
                       </Card.HeaderTitle>
                     </Card.Header>
                     <Card.Content />
