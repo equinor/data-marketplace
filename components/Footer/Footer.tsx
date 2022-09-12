@@ -25,7 +25,7 @@ const FooterContainer = styled.div`
 `
 
 const InvertedText = styled(Typography)`
-  color: ${tokens.colors.ui.background__default.hex}; 
+    color: ${tokens.colors.ui.background__default.hex}; 
 `
 
 const FooterLink = styled(List.Item)`
@@ -85,14 +85,14 @@ export const Footer = () => {
           </InvertedText>
           <UnstyledList>
             <FooterLink>
-              <Link href="https://github.com/equinor/data-marketplace">
+              <Link href="https://equinor.slack.com/archives/C041CV62HRR">
                 {intl.formatMessage({ id: "footer.feedback" })}
                 <Icon data={slack} />
               </Link>
 
             </FooterLink>
             <FooterLink>
-              <Link href="https://equinor.slack.com/archives/C041CV62HRR">
+              <Link href="https://github.com/equinor/data-marketplace">
                 {intl.formatMessage({ id: "footer.maintained" })}
                 <Icon data={github} />
               </Link>
