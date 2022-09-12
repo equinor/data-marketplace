@@ -21,7 +21,6 @@ import styled from "styled-components"
 import { Link } from "components/Link"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
-import { TruncatedDescription } from "components/helpers"
 import { useSearchResults } from "hooks"
 import { HttpClient } from "lib/HttpClient"
 import { updateCommunityFilter } from "lib/updateCommunityFilter"
@@ -201,7 +200,7 @@ const Search: NextPage = () => {
                             </CardHeader>
                             {resource.description && (
                               <CardContent>
-                                <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
+                                <Typography variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
                               </CardContent>
                             )}
                           </Card>
