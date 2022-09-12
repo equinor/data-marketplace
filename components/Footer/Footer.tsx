@@ -25,14 +25,14 @@ const FooterContainer = styled.div`
 `
 
 const InvertedText = styled(Typography)`
-    color: ${tokens.colors.ui.background__default.hex}; 
+   color: ${tokens.colors.ui.background__default.hex}; 
 `
 
 const FooterLink = styled(List.Item)`
-    color: ${tokens.colors.ui.background__default.hex}; 
-    &:not(:last-child) {
-      margin-bottom: ${tokens.spacings.comfortable.small};
-    }
+   color: ${tokens.colors.ui.background__default.hex}; 
+   &:not(:last-child) {
+     margin-bottom: ${tokens.spacings.comfortable.small};
+   }
   @media screen and (min-width: 550px) {
     &:not(:last-child) {
       margin-bottom: ${tokens.spacings.comfortable.medium};
