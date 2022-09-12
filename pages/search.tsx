@@ -199,14 +199,11 @@ const Search: NextPage = () => {
                                 </Typography>
                               </CardHeaderTitle>
                             </CardHeader>
-                            <CardContent>
-                              <Typography variant="caption">
-                                {intl.formatMessage({ id: "search.lastUpdated" })}
-                                {": "}
-                                {intl.formatDate(new Date(resource.lastModifiedOn), { day: "2-digit", year: "numeric", month: "long" })}
-                              </Typography>
-                              <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
-                            </CardContent>
+                            {resource.description && (
+                              <CardContent>
+                                <TruncatedDescription variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
+                              </CardContent>
+                            )}
                           </Card>
                         </Link>
                       </SearchResultItem>
