@@ -39,7 +39,6 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
 
   useEffect(() => {
     const stepByPathname = steps.findIndex((step) => router.pathname.includes(step))
-
     if (stepByPathname > 0 && !(checkoutData as any)[steps[stepByPathname - 1]]) {
       // this will recursively redirect until the user ends up at either
       // a step after a step with data or until the first step
@@ -50,7 +49,6 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
         },
       })
     }
-
     setCurrentStep(stepByPathname)
   }, [router])
 
