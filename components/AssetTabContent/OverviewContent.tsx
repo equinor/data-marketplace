@@ -14,11 +14,7 @@ const Overview = styled.div`
   max-width: 70ch;
 `
 
-export type OverviewContentSections = {
-  description?: string
-  purpose?: string
-  timeliness?: string
-}
+export type OverviewContentSections = Pick<DataMarketplace.Asset, "description" | "updateFrequency">
 
 type Props = {
   content?: OverviewContentSections
@@ -38,16 +34,10 @@ export const OverviewContent = ({ content }: Props) => (
         <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: content.description }} />
       </AssetTabContentSectionContainer>
     )}
-    {content?.purpose && (
-      <AssetTabContentSectionContainer>
-        <OverviewSubTitle><FormattedMessage id="asset.purpose" /></OverviewSubTitle>
-        <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: content.purpose }} />
-      </AssetTabContentSectionContainer>
-    )}
-    {content?.timeliness && (
+    {content?.updateFrequency && (
       <AssetTabContentSectionContainer>
         <OverviewSubTitle><FormattedMessage id="asset.timeliness" /></OverviewSubTitle>
-        <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: content.timeliness }} />
+        <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: content.updateFrequency }} />
       </AssetTabContentSectionContainer>
     )}
   </Overview>
