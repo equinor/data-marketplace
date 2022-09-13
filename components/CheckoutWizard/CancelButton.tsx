@@ -5,20 +5,12 @@ import { useIntl } from "react-intl"
 
 import type { AssetIdProp } from "./types"
 
-import { useCheckoutData } from "hooks/useCheckoutData"
-
 export const CancelButton: FunctionComponent<AssetIdProp> = ({ assetId }) => {
   const intl = useIntl()
 
-  const { removeItem } = useCheckoutData()
-
-  const onCancel = () => {
-    removeItem()
-  }
-
   return (
     <Link href={{ pathname: "/assets/[id]", query: { id: assetId } }} passHref>
-      <Button onClick={onCancel} variant="outlined" color="secondary" as="a">
+      <Button variant="outlined" color="secondary" as="a">
         {intl.formatMessage({ id: "common.cancel" })}
       </Button>
     </Link>
