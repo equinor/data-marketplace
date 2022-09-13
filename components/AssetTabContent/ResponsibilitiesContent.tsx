@@ -5,7 +5,7 @@ import styled from "styled-components"
 
 import { ResponsibilitiesHolderList, ResponsibilityHolder } from "./ResponsibilitiesHolderList"
 
-export type ResponsibilitiesContentSections = Record<"DATA_OFFICE_ADMIN" | "DATA_STEWARD" | "OWNER" | "TECHNICAL_STEWARD", ResponsibilityHolder[]>
+export type ResponsibilitiesContentSections = Record<string, ResponsibilityHolder[]>
 
 const Responsibilities = styled.div`
   display: inline-flex;

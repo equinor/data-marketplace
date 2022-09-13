@@ -18,8 +18,6 @@ import {
 } from "components/AssetTabContent"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
-import { config } from "config"
-import { HttpClient } from "lib/HttpClient"
 import { CollibraService } from "services/CollibraService"
 
 const {
@@ -169,73 +167,52 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
   const token = await getToken({ req })
 
-  if (!token) {
+  if (!token || !token.accessToken || typeof token.accessToken !== "string") {
     return {
       props: defaultPageProps,
     }
   }
 
-  const authorization = `Bearer ${token.accessToken}`
-
-  const collibraService = new CollibraService(token!.accessToken as string)
+  const collibraService = new CollibraService(token.accessToken as string)
 
   try {
     const asset = await collibraService.getAssetWithAttributes(id as string)
 
-    const { body: responsibilities } = await HttpClient.get<Collibra.PagedResponsibilityResponse>(`${config.COLLIBRA_BASE_URL}/responsibilities`, {
-      headers: { authorization },
-      query: { resourceIds: id },
-    })
+    let responsibilities = await collibraService.getAssetResponsibilities(id as string)
 
     if (!responsibilities) {
       console.warn("[AssetDetailView] No responsibilites found for", id)
     }
 
-    // filter out results that are not a "Role" and "User" type
-    const usersWithRoles = (responsibilities && responsibilities.results.filter((result: any) => (
-      result.role.resourceType === "Role"
-        && result.owner.resourceType === "User"
-    )).map((responsibility: any) => ({
-      role: responsibility.role.name.toUpperCase().replace(/\s/g, "_"),
-      id: responsibility.owner.id,
-    }))) || []
+    // filter out results that are not a "User" type
+    responsibilities = responsibilities.filter((responsibility) => (
+      responsibility.owner.type === "User"
+    ))
 
-    const usersRes = await Promise.all(usersWithRoles.map((user: any) => HttpClient.get<Collibra.User>(`${config.COLLIBRA_BASE_URL}/users/${user.id}`, {
-      headers: { authorization },
-    })))
+    const users = await Promise.all(responsibilities.map((responsibility) => (
+      collibraService.getUser(responsibility.owner.id)
+    )))
 
-    const users = usersWithRoles.reduce((obj, user) => {
-      const collibraUser = usersRes.find((r) => r.body?.id === user.id)?.body
+    const responsibilitiesData: ResponsibilitiesContentSections = responsibilities
+      .reduce((data, responsibility) => {
+        const user = users.find((u) => u.id === responsibility.owner.id)
+        if (!user) return data
 
-      if (!collibraUser) return obj
+        const responsibilityName = responsibility.name.toUpperCase().replace(/\s/g, "_")
 
-      const transformedUser = {
-        ...user,
-        firstName: collibraUser.firstName || null,
-        lastName: collibraUser.lastName || null,
-        email: collibraUser.emailAddress || null,
-      }
-
-      if (user.role in obj) {
         return {
-          ...obj,
-          [user.role]: [
-            ...obj[user.role],
-            transformedUser,
+          ...data,
+          [responsibilityName]: [
+            ...(data[responsibilityName] ?? []),
+            user,
           ],
         }
-      }
-
-      return {
-        ...obj,
-        [user.role]: [transformedUser],
-      }
-    }, {} as Record<string, any[]>)
+      }, {} as ResponsibilitiesContentSections)
 
     return {
       props: {
         asset: JSON.parse(JSON.stringify(asset)),
-        responsibilitiesData: users,
+        responsibilitiesData: JSON.parse(JSON.stringify(responsibilitiesData)),
       },
     }
   } catch (error) {
