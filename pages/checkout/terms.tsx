@@ -11,7 +11,7 @@ import { tokens } from "@equinor/eds-tokens"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import { useRouter } from "next/router"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 import xss from "xss"
@@ -84,116 +84,89 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
   const hasAcceptedTerms = checkoutData?.terms?.termsAccepted
 
-  useEffect(() => {
-    if (asset) {
-      setCheckoutData({
-        ...checkoutData,
-        asset: {
-          ...(checkoutData.asset ?? {}),
-          id: asset.id,
-          name: asset.name,
-        },
+  const onContinue = () => {
+    if (hasAcceptedTerms) {
+      setFormError(false)
+      router.push({
+        pathname: "/checkout/access",
+        query: { id: asset?.id },
       })
+    } else {
+      setFormError(true)
     }
-  }, [asset, checkoutData, setCheckoutData])
+  }
 
-  const ViewContent = useCallback(() => {
-    if (error) {
-      return (
-        <DataSourceErrorContainer>
-          <Banner>
-            <Banner.Icon variant="warning">
-              <Icon data={warning_filled} />
-            </Banner.Icon>
-            <Banner.Message>
-              {intl.formatMessage({ id: `terms.error.${error}.bannerMessage`, defaultMessage: "We were unable to get the necessary data from Collibra" })}
-            </Banner.Message>
-          </Banner>
-
-          {error.endsWith(ERR_CODES.MISSING_DATA) && (
-            <Typography variant="body_short">
-              {intl.formatMessage({ id: `terms.error.${error}.additional` })}
-            </Typography>
-          )}
-        </DataSourceErrorContainer>
-      )
-    }
-
-    if (!asset?.id) {
-      return <NoAsset />
-    }
-
-    const onContinue = () => {
-      if (hasAcceptedTerms) {
-        setFormError(false)
-        router.push({
-          pathname: "/checkout/access",
-          query: { id: asset?.id },
-        })
-      } else {
-        setFormError(true)
-      }
-    }
-
-    const onAcceptTerms = () => {
-      setCheckoutData({
-        ...checkoutData,
-        asset: {
-          id: asset?.id ?? "",
-          name: asset?.name ?? "",
-        },
-        terms: { ...checkoutData.terms, termsAccepted: !hasAcceptedTerms },
-      })
-    }
-
-    return (
-      <>
-        <IngressContainer>
-          <FormattedMessage
-            id="terms.ingress"
-            // eslint-disable-next-line react/no-unstable-nested-components
-            values={{ p: (chunks) => <Typography variant="ingress">{chunks}</Typography> }}
-          />
-        </IngressContainer>
-        <InfoBox>
-          <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
-          <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
-        </InfoBox>
-        <CheckboxContainer>
-          <Checkbox
-            name="acceptTerms"
-            label={intl.formatMessage({ id: "terms.acceptLabel" })}
-            onChange={onAcceptTerms}
-            checked={hasAcceptedTerms ?? false}
-            aria-invalid={hasAcceptedTerms ? "false" : "true"}
-            aria-required
-          />
-          {formError && <ValidationError>{intl.formatMessage({ id: "terms.accept.errorMessage" })}</ValidationError> }
-        </CheckboxContainer>
-        <ButtonContainer>
-          <CancelButton assetId={asset?.id} />
-          <Button
-            onClick={onContinue}
-          >
-            {intl.formatMessage({ id: "common.continue" })}
-          </Button>
-        </ButtonContainer>
-      </>
-    )
-  }, [
-    error,
-    asset,
-    formError,
-    hasAcceptedTerms,
-    rightsToUse,
-    checkoutData,
-  ])
+  const onAcceptTerms = () => {
+    setCheckoutData({
+      ...checkoutData,
+      asset: {
+        ...(checkoutData.asset ?? {}),
+        id: asset?.id ?? "",
+        name: asset?.name ?? "",
+      },
+      terms: { ...checkoutData.terms, termsAccepted: !hasAcceptedTerms },
+    })
+  }
 
   return (
     <Page documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.terms" }))}>
       <main>
-        <CheckoutWizard assetName={checkoutData.asset?.name}>
-          <ViewContent />
+        <CheckoutWizard assetName={asset?.name}>
+          {(!error && asset?.id
+            && (
+              <>
+                <IngressContainer>
+                  <FormattedMessage
+                    id="terms.ingress"
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    values={{ p: (chunks) => <Typography variant="ingress">{chunks}</Typography> }}
+                  />
+                </IngressContainer>
+                <InfoBox>
+                  <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
+                  <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
+                </InfoBox>
+                <CheckboxContainer>
+                  <Checkbox
+                    name="acceptTerms"
+                    label={intl.formatMessage({ id: "terms.acceptLabel" })}
+                    onChange={onAcceptTerms}
+                    checked={hasAcceptedTerms ?? false}
+                    aria-invalid={hasAcceptedTerms ? "false" : "true"}
+                    aria-required
+                  />
+                  {formError && <ValidationError>{intl.formatMessage({ id: "terms.accept.errorMessage" })}</ValidationError> }
+                </CheckboxContainer>
+                <ButtonContainer>
+                  <CancelButton assetId={asset?.id} />
+                  <Button
+                    onClick={onContinue}
+                  >
+                    {intl.formatMessage({ id: "common.continue" })}
+                  </Button>
+                </ButtonContainer>
+              </>
+            )
+          ) }
+          {!asset?.id && <NoAsset />}
+          {error && (
+            <DataSourceErrorContainer>
+              <Banner>
+                <Banner.Icon variant="warning">
+                  <Icon data={warning_filled} />
+                </Banner.Icon>
+                <Banner.Message>
+                  {intl.formatMessage({ id: `terms.error.${error}.bannerMessage`, defaultMessage: "We were unable to get the necessary data from Collibra" })}
+                </Banner.Message>
+              </Banner>
+
+              {error.endsWith(ERR_CODES.MISSING_DATA) && (
+                <Typography variant="body_short">
+                  {intl.formatMessage({ id: `terms.error.${error}.additional` })}
+                </Typography>
+              )}
+            </DataSourceErrorContainer>
+          )}
         </CheckoutWizard>
       </main>
     </Page>
