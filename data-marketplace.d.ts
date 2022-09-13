@@ -1,5 +1,3 @@
-declare type AdapterFn<T, R> = (v: T) => R
-
 declare type Optional<T> = T | null
 
 declare namespace DataMarketplace {
