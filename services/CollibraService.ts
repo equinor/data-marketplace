@@ -3,6 +3,8 @@ import xss from "xss"
 import { config } from "config"
 import { __HttpClient__ } from "lib/HttpClient"
 import { Asset } from "model/Asset"
+import { Responsibility } from "model/Responsibility"
+import { User } from "model/User"
 
 export class CollibraService extends __HttpClient__ {
   constructor(token: string) {
@@ -48,5 +50,20 @@ export class CollibraService extends __HttpClient__ {
       .find((attr) => attr.type.name!.toLowerCase() === "timeliness")?.value ?? null
 
     return asset
+  }
+
+  async getUser(id: string): Promise<User> {
+    const res = await this.get<Collibra.User>(`${config.COLLIBRA_BASE_URL}/users/${id}`)
+    return User.fromCollibraUser(res.body)
+  }
+
+  async getAssetResponsibilities(id: string): Promise<Responsibility[]> {
+    const res = await this.get<Collibra.PagedResponsibilityResponse>(`${config.COLLIBRA_BASE_URL}/responsibilities`, {
+      query: {
+        resourceIds: [id],
+      },
+    })
+
+    return res.body.results.map(Responsibility.fromCollibraResponsibility)
   }
 }
