@@ -44,10 +44,14 @@ export class CollibraService extends __HttpClient__ {
     const attributeNames = ["description", "timeliness"]
     const attributes = await this.getAssetAttributes(id, ...attributeNames)
 
-    asset.description = attributes
-      .find((attr) => attr.type.name!.toLowerCase() === "description")?.value ?? null
-    asset.updateFrequency = attributes
-      .find((attr) => attr.type.name!.toLowerCase() === "timeliness")?.value ?? null
+    asset.description = xss(
+      attributes
+        .find((attr) => attr.type.name!.toLowerCase() === "description")?.value ?? "",
+    )
+    asset.updateFrequency = xss(
+      attributes
+        .find((attr) => attr.type.name!.toLowerCase() === "timeliness")?.value ?? "",
+    )
 
     return asset
   }
