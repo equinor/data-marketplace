@@ -10,17 +10,17 @@ import { useRouter } from "next/router"
 import { useState, useEffect } from "react"
 import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
-import xss from "xss"
 
 import {
   OverviewContent,
   ResponsibilitiesContent,
-  OverviewContentSections, ResponsibilitiesContentSections,
+  ResponsibilitiesContentSections,
 } from "components/AssetTabContent"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { config } from "config"
 import { HttpClient } from "lib/HttpClient"
+import { CollibraService } from "services/CollibraService"
 
 const {
   Tab: EdsTab, List, Panel, Panels,
@@ -66,15 +66,11 @@ const getInitialTab = (tabs: Tab[], tabQuery: string | undefined | string[]) => 
 }
 
 type AssetDetailProps = {
-  asset?: Collibra.Asset | null,
-  overviewData?: OverviewContentSections,
+  asset?: DataMarketplace.Asset | null,
   responsibilitiesData?: ResponsibilitiesContentSections
 }
 
-const AssetDetailView: NextPage<AssetDetailProps> = ({
-  asset,
-  overviewData, responsibilitiesData,
-}) => {
+const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesData }) => {
   const router = useRouter()
   const intl = useIntl()
 
@@ -143,7 +139,12 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
             </List>
             <Panels>
               <Panel>
-                <OverviewContent content={overviewData} />
+                <OverviewContent
+                  content={{
+                    description: asset.description,
+                    updateFrequency: asset.updateFrequency,
+                  }}
+                />
               </Panel>
               <Panel>
                 <ResponsibilitiesContent content={responsibilitiesData} />
@@ -158,45 +159,35 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
-
-  const token = await getToken({ req })
-  const authorization = `Bearer ${token!.accessToken}`
   const defaultPageProps = { asset: null }
 
+  if (typeof id !== "string") {
+    return {
+      props: defaultPageProps,
+    }
+  }
+
+  const token = await getToken({ req })
+
+  if (!token) {
+    return {
+      props: defaultPageProps,
+    }
+  }
+
+  const authorization = `Bearer ${token.accessToken}`
+
+  const collibraService = new CollibraService(token!.accessToken as string)
+
   try {
-    const { body: dataProduct } = await HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${id}`, {
-      headers: { authorization },
-    })
-
-    if (!dataProduct) {
-      console.warn("[AssetDetailView] No data product  found for", id)
-      return { props: defaultPageProps }
-    }
-
-    const { body: attributes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
-      headers: { authorization },
-      query: { assetId: id },
-    })
-
-    if (!attributes) {
-      console.warn("[AssetDetailView] No attribute response found for", id)
-    }
-
-    const overviewData = attributes?.results.filter((attr) => [
-      "description",
-      "purpose",
-      "timeliness",
-    ].includes(attr.type.name!.toLowerCase())).reduce((obj, attr) => ({
-      ...obj,
-      [attr.type.name!.toLowerCase().replace(/\s/g, "_")]: xss(attr.value),
-    }), {})
+    const asset = await collibraService.getAssetWithAttributes(id as string)
 
     const { body: responsibilities } = await HttpClient.get<Collibra.PagedResponsibilityResponse>(`${config.COLLIBRA_BASE_URL}/responsibilities`, {
       headers: { authorization },
       query: { resourceIds: id },
     })
 
-    if (!attributes) {
+    if (!responsibilities) {
       console.warn("[AssetDetailView] No responsibilites found for", id)
     }
 
@@ -243,8 +234,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
     return {
       props: {
-        asset: dataProduct,
-        overviewData,
+        asset: JSON.parse(JSON.stringify(asset)),
         responsibilitiesData: users,
       },
     }

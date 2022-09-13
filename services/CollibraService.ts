@@ -1,5 +1,8 @@
+import xss from "xss"
+
 import { config } from "config"
 import { __HttpClient__ } from "lib/HttpClient"
+import { Asset } from "model/Asset"
 
 export class CollibraService extends __HttpClient__ {
   constructor(token: string) {
@@ -7,39 +10,43 @@ export class CollibraService extends __HttpClient__ {
       baseURL: config.COLLIBRA_BASE_URL,
       headers: {
         authorization: `Bearer ${token}`,
+        accept: "application/json",
       },
     })
   }
 
-  private async getAssetAttributes(
+  async getAssetAttributes(
     id: string,
     ...attributes: string[]
-  ): Promise<Collibra.Attribute[] | undefined> {
+  ): Promise<Collibra.Attribute[]> {
     const { body: pagedAttributeRes } = await this.get<Collibra.PagedAttributeResponse>("/attributes", {
       query: { assetId: id },
     })
 
-    return pagedAttributeRes?.results.filter((attr) => (
-      [...attributes].includes(attr.type.name!.toLowerCase())
-    ))
+    return pagedAttributeRes.results.filter((attr) => (
+      attributes.includes(attr.type.name!.toLowerCase())
+    )).map((attr) => ({
+      ...attr,
+      value: xss(attr.value),
+    }))
   }
 
-  async getAssetByID(id: string): Promise<DataMarketplace.Asset> {
+  async getAsset(id: string): Promise<Asset> {
     const res = await this.get<Collibra.Asset>(`/assets/${id}`)
 
-    if (!res.body) {
-      throw new Error()
-    }
+    return Asset.fromCollibraAsset(res.body)
+  }
 
-    return {
-      id: res.body.id,
-      name: res.body.name!,
-      createdAt: Number.isNaN(new Date(res.body.createdOn).valueOf())
-        ? null
-        : new Date(res.body.createdOn),
-      updatedAt: Number.isNaN(new Date(res.body.lastModifiedOn).valueOf())
-        ? null
-        : new Date(res.body.lastModifiedOn),
-    }
+  async getAssetWithAttributes(id: string): Promise<Asset> {
+    const asset = await this.getAsset(id)
+    const attributeNames = ["description", "timeliness"]
+    const attributes = await this.getAssetAttributes(id, ...attributeNames)
+
+    asset.description = attributes
+      .find((attr) => attr.type.name!.toLowerCase() === "description")?.value ?? null
+    asset.updateFrequency = attributes
+      .find((attr) => attr.type.name!.toLowerCase() === "timeliness")?.value ?? null
+
+    return asset
   }
 }

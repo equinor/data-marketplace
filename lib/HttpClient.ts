@@ -23,7 +23,7 @@ interface HttpResponse<T> {
   statusCode: number
   statusMessage: string
   headers: Record<string, any>
-  body?: T
+  body: T
 }
 
 type HttpRequestConfig = {
