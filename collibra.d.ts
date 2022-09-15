@@ -84,7 +84,7 @@ declare namespace Collibra {
   }
 
   type NamedResourceReference = ResourceReference & {
-    name?: string | null
+    name: string
   }
 
   type Resource = ResourceReference & {

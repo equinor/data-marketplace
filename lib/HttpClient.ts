@@ -63,7 +63,7 @@ export class __HttpClient__ {
     } catch (error) {
       const err = error as AxiosError
 
-      console.log(`${err.config.method?.toUpperCase()} request to ${err.config.url} failed: ${err.response?.status} (${err.response?.statusText})`)
+      console.log(`${err.config.method?.toUpperCase()} request to ${err.config.baseURL}${err.config.url} failed: ${err.response?.status} (${err.response?.statusText})`)
       throw new HttpError(
         err.message,
         err.response!.status,
