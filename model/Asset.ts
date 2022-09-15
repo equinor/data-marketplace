@@ -36,6 +36,7 @@ export class Asset implements DataMarketplace.Asset {
     return new Asset({
       id: asset.id,
       name: asset.name!,
+      domain: asset.domain.name!,
       createdAt: asset.createdOn,
       updatedAt: asset.lastModifiedOn,
     })
