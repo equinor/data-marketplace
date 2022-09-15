@@ -18,7 +18,9 @@ import {
 } from "components/AssetTabContent"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
-import { CollibraService } from "services/CollibraService"
+import { makeCollibraService } from "services"
+import { getAssetAttributes, getAssetByID, getAssetResponsibilities } from "services/collibra"
+import { getUser } from "services/collibra/getUser"
 
 const {
   Tab: EdsTab, List, Panel, Panels,
@@ -173,12 +175,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     }
   }
 
-  const collibraService = new CollibraService(token.accessToken as string)
+  const makeCollibraServiceRequest = makeCollibraService({ authorization: `Bearer ${token.accessToken}` })
 
   try {
-    const asset = await collibraService.getAssetWithAttributes(id as string)
+    const asset = await makeCollibraServiceRequest(getAssetByID)(id)
+    const attributes = await makeCollibraServiceRequest(getAssetAttributes)(id, "description", "timeliness")
+    asset.description = attributes.find((attr) => attr.type.name.toLowerCase() === "description")?.value ?? null
+    asset.updateFrequency = attributes.find((attr) => attr.type.name.toLowerCase() === "timeliness")?.value ?? null
 
-    let responsibilities = await collibraService.getAssetResponsibilities(id as string)
+    let responsibilities = await makeCollibraServiceRequest(getAssetResponsibilities)(id)
 
     if (!responsibilities) {
       console.warn("[AssetDetailView] No responsibilites found for", id)
@@ -190,7 +195,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     ))
 
     const users = await Promise.all(responsibilities.map((responsibility) => (
-      collibraService.getUser(responsibility.owner.id)
+      makeCollibraServiceRequest(getUser)(responsibility.owner.id)
     )))
 
     const responsibilitiesData: ResponsibilitiesContentSections = responsibilities
