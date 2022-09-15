@@ -8,6 +8,8 @@ import { HttpClient } from "lib/HttpClient"
 
 const SCOPE = "openid offline_access https://equinor-dev.collibra.com/user_impersonation"
 
+console.assert(config.BASE_URL === process.env.NEXTAUTH_URL, `URL mismatch. BASE_URL=${config.BASE_URL}, NEXTAUTH_URL=${process.env.NEXTAUTH_URL}`)
+
 type Token = JWT & {
   tokenType: string,
   accessToken: string,
