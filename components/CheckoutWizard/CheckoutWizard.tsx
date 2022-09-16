@@ -69,12 +69,14 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
 
   return (
     <Section>
-      <Heading>
-        <Typography variant="h1">
-          <Typography variant="overline" as="div">{intl.formatMessage({ id: "checkout.title.eyebrow" })}</Typography>
-          {assetName}
-        </Typography>
-      </Heading>
+      {assetName && (
+        <Heading>
+          <Typography variant="h1">
+            <Typography variant="overline" as="div">{intl.formatMessage({ id: "checkout.title.eyebrow" })}</Typography>
+            {assetName}
+          </Typography>
+        </Heading>
+      )}
       <CheckoutNavContainer>
         <Stepper currentStep={currentStep} />
       </CheckoutNavContainer>
