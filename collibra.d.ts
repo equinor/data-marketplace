@@ -426,6 +426,36 @@ declare namespace Collibra {
     businessItemReference: NamedResourceReference
   }
 
+  type PagedQueryParams = Partial<{
+    offset: number
+    limit: number
+    countLimit: number
+  }>
+
+  type NameableQueryParams = Partial<PagedQueryParams & {
+    name: string
+    nameMatchMode: "START" | "END" | "ANYWHERE" | "EXACT"
+  }>
+
+  type SortableQueryParams<F> = Partial<{
+    sortField: F
+    sortOrder: "ASC" | "DESC"
+  }>
+
+  export type AssetQueryParams = Partial<
+  & PagedQueryParams
+  & NameableQueryParams
+  & SortableQueryParams<"NAME" | "DISPLAY_NAME">
+  & {
+    domainId: string
+    communityId: string
+    typeIds: string[]
+    statusIds: string[]
+    tagNames: string[]
+    typeInheritance: boolean
+    excludeMeta: boolean
+  }>
+
   interface PagedResponse<T = any> {
     total: number
     offset: number
