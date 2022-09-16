@@ -7,15 +7,21 @@ export const getAssetAttributes: ServiceRequester<
 Collibra.Attribute[]
 > = (client: __HttpClient__) => (
   async (id: string, ...attributes: string[]): Promise<Collibra.Attribute[]> => {
-    const { body: { results: attrs } } = await client.get<Collibra.PagedAttributeResponse>("/attributes", {
+    let { body: { results: attrs } } = await client.get<Collibra.PagedAttributeResponse>("/attributes", {
       query: { assetId: id },
     })
 
-    return attrs.filter((attr) => (
-      attributes.includes(attr.type.name!.toLowerCase())
-    )).map((attr) => ({
+    attrs = attrs.map((attr) => ({
       ...attr,
       value: xss(attr.value),
     }))
+
+    if (attributes.length > 0) {
+      return attrs.filter((attr) => (
+        attributes.includes(attr.type.name!.toLowerCase())
+      ))
+    }
+
+    return attrs
   }
 )
