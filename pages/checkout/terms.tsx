@@ -14,7 +14,6 @@ import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
-import xss from "xss"
 
 import {
   CheckoutWizard,
@@ -24,12 +23,11 @@ import {
   formatCheckoutTitle,
 } from "components/CheckoutWizard"
 import { Page } from "components/Page"
-import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
-import { HttpClient } from "lib/HttpClient"
 import { ERR_CODES, ExternalError } from "lib/errors"
 import { makeCollibraService } from "services"
 import {
+  getAssetAttributes,
   getAssetByID, getAssets, getDomainByName, getStatusByName,
 } from "services/collibra"
 
@@ -210,16 +208,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       statusId: status.id,
     })
 
-    const { body: attributes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
-      headers: { authorization },
-      query: { assetId: rightsToUseAsset.id },
-    })
-
-    if (!attributes || attributes.total === 0) {
-      throw new ExternalError(`No attributes found for rights to use asset ${rightsToUseAsset.name} (ID: ${rightsToUseAsset.id})`, ERR_CODES.MISSING_DATA)
-    }
-
-    const terms = attributes.results.find((attr) => /terms and conditions/i.test(attr.type.name!))
+    const [terms] = await makeCollibraServiceRequest(getAssetAttributes)(
+      rightsToUseAsset.id,
+      "terms and conditions",
+    )
 
     if (!terms) {
       throw new ExternalError(`No terms and conditions found for rights to use asset ${rightsToUseAsset.name} (ID: ${rightsToUseAsset.id})`, ERR_CODES.MISSING_DATA)
@@ -227,10 +219,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
     return {
       props: {
-        asset,
+        asset: JSON.parse(JSON.stringify(asset)),
         rightsToUse: {
-          name: terms.asset.name,
-          value: xss(terms.value),
+          name: terms.type.name,
+          value: terms.value,
         },
       },
     }
