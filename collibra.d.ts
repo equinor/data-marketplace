@@ -184,6 +184,13 @@ declare namespace Collibra {
     description: string
   }
 
+  export type Domain = NamedResource & {
+    description: string
+    type: NamedResourceReference
+    community: NamedResourceReference
+    excludedFromAutoHyperlinking: boolean
+  }
+
   export type StartWorkflowInstanceRequest = {
     workflowDefinitionId: string
     businessItemIds: string[]
@@ -429,6 +436,7 @@ declare namespace Collibra {
   export interface PagedNavigationStatisticResponse extends PagedResponse<NavigationStatistic> {}
   export interface PagedCommunityResponse extends PagedResponse<Community> {}
   export interface PagedWorkflowDefinitionResponse extends PagedResponse<WorkflowDefinition> {}
+  export interface PagedDomainResponse extends PagedResponse<Domain> {}
 
   export type WorkflowInstance = Resource & {
     workflowDefinition: WorkflowDefinitionReference
