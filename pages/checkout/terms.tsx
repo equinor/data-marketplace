@@ -112,43 +112,42 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
     <Page documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.terms" }))}>
       <main>
         <CheckoutWizard assetName={asset?.name}>
-          {(!error && asset?.id
-            && (
-              <>
-                <IngressContainer>
-                  <FormattedMessage
-                    id="terms.ingress"
-                    // eslint-disable-next-line react/no-unstable-nested-components
-                    values={{ p: (chunks) => <Typography variant="ingress">{chunks}</Typography> }}
-                  />
-                </IngressContainer>
-                <InfoBox>
-                  <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
-                  <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
-                </InfoBox>
-                <CheckboxContainer>
-                  <Checkbox
-                    name="acceptTerms"
-                    label={intl.formatMessage({ id: "terms.acceptLabel" })}
-                    onChange={onAcceptTerms}
-                    checked={hasAcceptedTerms ?? false}
-                    aria-invalid={hasAcceptedTerms ? "false" : "true"}
-                    aria-required
-                  />
-                  {formError && <ValidationError>{intl.formatMessage({ id: "terms.accept.errorMessage" })}</ValidationError> }
-                </CheckboxContainer>
-                <ButtonContainer>
-                  <CancelButton assetId={asset?.id} />
-                  <Button
-                    onClick={onContinue}
-                  >
-                    {intl.formatMessage({ id: "common.continue" })}
-                  </Button>
-                </ButtonContainer>
-              </>
-            )
+          {(!error && asset && (
+            <>
+              <IngressContainer>
+                <FormattedMessage
+                  id="terms.ingress"
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  values={{ p: (chunks) => <Typography variant="ingress">{chunks}</Typography> }}
+                />
+              </IngressContainer>
+              <InfoBox>
+                <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
+                <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
+              </InfoBox>
+              <CheckboxContainer>
+                <Checkbox
+                  name="acceptTerms"
+                  label={intl.formatMessage({ id: "terms.acceptLabel" })}
+                  onChange={onAcceptTerms}
+                  checked={hasAcceptedTerms ?? false}
+                  aria-invalid={hasAcceptedTerms ? "false" : "true"}
+                  aria-required
+                />
+                {formError && <ValidationError>{intl.formatMessage({ id: "terms.accept.errorMessage" })}</ValidationError> }
+              </CheckboxContainer>
+              <ButtonContainer>
+                <CancelButton assetId={asset?.id} />
+                <Button
+                  onClick={onContinue}
+                >
+                  {intl.formatMessage({ id: "common.continue" })}
+                </Button>
+              </ButtonContainer>
+            </>
+          )
           ) }
-          {!asset?.id && <NoAsset />}
+          {!asset && <NoAsset />}
           {error && (
             <DataSourceErrorContainer>
               <Banner>
