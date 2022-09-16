@@ -28,6 +28,8 @@ import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { HttpClient } from "lib/HttpClient"
 import { ERR_CODES, ExternalError } from "lib/errors"
+import { makeCollibraService } from "services"
+import { getAssetByID, getDomainByName } from "services/collibra"
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
@@ -175,29 +177,29 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
   const defaultPageProps: Props = { asset: null }
+
+  if (typeof id !== "string") {
+    return { props: defaultPageProps }
+  }
+
   const token = await getToken({ req })
+
+  if (typeof token?.accessToken !== "string") {
+    return { props: defaultPageProps }
+  }
+
   const authorization = `Bearer ${token!.accessToken}`
 
-  try {
-    const { body: dataProduct } = await HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${id}`, {
-      headers: { authorization },
-    })
+  const makeCollibraServiceRequest = makeCollibraService({ authorization })
 
-    if (!dataProduct || !dataProduct.domain.name) {
+  try {
+    const asset = await makeCollibraServiceRequest(getAssetByID)(id)
+
+    if (!asset?.domain) {
       throw new ExternalError(`No data product or domain name found for ${id}`, ERR_CODES.MISSING_DATA)
     }
 
-    const { body: domain } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/domains`, {
-      headers: { authorization },
-      query: {
-        name: `${dataProduct.domain.name.split(" ")[0]} - rights-to-use`,
-        nameMatchMode: "ANYWHERE",
-      },
-    })
-
-    if (!domain || domain.total === 0) {
-      throw new ExternalError(`No rights-to-use domain found for ${dataProduct.domain.name}`, ERR_CODES.MISSING_DATA)
-    }
+    const rightsToUseDomain = await makeCollibraServiceRequest(getDomainByName)(`${asset.domain.split(" ")[0]} - rights-to-use`)
 
     const { body: statuses } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/statuses`, {
       headers: { authorization },
@@ -216,13 +218,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     const { body: rtuAssets } = await HttpClient.get<Collibra.PagedAssetResponse>(`${config.COLLIBRA_BASE_URL}/assets`, {
       headers: { authorization },
       query: {
-        domainId: domain!.results[0].id,
+        domainId: rightsToUseDomain.id,
         statusId: approvedStatusID,
       },
     })
 
     if (!rtuAssets || rtuAssets.total === 0) {
-      throw new ExternalError(`No rights-to-use asset found in domain ${domain.results[0].name} (ID: ${domain.results[0].id})`, ERR_CODES.MISSING_DATA)
+      throw new ExternalError(`No rights-to-use asset found in domain ${rightsToUseDomain.name} (ID: ${rightsToUseDomain.id})`, ERR_CODES.MISSING_DATA)
     }
 
     const { body: attributes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
@@ -242,7 +244,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
     return {
       props: {
-        asset: dataProduct,
+        asset,
         rightsToUse: {
           name: terms.asset.name,
           value: xss(terms.value),
