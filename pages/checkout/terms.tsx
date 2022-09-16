@@ -29,7 +29,9 @@ import { useCheckoutData } from "hooks/useCheckoutData"
 import { HttpClient } from "lib/HttpClient"
 import { ERR_CODES, ExternalError } from "lib/errors"
 import { makeCollibraService } from "services"
-import { getAssetByID, getDomainByName } from "services/collibra"
+import {
+  getAssetByID, getAssets, getDomainByName, getStatusByName,
+} from "services/collibra"
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
@@ -201,45 +203,26 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
     const rightsToUseDomain = await makeCollibraServiceRequest(getDomainByName)(`${asset.domain.split(" ")[0]} - rights-to-use`)
 
-    const { body: statuses } = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/statuses`, {
-      headers: { authorization },
-      query: {
-        name: "approved",
-        nameMatchMode: "ANYWHERE",
-      },
+    const status = await makeCollibraServiceRequest(getStatusByName)("Approved")
+
+    const [rightsToUseAsset] = await makeCollibraServiceRequest(getAssets)({
+      domainId: rightsToUseDomain.id,
+      statusId: status.id,
     })
-
-    if (!statuses || statuses.total === 0) {
-      throw new ExternalError("No status ID found for `Approved` status", ERR_CODES.MISSING_DATA)
-    }
-
-    const approvedStatusID = statuses.results[0].id
-
-    const { body: rtuAssets } = await HttpClient.get<Collibra.PagedAssetResponse>(`${config.COLLIBRA_BASE_URL}/assets`, {
-      headers: { authorization },
-      query: {
-        domainId: rightsToUseDomain.id,
-        statusId: approvedStatusID,
-      },
-    })
-
-    if (!rtuAssets || rtuAssets.total === 0) {
-      throw new ExternalError(`No rights-to-use asset found in domain ${rightsToUseDomain.name} (ID: ${rightsToUseDomain.id})`, ERR_CODES.MISSING_DATA)
-    }
 
     const { body: attributes } = await HttpClient.get<Collibra.PagedAttributeResponse>(`${config.COLLIBRA_BASE_URL}/attributes`, {
       headers: { authorization },
-      query: { assetId: rtuAssets!.results[0].id },
+      query: { assetId: rightsToUseAsset.id },
     })
 
     if (!attributes || attributes.total === 0) {
-      throw new ExternalError(`No attributes found for rights to use asset ${rtuAssets.results[0].name} (ID: ${rtuAssets.results[0].id})`, ERR_CODES.MISSING_DATA)
+      throw new ExternalError(`No attributes found for rights to use asset ${rightsToUseAsset.name} (ID: ${rightsToUseAsset.id})`, ERR_CODES.MISSING_DATA)
     }
 
     const terms = attributes.results.find((attr) => /terms and conditions/i.test(attr.type.name!))
 
     if (!terms) {
-      throw new ExternalError(`No terms and conditions found for rights to use asset ${rtuAssets.results[0].name} (ID: ${rtuAssets.results[0].id})`, ERR_CODES.MISSING_DATA)
+      throw new ExternalError(`No terms and conditions found for rights to use asset ${rightsToUseAsset.name} (ID: ${rightsToUseAsset.id})`, ERR_CODES.MISSING_DATA)
     }
 
     return {
