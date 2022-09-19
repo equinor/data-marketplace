@@ -100,7 +100,7 @@ const CheckoutAccessView: NextPage = () => {
   }
 
   return (
-    <Page pageViewName="Checkout - access" documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.access" }))}>
+    <Page documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.access" }))}>
       <main>
         <CheckoutWizard assetName={checkoutData.asset?.name}>
           {!checkoutData.asset ? (

@@ -107,7 +107,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
   }
 
   return (
-    <Page pageViewName="Asset details" documentTitle={asset.name || undefined}>
+    <Page documentTitle={asset.name || undefined}>
       <main>
         <Section>
           <Header>

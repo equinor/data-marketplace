@@ -1,7 +1,5 @@
-import { useAppInsightsContext } from "@microsoft/applicationinsights-react-js"
 import Head from "next/head"
-import { useRouter } from "next/router"
-import { useEffect, FunctionComponent, ReactNode } from "react"
+import { FunctionComponent, ReactNode } from "react"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -19,27 +17,12 @@ const PageWrapper = styled.div`
 
 type Props = {
   children: ReactNode
-  pageViewName: string
   documentTitle?: string
 };
 
-export const Page: FunctionComponent<Props> = ({ documentTitle, pageViewName, children }) => {
+export const Page: FunctionComponent<Props> = ({ documentTitle, children }) => {
   const intl = useIntl()
-  const router = useRouter()
-  const appInsights = useAppInsightsContext()
 
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      console.log("logging route change", url)
-      appInsights.trackPageView({ name: pageViewName, uri: url })
-    }
-
-    router.events.on("routeChangeStart", handleRouteChange)
-
-    return () => {
-      router.events.off("routeChangeStart", handleRouteChange)
-    }
-  }, [router.events, appInsights, pageViewName])
   return (
     <PageWrapper>
       <Head>
