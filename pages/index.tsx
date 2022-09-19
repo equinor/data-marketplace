@@ -5,6 +5,7 @@ import {
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { useAppInsightsContext } from "@microsoft/applicationinsights-react-js"
+import { SeverityLevel } from "@microsoft/applicationinsights-web"
 import type { NextPage } from "next"
 import {
   useEffect,
@@ -89,7 +90,7 @@ const Frontpage: NextPage = () => {
         if (error instanceof Error) {
           appInsights.trackException({
             error,
-            severityLevel: 3, /* SeverityLevel.Error */
+            severityLevel: SeverityLevel.Error,
           })
           console.error("[Frontpage] Error while fetching most viewed data products", error)
         }
