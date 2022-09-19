@@ -111,7 +111,10 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
   }
 
   return (
-    <Page documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.terms" }))}>
+    <Page
+      pageViewName="Checkout - Terms"
+      documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.terms" }))}
+    >
       <main>
         <CheckoutWizard assetName={asset?.name}>
           {(!error && asset && (

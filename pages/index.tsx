@@ -4,6 +4,7 @@ import {
 } from "@equinor/eds-core-react"
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
+import { useAppInsightsContext } from "@microsoft/applicationinsights-react-js"
 import type { NextPage } from "next"
 import {
   useEffect,
@@ -77,15 +78,21 @@ const HeroIllustration = styled(Illustration)`
 
 const Frontpage: NextPage = () => {
   const intl = useIntl()
+  const appInsights = useAppInsightsContext()
   const [popularDataProducts, setPopularDataProducts] = useState<any[]>([])
-
   useEffect(() => {
     (async () => {
       try {
         const res = await HttpClient.get("/api/popular", { query: { limit: 6 } })
         setPopularDataProducts(res.body)
       } catch (error) {
-        console.error("[Frontpage] Error while fetching most viewed data products", error)
+        if (error instanceof Error) {
+          appInsights.trackException({
+            error,
+            severityLevel: 3, /* SeverityLevel.Error */
+          })
+          console.error("[Frontpage] Error while fetching most viewed data products", error)
+        }
       }
     })()
 
@@ -93,7 +100,7 @@ const Frontpage: NextPage = () => {
   }, [])
 
   return (
-    <Page>
+    <Page pageViewName="Front page">
       <main>
         <Section>
           <Hero>
