@@ -101,7 +101,7 @@ const Frontpage: NextPage = () => {
   }, [])
 
   return (
-    <Page pageViewName="Front page">
+    <Page>
       <main>
         <Section>
           <Hero>

@@ -112,7 +112,6 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
   return (
     <Page
-      pageViewName="Checkout - Terms"
       documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.terms" }))}
     >
       <main>
