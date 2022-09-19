@@ -124,7 +124,7 @@ const Search: NextPage = () => {
   }
 
   return (
-    <Page documentTitle={intl.formatMessage({ id: "search.title" })}>
+    <Page documentTitle={intl.formatMessage({ id: "search.title" })} pageViewName="Search">
       <main>
         <Section>
           <Typography variant="h1">

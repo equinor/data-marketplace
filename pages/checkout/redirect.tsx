@@ -59,7 +59,7 @@ const CheckoutRedirectView: NextPage = () => {
   ), [])
 
   return (
-    <Page documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.redirect" }))}>
+    <Page pageViewName="Checkout - redirect" documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.redirect" }))}>
       <main>
         <CheckoutWizard assetName={checkoutData.asset?.name}>
           {!checkoutData.asset ? (
