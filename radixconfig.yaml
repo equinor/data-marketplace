@@ -26,6 +26,7 @@ spec:
         BASE_URL: https://web-data-marketplace-prod.radix.equinor.com/
     variables:
       NEXT_PUBLIC_COLLIBRA_BASE_URL: https://equinor-dev.collibra.com/rest/2.0
+      NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=e4d53b02-e08f-45e0-8632-7a066b44bc4f;IngestionEndpoint=https://northeurope-2.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
     secrets:
       - AUTH_CLIENT_ID
       - AUTH_CLIENT_SECRET
