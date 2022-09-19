@@ -10,7 +10,7 @@ if (typeof window !== "undefined") {
 const reactPlugin = new ReactPlugin()
 const appInsights = new ApplicationInsights({
   config: {
-    instrumentationKey: process.env.NEXT_PUBLIC_APP_INSIGHTS_INSTRUMENTATION_KEY || "",
+    connectionString: process.env.NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRING || "",
     extensions: [reactPlugin],
     /* extensionConfig: {
       [reactPlugin.identifier]: { history },
