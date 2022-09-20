@@ -11,12 +11,13 @@ import englishTexts from "locales/english.json"
 import { GlobalStyle } from "styles/globals"
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
-  <AppInsightsErrorBoundary
-    onError={ErrorBoundary}
-    appInsights={reactPlugin}
-  >
-    <SessionProvider session={session}>
-      <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
+
+  <SessionProvider session={session}>
+    <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
+      <AppInsightsErrorBoundary
+        onError={ErrorBoundary}
+        appInsights={reactPlugin}
+      >
         <AppInsightsContext.Provider value={reactPlugin}>
           <Head>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,9 +28,10 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
             <Component {...pageProps} />
           </AuthContainer>
         </AppInsightsContext.Provider>
-      </IntlProvider>
-    </SessionProvider>
-  </AppInsightsErrorBoundary>
+      </AppInsightsErrorBoundary>
+    </IntlProvider>
+  </SessionProvider>
+
 )
 
 export default App
