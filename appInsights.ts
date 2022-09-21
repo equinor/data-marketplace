@@ -2,6 +2,8 @@ import { ReactPlugin } from "@microsoft/applicationinsights-react-js"
 import { ApplicationInsights } from "@microsoft/applicationinsights-web"
 
 import { config } from "config"
+
+const env = process.env.NODE_ENV
 /* let history: History | null = null
 
 if (typeof window !== "undefined") {
@@ -20,7 +22,7 @@ const appInsights = new ApplicationInsights({
   },
 })
 
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && env === "production") {
   appInsights.loadAppInsights()
 }
 

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node --require ./load-appinsights.js node_modules/next/dist/bin/next start",
     "lint": "eslint \"./**/*.{j,t}s?(x)\"",
     "test": "jest",
     "prepare": "husky install",
@@ -23,7 +23,9 @@
     "@microsoft/applicationinsights-react-js": "^3.4.0",
     "@microsoft/applicationinsights-web": "^2.8.6",
     "@next/bundle-analyzer": "^12.2.5",
+    "applicationinsights": "^2.3.5",
     "axios": "^0.27.2",
+    "dotenv": "^16.0.2",
     "next": "^12.2.5",
     "next-auth": "^4.10.3",
     "query-string": "^7.1.1",
