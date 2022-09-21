@@ -33,7 +33,6 @@ spec:
       - AUTH_TENANT_ID
       - NEXTAUTH_URL
       - NEXTAUTH_SECRET
-      - APP_INSIGHTS_CONNECTION_STRING
 
   dnsAppAlias:
     environment: prod

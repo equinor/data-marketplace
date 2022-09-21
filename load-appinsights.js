@@ -1,8 +1,7 @@
 const appInsights = require("applicationinsights")
-require("dotenv").config()
 
 appInsights
-  .setup(process.env.APP_INSIGHTS_CONNECTION_STRING)
+  .setup("InstrumentationKey=e4d53b02-e08f-45e0-8632-7a066b44bc4f;IngestionEndpoint=https://northeurope-2.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/")
   .setAutoCollectConsole(true, true)
   .setAutoCollectDependencies(true)
   .setAutoCollectExceptions(true)
