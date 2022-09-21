@@ -11,6 +11,7 @@ ENV NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRING InstrumentationKey=e4d53b02-e08f-
 
 COPY . .
 COPY --from=dependencies /opt/app/node_modules ./node_modules
+COPY ./load-appinsights.js ./
 RUN npm run build
 
 
@@ -35,6 +36,7 @@ RUN addgroup -S "$USER" && \
 COPY --from=builder /opt/app/public ./public
 COPY --from=builder /opt/app/.next ./.next
 COPY --from=builder /opt/app/package.json ./package.json
+COPY --from=builder /opt/app/load-appinsights.js ./
 
 RUN chown -R "$USER":"$USER" .
 USER "$UID"
