@@ -1,5 +1,6 @@
 import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
+import { PortableText } from "@portabletext/react"
 import { FunctionComponent, PropsWithChildren } from "react"
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
@@ -7,6 +8,7 @@ import styled from "styled-components"
 import { AssetTabContentSectionContainer } from "./AssetTabContentSectionContainer"
 
 import { getPortableText } from "htmlParsing/descriptionTest"
+import { defaultComponents } from "htmlParsing/portableText"
 
 const Overview = styled.div`
   padding-top: ${tokens.spacings.comfortable.x_large};
@@ -50,12 +52,16 @@ export const OverviewContent = ({ content }: Props) => {
         </AssetTabContentSectionContainer>
       )}
       {usePortableText && (
+
         <div>
           <h2>Portable text version of the description</h2>
           <ol>
             {/* eslint-disable-next-line react/no-array-index-key */}
             {testText.map((block: any, idx: any) => <li key={idx}>{JSON.stringify(block)}</li>)}
           </ol>
+          {/*  // eslint-disable-next-line
+          // @ts-ignore: Look into the correct way of doing this */}
+          <PortableText value={testText} components={defaultComponents} />
         </div>
       )}
     </Overview>
