@@ -55,10 +55,12 @@ export const OverviewContent = ({ content }: Props) => {
 
         <div>
           <h2>Portable text version of the description</h2>
-          <ol>
-            {/* eslint-disable-next-line react/no-array-index-key */}
-            {testText.map((block: any, idx: any) => <li key={idx}>{JSON.stringify(block)}</li>)}
-          </ol>
+          {testText && testText.length > 0 && (
+            <ol>
+              {/* eslint-disable-next-line react/no-array-index-key */}
+              {testText.map((block: any, idx: any) => <li key={idx}>{JSON.stringify(block)}</li>)}
+            </ol>
+          )}
           {/*  // eslint-disable-next-line
           // @ts-ignore: Look into the correct way of doing this */}
           <PortableText value={testText} components={defaultComponents} />
