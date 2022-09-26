@@ -20,6 +20,7 @@ import { Section } from "components/Section"
 import { Illustration } from "components/frontpage"
 import { HttpClient } from "lib/HttpClient"
 import { fmtNumber } from "lib/fmtNumber"
+import { Asset } from "model/Asset"
 
 const CardGrid = styled(Card)`
   justify-content: space-between;
@@ -35,7 +36,7 @@ const SectionHeader = styled.header`
 
 const InfoIcon = styled(Banner.Icon)`
   @media screen and (max-width: 550px) {
-    display: none; 
+    display: none;
   }
 `
 
@@ -63,7 +64,7 @@ const Hero = styled.div`
 const HeroContent = styled.div`
   width: clamp(25ch, 60%, 600px);
   z-index: 1;
-  align-self: start; 
+  align-self: start;
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: ${tokens.shape.corners.borderRadius};
   padding: 0.5rem 0.5rem 0.5rem 0;
@@ -80,11 +81,12 @@ const HeroIllustration = styled(Illustration)`
 const Frontpage: NextPage = () => {
   const intl = useIntl()
   const appInsights = useAppInsightsContext()
-  const [popularDataProducts, setPopularDataProducts] = useState<any[]>([])
+  const [popularDataProducts, setPopularDataProducts] = useState<Array<Asset & Pick<Collibra.NavigationStatistic, "numberOfViews">>>([])
   useEffect(() => {
     (async () => {
       try {
         const res = await HttpClient.get("/api/popular", { query: { limit: 6 } })
+        console.log(res.body)
         setPopularDataProducts(res.body)
       } catch (error) {
         if (error instanceof Error) {
@@ -146,6 +148,7 @@ const Frontpage: NextPage = () => {
                         <Typography variant="h5" as="h3" lines={2}>
                           {product.name}
                         </Typography>
+                        <Typography variant="body_short" lines={3} dangerouslySetInnerHTML={{ __html: product.description! }} />
                       </Card.HeaderTitle>
                     </Card.Header>
                     <Card.Content />
