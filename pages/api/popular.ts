@@ -1,45 +1,55 @@
 import type { NextApiHandler } from "next"
 import { getToken } from "next-auth/jwt"
+import xss from "xss"
 
-import { config } from "config"
-import { HttpClient } from "lib/HttpClient"
 import { HttpError } from "lib/HttpError"
+import { Asset } from "model/Asset"
+import { makeCollibraService } from "services"
+import { getAssetAttributes } from "services/collibra"
 
-type PopularAsset = Collibra.Asset & Pick<Collibra.NavigationStatistic, "numberOfViews">
+type PopularAsset = Asset & Pick<Collibra.NavigationStatistic, "numberOfViews">
 
 const getPopularAssets = async (
   data: PopularAsset[],
-  authorization: string,
+  r: ReturnType<typeof makeCollibraService>,
   limit: number,
   offset = 0,
 ): Promise<PopularAsset[]> => {
-  const mostViewedStats = await HttpClient.get<Collibra.PagedNavigationStatisticResponse>(`${config.COLLIBRA_BASE_URL}/navigation/most_viewed`, {
-    headers: { authorization },
-    query: { offset: offset * limit, limit, isGuestExcluded: true },
-  })
+  const { body: { results: stats } } = await r((client) => async () => client.get<Collibra.PagedNavigationStatisticResponse>("/navigation/most_viewed", {
+    query: {
+      limit,
+      offset: offset * limit,
+    },
+  }))()
 
-  const assetsResponse = await Promise.all(
-    mostViewedStats.body?.results.map((stat) => HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${stat.assetId}`, {
-      headers: { authorization },
-    })) ?? [],
+  const collibraAssets = await Promise.all(
+    stats.map((stat) => r((client) => async (id: string) => client.get<Collibra.Asset>(`/assets/${id}`))(stat.assetId)),
   )
 
-  const result = [
+  const assets = collibraAssets
+    .map((res) => res.body)
+    .filter((asset) => asset.type.name.toLowerCase() === "data product")
+    .map((asset) => Asset.fromCollibraAsset(asset))
+
+  const assetsWithDescription = await Promise.all(assets.map(async (asset) => ({
+    ...asset,
+    description: xss((await r(getAssetAttributes)(asset.id, "description"))
+      .find((attr) => attr.type.name.toLowerCase() === "description")?.value),
+  })))
+
+  const assetsWithNumberOfViews = assetsWithDescription.map((asset) => ({
+    ...asset,
+    numberOfViews: stats.find((stat) => stat.assetId === asset.id)?.numberOfViews ?? 0,
+  }))
+
+  const results = [
     ...data,
-    ...assetsResponse
-      .map((response) => response.body)
-      .filter((response) => response?.type.name?.toLowerCase() === "data product")
-      .map((product) => ({
-        ...product,
-        numberOfViews: mostViewedStats.body?.results.find((stat) => (
-          stat.assetId === product?.id
-        ))?.numberOfViews,
-      })),
-  ] as PopularAsset[]
+    ...assetsWithNumberOfViews,
+  ]
 
-  if (result.length >= limit) return result.slice(0, limit)
+  if (results.length >= limit) return results.slice(0, limit)
 
-  return getPopularAssets(result, authorization, limit, offset + 1)
+  return getPopularAssets(results, r, limit, offset + 1)
 }
 
 const PopularAssetsHandler: NextApiHandler = async (req, res) => {
@@ -53,6 +63,8 @@ const PopularAssetsHandler: NextApiHandler = async (req, res) => {
     return res.status(401).end()
   }
 
+  const makeCollibraServiceRequest = makeCollibraService({ authorization: `Bearer ${token.accessToken}` })
+
   const limit = Number.isNaN(Number(req.query.limit)) ? undefined : Number(req.query.limit)
 
   if (!limit) {
@@ -61,7 +73,7 @@ const PopularAssetsHandler: NextApiHandler = async (req, res) => {
   }
 
   try {
-    const dataProducts = await getPopularAssets([], `Bearer ${token.accessToken}`, limit)
+    const dataProducts = await getPopularAssets([], makeCollibraServiceRequest, limit)
 
     return res.json(dataProducts)
   } catch (error) {
