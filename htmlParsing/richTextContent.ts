@@ -1,6 +1,3 @@
-// This file can probably be a more general concept then "description"
-// but using description as a start. Can probably be a richTextField
-
 import blockTools from "@sanity/block-tools"
 import jsdom from "jsdom"
 import xss from "xss"

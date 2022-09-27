@@ -19,7 +19,7 @@ import {
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { config } from "config"
-import { getPortableText } from "htmlParsing/description"
+import { getPortableText } from "htmlParsing/richTextContent"
 import { makeCollibraService } from "services"
 import { getAssetAttributes, getAssetByID, getAssetResponsibilities } from "services/collibra"
 import { getUser } from "services/collibra/getUser"
