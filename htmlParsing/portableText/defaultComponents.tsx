@@ -4,6 +4,8 @@ import { tokens } from "@equinor/eds-tokens"
 import { PortableTextBlock } from "@portabletext/types"
 import styled from "styled-components"
 
+import { isEmpty } from "../helpers"
+
 const { Item } = List
 const StyledList = styled(List)`
   margin: ${tokens.spacings.comfortable.medium};
@@ -15,11 +17,14 @@ const StyledTypography = styled(Typography)`
 
 export const defaultComponents = {
   block: {
-    normal: ({ children }: PortableTextBlock) => (
-      <StyledTypography variant="body_long">
-        <>{children}</>
-      </StyledTypography>
-    ),
+    normal: ({ children }: PortableTextBlock) => {
+      if (isEmpty(children)) return null
+      return (
+        <StyledTypography variant="body_long">
+          <>{children}</>
+        </StyledTypography>
+      )
+    },
   },
   list: {
     bullet: ({ children }: PortableTextBlock) => (
