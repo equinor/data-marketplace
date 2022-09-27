@@ -43,6 +43,8 @@ const FooterLink = styled(List.Item)`
 const Link = styled.a`
   display: flex;
   align-items: center;
+  color: inherit;
+  text-decoration: none;
   gap: ${tokens.spacings.comfortable.small};
   &:hover {
     text-decoration: underline;
