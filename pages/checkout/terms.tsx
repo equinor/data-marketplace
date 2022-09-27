@@ -25,6 +25,7 @@ import {
   formatCheckoutTitle,
 } from "components/CheckoutWizard"
 import { Page } from "components/Page"
+import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { getPortableText } from "htmlParsing/description"
 import { defaultComponents } from "htmlParsing/portableText"
@@ -35,7 +36,7 @@ import {
   getAssetByID, getAssets, getDomainByName, getStatusByName,
 } from "services/collibra"
 
-const usePortableText = process.env.NEXT_PUBLIC_USE_PORTABLE_TEXT === "true"
+const usePortableText = config.USE_PORTABLE_TEXT
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
