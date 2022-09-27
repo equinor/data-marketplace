@@ -27,8 +27,8 @@ import {
 import { Page } from "components/Page"
 import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
-import { getPortableText } from "htmlParsing/description"
 import { defaultComponents } from "htmlParsing/portableText"
+import { getPortableText } from "htmlParsing/richTextContent"
 import { ERR_CODES, ExternalError } from "lib/errors"
 import { makeCollibraService } from "services"
 import {
