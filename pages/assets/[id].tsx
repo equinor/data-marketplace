@@ -18,6 +18,7 @@ import {
 } from "components/AssetTabContent"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
+import { getPortableText } from "htmlParsing/description"
 import { makeCollibraService } from "services"
 import { getAssetAttributes, getAssetByID, getAssetResponsibilities } from "services/collibra"
 import { getUser } from "services/collibra/getUser"
@@ -92,7 +93,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
   if (!asset) {
     return (
       <div>
-        Banner - issues with fetching the asset - TODO figure out what to do here
+        Issues with fetching the asset - TODO figure out what to do here
       </div>
     )
   }
@@ -159,6 +160,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
+  const usePortableText = process.env.NEXT_PUBLIC_USE_PORTABLE_TEXT === "true"
   const defaultPageProps = { asset: null }
 
   if (typeof id !== "string") {
@@ -181,6 +183,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     const asset = await makeCollibraServiceRequest(getAssetByID)(id)
     const attributes = await makeCollibraServiceRequest(getAssetAttributes)(id, "description", "timeliness")
     asset.description = attributes.find((attr) => attr.type.name.toLowerCase() === "description")?.value ?? null
+    if (usePortableText && asset.description) {
+      asset.description = getPortableText(asset.description)
+    }
     asset.updateFrequency = attributes.find((attr) => attr.type.name.toLowerCase() === "timeliness")?.value ?? null
 
     let responsibilities = await makeCollibraServiceRequest(getAssetResponsibilities)(id)
