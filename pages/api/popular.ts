@@ -11,11 +11,11 @@ type PopularAsset = Asset & Pick<Collibra.NavigationStatistic, "numberOfViews">
 
 const getPopularAssets = async (
   data: PopularAsset[],
-  r: ReturnType<typeof makeCollibraService>,
+  makeRequest: ReturnType<typeof makeCollibraService>,
   limit: number,
   offset = 0,
 ): Promise<PopularAsset[]> => {
-  const { body: { results: stats } } = await r((client) => async () => client.get<Collibra.PagedNavigationStatisticResponse>("/navigation/most_viewed", {
+  const { body: { results: stats } } = await makeRequest((client) => async () => client.get<Collibra.PagedNavigationStatisticResponse>("/navigation/most_viewed", {
     query: {
       limit,
       offset: offset * limit,
@@ -23,7 +23,7 @@ const getPopularAssets = async (
   }))()
 
   const collibraAssets = await Promise.all(
-    stats.map((stat) => r((client) => async (id: string) => client.get<Collibra.Asset>(`/assets/${id}`))(stat.assetId)),
+    stats.map((stat) => makeRequest((client) => async (id: string) => client.get<Collibra.Asset>(`/assets/${id}`))(stat.assetId)),
   )
 
   const assets = collibraAssets
@@ -33,7 +33,7 @@ const getPopularAssets = async (
 
   const assetsWithDescription = await Promise.all(assets.map(async (asset) => ({
     ...asset,
-    description: xss((await r(getAssetAttributes)(asset.id, "description"))
+    description: xss((await makeRequest(getAssetAttributes)(asset.id, "description"))
       .find((attr) => attr.type.name.toLowerCase() === "description")?.value),
   })))
 
@@ -49,7 +49,7 @@ const getPopularAssets = async (
 
   if (results.length >= limit) return results.slice(0, limit)
 
-  return getPopularAssets(results, r, limit, offset + 1)
+  return getPopularAssets(results, makeRequest, limit, offset + 1)
 }
 
 const PopularAssetsHandler: NextApiHandler = async (req, res) => {
