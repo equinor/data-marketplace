@@ -7,6 +7,7 @@ import styled from "styled-components"
 
 import { AssetTabContentSectionContainer } from "./AssetTabContentSectionContainer"
 
+import { config } from "config"
 import { defaultComponents } from "htmlParsing/portableText"
 
 const Overview = styled.div`
@@ -30,7 +31,7 @@ const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) =>
 )
 
 export const OverviewContent = ({ content }: Props) => {
-  const usePortableText = process.env.NEXT_PUBLIC_USE_PORTABLE_TEXT === "true"
+  const usePortableText = config.USE_PORTABLE_TEXT
 
   const { description, updateFrequency } = content
 

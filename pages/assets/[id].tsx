@@ -18,6 +18,7 @@ import {
 } from "components/AssetTabContent"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
+import { config } from "config"
 import { getPortableText } from "htmlParsing/description"
 import { makeCollibraService } from "services"
 import { getAssetAttributes, getAssetByID, getAssetResponsibilities } from "services/collibra"
@@ -160,7 +161,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
-  const usePortableText = process.env.NEXT_PUBLIC_USE_PORTABLE_TEXT === "true"
+  const usePortableText = config.USE_PORTABLE_TEXT
   const defaultPageProps = { asset: null }
 
   if (typeof id !== "string") {
