@@ -3,6 +3,7 @@
 
 import blockTools from "@sanity/block-tools"
 import jsdom from "jsdom"
+import xss from "xss"
 
 import { descriptionSchema } from "./schema"
 
@@ -16,7 +17,7 @@ export const getPortableText = (html: string) => (
     html,
     blockContentType,
     {
-      parseHtml: (htmlAsString:string) => new JSDOM(htmlAsString).window.document,
+      parseHtml: (htmlAsString:string) => new JSDOM(xss(htmlAsString)).window.document,
     },
   )
 )
