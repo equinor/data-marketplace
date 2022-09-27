@@ -7,7 +7,6 @@ import styled from "styled-components"
 
 import { AssetTabContentSectionContainer } from "./AssetTabContentSectionContainer"
 
-import { getPortableText } from "htmlParsing/descriptionTest"
 import { defaultComponents } from "htmlParsing/portableText"
 
 const Overview = styled.div`
@@ -21,7 +20,7 @@ const Overview = styled.div`
 export type OverviewContentSections = Pick<DataMarketplace.Asset, "description" | "updateFrequency">
 
 type Props = {
-  content?: OverviewContentSections
+  content: OverviewContentSections
 }
 
 const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) => (
@@ -33,16 +32,18 @@ const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) =>
 export const OverviewContent = ({ content }: Props) => {
   const usePortableText = process.env.NEXT_PUBLIC_USE_PORTABLE_TEXT === "true"
 
-  let testText = []
-  if (usePortableText && window !== undefined) {
-    testText = content && content.description && getPortableText(content?.description)
-  }
+  const { description } = content
+
   return (
     <Overview>
-      {content?.description && (
+      {description && (
         <AssetTabContentSectionContainer>
           <OverviewSubTitle><FormattedMessage id="asset.description" /></OverviewSubTitle>
-          <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: content.description }} />
+          {usePortableText
+          // @ts-ignore: Look into the correct way of doing this
+            ? <PortableText value={description} components={defaultComponents} />
+            : <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: description as string }} />}
+
         </AssetTabContentSectionContainer>
       )}
       {content?.updateFrequency && (
@@ -50,21 +51,6 @@ export const OverviewContent = ({ content }: Props) => {
           <OverviewSubTitle><FormattedMessage id="asset.timeliness" /></OverviewSubTitle>
           <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: content.updateFrequency }} />
         </AssetTabContentSectionContainer>
-      )}
-      {usePortableText && (
-
-        <div>
-          <h2>Portable text version of the description</h2>
-          {testText && testText.length > 0 && (
-            <ol>
-              {/* eslint-disable-next-line react/no-array-index-key */}
-              {testText.map((block: any, idx: any) => <li key={idx}>{JSON.stringify(block)}</li>)}
-            </ol>
-          )}
-          {/*  // eslint-disable-next-line
-          // @ts-ignore: Look into the correct way of doing this */}
-          <PortableText value={testText} components={defaultComponents} />
-        </div>
       )}
     </Overview>
   )

@@ -1,6 +1,8 @@
 declare type Optional<T> = T | null
 
 declare namespace DataMarketplace {
+  import { PortableTextBlock } from "@portabletext/types"
+
   type Identifiable = {
     id: string
   }
@@ -17,7 +19,7 @@ declare namespace DataMarketplace {
   export type Tag = Identifiable & Nameable
 
   export type Asset = Identifiable & Nameable & Dateable & {
-    description: Optional<string>
+    description: Optional<string> | PortableTextBlock[]
     domain: Optional<string>
     updateFrequency: Optional<string>
     tags: Optional<Tag[]>
