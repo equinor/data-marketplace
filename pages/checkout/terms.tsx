@@ -8,6 +8,8 @@ import {
 } from "@equinor/eds-core-react"
 import { warning_filled } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
+import { PortableText } from "@portabletext/react"
+import { PortableTextBlock } from "@portabletext/types"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import { useRouter } from "next/router"
@@ -24,12 +26,16 @@ import {
 } from "components/CheckoutWizard"
 import { Page } from "components/Page"
 import { useCheckoutData } from "hooks/useCheckoutData"
+import { getPortableText } from "htmlParsing/description"
+import { defaultComponents } from "htmlParsing/portableText"
 import { ERR_CODES, ExternalError } from "lib/errors"
 import { makeCollibraService } from "services"
 import {
   getAssetAttributes,
   getAssetByID, getAssets, getDomainByName, getStatusByName,
 } from "services/collibra"
+
+const usePortableText = process.env.NEXT_PUBLIC_USE_PORTABLE_TEXT === "true"
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
@@ -74,7 +80,7 @@ type Props = {
   error?: string
   rightsToUse?: {
     name: string
-    value: string
+    value: string | PortableTextBlock[]
   }
 }
 
@@ -127,7 +133,15 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
               </IngressContainer>
               <InfoBox>
                 <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
-                <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
+                {usePortableText && rightsToUse && rightsToUse.value
+                // @ts-ignore: Sorry Petter, cannot figure out this
+                  ? <PortableText value={rightsToUse.value} components={defaultComponents} />
+                  : (
+                    <Typography dangerouslySetInnerHTML={
+                      { __html: rightsToUse?.value! as string }
+                    }
+                    />
+                  )}
               </InfoBox>
               <CheckboxContainer>
                 <Checkbox
@@ -178,6 +192,7 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
+
   const defaultPageProps: Props = { asset: null }
 
   if (typeof id !== "string") {
@@ -217,6 +232,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
     if (!terms) {
       throw new ExternalError(`No terms and conditions found for rights to use asset ${rightsToUseAsset.name} (ID: ${rightsToUseAsset.id})`, ERR_CODES.MISSING_DATA)
+    }
+
+    if (terms.value && usePortableText) {
+      terms.value = getPortableText(terms.value)
     }
 
     return {
