@@ -32,7 +32,7 @@ const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) =>
 export const OverviewContent = ({ content }: Props) => {
   const usePortableText = process.env.NEXT_PUBLIC_USE_PORTABLE_TEXT === "true"
 
-  const { description } = content
+  const { description, updateFrequency } = content
 
   return (
     <Overview>
@@ -46,10 +46,14 @@ export const OverviewContent = ({ content }: Props) => {
 
         </AssetTabContentSectionContainer>
       )}
-      {content?.updateFrequency && (
+      {updateFrequency && (
         <AssetTabContentSectionContainer>
           <OverviewSubTitle><FormattedMessage id="asset.timeliness" /></OverviewSubTitle>
-          <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: content.updateFrequency }} />
+          {usePortableText
+          // @ts-ignore: Look into the correct way of doing this
+            ? <PortableText value={updateFrequency} components={defaultComponents} />
+            : <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: updateFrequency as string }} />}
+
         </AssetTabContentSectionContainer>
       )}
     </Overview>
