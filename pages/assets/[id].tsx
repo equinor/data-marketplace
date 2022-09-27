@@ -182,11 +182,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   try {
     const asset = await makeCollibraServiceRequest(getAssetByID)(id)
     const attributes = await makeCollibraServiceRequest(getAssetAttributes)(id, "description", "timeliness")
-    asset.description = attributes.find((attr) => attr.type.name.toLowerCase() === "description")?.value ?? null
-    if (usePortableText && asset.description) {
-      asset.description = getPortableText(asset.description)
-    }
-    asset.updateFrequency = attributes.find((attr) => attr.type.name.toLowerCase() === "timeliness")?.value ?? null
+    const description = attributes.find((attr) => attr.type.name.toLowerCase() === "description")?.value ?? null
+    const updateFrequency = attributes.find((attr) => attr.type.name.toLowerCase() === "timeliness")?.value ?? null
+
+    asset.description = usePortableText ? getPortableText(description) : description
+    asset.updateFrequency = usePortableText ? getPortableText(updateFrequency) : updateFrequency
 
     let responsibilities = await makeCollibraServiceRequest(getAssetResponsibilities)(id)
 
