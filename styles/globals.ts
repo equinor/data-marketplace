@@ -10,8 +10,8 @@ body {
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  color: ${tokens.colors.interactive.primary__resting.hex};
+
 }
 
 * {
