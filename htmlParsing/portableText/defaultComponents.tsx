@@ -8,7 +8,7 @@ import { isEmpty } from "../helpers"
 
 const { Item } = List
 const StyledList = styled(List)`
-  margin: ${tokens.spacings.comfortable.medium};
+  margin-block: ${tokens.spacings.comfortable.medium};
 `
 
 const StyledTypography = styled(Typography)`
