@@ -26,6 +26,9 @@ const TopbarWrapper = styled.div`
   box-shadow: ${tokens.elevation.none};
   border-bottom: 2px solid ${tokens.colors.ui.background__light.rgba};
   background-color: ${tokens.colors.ui.background__default.hex};
+  position: sticky;
+  top: 0;
+  z-index: 1;
 `
 
 const EDSTopBar = styled(TopBar)`
@@ -33,7 +36,7 @@ const EDSTopBar = styled(TopBar)`
   border-bottom: 0;
   box-shadow: none;
   max-width: var(--layout-max-width);
-  margin-inline:  auto;
+  margin-inline: auto;
 `
 
 const EDSCustomContent = styled(TopBar.CustomContent)`
