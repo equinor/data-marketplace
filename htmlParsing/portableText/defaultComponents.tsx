@@ -1,12 +1,17 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import { Typography, List } from "@equinor/eds-core-react"
+import {
+  Typography, List,
+} from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { PortableTextBlock } from "@portabletext/types"
 import styled from "styled-components"
 
 import { isEmpty } from "../helpers"
 
+import { Table } from "./Table"
+
 const { Item } = List
+
 const StyledList = styled(List)`
   margin-block: ${tokens.spacings.comfortable.medium};
 `
@@ -16,6 +21,9 @@ const StyledTypography = styled(Typography)`
 `
 
 export const defaultComponents = {
+  types: {
+    table: Table,
+  },
   block: {
     normal: ({ children }: PortableTextBlock) => {
       if (isEmpty(children)) return null
@@ -25,7 +33,9 @@ export const defaultComponents = {
         </StyledTypography>
       )
     },
+
   },
+
   list: {
     bullet: ({ children }: PortableTextBlock) => (
       <StyledList><>{children}</></StyledList>
