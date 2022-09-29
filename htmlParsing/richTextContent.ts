@@ -21,6 +21,27 @@ const rules = [
         // @ts-ignore
         (child) => child.tagName.toLowerCase() === "tbody",
       )
+
+      const thead = Array.from(el.children).find(
+        // @ts-ignore
+        (child) => child.tagName.toLowerCase() === "thead",
+      )
+
+      // @ts-ignore
+      const headerRow = thead && Array.from(thead.children).map((row) => {
+        // @ts-ignore
+        const headCells = Array.from(row.children).map((headCell) => ({
+          _type: "th",
+          // @ts-ignore
+          text: headCell.textContent,
+          key: uuidv4(),
+        }))
+        return {
+          _type: "tr",
+          cells: headCells,
+          key: uuidv4(),
+        }
+      })
       // @ts-ignore
       const rows = Array.from(tbody.children).map((child) => {
         // @ts-ignore
@@ -40,6 +61,7 @@ const rules = [
       return block({
         _type: "table",
         key: uuidv4(),
+        headerRow,
         rows,
       })
     },
