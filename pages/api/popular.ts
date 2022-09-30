@@ -72,7 +72,7 @@ const PopularAssetsHandler: NextApiHandler = async (req, res) => {
       headers: { authorization: authString },
     })
 
-    const dataProductTypeIdRes = await HttpClient.get<Collibra.PagedResponse>(`${config.COLLIBRA_BASE_URL}/assetTypes`, {
+    const dataProductTypeIdRes = await HttpClient.get<Collibra.PagedAssetTypeResponse>(`${config.COLLIBRA_BASE_URL}/assetTypes`, {
       headers: { authorization: authString },
       query: { name: "data product" },
     })
