@@ -3,11 +3,11 @@ import jsdom from "jsdom"
 import { v4 as uuidv4 } from "uuid"
 import xss from "xss"
 
-import { descriptionSchema } from "./schema"
+import { richTextSchema } from "./schema"
 
 const { JSDOM } = jsdom
 
-const blockContentType = descriptionSchema.get("description")
+const blockContentType = richTextSchema.get("description")
   .fields.find((field: any) => field.name === "body").type
 
 const rules = [
