@@ -7,7 +7,8 @@
   "extends": [
     "plugin:react/recommended",
     "airbnb",
-    "next"
+    "next",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -19,7 +20,8 @@
   },
   "plugins": [
     "react",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier"
   ],
   "rules": {
     "import/extensions": [
