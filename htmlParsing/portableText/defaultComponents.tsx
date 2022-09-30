@@ -8,6 +8,7 @@ import styled from "styled-components"
 
 import { isEmpty } from "../helpers"
 
+import { Image } from "./Image"
 import { Table } from "./Table"
 
 const { Item } = List
@@ -23,6 +24,7 @@ const StyledTypography = styled(Typography)`
 export const defaultComponents = {
   types: {
     table: Table,
+    image: Image,
   },
   block: {
     normal: ({ children }: PortableTextBlock) => {

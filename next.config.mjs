@@ -21,6 +21,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  images: {
+    domains: ["equinor.collibra.com", "gfx.nrk.no"],
+  },
   rewrites: async () => [
     {
       source: "/api/collibra/:path*",
