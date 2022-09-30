@@ -31,6 +31,7 @@ import { defaultComponents } from "htmlParsing/portableText"
 import { getPortableText } from "htmlParsing/richTextContent"
 import { ClientError, ERR_CODES, ExternalError } from "lib/errors"
 import { __Error__ } from "lib/errors/__Error__"
+import { Asset } from "model/Asset"
 import { makeCollibraService } from "services"
 import {
   getAssetAttributes,
@@ -214,7 +215,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   try {
     const asset = await makeCollibraServiceRequest(getAssetByID)(id)
 
-    if (!asset.approved) {
+    if (!asset.approved || !Asset.isDataProduct(asset)) {
       throw new ClientError(`Data product ${id} not approved`, ERR_CODES.ASSET_NOT_APPROVED)
     }
 
