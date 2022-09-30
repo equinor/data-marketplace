@@ -29,6 +29,7 @@
   "terms.ingress": "<p>The agreement between you and the data provider is created by these terms and conditions.</p><p>Access to this Data Product requires you to meet the following criteria.</p>",
   "terms.acceptLabel": "I accept the terms and conditions",
   "terms.accept.errorMessage": "You must accept the terms and conditions",
+  "terms.error.E0003.bannerMessage": "This asset is not approved for checkout.",
   "terms.error.E1002.bannerMessage": "Unfortunately, we were unable to get the Terms and Conditions for this data product from Collibra.",
   "terms.error.E1002.additional": "Because accepting Terms and Conditions is a requirement to get access to a data product, we are unable to let you proceed with the checkout.",
   "checkout.access.exampleBody": "As a [role] I want [description of what you want to do with the data product], so that [description of why you need the data product]",
