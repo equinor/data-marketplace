@@ -2,8 +2,8 @@ type AssetInit = {
   id: string
   name: string
   description?: string
-  approved?: boolean
-  type?: string
+  approved: boolean
+  type: string
   domain?: string
   updateFrequency?: string
   tags?: DataMarketplace.Tag[]
