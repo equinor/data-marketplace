@@ -12,27 +12,22 @@ const blockContentType = richTextSchema.get("description")
 
 const rules = [
   {
-    deserialize(el: any, next: any, block: any) {
+    deserialize(el: HTMLElement, next: any, block: any) {
       if (el.tagName.toLowerCase() !== "table") {
         return undefined
       }
-      /* HTMLTableSectionElement */
+
       const tbody = Array.from(el.children).find(
-        // @ts-ignore
         (child) => child.tagName.toLowerCase() === "tbody",
       )
 
       const thead = Array.from(el.children).find(
-        // @ts-ignore
         (child) => child.tagName.toLowerCase() === "thead",
       )
 
-      // @ts-ignore
       const headerRow = thead && Array.from(thead.children).map((row) => {
-        // @ts-ignore
         const headCells = Array.from(row.children).map((headCell) => ({
           _type: "th",
-          // @ts-ignore
           text: headCell.textContent,
           key: uuidv4(),
         }))
@@ -42,12 +37,10 @@ const rules = [
           key: uuidv4(),
         }
       })
-      // @ts-ignore
-      const rows = Array.from(tbody.children).map((child) => {
-        // @ts-ignore
+
+      const rows = tbody && Array.from(tbody.children).map((child) => {
         const cells = Array.from(child.children).map((cell) => ({
           _type: "td",
-          // @ts-ignore
           text: cell.textContent,
           key: uuidv4(),
         }))
