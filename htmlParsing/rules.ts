@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid"
+import crypto from "node:crypto"
 
 const findElementByTagName = (el: HTMLElement, tagName: string) => Array.from(el.children).find(
   (child) => child.tagName.toLowerCase() === tagName,
@@ -9,12 +9,12 @@ const findTableRows = (el: HTMLTableSectionElement, cellType: string) => (Array
     const cells = Array.from(row.children).map((cell) => ({
       _type: cellType,
       text: cell.textContent,
-      key: uuidv4(),
+      key: crypto.randomUUID(),
     }))
     return {
       _type: "tr",
       cells,
-      key: uuidv4(),
+      key: crypto.randomUUID(),
     }
   }))
 
@@ -32,7 +32,7 @@ export const rules = [
 
       return block({
         _type: "table",
-        key: uuidv4(),
+        key: crypto.randomUUID(),
         headerRow,
         rows,
       })
