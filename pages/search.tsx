@@ -25,7 +25,7 @@ import { useSearchResults } from "hooks"
 import { HttpClient } from "lib/HttpClient"
 import { updateCommunityFilter } from "lib/updateCommunityFilter"
 
-const { Header: CardHeader, HeaderTitle: CardHeaderTitle, Content: CardContent } = Card
+const { Header: CardHeader, HeaderTitle: CardHeaderTitle } = Card
 const { Item } = List
 
 const SearchPageContainer = styled.div`
@@ -199,11 +199,6 @@ const Search: NextPage = () => {
                                 </Typography>
                               </CardHeaderTitle>
                             </CardHeader>
-                            {resource.description && (
-                              <CardContent>
-                                <Typography variant="body_long" lines={3} dangerouslySetInnerHTML={{ __html: resource.description }} />
-                              </CardContent>
-                            )}
                           </Card>
                         </Link>
                       </SearchResultItem>
