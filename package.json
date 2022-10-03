@@ -30,7 +30,7 @@
     "applicationinsights": "^2.3.5",
     "axios": "^0.27.2",
     "jsdom": "^20.0.0",
-    "next": "^12.3.0",
+    "next": "^12.3.1",
     "next-auth": "^4.12.2",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
