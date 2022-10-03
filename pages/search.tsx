@@ -44,6 +44,7 @@ const SearchResultsHeader = styled(Typography)`
 const CheckboxContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   grid-gap:${tokens.spacings.comfortable.x_small};
   
 `
