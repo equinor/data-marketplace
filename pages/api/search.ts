@@ -2,7 +2,6 @@ import { STATUS_CODES } from "http"
 
 import { NextApiHandler } from "next"
 import { getToken } from "next-auth/jwt"
-import xss from "xss"
 
 import { config } from "config"
 import { HttpClient } from "lib/HttpClient"
@@ -58,24 +57,9 @@ const SearchHandler: NextApiHandler = async (req, res) => {
       },
     })
 
-    // get description attributes for all assets returned from search
-    const attrs = await Promise.all(searchRes.body?.results.map((result: any) => (
-      HttpClient.get(`${config.COLLIBRA_BASE_URL}/attributes`, {
-        headers: { authorization },
-        query: { assetId: result.resource.id },
-      })
-    )) ?? [])
-
-    const descriptions: Record<string, string> = {}
-    attrs.forEach((attr: any) => {
-      const description = attr.body.results.find((a: any) => a.type.name.toLowerCase() === "description")?.value
-      descriptions[attr.body.results[0]?.asset.id] = xss(description)
-    })
-
     const results = searchRes.body?.results.map((result) => ({
       resource: {
         ...result.resource,
-        description: descriptions[result.resource.id],
       },
     }))
 
