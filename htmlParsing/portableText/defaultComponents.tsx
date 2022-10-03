@@ -33,7 +33,24 @@ export const defaultComponents = {
         </StyledTypography>
       )
     },
-
+    /* In our application, h2 level is the description title */
+    h2: ({ children }: PortableTextBlock) => {
+      if (isEmpty(children)) return null
+      return (
+        <Typography style={{ margin: `${tokens.spacings.comfortable.medium} 0` }} variant="h4" as="h3">
+          <>{children}</>
+        </Typography>
+      )
+    },
+    h3: ({ children }: PortableTextBlock) => {
+      if (isEmpty(children)) return null
+      return (
+        /* No margins here on purpose */
+        <Typography variant="h5" as="h4">
+          <>{children}</>
+        </Typography>
+      )
+    },
   },
 
   list: {
