@@ -50,7 +50,7 @@ export const ResponsibilitiesHolderList = ({
       </Table.Head>
       <Table.Body>
         {holders.map((holder) => (
-          <Table.Row key={holder.id}>
+          <Table.Row key={`${headline.replace(/\s+/g, "-").toLowerCase()}_${holder.id}`}>
             <TableCell>
               <Typography>
                 {holder.firstName}
