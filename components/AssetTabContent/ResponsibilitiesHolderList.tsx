@@ -49,8 +49,13 @@ export const ResponsibilitiesHolderList = ({
         </Table.Row>
       </Table.Head>
       <Table.Body>
-        {holders.map((holder) => (
-          <Table.Row key={`${headline.replace(/\s+/g, "-").toLowerCase()}_${holder.id}`}>
+        {holders.map((holder, idx) => (
+          // We need to add an idx here because of issues with duplicate names inside several of the
+          // tables from Collibra. (Tone Veila). This should be fixed in Collibra. The
+          // unsafe use cases of idx doesn't apply to our use case,
+          //  so disable the eslint rule here.
+          // eslint-disable-next-line react/no-array-index-key
+          <Table.Row key={`${headline.replace(/\s+/g, "-").toLowerCase()}_${holder.id}_${idx}`}>
             <TableCell>
               <Typography>
                 {holder.firstName}
