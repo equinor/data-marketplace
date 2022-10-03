@@ -22,7 +22,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ["equinor.collibra.com", "gfx.nrk.no"],
+    domains: ["equinor.collibra.com"],
   },
   rewrites: async () => [
     {
