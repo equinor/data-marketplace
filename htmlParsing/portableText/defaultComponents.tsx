@@ -8,7 +8,7 @@ import styled from "styled-components"
 
 import { isEmpty } from "../helpers"
 
-import { Table } from "./Table"
+import { Table, Link } from "./components"
 
 const { Item } = List
 
@@ -58,7 +58,7 @@ export const defaultComponents = {
       )
     },
   },
-
+  marks: { link: Link },
   list: {
     bullet: ({ children }: PortableTextBlock) => (
       <StyledList><>{children}</></StyledList>
