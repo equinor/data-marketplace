@@ -22,6 +22,9 @@ const StyledTypography = styled(Typography)`
     margin-bottom: 0;
   }
 `
+const StyledItem = styled(Item)`
+  line-height: 1.5em;
+`
 
 export const defaultComponents = {
   types: {
@@ -65,6 +68,6 @@ export const defaultComponents = {
     ),
   },
   listItem: ({ children }: PortableTextBlock) => (
-    <Item><>{children}</></Item>
+    <StyledItem><>{children}</></StyledItem>
   ),
 }
