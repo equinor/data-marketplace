@@ -18,6 +18,9 @@ const StyledList = styled(List)`
 
 const StyledTypography = styled(Typography)`
   margin-block: ${tokens.spacings.comfortable.medium};
+  &:last-child {
+    margin-bottom: 0;
+  }
 `
 
 export const defaultComponents = {
