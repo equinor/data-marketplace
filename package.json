@@ -21,7 +21,7 @@
     "@equinor/eds-icons": "^0.14.0",
     "@equinor/eds-tokens": "^0.7.1",
     "@microsoft/applicationinsights-react-js": "^3.4.0",
-    "@microsoft/applicationinsights-web": "^2.8.6",
+    "@microsoft/applicationinsights-web": "^2.8.8",
     "@next/bundle-analyzer": "^12.2.5",
     "@portabletext/react": "^1.0.6",
     "@portabletext/types": "^1.0.3",
@@ -29,14 +29,14 @@
     "@sanity/schema": "^2.33.2",
     "applicationinsights": "^2.3.5",
     "axios": "^0.27.2",
-    "jsdom": "^20.0.0",
+    "jsdom": "^20.0.1",
     "next": "^12.3.1",
     "next-auth": "^4.12.2",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-intl": "^6.1.1",
-    "styled-components": "^5.3.5",
+    "react-intl": "^6.1.2",
+    "styled-components": "^5.3.6",
     "use-local-storage-state": "^18.1.1",
     "xss": "^1.0.14"
   },
@@ -63,6 +63,6 @@
     "jest-environment-jsdom": "^29.0.3",
     "lint-staged": "^13.0.3",
     "ts-node": "^10.9.1",
-    "typescript": "^4.8.3"
+    "typescript": "^4.8.4"
   }
 }
