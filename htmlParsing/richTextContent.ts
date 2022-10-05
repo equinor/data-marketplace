@@ -10,13 +10,15 @@ const { JSDOM } = jsdom
 const blockContentType = richTextSchema.get("description")
   .fields.find((field: any) => field.name === "body").type
 
-export const getPortableText = (html: string) => (
-  blockTools.htmlToBlocks(
+export const getPortableText = (html: string) => {
+  // Because things like description might very well be null in the dev environment
+  if (!html) return html
+  return (blockTools.htmlToBlocks(
     html,
     blockContentType,
     {
       rules,
       parseHtml: (htmlAsString:string) => new JSDOM(xss(htmlAsString)).window.document,
     },
-  )
-)
+  ))
+}
