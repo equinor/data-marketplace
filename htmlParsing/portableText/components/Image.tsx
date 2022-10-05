@@ -9,14 +9,14 @@ import styled from "styled-components"
 // the description actually contains an image
 const PlaceholderImage = styled.div`
   background-color: ${tokens.colors.ui.background__medium.hsla};
-  aspect-ratio: var(--width) / var(--height);
+  aspect-ratio: var(--width, 16) / var(--height, 9);
   display: grid;
   place-content: center;
 `
 
 export const Image = ({ value }: any) => {
-  const width = value.width || 16
-  const height = value.height || 9
+  const { width } = value
+  const { height } = value
 
   return (
     <PlaceholderImage style={{ "--height": height, "--width": width }as CSSProperties}>
