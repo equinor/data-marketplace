@@ -184,7 +184,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   try {
     const asset = await makeCollibraServiceRequest(getAssetByID)(id)
 
-    if (!asset.approved || !Asset.isDataProduct(asset)) {
+    if (!asset || !asset.approved || !Asset.isDataProduct(asset)) {
       return {
         notFound: true,
       }
