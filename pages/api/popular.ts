@@ -10,6 +10,8 @@ type PopularAsset = Collibra.Asset & Pick<Collibra.NavigationStatistic, "numberO
 const getPopularAssets = async (
   data: PopularAsset[],
   authorization: string,
+  approvedStatusId: string,
+  typeId: string,
   limit: number,
   offset = 0,
 ): Promise<PopularAsset[]> => {
@@ -19,27 +21,31 @@ const getPopularAssets = async (
   })
 
   const assetsResponse = await Promise.all(
-    mostViewedStats.body?.results.map((stat) => HttpClient.get<Collibra.Asset>(`${config.COLLIBRA_BASE_URL}/assets/${stat.assetId}`, {
+    mostViewedStats.body?.results.map((stat) => HttpClient.get<Collibra.PagedAssetResponse>(`${config.COLLIBRA_BASE_URL}/assets`, {
       headers: { authorization },
+      query: {
+        name: stat.name,
+        nameMatchMode: "EXACT",
+        statusIds: [approvedStatusId],
+        typeIds: [typeId],
+      },
     })) ?? [],
   )
 
   const result = [
     ...data,
     ...assetsResponse
-      .map((response) => response.body)
-      .filter((response) => response?.type.name?.toLowerCase() === "data product")
-      .map((product) => ({
-        ...product,
+      .flatMap((response) => response.body.results.map((asset) => ({
+        ...asset,
         numberOfViews: mostViewedStats.body?.results.find((stat) => (
-          stat.assetId === product?.id
+          stat.assetId === asset.id
         ))?.numberOfViews,
-      })),
+      }))),
   ] as PopularAsset[]
 
   if (result.length >= limit) return result.slice(0, limit)
 
-  return getPopularAssets(result, authorization, limit, offset + 1)
+  return getPopularAssets(result, authorization, approvedStatusId, typeId, limit, offset + 1)
 }
 
 const PopularAssetsHandler: NextApiHandler = async (req, res) => {
@@ -61,7 +67,23 @@ const PopularAssetsHandler: NextApiHandler = async (req, res) => {
   }
 
   try {
-    const dataProducts = await getPopularAssets([], `Bearer ${token.accessToken}`, limit)
+    const authString = `Bearer ${token.accessToken}`
+    const approvedStatusResp = await HttpClient.get<Collibra.Status>(`${config.COLLIBRA_BASE_URL}/statuses/name/Approved`, {
+      headers: { authorization: authString },
+    })
+
+    const dataProductTypeIdRes = await HttpClient.get<Collibra.PagedAssetTypeResponse>(`${config.COLLIBRA_BASE_URL}/assetTypes`, {
+      headers: { authorization: authString },
+      query: { name: "data product" },
+    })
+
+    const dataProducts = await getPopularAssets(
+      [],
+      authString,
+      approvedStatusResp.body.id,
+      dataProductTypeIdRes.body.results[0]?.id,
+      limit,
+    )
 
     return res.json(dataProducts)
   } catch (error) {

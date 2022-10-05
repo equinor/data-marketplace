@@ -195,6 +195,21 @@ declare namespace Collibra {
     description: string
   }
 
+  type SymbolData = {
+    color: string
+    symbolType: "NONE" | "ICON_CODE" | "ACRONYM_CODE"
+    iconCode: string
+    acronymCode: string
+  }
+
+  export type AssetType = NamedResource & {
+    description: string
+    parent: NamedResourceReference
+    symbolData: SymbolData
+    displayNameEnabled: boolean
+    ratingEnabled: boolean
+  }
+
   export type StartWorkflowInstanceRequest = {
     workflowDefinitionId: string
     businessItemIds: string[]
@@ -456,7 +471,7 @@ declare namespace Collibra {
     excludeMeta: boolean
   }>
 
-  interface PagedResponse<T = any> {
+  export interface PagedResponse<T = any> {
     total: number
     offset: number
     limit: number
@@ -472,6 +487,7 @@ declare namespace Collibra {
   export interface PagedWorkflowDefinitionResponse extends PagedResponse<WorkflowDefinition> {}
   export interface PagedDomainResponse extends PagedResponse<Domain> {}
   export interface PagedStatusResponse extends PagedResponse<Status> {}
+  export interface PagedAssetTypeResponse extends PagedResponse<AssetType> {}
 
   export type WorkflowInstance = Resource & {
     workflowDefinition: WorkflowDefinitionReference
