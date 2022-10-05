@@ -19,7 +19,7 @@ import {
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { config } from "config"
-import { getPortableText } from "htmlParsing/description"
+import { getPortableText } from "htmlParsing/richTextContent"
 import { makeCollibraService } from "services"
 import { getAssetAttributes, getAssetByID, getAssetResponsibilities } from "services/collibra"
 import { getUser } from "services/collibra/getUser"
@@ -184,8 +184,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     const asset = await makeCollibraServiceRequest(getAssetByID)(id)
     const attributes = await makeCollibraServiceRequest(getAssetAttributes)(id, "description", "timeliness")
     const description = attributes.find((attr) => attr.type.name.toLowerCase() === "description")?.value ?? null
-    const updateFrequency = attributes.find((attr) => attr.type.name.toLowerCase() === "timeliness")?.value ?? null
 
+    const updateFrequency = attributes.find((attr) => attr.type.name.toLowerCase() === "timeliness")?.value ?? null
     asset.description = usePortableText ? getPortableText(description) : description
     asset.updateFrequency = usePortableText ? getPortableText(updateFrequency) : updateFrequency
 

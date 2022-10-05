@@ -8,6 +8,8 @@ import {
 } from "@equinor/eds-core-react"
 import { warning_filled } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
+import { PortableText } from "@portabletext/react"
+import { PortableTextBlock } from "@portabletext/types"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import { useRouter } from "next/router"
@@ -23,13 +25,20 @@ import {
   formatCheckoutTitle,
 } from "components/CheckoutWizard"
 import { Page } from "components/Page"
+import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
-import { ERR_CODES, ExternalError } from "lib/errors"
+import { defaultComponents } from "htmlParsing/portableText"
+import { getPortableText } from "htmlParsing/richTextContent"
+import { ClientError, ERR_CODES, ExternalError } from "lib/errors"
+import { __Error__ } from "lib/errors/__Error__"
+import { Asset } from "model/Asset"
 import { makeCollibraService } from "services"
 import {
   getAssetAttributes,
   getAssetByID, getAssets, getDomainByName, getStatusByName,
 } from "services/collibra"
+
+const usePortableText = config.USE_PORTABLE_TEXT
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
@@ -74,7 +83,7 @@ type Props = {
   error?: string
   rightsToUse?: {
     name: string
-    value: string
+    value: string | PortableTextBlock[]
   }
 }
 
@@ -127,7 +136,15 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
               </IngressContainer>
               <InfoBox>
                 <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
-                <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! }} />
+                {usePortableText && rightsToUse && rightsToUse.value
+                // @ts-ignore: Sorry Petter, cannot figure out this
+                  ? <PortableText value={rightsToUse.value} components={defaultComponents} />
+                  : (
+                    <Typography dangerouslySetInnerHTML={
+                      { __html: rightsToUse?.value! as string }
+                    }
+                    />
+                  )}
               </InfoBox>
               <CheckboxContainer>
                 <Checkbox
@@ -151,7 +168,7 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
             </>
           )
           ) }
-          {!asset && <NoAsset />}
+          {(!asset && !error) && <NoAsset />}
           {error && (
             <DataSourceErrorContainer>
               <Banner>
@@ -178,6 +195,7 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
+
   const defaultPageProps: Props = { asset: null }
 
   if (typeof id !== "string") {
@@ -196,6 +214,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
   try {
     const asset = await makeCollibraServiceRequest(getAssetByID)(id)
+
+    if (!asset.approved || !Asset.isDataProduct(asset)) {
+      throw new ClientError(`Data product ${id} not approved`, ERR_CODES.ASSET_NOT_APPROVED)
+    }
 
     if (!asset?.domain) {
       throw new ExternalError(`No data product or domain name found for ${id}`, ERR_CODES.MISSING_DATA)
@@ -219,6 +241,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       throw new ExternalError(`No terms and conditions found for rights to use asset ${rightsToUseAsset.name} (ID: ${rightsToUseAsset.id})`, ERR_CODES.MISSING_DATA)
     }
 
+    if (terms.value && usePortableText) {
+      terms.value = getPortableText(terms.value)
+    }
+
     return {
       props: {
         asset: JSON.parse(JSON.stringify(asset)),
@@ -231,7 +257,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   } catch (error) {
     console.error("[CheckoutTermsView]", error)
 
-    if (error instanceof ExternalError) {
+    // if (error instanceof ExternalError || error instanceof ClientError) {
+    if (error instanceof __Error__) {
       return {
         props: {
           ...defaultPageProps,

@@ -1,1 +1,1 @@
-export { descriptionSchema } from "./description"
+export { richTextSchema } from "./richText"

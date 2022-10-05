@@ -1,7 +1,7 @@
 import Schema from "@sanity/schema"
 
 // Start with compiling a schema we can work against
-export const descriptionSchema = Schema.compile({
+export const richTextSchema = Schema.compile({
   name: "assetDescription",
   types: [
     {

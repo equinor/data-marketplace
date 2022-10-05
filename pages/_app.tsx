@@ -1,4 +1,5 @@
 import { AppInsightsContext, AppInsightsErrorBoundary } from "@microsoft/applicationinsights-react-js"
+import { Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
 import type { AppProps } from "next/app"
 import Head from "next/head"
@@ -10,9 +11,9 @@ import { ErrorBoundary } from "components/ErrorBoundary"
 import englishTexts from "locales/english.json"
 import { GlobalStyle } from "styles/globals"
 
-const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
+const App = ({ Component, pageProps }: AppProps<{session: Session;}>) => (
 
-  <SessionProvider session={session}>
+  <SessionProvider session={pageProps.session}>
     <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
       <AppInsightsErrorBoundary
         onError={ErrorBoundary}
