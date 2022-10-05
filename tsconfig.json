@@ -27,7 +27,8 @@
             "margin-block",
             "margin-inline",
             "padding-block",
-            "padding-inline"
+            "padding-inline",
+            "aspect-ratio"
           ]
         }
       }
