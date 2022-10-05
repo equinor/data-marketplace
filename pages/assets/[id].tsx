@@ -20,7 +20,6 @@ import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { config } from "config"
 import { getPortableText } from "htmlParsing/richTextContent"
-import { HttpError } from "lib/HttpError"
 import { Asset } from "model/Asset"
 import { makeCollibraService } from "services"
 import { getAssetAttributes, getAssetByID, getAssetResponsibilities } from "services/collibra"
@@ -186,7 +185,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     const asset = await makeCollibraServiceRequest(getAssetByID)(id)
 
     if (!asset.approved || !Asset.isDataProduct(asset)) {
-      throw new HttpError(`Data product ${id} not approved for asset}`, 404, {})
+      return {
+        notFound: true,
+      }
     }
 
     const attributes = await makeCollibraServiceRequest(getAssetAttributes)(id, "description", "timeliness")
