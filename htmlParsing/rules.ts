@@ -38,5 +38,21 @@ export const rules = [
       })
     },
   },
+  {
+    deserialize(el: HTMLElement, next: any, block: any) {
+      if (el.tagName.toLowerCase() !== "img") {
+        return undefined
+      }
 
+      if (el) {
+        return block({
+          _type: "image",
+          src: el.getAttribute("src"),
+          alt: el.getAttribute("alt"),
+          height: el.getAttribute("height"),
+          width: el.getAttribute("width"),
+        })
+      } return undefined
+    },
+  },
 ]
