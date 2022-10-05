@@ -5,6 +5,7 @@ metadata:
 spec:
   environments:
   - name: prod
+  - name: test
     build:
       from: main
   components:
@@ -24,6 +25,16 @@ spec:
           cpu: 100m
       variables:
         BASE_URL: https://web-data-marketplace-prod.radix.equinor.com/
+    - environment: test
+      resources:
+        requests:
+          memory: 128Mi
+          cpu: 50m
+        limits:
+          memory: 256Mi
+          cpu: 100m
+      variables:
+        BASE_URL: https://web-data-marketplace-test.radix.equinor.com/
     variables:
       NEXT_PUBLIC_COLLIBRA_BASE_URL: https://equinor-dev.collibra.com/rest/2.0
       NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=e4d53b02-e08f-45e0-8632-7a066b44bc4f;IngestionEndpoint=https://northeurope-2.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
