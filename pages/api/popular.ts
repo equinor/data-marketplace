@@ -77,6 +77,9 @@ const PopularAssetsHandler: NextApiHandler = async (req, res) => {
       query: { name: "data product" },
     })
 
+    if (dataProductTypeIdRes.body.results[0]?.id === "undefined") {
+      return res.status(500).end()
+    }
     const dataProducts = await getPopularAssets(
       [],
       authString,
