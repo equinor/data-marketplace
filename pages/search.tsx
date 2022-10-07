@@ -1,7 +1,6 @@
 import {
   Divider,
   Typography,
-  Card,
   CircularProgress,
   List,
   Pagination,
@@ -15,14 +14,10 @@ import React, {
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { Link } from "components/Link"
 import { Page } from "components/Page"
-import { SearchResultStats, Filter } from "components/Search"
+import { SearchResultStats, Filter, Hit } from "components/Search"
 import { Section } from "components/Section"
 import { useSearchResults } from "hooks"
-
-const { Header: CardHeader, HeaderTitle: CardHeaderTitle } = Card
-const { Item } = List
 
 const SearchPageContainer = styled.div`
   margin-top: ${tokens.spacings.comfortable.x_large};
@@ -54,12 +49,6 @@ const LegendC = styled.legend`
 pagination nav, not the container containing the with item results component */
 const PaginationContainer = styled.div`
   margin-top: ${tokens.spacings.comfortable.large};
-`
-
-const SearchResultItem = styled(Item)`
-  &:not(:last-child) {
-    margin-bottom: ${tokens.spacings.comfortable.large};
-  }
 `
 
 const HITS_PER_PAGE = 20
@@ -94,7 +83,7 @@ const Search: NextPage = () => {
   }
 
   const searchQuery = router.query.q
-
+  console.log(searchResults)
   return (
     <Page documentTitle={intl.formatMessage({ id: "search.title" })}>
       <main>
@@ -107,7 +96,6 @@ const Search: NextPage = () => {
             <aside>
               <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
               <Divider variant="small" />
-
               <FieldSetStyle>
                 <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
                 <Filter disabled={total === 0} />
@@ -135,21 +123,8 @@ const Search: NextPage = () => {
                 && (
                   <UnstyledList variant="numbered">
                     {searchResults.map((resource: any) => (
-                      <SearchResultItem key={resource.id}>
-                        <Link href={{ pathname: "/assets/[id]", query: { id: resource.id } }} title={resource.name}>
-                          <Card elevation="raised">
-                            <CardHeader>
-                              <CardHeaderTitle>
-                                <Typography variant="h5" as="h2">
-                                  {resource.name}
-                                </Typography>
-                              </CardHeaderTitle>
-                            </CardHeader>
-                          </Card>
-                        </Link>
-                      </SearchResultItem>
+                      <Hit key={resource.id} hit={resource} />
                     ))}
-
                   </UnstyledList>
                 )}
                   </>
