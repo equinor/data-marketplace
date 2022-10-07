@@ -15,24 +15,24 @@ const SearchResultItem = styled(Item)`
 `
 
 type Props = {
-  hit: {
-    id: string
-    name: string
-  }
+  hit: Collibra.Asset
 }
 
-export const Hit: FunctionComponent<Props> = ({ hit }) => (
-  <SearchResultItem key={hit.id}>
-    <Link href={{ pathname: "/assets/[id]", query: { id: hit.id } }} title={hit.name}>
-      <Card elevation="raised">
-        <CardHeader>
-          <CardHeaderTitle>
-            <Typography variant="h5" as="h2">
-              {hit.name}
-            </Typography>
-          </CardHeaderTitle>
-        </CardHeader>
-      </Card>
-    </Link>
-  </SearchResultItem>
-)
+export const Hit: FunctionComponent<Props> = ({ hit }) => {
+  const { name, id } = hit
+  return (
+    <SearchResultItem>
+      <Link href={{ pathname: "/assets/[id]", query: { id } }} title={name || ""}>
+        <Card elevation="raised">
+          <CardHeader>
+            <CardHeaderTitle>
+              <Typography variant="h5" as="h2">
+                {name}
+              </Typography>
+            </CardHeaderTitle>
+          </CardHeader>
+        </Card>
+      </Link>
+    </SearchResultItem>
+  )
+}

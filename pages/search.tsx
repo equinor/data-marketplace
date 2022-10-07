@@ -83,7 +83,6 @@ const Search: NextPage = () => {
   }
 
   const searchQuery = router.query.q
-  console.log(searchResults)
   return (
     <Page documentTitle={intl.formatMessage({ id: "search.title" })}>
       <main>
@@ -122,7 +121,7 @@ const Search: NextPage = () => {
                     {searchResults.length > 0
                 && (
                   <UnstyledList variant="numbered">
-                    {searchResults.map((resource: any) => (
+                    {searchResults.map((resource) => (
                       <Hit key={resource.id} hit={resource} />
                     ))}
                   </UnstyledList>

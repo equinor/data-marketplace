@@ -7,6 +7,10 @@ import { config } from "config"
 import { HttpClient } from "lib/HttpClient"
 import { HttpError } from "lib/HttpError"
 
+type SearchResult = {
+  resource: Collibra.Asset
+}
+
 const SearchHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") {
     return res.status(405).json({ error: STATUS_CODES[405] })
@@ -31,7 +35,10 @@ const SearchHandler: NextApiHandler = async (req, res) => {
 
     const filters = [
       { field: "status", values: [approvedStatusRes.body.id] },
-      { field: "assetType", values: dataProductRes.body.results.map((result: any) => result.id) },
+      {
+        field: "assetType",
+        values: dataProductRes.body.results.map((result: any) => result.id),
+      },
     ]
 
     if (req.query.community) {
@@ -47,7 +54,7 @@ const SearchHandler: NextApiHandler = async (req, res) => {
     const offset = limit * (Number.isNaN(Number(req.query.offset)) ? 0 : Number(req.query.offset))
 
     // get search results
-    const searchRes = await HttpClient.post<{ results: any[] }>(`${config.COLLIBRA_BASE_URL}/search`, {
+    const searchRes = await HttpClient.post<{ results: SearchResult[] }>(`${config.COLLIBRA_BASE_URL}/search`, {
       headers: { authorization },
       body: {
         keywords: req.query.q,
@@ -57,7 +64,7 @@ const SearchHandler: NextApiHandler = async (req, res) => {
       },
     })
 
-    const results = searchRes.body?.results.map((result) => ({
+    const results = searchRes.body?.results.map((result: SearchResult) => ({
       resource: {
         ...result.resource,
       },

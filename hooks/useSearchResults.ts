@@ -3,9 +3,13 @@ import { useEffect, useState } from "react"
 
 import { HttpClient } from "../lib/HttpClient"
 
+type SearchResult = {
+  resource: Collibra.Asset
+}
+
 export const useSearchResults = () => {
   const router = useRouter()
-  const [searchResults, setSearchResults] = useState<any>()
+  const [searchResults, setSearchResults] = useState<Collibra.Asset[]>()
   const [total, setTotal] = useState<number>(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>()
@@ -19,7 +23,7 @@ export const useSearchResults = () => {
         try {
           const { body } = await HttpClient.get("/api/search", { query: router.query })
           if (!ignore) {
-            setSearchResults(body.results.map((result: any) => result.resource))
+            setSearchResults(body.results.map((result: SearchResult) => result.resource))
             setTotal(body.total)
           }
           setIsLoading(false)
