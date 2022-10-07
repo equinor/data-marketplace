@@ -5,7 +5,7 @@ import {
 } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { useRouter } from "next/router"
-import { useState, useEffect } from "react"
+import { useState, useEffect, FunctionComponent } from "react"
 import styled from "styled-components"
 
 import { HttpClient } from "lib/HttpClient"
@@ -25,7 +25,11 @@ const UnstyledList = styled(List)`
   padding: 0; 
 `
 
-export const Filter = () => {
+type Props = {
+  disabled: boolean
+}
+
+export const Filter: FunctionComponent<Props> = ({ disabled }) => {
   const [communities, setCommunities] = useState<any[]>([])
   const router = useRouter()
 
@@ -55,6 +59,7 @@ export const Filter = () => {
           <UnstyledList key={community.id}>
             <Item>
               <Checkbox
+                disabled={disabled}
                 label={community.name}
                 key={community.id}
                 checked={!!router.query.community?.includes(community.id)}

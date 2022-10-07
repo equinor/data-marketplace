@@ -110,7 +110,7 @@ const Search: NextPage = () => {
 
               <FieldSetStyle>
                 <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
-                <Filter />
+                <Filter disabled={total === 0} />
               </FieldSetStyle>
             </aside>
             <div>
