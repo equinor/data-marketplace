@@ -1,30 +1,25 @@
 import {
   Divider,
-  EdsProvider,
   Typography,
   Card,
   CircularProgress,
-  Checkbox,
   List,
   Pagination,
-
 } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
 import React, {
-  useEffect, useState, useMemo, MouseEvent, KeyboardEvent,
+  useMemo, MouseEvent, KeyboardEvent,
 } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Link } from "components/Link"
 import { Page } from "components/Page"
-import { SearchResultStats } from "components/Search"
+import { SearchResultStats, Filter } from "components/Search"
 import { Section } from "components/Section"
 import { useSearchResults } from "hooks"
-import { HttpClient } from "lib/HttpClient"
-import { updateCommunityFilter } from "lib/updateCommunityFilter"
 
 const { Header: CardHeader, HeaderTitle: CardHeaderTitle } = Card
 const { Item } = List
@@ -40,14 +35,6 @@ const SearchResultsHeader = styled(Typography)`
   margin-bottom: ${tokens.spacings.comfortable.medium};
   /* Same line height as the filter header, pixel perfect ftw */
   line-height: 1.600em;
-`
-
-const CheckboxContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  grid-gap:${tokens.spacings.comfortable.x_small};
-  
 `
 
 const UnstyledList = styled(List)`
@@ -78,31 +65,11 @@ const SearchResultItem = styled(Item)`
 const HITS_PER_PAGE = 20
 
 const Search: NextPage = () => {
-  const [communities, setCommunities] = useState<any[]>([])
   const {
     searchResults = [], total, isLoading, error: searchResultError,
   } = useSearchResults()
   const router = useRouter()
   const intl = useIntl()
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const { body } = await HttpClient.get("/api/communities")
-        setCommunities(body)
-      } catch (error) {
-        console.error("[Search] Failed fetching communities", error)
-      }
-    })()
-  }, [])
-
-  const onCommunityFilterClick = (id: string) => {
-    const filters = updateCommunityFilter(id, router.query.community)
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, community: filters },
-    })
-  }
 
   const onPaginationChange = (event: MouseEvent | KeyboardEvent | null, page: number) => {
     const offset = page - 1
@@ -143,22 +110,7 @@ const Search: NextPage = () => {
 
               <FieldSetStyle>
                 <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
-                <CheckboxContainer>
-                  <EdsProvider density="compact">
-                    {communities?.map((community) => (
-                      <UnstyledList key={community.id}>
-                        <Item>
-                          <Checkbox
-                            label={community.name}
-                            key={community.id}
-                            checked={!!router.query.community?.includes(community.id)}
-                            onChange={() => onCommunityFilterClick(community.id)}
-                          />
-                        </Item>
-                      </UnstyledList>
-                    ))}
-                  </EdsProvider>
-                </CheckboxContainer>
+                <Filter />
               </FieldSetStyle>
             </aside>
             <div>
