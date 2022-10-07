@@ -58,6 +58,7 @@ export const NavBar = () => {
 
   const onSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
+
     if (searchQuery !== "") {
       router.push({
         pathname: "/search",
@@ -65,8 +66,8 @@ export const NavBar = () => {
           q: searchQuery,
         },
       })
-      e.persist()
     }
+    e.persist()
   }
 
   const onSearchChange: ChangeEventHandler<HTMLInputElement> = (e) => {

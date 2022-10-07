@@ -20,6 +20,7 @@ import styled from "styled-components"
 
 import { Link } from "components/Link"
 import { Page } from "components/Page"
+import { SearchResultStats } from "components/Search"
 import { Section } from "components/Section"
 import { useSearchResults } from "hooks"
 import { HttpClient } from "lib/HttpClient"
@@ -111,6 +112,7 @@ const Search: NextPage = () => {
       { shallow: true },
     )
   }
+
   const numberOfFilters = useMemo(() => {
     const appliedFilters = router.query.community
     if (!appliedFilters) return 0
@@ -123,6 +125,8 @@ const Search: NextPage = () => {
   if (searchResultError) {
     console.log("[Search] Failed fetching search results", searchResultError)
   }
+
+  const searchQuery = router.query.q
 
   return (
     <Page documentTitle={intl.formatMessage({ id: "search.title" })}>
@@ -164,25 +168,15 @@ const Search: NextPage = () => {
                 : (
                   <>
                     <SearchResultsHeader variant="body_short">
-                      {searchResults.length === 0 && numberOfFilters > 0
-                        ? (
-                          <FormattedMessage
-                            id="search.no.results.with.filters"
-                            values={{
-                              numberOfFilters,
-                              searchTerm: (<b>{router.query.q}</b>),
-                            }}
-                          />
-                        )
+                      {!searchQuery || searchQuery === ""
+                        ? <FormattedMessage id="search.no.query" />
                         : (
-                          <FormattedMessage
-                            id="search.results"
-                            values={{
-                              count: total,
-                              searchTerm: (<b>{router.query.q}</b>),
-                            }}
+                          <SearchResultStats
+                            numberOfHits={total}
+                            numberOfFilters={numberOfFilters}
+                            query={searchQuery}
                           />
-                        ) }
+                        )}
                     </SearchResultsHeader>
 
                     {searchResults.length > 0

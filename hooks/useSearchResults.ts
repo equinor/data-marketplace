@@ -6,7 +6,7 @@ import { HttpClient } from "../lib/HttpClient"
 export const useSearchResults = () => {
   const router = useRouter()
   const [searchResults, setSearchResults] = useState<any>()
-  const [total, setTotal] = useState<number>()
+  const [total, setTotal] = useState<number>(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>()
 
@@ -14,8 +14,8 @@ export const useSearchResults = () => {
     let ignore = false
 
     const getData = async () => {
-      setIsLoading(true)
       if (router.query.q) {
+        setIsLoading(true)
         try {
           const { body } = await HttpClient.get("/api/search", { query: router.query })
           if (!ignore) {
