@@ -22,7 +22,7 @@ export const Hit: FunctionComponent<Props> = ({ hit }) => {
   const { name, id } = hit
   return (
     <SearchResultItem>
-      <Link href={{ pathname: "/assets/[id]", query: { id } }} title={name || ""}>
+      <Link href={{ pathname: "/assets/[id]", query: { id } }}>
         <Card elevation="raised">
           <CardHeader>
             <CardHeaderTitle>
