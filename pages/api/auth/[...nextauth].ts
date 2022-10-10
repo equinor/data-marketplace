@@ -6,7 +6,7 @@ import qs from "query-string"
 import { config } from "config"
 import { HttpClient } from "lib/HttpClient"
 
-const SCOPE = "openid offline_access https://equinor-dev.collibra.com/user_impersonation"
+const SCOPE = `openid offline_access ${config.AUTH_SCOPE}`
 
 type Token = JWT & {
   tokenType: string,
