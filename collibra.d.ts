@@ -99,7 +99,7 @@ declare namespace Collibra {
     name?: string | null
   }
 
-  export type Attribute = {
+  export type Attribute = Resource & {
     asset: NamedResourceReference
     value: any
     type: NamedResourceReference
@@ -208,6 +208,24 @@ declare namespace Collibra {
     symbolData: SymbolData
     displayNameEnabled: boolean
     ratingEnabled: boolean
+  }
+
+  export type RelationType = Resource & {
+    resourceType: ResourceType
+    sourceType: NamedResourceReference
+    targetType: NamedResourceReference
+    role: string
+    coRole: string
+    description: string
+  }
+
+  export type Relation = Resource & {
+    resourceType: ResourceType
+    source: NamedResourceReference
+    target: NamedResourceReference
+    type: ResourceReference
+    startingDate: number
+    endingDate: number
   }
 
   export type StartWorkflowInstanceRequest = {
@@ -488,6 +506,10 @@ declare namespace Collibra {
   export interface PagedDomainResponse extends PagedResponse<Domain> {}
   export interface PagedStatusResponse extends PagedResponse<Status> {}
   export interface PagedAssetTypeResponse extends PagedResponse<AssetType> {}
+  export interface PagedRelationTypeResponse extends PagedResponse<RelationType> {}
+  export interface PagedRelationResponse extends PagedResponse<Relation> {
+    nextCursor: string
+  }
 
   export type WorkflowInstance = Resource & {
     workflowDefinition: WorkflowDefinitionReference

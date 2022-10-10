@@ -33,10 +33,7 @@ import { ClientError, ERR_CODES, ExternalError } from "lib/errors"
 import { __Error__ } from "lib/errors/__Error__"
 import { Asset } from "model/Asset"
 import { makeCollibraService } from "services"
-import {
-  getAssetAttributes,
-  getAssetByID, getAssets, getDomainByName, getStatusByName,
-} from "services/collibra"
+import { getAssetByID, getRightsToUse } from "services/collibra"
 
 const usePortableText = config.USE_PORTABLE_TEXT
 
@@ -219,26 +216,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       throw new ClientError(`Data product ${id} not approved`, ERR_CODES.ASSET_NOT_APPROVED)
     }
 
-    if (!asset?.domain) {
-      throw new ExternalError(`No data product or domain name found for ${id}`, ERR_CODES.MISSING_DATA)
-    }
+    const rtuAttrs = await makeCollibraServiceRequest(getRightsToUse)(id)
 
-    const rightsToUseDomain = await makeCollibraServiceRequest(getDomainByName)(`${asset.domain.split(" ")[0]} - rights-to-use`)
-
-    const status = await makeCollibraServiceRequest(getStatusByName)("Approved")
-
-    const [rightsToUseAsset] = await makeCollibraServiceRequest(getAssets)({
-      domainId: rightsToUseDomain.id,
-      statusId: status.id,
-    })
-
-    const [terms] = await makeCollibraServiceRequest(getAssetAttributes)(
-      rightsToUseAsset.id,
-      "terms and conditions",
-    )
+    const terms = rtuAttrs.find((attr) => attr.type.toLowerCase() === "terms and conditions")
 
     if (!terms) {
-      throw new ExternalError(`No terms and conditions found for rights to use asset ${rightsToUseAsset.name} (ID: ${rightsToUseAsset.id})`, ERR_CODES.MISSING_DATA)
+      throw new ExternalError(`No terms and conditions found for rights to use asset ${asset.name} (ID: ${asset.id})`, ERR_CODES.MISSING_DATA)
     }
 
     if (terms.value && usePortableText) {
@@ -249,7 +232,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       props: {
         asset: JSON.parse(JSON.stringify(asset)),
         rightsToUse: {
-          name: terms.type.name,
+          name: terms.type,
           value: terms.value,
         },
       },
