@@ -7,6 +7,7 @@ export const config = Object.freeze({
   AUTH_CLIENT_ID: process.env.AUTH_CLIENT_ID ?? "",
   AUTH_CLIENT_SECRET: process.env.AUTH_CLIENT_SECRET ?? "",
   AUTH_TENANT_ID: process.env.AUTH_TENANT_ID ?? "",
+  AUTH_SCOPE: process.env.AUTH_SCOPE ?? "",
 
   ACCESSIT_BASE_URL: "https://accessit.equinor.com",
 
