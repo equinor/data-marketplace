@@ -63,6 +63,11 @@ const PageNotFound: NextPage = () => {
         <Section>
           <Hero>
             <HeroContent>
+              <Typography variant="meta">
+                {" "}
+                {intl.formatMessage({ id: "notfound.code.number" })}
+              </Typography>
+
               <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
                 {intl.formatMessage({ id: "notfound.hero.title" })}
               </Typography>
