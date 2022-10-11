@@ -9,6 +9,8 @@
   "frontpage.disclaimer": "Data Marketplace is currently in beta. Some functionality might be limited, but we’re constantly working to improve your experience.",
   "frontpage.popularProductsHeader": "Popular data",
   "frontpage.numberOfViews": "{numberOfViews} views",
+  "notfound.hero.title": "Uh-oh This page doesn't exist",
+  "notfound.hero.ingress": "Seems like you have gotten lost. Don't worry,though We'll help you find your way back. Just click <a>{here}</a>.",
   "search.header": "Search results",
   "search.title": "Search for assets",
   "search.filterHeader": "Filter",
