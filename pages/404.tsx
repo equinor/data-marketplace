@@ -40,7 +40,7 @@ const HeroIllustration = styled(Illustration)`
   justify-self: end;
 `
 
-const TypographyLink = styled(Typography)`
+const TypographyStyle = styled(Typography)`
   line-height: 1.5em;
 `
 
@@ -60,15 +60,15 @@ const PageNotFound: NextPage = () => {
               <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
                 {intl.formatMessage({ id: "notfound.hero.title" })}
               </Typography>
-              <Typography style={{ marginBottom: tokens.spacings.comfortable.x_large }} variant="ingress">
+              <TypographyStyle style={{ marginBottom: tokens.spacings.comfortable.x_large }} variant="ingress">
 
                 <FormattedMessage
                   id="notfound.hero.ingress"
                   // eslint-disable-next-line react/no-unstable-nested-components
-                  values={{ a: (chunks) => <NextLink href="/" passHref><TypographyLink link>{chunks}</TypographyLink></NextLink> }}
+                  values={{ a: (chunks) => <NextLink href="/" passHref><TypographyStyle link>{chunks}</TypographyStyle></NextLink> }}
                 />
 
-              </Typography>
+              </TypographyStyle>
             </HeroContent>
             <HeroIllustration />
           </Hero>
