@@ -11,7 +11,7 @@
   "frontpage.numberOfViews": "{numberOfViews} views",
   "notfound.code.number":"404",
   "notfound.hero.title": "Uh-oh This page doesn't exist",
-  "notfound.hero.ingress": "Seems like you have gotten lost. Don't worry,though We'll help you find your way back. Just click <a>{here}</a>.",
+  "notfound.hero.ingress": "Seems like you've gotten lost. Don't worry, though. We'll help you find your way back. Just click <a>here</a>.",
   "search.header": "Search results",
   "search.title": "Search for assets",
   "search.filterHeader": "Filter",

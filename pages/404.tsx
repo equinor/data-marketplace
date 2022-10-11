@@ -4,10 +4,7 @@ import {
 } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
-import {
-  ReactNode,
-  useCallback,
-} from "react"
+import NextLink from "next/link"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -29,7 +26,7 @@ const Hero = styled.div`
 const HeroContent = styled.div`
   width: clamp(25ch, 60%, 600px);
   z-index: 1;
-  align-self: start; 
+  align-self: start;
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: ${tokens.shape.corners.borderRadius};
   padding: 0.5rem 0.5rem 0.5rem 0;
@@ -39,23 +36,16 @@ const HeroContent = styled.div`
 `
 
 const HeroIllustration = styled(Illustration)`
-  width: clamp(500px, 40%, 500px);
+  width: clamp(300px, 40%, 500px);
   justify-self: end;
+`
+
+const TypographyLink = styled(Typography)`
+  line-height: 1.5em;
 `
 
 const PageNotFound: NextPage = () => {
   const intl = useIntl()
-
-  const FormattedLink = useCallback((chunks: ReactNode[]) => (
-    <Typography
-      link
-      href="/"
-      target="_blank"
-      rel="noopener noreferrer nofollow"
-    >
-      {chunks}
-    </Typography>
-  ), [])
 
   return (
     <Page>
@@ -71,12 +61,11 @@ const PageNotFound: NextPage = () => {
                 {intl.formatMessage({ id: "notfound.hero.title" })}
               </Typography>
               <Typography style={{ marginBottom: tokens.spacings.comfortable.x_large }} variant="ingress">
+
                 <FormattedMessage
                   id="notfound.hero.ingress"
-                  values={{
-                    a: FormattedLink,
-                    here: "here",
-                  }}
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  values={{ a: (chunks) => <NextLink href="/" passHref><TypographyLink link>{chunks}</TypographyLink></NextLink> }}
                 />
 
               </Typography>
