@@ -1,8 +1,4 @@
-import {
-  EdsProvider,
-  Checkbox,
-  List,
-} from "@equinor/eds-core-react"
+import { EdsProvider, Checkbox, List } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { useRouter } from "next/router"
 import { useState, useEffect, FunctionComponent } from "react"
@@ -14,15 +10,15 @@ import { updateCommunityFilter } from "lib/updateCommunityFilter"
 const { Item } = List
 
 const CheckboxContainer = styled.div`
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-grid-gap:${tokens.spacings.comfortable.x_small};
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  grid-gap: ${tokens.spacings.comfortable.x_small};
 `
 
 const UnstyledList = styled(List)`
   list-style: none;
-  padding: 0; 
+  padding: 0;
 `
 
 type Props = {
@@ -34,7 +30,7 @@ export const Filter: FunctionComponent<Props> = ({ disabled }) => {
   const router = useRouter()
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
         const { body } = await HttpClient.get("/api/communities")
         setCommunities(body)
@@ -59,7 +55,7 @@ export const Filter: FunctionComponent<Props> = ({ disabled }) => {
           <UnstyledList key={community.id}>
             <Item>
               <Checkbox
-                disabled={disabled}
+                disabled={disabled && !router.query.community}
                 label={community.name}
                 key={community.id}
                 checked={!!router.query.community?.includes(community.id)}
