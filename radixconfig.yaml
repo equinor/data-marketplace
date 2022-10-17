@@ -24,9 +24,9 @@ spec:
               memory: 256Mi
               cpu: 100m
           variables:
-            BASE_URL: https://web-data-marketplace-prod.radix.equinor.com/
-            AUTH_SCOPE: https://equinor-dev.collibra.com/user_impersonation
-            NEXT_PUBLIC_COLLIBRA_BASE_URL: https://equinor-dev.collibra.com/rest/2.0
+            BASE_URL: https://web-data-marketplace-test.radix.equinor.com/
+            AUTH_SCOPE: https://equinor-test.collibra.com/user_impersonation
+            NEXT_PUBLIC_COLLIBRA_BASE_URL: https://equinor-test.collibra.com/rest/2.0
         - environment: test
           resources:
             requests:
