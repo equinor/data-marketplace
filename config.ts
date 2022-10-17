@@ -12,4 +12,5 @@ export const config = Object.freeze({
   ACCESSIT_BASE_URL: "https://accessit.equinor.com",
 
   USE_PORTABLE_TEXT: process.env.NEXT_PUBLIC_USE_PORTABLE_TEXT === "true",
+  USE_COLLIBRA_TEST: process.env.NEXT_PUBLIC_USE_COLLIBRA_TEST === "true",
 })
