@@ -206,10 +206,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       throw new ClientError(`Data product ${id} not approved`, ERR_CODES.ASSET_NOT_APPROVED)
     }
 
-    if (process.env.NEXT_PUBLIC_USE_COLLIBRA_TEST === "false") {
-      return { props: defaultPageProps }
-    }
-
     const rtuAttrs = await makeCollibraServiceRequest(getRightsToUse)(id)
 
     const terms = rtuAttrs.find((attr) => attr.type.toLowerCase() === "terms and conditions")

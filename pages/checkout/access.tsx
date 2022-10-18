@@ -1,11 +1,5 @@
 /* eslint-disable camelcase */
-import {
-  Button,
-  TextField,
-  Typography,
-  Icon,
-  Progress,
-} from "@equinor/eds-core-react"
+import { Button, TextField, Typography, Icon, Progress } from "@equinor/eds-core-react"
 import { error_filled } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
@@ -14,13 +8,9 @@ import { ChangeEventHandler, useState } from "react"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
-import {
-  CancelButton,
-  CheckoutWizard,
-  NoAsset,
-  formatCheckoutTitle,
-} from "components/CheckoutWizard"
+import { CancelButton, CheckoutWizard, NoAsset, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Page } from "components/Page"
+import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { HttpClient } from "lib/HttpClient"
 
@@ -36,7 +26,7 @@ const ButtonContainer = styled.div`
 `
 const FakeHelperText = styled(Typography)`
   color: ${tokens.colors.text.static_icons__tertiary.hex};
-  margin: ${tokens.spacings.comfortable.small} 0 0  ${tokens.spacings.comfortable.small};
+  margin: ${tokens.spacings.comfortable.small} 0 0 ${tokens.spacings.comfortable.small};
 `
 
 const ContinueButtonText = styled.span<{ invisible: boolean }>`
@@ -79,13 +69,16 @@ const CheckoutAccessView: NextPage = () => {
       setError(false)
       try {
         setIsLoading(true)
-        await HttpClient.post<Collibra.WorkflowInstance>("/api/workflows", {
-          body: {
-            assetId: checkoutData.asset?.id,
-            termsAccepted: checkoutData.terms?.termsAccepted,
-            description: checkoutData.access?.description,
-          },
-        })
+
+        if (config.ACCESS_COLLIBRA_WORKFLOW) {
+          await HttpClient.post<Collibra.WorkflowInstance>("/api/workflows", {
+            body: {
+              assetId: checkoutData.asset?.id,
+              termsAccepted: checkoutData.terms?.termsAccepted,
+              description: checkoutData.access?.description,
+            },
+          })
+        }
         router.push({
           pathname: "/checkout/redirect",
           query: { id: checkoutData.asset?.id },
@@ -100,7 +93,12 @@ const CheckoutAccessView: NextPage = () => {
   }
 
   return (
-    <Page documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.access" }))}>
+    <Page
+      documentTitle={formatCheckoutTitle(
+        intl.formatMessage({ id: "checkout.prefix.title" }),
+        intl.formatMessage({ id: "checkout.nav.step.access" })
+      )}
+    >
       <main>
         <CheckoutWizard assetName={checkoutData.asset?.name}>
           {!checkoutData.asset ? (
@@ -117,33 +115,44 @@ const CheckoutAccessView: NextPage = () => {
                 variant={error ? "error" : "default"}
                 maxLength={MAX_LENGTH}
                 meta={description ? `${description && description.length}` : "0"}
-                helperText={error ? intl.formatMessage({ id: "checkout.access.descriptionInput.errorMessage" }, { minLength: MIN_LENGTH }) : undefined}
+                helperText={
+                  error
+                    ? intl.formatMessage(
+                      { id: "checkout.access.descriptionInput.errorMessage" },
+                      { minLength: MIN_LENGTH }
+                    )
+                    : undefined
+                }
                 helperIcon={error && <Icon data={error_filled} />}
                 aria-required
               />
 
-              <FakeHelperText group="input" variant="helper">{intl.formatMessage({ id: "checkout.access.exampleBody" })}</FakeHelperText>
+              <FakeHelperText group="input" variant="helper">
+                {intl.formatMessage({ id: "checkout.access.exampleBody" })}
+              </FakeHelperText>
 
               <ButtonContainer>
-                {collibraWorkflowError && <Typography variant="body_short" color={tokens.colors.interactive.danger__text.hex}>{collibraWorkflowError.message}</Typography>}
+                {collibraWorkflowError && (
+                  <Typography variant="body_short" color={tokens.colors.interactive.danger__text.hex}>
+                    {collibraWorkflowError.message}
+                  </Typography>
+                )}
                 <CancelButton assetId={checkoutData.asset?.id} />
-                <Button
-                  onClick={onContinueClick}
-                  disabled={isLoading}
-                >
+                <Button onClick={onContinueClick} disabled={isLoading}>
                   {isLoading && (
                     <ButtonProgressContainer>
                       <Progress.Circular variant="indeterminate" size={24} style={{ display: "block" }} />
                     </ButtonProgressContainer>
                   )}
-                  <ContinueButtonText invisible={isLoading}>{intl.formatMessage({ id: "common.continue" })}</ContinueButtonText>
+                  <ContinueButtonText invisible={isLoading}>
+                    {intl.formatMessage({ id: "common.continue" })}
+                  </ContinueButtonText>
                 </Button>
               </ButtonContainer>
             </>
           )}
         </CheckoutWizard>
       </main>
-
     </Page>
   )
 }
