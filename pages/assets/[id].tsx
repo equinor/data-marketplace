@@ -1,7 +1,5 @@
 /* eslint-disable camelcase */
-import {
-  Button, Icon, Typography, Tabs,
-} from "@equinor/eds-core-react"
+import { Button, Icon, Typography, Tabs } from "@equinor/eds-core-react"
 import { shopping_cart_add } from "@equinor/eds-icons"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
@@ -11,23 +9,16 @@ import { useState, useEffect } from "react"
 import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
-import {
-  OverviewContent,
-  ResponsibilitiesContent,
-  ResponsibilitiesContentSections,
-} from "components/AssetTabContent"
+import { OverviewContent, ResponsibilitiesContent, ResponsibilitiesContentSections } from "components/AssetTabContent"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
-import { config } from "config"
 import { getPortableText } from "htmlParsing/richTextContent"
 import { Asset } from "model/Asset"
 import { makeCollibraService } from "services"
 import { getAssetAttributes, getAssetByID, getAssetResponsibilities } from "services/collibra"
 import { getUser } from "services/collibra/getUser"
 
-const {
-  Tab: EdsTab, List, Panel, Panels,
-} = Tabs
+const { Tab: EdsTab, List, Panel, Panels } = Tabs
 
 const Header = styled.header`
   display: grid;
@@ -36,7 +27,7 @@ const Header = styled.header`
   align-items: baseline;
 `
 const StyledTabs = styled(Tabs)`
-margin-top: 48px;
+  margin-top: 48px;
 `
 
 const AssetHeading = styled(Typography)`
@@ -46,11 +37,11 @@ const AssetHeading = styled(Typography)`
 type TabName = "overview" | "responsibilities"
 
 type Tab = {
-  id: number,
-  name: TabName;
+  id: number
+  name: TabName
 }
 
-const getTabs = (): Tab[] => ([
+const getTabs = (): Tab[] => [
   {
     id: 0,
     name: "overview",
@@ -59,7 +50,7 @@ const getTabs = (): Tab[] => ([
     id: 1,
     name: "responsibilities",
   },
-])
+]
 
 const getInitialTab = (tabs: Tab[], tabQuery: string | undefined | string[]) => {
   const tabName = typeof tabQuery === "string" ? tabQuery : "overview"
@@ -69,7 +60,7 @@ const getInitialTab = (tabs: Tab[], tabQuery: string | undefined | string[]) => 
 }
 
 type AssetDetailProps = {
-  asset?: DataMarketplace.Asset | null,
+  asset?: DataMarketplace.Asset | null
   responsibilitiesData?: ResponsibilitiesContentSections
 }
 
@@ -87,17 +78,13 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
       router.replace(
         { query: { ...router.query, tab: currentTab.name } },
         { query: { tab: currentTab.name } },
-        { shallow: true },
+        { shallow: true }
       )
     }
   }, [currentTab, router])
 
   if (!asset) {
-    return (
-      <div>
-        Issues with fetching the asset - TODO figure out what to do here
-      </div>
-    )
+    return <div>Issues with fetching the asset - TODO figure out what to do here</div>
   }
 
   const { id: assetId } = asset
@@ -114,9 +101,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
       <main>
         <Section>
           <Header>
-            <AssetHeading variant="h1">
-              {asset.name}
-            </AssetHeading>
+            <AssetHeading variant="h1">{asset.name}</AssetHeading>
             <NextLink
               href={{
                 pathname: "/checkout/terms",
@@ -133,12 +118,8 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
 
           <StyledTabs onChange={handleTabChange} activeTab={currentTab.id}>
             <List>
-              <EdsTab key="overview">
-                {intl.formatMessage({ id: "asset.overview" })}
-              </EdsTab>
-              <EdsTab key="responsibilities">
-                {intl.formatMessage({ id: "asset.responsibilites" })}
-              </EdsTab>
+              <EdsTab key="overview">{intl.formatMessage({ id: "asset.overview" })}</EdsTab>
+              <EdsTab key="responsibilities">{intl.formatMessage({ id: "asset.responsibilites" })}</EdsTab>
             </List>
             <Panels>
               <Panel>
@@ -162,7 +143,6 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
-  const usePortableText = config.USE_PORTABLE_TEXT
   const defaultPageProps = { asset: null }
 
   if (typeof id !== "string") {
@@ -194,8 +174,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     const description = attributes.find((attr) => attr.type.name.toLowerCase() === "description")?.value ?? null
     const updateFrequency = attributes.find((attr) => attr.type.name.toLowerCase() === "timeliness")?.value ?? null
 
-    asset.description = usePortableText ? getPortableText(description) : description
-    asset.updateFrequency = usePortableText ? getPortableText(updateFrequency) : updateFrequency
+    asset.description = getPortableText(description)
+    asset.updateFrequency = getPortableText(updateFrequency)
 
     let responsibilities = await makeCollibraServiceRequest(getAssetResponsibilities)(id)
 
@@ -204,29 +184,23 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     }
 
     // filter out results that are not a "User" type
-    responsibilities = responsibilities.filter((responsibility) => (
-      responsibility.owner.type === "User"
-    ))
+    responsibilities = responsibilities.filter((responsibility) => responsibility.owner.type === "User")
 
-    const users = await Promise.all(responsibilities.map((responsibility) => (
-      makeCollibraServiceRequest(getUser)(responsibility.owner.id)
-    )))
+    const users = await Promise.all(
+      responsibilities.map((responsibility) => makeCollibraServiceRequest(getUser)(responsibility.owner.id))
+    )
 
-    const responsibilitiesData: ResponsibilitiesContentSections = responsibilities
-      .reduce((data, responsibility) => {
-        const user = users.find((u) => u.id === responsibility.owner.id)
-        if (!user) return data
+    const responsibilitiesData: ResponsibilitiesContentSections = responsibilities.reduce((data, responsibility) => {
+      const user = users.find((u) => u.id === responsibility.owner.id)
+      if (!user) return data
 
-        const responsibilityName = responsibility.name.toUpperCase().replace(/\s/g, "_")
+      const responsibilityName = responsibility.name.toUpperCase().replace(/\s/g, "_")
 
-        return {
-          ...data,
-          [responsibilityName]: [
-            ...(data[responsibilityName] ?? []),
-            user,
-          ],
-        }
-      }, {} as ResponsibilitiesContentSections)
+      return {
+        ...data,
+        [responsibilityName]: [...(data[responsibilityName] ?? []), user],
+      }
+    }, {} as ResponsibilitiesContentSections)
 
     return {
       props: {

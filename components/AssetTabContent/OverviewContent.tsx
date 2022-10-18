@@ -31,31 +31,26 @@ const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) =>
 )
 
 export const OverviewContent = ({ content }: Props) => {
-  const usePortableText = process.env.NEXT_PUBLIC_USE_PORTABLE_TEXT === "true"
-  // This doesn't change properly on .env update
-  // const usePortableText = config.USE_PORTABLE_TEXT
   const { description, updateFrequency } = content
 
   return (
     <Overview>
       {description && (
         <AssetTabContentSectionContainer>
-          <OverviewSubTitle><FormattedMessage id="asset.description" /></OverviewSubTitle>
-          {usePortableText
-          // @ts-ignore: Look into the correct way of doing this
-            ? <PortableText value={description} components={defaultComponents} />
-            : <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: description as string }} />}
-
+          <OverviewSubTitle>
+            <FormattedMessage id="asset.description" />
+          </OverviewSubTitle>
+          {/* @ts-ignore: Look into the correct way of doing this */}
+          <PortableText value={description} components={defaultComponents} />
         </AssetTabContentSectionContainer>
       )}
       {updateFrequency && (
         <AssetTabContentSectionContainer>
-          <OverviewSubTitle><FormattedMessage id="asset.timeliness" /></OverviewSubTitle>
-          {usePortableText
-          // @ts-ignore: Look into the correct way of doing this
-            ? <PortableText value={updateFrequency} components={defaultComponents} />
-            : <Typography variant="body_long" dangerouslySetInnerHTML={{ __html: updateFrequency as string }} />}
-
+          <OverviewSubTitle>
+            <FormattedMessage id="asset.timeliness" />
+          </OverviewSubTitle>
+          {/* @ts-ignore: Look into the correct way of doing this */}
+          <PortableText value={updateFrequency} components={defaultComponents} />
         </AssetTabContentSectionContainer>
       )}
     </Overview>
