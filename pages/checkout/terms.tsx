@@ -13,7 +13,6 @@ import styled from "styled-components"
 
 import { CheckoutWizard, NoAsset, CancelButton, ValidationError, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Page } from "components/Page"
-import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { defaultComponents } from "htmlParsing/portableText"
 import { getPortableText } from "htmlParsing/richTextContent"
@@ -22,8 +21,6 @@ import { __Error__ } from "lib/errors/__Error__"
 import { Asset } from "model/Asset"
 import { makeCollibraService } from "services"
 import { getAssetByID, getRightsToUse } from "services/collibra"
-
-const usePortableText = config.USE_PORTABLE_TEXT
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
@@ -126,12 +123,8 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
                 <Typography variant="h5" as="h2">
                   {rightsToUse?.name}
                 </Typography>
-                {usePortableText && rightsToUse && rightsToUse.value ? (
-                  // @ts-ignore: Sorry Petter, cannot figure out this
-                  <PortableText value={rightsToUse.value} components={defaultComponents} />
-                ) : (
-                  <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! as string }} />
-                )}
+                {/*  @ts-ignore: Sorry Petter, cannot figure out this */}
+                <PortableText value={rightsToUse.value} components={defaultComponents} />
               </InfoBox>
               <CheckboxContainer>
                 <Checkbox
@@ -217,7 +210,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       )
     }
 
-    if (terms.value && usePortableText) {
+    if (terms.value) {
       terms.value = getPortableText(terms.value)
     }
 
