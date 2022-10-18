@@ -1,11 +1,5 @@
 /* eslint-disable camelcase */
-import {
-  Banner,
-  Button,
-  Checkbox,
-  Icon,
-  Typography,
-} from "@equinor/eds-core-react"
+import { Banner, Button, Checkbox, Icon, Typography } from "@equinor/eds-core-react"
 import { warning_filled } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { PortableText } from "@portabletext/react"
@@ -17,13 +11,7 @@ import React, { useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import {
-  CheckoutWizard,
-  NoAsset,
-  CancelButton,
-  ValidationError,
-  formatCheckoutTitle,
-} from "components/CheckoutWizard"
+import { CheckoutWizard, NoAsset, CancelButton, ValidationError, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Page } from "components/Page"
 import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
@@ -66,7 +54,7 @@ const ButtonContainer = styled.div`
 const InfoBox = styled.div`
   background-color: ${tokens.colors.ui.background__info.hex};
   padding: ${tokens.spacings.comfortable.medium};
-  margin-bottom: ${tokens.spacings.comfortable.medium}
+  margin-bottom: ${tokens.spacings.comfortable.medium};
 `
 
 const DataSourceErrorContainer = styled.div`
@@ -118,11 +106,14 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
   return (
     <Page
-      documentTitle={formatCheckoutTitle(intl.formatMessage({ id: "checkout.prefix.title" }), intl.formatMessage({ id: "checkout.nav.step.terms" }))}
+      documentTitle={formatCheckoutTitle(
+        intl.formatMessage({ id: "checkout.prefix.title" }),
+        intl.formatMessage({ id: "checkout.nav.step.terms" })
+      )}
     >
       <main>
         <CheckoutWizard assetName={asset?.name}>
-          {(!error && asset && (
+          {!error && asset && (
             <>
               <IngressContainer>
                 <FormattedMessage
@@ -132,16 +123,15 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
                 />
               </IngressContainer>
               <InfoBox>
-                <Typography variant="h5" as="h2">{rightsToUse?.name}</Typography>
-                {usePortableText && rightsToUse && rightsToUse.value
-                // @ts-ignore: Sorry Petter, cannot figure out this
-                  ? <PortableText value={rightsToUse.value} components={defaultComponents} />
-                  : (
-                    <Typography dangerouslySetInnerHTML={
-                      { __html: rightsToUse?.value! as string }
-                    }
-                    />
-                  )}
+                <Typography variant="h5" as="h2">
+                  {rightsToUse?.name}
+                </Typography>
+                {usePortableText && rightsToUse && rightsToUse.value ? (
+                  // @ts-ignore: Sorry Petter, cannot figure out this
+                  <PortableText value={rightsToUse.value} components={defaultComponents} />
+                ) : (
+                  <Typography dangerouslySetInnerHTML={{ __html: rightsToUse?.value! as string }} />
+                )}
               </InfoBox>
               <CheckboxContainer>
                 <Checkbox
@@ -152,20 +142,17 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
                   aria-invalid={hasAcceptedTerms ? "false" : "true"}
                   aria-required
                 />
-                {formError && <ValidationError>{intl.formatMessage({ id: "terms.accept.errorMessage" })}</ValidationError> }
+                {formError && (
+                  <ValidationError>{intl.formatMessage({ id: "terms.accept.errorMessage" })}</ValidationError>
+                )}
               </CheckboxContainer>
               <ButtonContainer>
                 <CancelButton assetId={asset?.id} />
-                <Button
-                  onClick={onContinue}
-                >
-                  {intl.formatMessage({ id: "common.continue" })}
-                </Button>
+                <Button onClick={onContinue}>{intl.formatMessage({ id: "common.continue" })}</Button>
               </ButtonContainer>
             </>
-          )
-          ) }
-          {(!asset && !error) && <NoAsset />}
+          )}
+          {!asset && !error && <NoAsset />}
           {error && (
             <DataSourceErrorContainer>
               <Banner>
@@ -173,7 +160,10 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
                   <Icon data={warning_filled} />
                 </Banner.Icon>
                 <Banner.Message>
-                  {intl.formatMessage({ id: `terms.error.${error}.bannerMessage`, defaultMessage: "We were unable to get the necessary data from Collibra" })}
+                  {intl.formatMessage({
+                    id: `terms.error.${error}.bannerMessage`,
+                    defaultMessage: "We were unable to get the necessary data from Collibra",
+                  })}
                 </Banner.Message>
               </Banner>
 
@@ -221,7 +211,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     const terms = rtuAttrs.find((attr) => attr.type.toLowerCase() === "terms and conditions")
 
     if (!terms) {
-      throw new ExternalError(`No terms and conditions found for rights to use asset ${asset.name} (ID: ${asset.id})`, ERR_CODES.MISSING_DATA)
+      throw new ExternalError(
+        `No terms and conditions found for rights to use asset ${asset.name} (ID: ${asset.id})`,
+        ERR_CODES.MISSING_DATA
+      )
     }
 
     if (terms.value && usePortableText) {
