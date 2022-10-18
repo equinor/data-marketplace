@@ -70,7 +70,7 @@ const CheckoutAccessView: NextPage = () => {
       try {
         setIsLoading(true)
 
-        if (config.ACCESS_COLLIBRA_WORKFLOW) {
+        if (!config.PREVENT_COLLIBRA_WORKFLOW) {
           await HttpClient.post<Collibra.WorkflowInstance>("/api/workflows", {
             body: {
               assetId: checkoutData.asset?.id,
