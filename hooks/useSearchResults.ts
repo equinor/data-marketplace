@@ -10,7 +10,7 @@ type SearchResult = {
 export const useSearchResults = () => {
   const router = useRouter()
   const [searchResults, setSearchResults] = useState<Collibra.Asset[]>()
-  const [total, setTotal] = useState<number>(0)
+  const [total, setTotal] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>()
 
@@ -44,6 +44,9 @@ export const useSearchResults = () => {
   }, [router, error])
 
   return {
-    searchResults, total, isLoading, error,
+    searchResults,
+    total,
+    isLoading,
+    error,
   }
 }

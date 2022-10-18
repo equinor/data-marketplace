@@ -1,16 +1,8 @@
-import {
-  Divider,
-  Typography,
-  CircularProgress,
-  List,
-  Pagination,
-} from "@equinor/eds-core-react"
+import { Divider, Typography, CircularProgress, List, Pagination } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
-import React, {
-  useMemo, MouseEvent, KeyboardEvent,
-} from "react"
+import React, { useMemo, MouseEvent, KeyboardEvent } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -29,18 +21,17 @@ const SearchPageContainer = styled.div`
 const SearchResultsHeader = styled(Typography)`
   margin-bottom: ${tokens.spacings.comfortable.medium};
   /* Same line height as the filter header, pixel perfect ftw */
-  line-height: 1.600em;
+  line-height: 1.6em;
 `
 
 const UnstyledList = styled(List)`
   list-style: none;
-  padding: 0; 
+  padding: 0;
 `
 
 const FieldSetStyle = styled.fieldset`
   border: 0;
   padding: 0;
-  
 `
 const LegendC = styled.legend`
   margin-bottom: ${tokens.spacings.comfortable.small};
@@ -54,19 +45,13 @@ const PaginationContainer = styled.div`
 const HITS_PER_PAGE = 20
 
 const Search: NextPage = () => {
-  const {
-    searchResults = [], total, isLoading, error: searchResultError,
-  } = useSearchResults()
+  const { searchResults = [], total, isLoading, error: searchResultError } = useSearchResults()
   const router = useRouter()
   const intl = useIntl()
 
   const onPaginationChange = (event: MouseEvent | KeyboardEvent | null, page: number) => {
     const offset = page - 1
-    router.replace(
-      { query: { ...router.query, offset } },
-      { query: { ...router.query, offset } },
-      { shallow: true },
-    )
+    router.replace({ query: { ...router.query, offset } }, { query: { ...router.query, offset } }, { shallow: true })
   }
 
   const numberOfFilters = useMemo(() => {
@@ -87,60 +72,53 @@ const Search: NextPage = () => {
     <Page documentTitle={intl.formatMessage({ id: "search.title" })}>
       <main>
         <Section>
-          <Typography variant="h1">
-            {intl.formatMessage({ id: "search.header" })}
-          </Typography>
+          <Typography variant="h1">{intl.formatMessage({ id: "search.header" })}</Typography>
           <SearchPageContainer>
-
             <aside>
-              <Typography variant="h4" as="h2"><FormattedMessage id="search.filterHeader" /></Typography>
+              <Typography variant="h4" as="h2">
+                <FormattedMessage id="search.filterHeader" />
+              </Typography>
               <Divider variant="small" />
               <FieldSetStyle>
-                <LegendC><FormattedMessage id="search.communitiesHeader" /></LegendC>
+                <LegendC>
+                  <FormattedMessage id="search.communitiesHeader" />
+                </LegendC>
                 <Filter disabled={total === 0} />
               </FieldSetStyle>
             </aside>
             <div>
               {isLoading ? (
                 <CircularProgress />
-              )
-                : (
-                  <>
-                    <SearchResultsHeader variant="body_short">
-                      {!searchQuery || searchQuery === ""
-                        ? <FormattedMessage id="search.no.query" />
-                        : (
-                          <SearchResultStats
-                            numberOfHits={total}
-                            numberOfFilters={numberOfFilters}
-                            query={searchQuery}
-                          />
-                        )}
-                    </SearchResultsHeader>
+              ) : (
+                <>
+                  <SearchResultsHeader variant="body_short">
+                    {!searchQuery || searchQuery === "" ? (
+                      <FormattedMessage id="search.no.query" />
+                    ) : (
+                      <SearchResultStats numberOfHits={total} numberOfFilters={numberOfFilters} query={searchQuery} />
+                    )}
+                  </SearchResultsHeader>
 
-                    {searchResults.length > 0
-                && (
-                  <UnstyledList variant="numbered">
-                    {searchResults.map((resource) => (
-                      <Hit key={resource.id} hit={resource} />
-                    ))}
-                  </UnstyledList>
-                )}
-                  </>
-                )}
-              {total !== undefined && total > HITS_PER_PAGE
-                   && (
-                     <PaginationContainer>
-                       <Pagination
-                         itemsPerPage={HITS_PER_PAGE}
-                         onChange={onPaginationChange}
-                         totalItems={total}
-                         withItemIndicator
-                         defaultPage={Number.isNaN(Number(router.query.offset))
-                           ? 1 : Number(router.query.offset) + 1}
-                       />
-                     </PaginationContainer>
-                   )}
+                  {searchResults.length > 0 && (
+                    <UnstyledList variant="numbered">
+                      {searchResults.map((resource) => (
+                        <Hit key={resource.id} hit={resource} />
+                      ))}
+                    </UnstyledList>
+                  )}
+                </>
+              )}
+              {total !== null && total > HITS_PER_PAGE && (
+                <PaginationContainer>
+                  <Pagination
+                    itemsPerPage={HITS_PER_PAGE}
+                    onChange={onPaginationChange}
+                    totalItems={total}
+                    withItemIndicator
+                    defaultPage={Number.isNaN(Number(router.query.offset)) ? 1 : Number(router.query.offset) + 1}
+                  />
+                </PaginationContainer>
+              )}
             </div>
           </SearchPageContainer>
         </Section>
