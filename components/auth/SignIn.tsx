@@ -1,4 +1,5 @@
-import { Typography, Button } from "@equinor/eds-core-react"
+import { Typography, Button, Icon } from "@equinor/eds-core-react"
+import { lock } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { signIn } from "next-auth/react"
 import { useCallback, ReactNode } from "react"
@@ -9,7 +10,6 @@ import { Page } from "components/Page"
 import { Section } from "components/Section"
 
 const Information = styled.div`
-  /* max-width: 22rem; */
   width: min(33ch, 90%);
   margin: 0 auto;
   text-align: center;
@@ -18,7 +18,7 @@ const Information = styled.div`
 const CenteredText = styled(Typography)`
   text-align: center;
   &:is(h1) {
-    margin-bottom: ${tokens.spacings.comfortable.xx_large};
+    margin-block: ${tokens.spacings.comfortable.xx_large};
     word-break: break-word;
     hyphens: auto;
   }
@@ -49,6 +49,7 @@ export const SignIn = () => {
             <FormattedMessage id="auth.signin.intro" />
           </CenteredText>
           <StyledButton onClick={() => signIn("azure-ad")}>
+            <Icon data={lock} />
             <FormattedMessage id="auth.signin.c2a" />
           </StyledButton>
           <CenteredText variant="body_short">
