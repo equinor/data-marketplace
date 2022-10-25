@@ -9,7 +9,8 @@ import { Page } from "components/Page"
 import { Section } from "components/Section"
 
 const Information = styled.div`
-  max-width: 20rem;
+  /* max-width: 22rem; */
+  width: min(33ch, 90%);
   margin: 0 auto;
   text-align: center;
 `
@@ -18,6 +19,8 @@ const CenteredText = styled(Typography)`
   text-align: center;
   &:is(h1) {
     margin-bottom: ${tokens.spacings.comfortable.xx_large};
+    word-break: break-word;
+    hyphens: auto;
   }
 `
 const StyledButton = styled(Button)`
