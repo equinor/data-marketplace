@@ -16,6 +16,9 @@ const Information = styled.div`
 
 const CenteredText = styled(Typography)`
   text-align: center;
+  &:is(h1) {
+    margin-bottom: ${tokens.spacings.comfortable.xx_large};
+  }
 `
 const StyledButton = styled(Button)`
   margin-block: ${tokens.spacings.comfortable.x_large};
@@ -26,7 +29,7 @@ export const SignIn = () => {
 
   const FormattedLink = useCallback(
     (chunks: ReactNode[]) => (
-      <Typography link href="ff" target="_blank" rel="noopener noreferrer nofollow">
+      <Typography link href="todo" target="_blank" rel="noopener noreferrer nofollow">
         {chunks}
       </Typography>
     ),
@@ -39,11 +42,13 @@ export const SignIn = () => {
           <CenteredText variant="h1">
             <FormattedMessage id="auth.signin.title" values={{ linebreak: <br /> }} />
           </CenteredText>
-
+          <CenteredText variant="ingress">
+            <FormattedMessage id="auth.signin.intro" />
+          </CenteredText>
           <StyledButton onClick={() => signIn("azure-ad")}>
             <FormattedMessage id="auth.signin.c2a" />
           </StyledButton>
-          <CenteredText variant="body_long">
+          <CenteredText variant="body_short">
             <FormattedMessage
               id="auth.signin.first.time.visiting"
               values={{
