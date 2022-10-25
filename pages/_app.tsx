@@ -11,14 +11,10 @@ import { ErrorBoundary } from "components/ErrorBoundary"
 import englishTexts from "locales/english.json"
 import { GlobalStyle } from "styles/globals"
 
-const App = ({ Component, pageProps }: AppProps<{session: Session;}>) => (
-
+const App = ({ Component, pageProps }: AppProps<{ session: Session }>) => (
   <SessionProvider session={pageProps.session}>
     <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
-      <AppInsightsErrorBoundary
-        onError={ErrorBoundary}
-        appInsights={reactPlugin}
-      >
+      <AppInsightsErrorBoundary onError={ErrorBoundary} appInsights={reactPlugin}>
         <AppInsightsContext.Provider value={reactPlugin}>
           <Head>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,7 +28,6 @@ const App = ({ Component, pageProps }: AppProps<{session: Session;}>) => (
       </AppInsightsErrorBoundary>
     </IntlProvider>
   </SessionProvider>
-
 )
 
 export default App

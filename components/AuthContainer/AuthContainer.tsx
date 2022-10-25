@@ -1,9 +1,11 @@
 import { Typography } from "@equinor/eds-core-react"
-import { signIn, useSession } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import type { FunctionComponent, PropsWithChildren } from "react"
 import { useIntl } from "react-intl"
 
 import { Container } from "../Container"
+
+import { SignIn } from "components/auth"
 
 export const AuthContainer: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const { data, status } = useSession()
@@ -18,13 +20,7 @@ export const AuthContainer: FunctionComponent<PropsWithChildren> = ({ children }
   }
 
   if (status !== "authenticated" || data?.error === "RefreshAccessTokenError") {
-    signIn("azure-ad")
-
-    return (
-      <Container>
-        <Typography>{intl.formatMessage({ id: "auth.prompt" })}</Typography>
-      </Container>
-    )
+    return <SignIn />
   }
 
   return (

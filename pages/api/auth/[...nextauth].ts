@@ -80,6 +80,9 @@ export default NextAuth({
       },
     }),
   ],
+  /*   pages: {
+    signIn: "auth/signin",
+  }, */
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
