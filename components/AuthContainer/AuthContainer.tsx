@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react"
 import type { FunctionComponent, PropsWithChildren } from "react"
 import { useIntl } from "react-intl"
 
-import { SignIn } from "components/auth"
+import { SignIn } from "./SignIn"
 
 export const AuthContainer: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const { data, status } = useSession()
