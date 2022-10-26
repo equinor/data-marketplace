@@ -1,24 +1,40 @@
-import {
-  DocumentProps,
-  Head,
-  Html,
-  Main,
-  NextScript,
-} from "next/document"
-import { FunctionComponent } from "react"
+import Document, { Head, Html, Main, NextScript, DocumentContext } from "next/document"
+import { ServerStyleSheet } from "styled-components"
 
-const Document: FunctionComponent<DocumentProps> = () => (
-  <Html lang="en">
-    <Head>
-      <link rel="stylesheet" href="https://eds-static.equinor.com/font/equinor-font.css" />
-      <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
-      <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
-    </Head>
-    <body>
-      <Main />
-      <NextScript />
-    </body>
-  </Html>
-)
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext) {
+    const sheet = new ServerStyleSheet()
+    const originalRenderPage = ctx.renderPage
 
-export default Document
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
+        })
+
+      const initialProps = await Document.getInitialProps(ctx)
+      return {
+        ...initialProps,
+        styles: [initialProps.styles, sheet.getStyleElement()],
+      }
+    } finally {
+      sheet.seal()
+    }
+  }
+  render() {
+    return (
+      <Html lang="en">
+        <Head>
+          <link rel="stylesheet" href="https://eds-static.equinor.com/font/equinor-font.css" />
+          <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+          <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
+  }
+}
