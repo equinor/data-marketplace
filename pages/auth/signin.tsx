@@ -48,7 +48,7 @@ const SignIn = () => {
           <CenteredText variant="ingress">
             <FormattedMessage id="auth.signin.intro" />
           </CenteredText>
-          <StyledButton onClick={() => signIn("azure-ad", { callbackUrl: "/" })}>
+          <StyledButton onClick={() => signIn("azure-ad" /* , { callbackUrl: "/" } */)}>
             <Icon data={lock} />
             <FormattedMessage id="auth.signin.c2a" />
           </StyledButton>
