@@ -14,7 +14,10 @@
     "docker:inspect": "docker run -p 3000:3000 --env-file=web/.env.local -it data-marketplace/web /bin/sh"
   },
   "lint-staged": {
-    "*.{j,t}s?(x)": ["prettier --write", "eslint --fix"]
+    "*.{j,t}s?(x)": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   },
   "dependencies": {
     "@equinor/eds-core-react": "^0.22.0",
@@ -31,7 +34,7 @@
     "axios": "^0.27.2",
     "jsdom": "^20.0.1",
     "next": "^12.3.1",
-    "next-auth": "^4.12.2",
+    "next-auth": "^4.15.0",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
