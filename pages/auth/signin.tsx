@@ -2,6 +2,7 @@ import { Typography, Button, Icon } from "@equinor/eds-core-react"
 import { lock } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { signIn } from "next-auth/react"
+import { useRouter } from "next/router"
 import { useCallback, ReactNode } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
@@ -29,6 +30,9 @@ const StyledButton = styled(Button)`
 
 const SignIn = () => {
   const intl = useIntl()
+  const { query } = useRouter()
+
+  const callbackUrl = (query.callbackUrl as string) || "/"
 
   const FormattedLink = useCallback(
     (chunks: ReactNode[]) => (
@@ -48,7 +52,7 @@ const SignIn = () => {
           <CenteredText variant="ingress">
             <FormattedMessage id="auth.signin.intro" />
           </CenteredText>
-          <StyledButton onClick={() => signIn("azure-ad" /* , { callbackUrl: "/" } */)}>
+          <StyledButton onClick={() => signIn("azure-ad", { callbackUrl })}>
             <Icon data={lock} />
             <FormattedMessage id="auth.signin.c2a" />
           </StyledButton>
