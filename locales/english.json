@@ -5,6 +5,7 @@
   "auth.loading": "Signing you in\u2026",
   "auth.prompt": "Please sign in",
   "auth.signin.title": "Sign in to {linebreak} Data Marketplace",
+  "auth.signin.document.title": "Sign in to Data Marketplace",
   "auth.signin.intro": "In order to use Data Marketplace, you need to sign in with your Equinor account.",
   "auth.signin.first.time.visiting": "First time visiting? <a>Create an account.</a>{linebreak}When the tab has opened, you can close it again.",
   "auth.signin.c2a": "Sign in with Azure AD",
