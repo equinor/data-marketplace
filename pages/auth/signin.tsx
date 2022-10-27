@@ -43,7 +43,7 @@ const SignIn = () => {
     []
   )
   return (
-    <Page documentTitle={intl.formatMessage({ id: "auth.signin.title" })}>
+    <Page documentTitle={intl.formatMessage({ id: "auth.signin.document.title" })}>
       <Section>
         <Information>
           <CenteredText variant="h1">
