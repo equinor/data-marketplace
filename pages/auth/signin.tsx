@@ -9,6 +9,7 @@ import styled from "styled-components"
 
 import { Page } from "components/Page"
 import { Section } from "components/Section"
+import { config } from "config"
 
 const Information = styled.div`
   width: min(33ch, 90%);
@@ -36,7 +37,7 @@ const SignIn = () => {
 
   const FormattedLink = useCallback(
     (chunks: ReactNode[]) => (
-      <Typography link href="todo" target="_blank" rel="noopener noreferrer nofollow">
+      <Typography link href={config.COLLIBRA_FIRST_TIME_VISITOR} target="_blank" rel="noopener noreferrer nofollow">
         {chunks}
       </Typography>
     ),
@@ -61,7 +62,6 @@ const SignIn = () => {
               id="auth.signin.first.time.visiting"
               values={{
                 a: FormattedLink,
-                linebreak: <br />,
               }}
             />
           </CenteredText>
