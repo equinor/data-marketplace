@@ -9,6 +9,7 @@ import styled from "styled-components"
 
 import { Page } from "components/Page"
 import { Section } from "components/Section"
+import { SigninInformationDialog } from "components/SigninInformationDialog"
 import { config } from "config"
 
 const Information = styled.div`
@@ -65,6 +66,7 @@ const SignIn = () => {
               }}
             />
           </CenteredText>
+          <SigninInformationDialog />
         </Information>
       </Section>
     </Page>
