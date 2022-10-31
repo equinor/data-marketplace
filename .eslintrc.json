@@ -4,12 +4,7 @@
     "es2021": true,
     "node": true
   },
-  "extends": [
-    "plugin:react/recommended",
-    "airbnb",
-    "next",
-    "prettier"
-  ],
+  "extends": ["plugin:react/recommended", "airbnb", "next", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -18,11 +13,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
     "import/extensions": [
       "error",
@@ -43,8 +34,7 @@
     "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
     "react/require-default-props": 0,
     "semi": ["error", "never"],
-    "indent": "off",
-    "@typescript-eslint/indent": ["error", 2]
+    "indent": "off"
   },
   "overrides": [
     {

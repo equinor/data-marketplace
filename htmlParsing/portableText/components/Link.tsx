@@ -12,13 +12,14 @@ const IconLink = styled.a`
 const getIconData = (href: string) => {
   if (href.startsWith("http")) {
     return external_link
-  } if (href.startsWith("mailto")) {
+  }
+  if (href.startsWith("mailto")) {
     return email
-  } return link
+  }
+  return link
 }
 
-export const Link = ({ value, children }:
-{ value: PortableTextLink; children: React.ReactNode }) => {
+export const Link = ({ value, children }: { value: PortableTextLink; children: React.ReactNode }) => {
   const { href } = value
   // Adding this temporarily to make it easier to see internal links
   if (href.startsWith("/")) {

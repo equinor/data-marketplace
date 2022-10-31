@@ -27,7 +27,7 @@
     "@microsoft/applicationinsights-web": "^2.8.9",
     "@next/bundle-analyzer": "^12.2.5",
     "@portabletext/react": "^1.0.6",
-    "@portabletext/types": "^1.0.3",
+    "@portabletext/types": "^2.0.0",
     "@sanity/block-tools": "^2.35.0",
     "@sanity/schema": "^2.35.0",
     "applicationinsights": "^2.3.5",

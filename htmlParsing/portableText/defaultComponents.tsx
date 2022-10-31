@@ -1,7 +1,5 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import {
-  Typography, List,
-} from "@equinor/eds-core-react"
+import { Typography, List } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { PortableTextBlock } from "@portabletext/types"
 import styled from "styled-components"
@@ -62,13 +60,19 @@ export const defaultComponents = {
   marks: { link: Link },
   list: {
     bullet: ({ children }: PortableTextBlock) => (
-      <StyledList><>{children}</></StyledList>
+      <StyledList>
+        <>{children}</>
+      </StyledList>
     ),
     number: ({ children }: PortableTextBlock) => (
-      <StyledList variant="numbered"><>{children}</></StyledList>
+      <StyledList variant="numbered">
+        <>{children}</>
+      </StyledList>
     ),
   },
   listItem: ({ children }: PortableTextBlock) => (
-    <StyledItem><>{children}</></StyledItem>
+    <StyledItem>
+      <>{children}</>
+    </StyledItem>
   ),
 }

@@ -18,10 +18,12 @@ declare namespace DataMarketplace {
 
   export type Tag = Identifiable & Nameable
 
-  export type Asset = Identifiable & Nameable & Dateable & {
-    description: Optional<string> | PortableTextBlock[]
-    domain: Optional<string>
-    updateFrequency: Optional<string> | PortableTextBlock[]
-    tags: Optional<Tag[]>
-  }
+  export type Asset = Identifiable &
+    Nameable &
+    Dateable & {
+      description: Optional<string> | PortableTextBlock[]
+      domain: Optional<string>
+      updateFrequency: Optional<string> | PortableTextBlock[]
+      tags: Optional<Tag[]>
+    }
 }
