@@ -6,7 +6,7 @@ import styled from "styled-components"
 
 const { Header, Title, CustomContent, Actions } = Dialog
 
-const InformationDialog = styled(Typography)`
+const InformationDialogButton = styled(Button)`
   margin-block: ${tokens.spacings.comfortable.xxx_large};
   display: inline-block;
   text-decoration: none;
@@ -23,9 +23,9 @@ export const SigninInformationDialog = () => {
   }
   return (
     <>
-      <InformationDialog aria-haspopup="dialog" link href="#" onClick={handleOpen}>
+      <InformationDialogButton variant="ghost" onClick={handleOpen}>
         <FormattedMessage id="auth.signin.why.signin" />
-      </InformationDialog>
+      </InformationDialogButton>
       <Dialog open={isOpen} isDismissable onClose={handleClose}>
         <Header>
           <Title>{intl.formatMessage({ id: "auth.signin.why.dialog.title" })}</Title>
