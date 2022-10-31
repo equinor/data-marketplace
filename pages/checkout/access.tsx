@@ -112,7 +112,7 @@ const CheckoutAccessView: NextPage = () => {
                 onChange={onDescriptionChange}
                 value={description}
                 rows={4}
-                variant={error ? "error" : "default"}
+                variant={error ? "error" : undefined}
                 maxLength={MAX_LENGTH}
                 meta={description ? `${description && description.length}` : "0"}
                 helperText={
