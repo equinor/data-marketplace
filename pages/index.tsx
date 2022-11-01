@@ -1,16 +1,8 @@
 /* eslint-disable camelcase */
-import {
-  Card, Typography, CircularProgress, Banner, Icon,
-} from "@equinor/eds-core-react"
+import { Card, Typography, CircularProgress, Banner, Icon } from "@equinor/eds-core-react"
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import { useAppInsightsContext } from "@microsoft/applicationinsights-react-js"
-import { SeverityLevel } from "@microsoft/applicationinsights-web"
 import type { NextPage } from "next"
-import {
-  useEffect,
-  useState,
-} from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -18,7 +10,7 @@ import { Link } from "components/Link"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { Illustration } from "components/frontpage"
-import { HttpClient } from "lib/HttpClient"
+import { usePopularProducts } from "hooks"
 import { fmtNumber } from "lib/fmtNumber"
 
 const CardGrid = styled(Card)`
@@ -35,7 +27,7 @@ const SectionHeader = styled.header`
 
 const InfoIcon = styled(Banner.Icon)`
   @media screen and (max-width: 550px) {
-    display: none; 
+    display: none;
   }
 `
 
@@ -55,7 +47,7 @@ const Hero = styled.div`
   min-height: 28rem;
   align-items: center;
 
-   > * {
+  > * {
     grid-area: hero;
   }
 `
@@ -63,7 +55,7 @@ const Hero = styled.div`
 const HeroContent = styled.div`
   width: clamp(25ch, 60%, 600px);
   z-index: 1;
-  align-self: start; 
+  align-self: start;
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: ${tokens.shape.corners.borderRadius};
   padding: 0.5rem 0.5rem 0.5rem 0;
@@ -79,26 +71,11 @@ const HeroIllustration = styled(Illustration)`
 
 const Frontpage: NextPage = () => {
   const intl = useIntl()
-  const appInsights = useAppInsightsContext()
-  const [popularDataProducts, setPopularDataProducts] = useState<any[]>([])
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await HttpClient.get("/api/popular", { query: { limit: 6 } })
-        setPopularDataProducts(res.body)
-      } catch (error) {
-        if (error instanceof Error) {
-          appInsights.trackException({
-            error,
-            severityLevel: SeverityLevel.Error,
-          })
-          console.error("[Frontpage] Error while fetching most viewed data products", error)
-        }
-      }
-    })()
+  const { popularDataProducts, isLoading, error } = usePopularProducts()
 
-    return () => setPopularDataProducts([])
-  }, [])
+  if (error) {
+    console.warn("[Frontpage] Failed while fetching most viewed data products", error)
+  }
 
   return (
     <Page>
@@ -109,14 +86,14 @@ const Frontpage: NextPage = () => {
               <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
                 {intl.formatMessage({ id: "frontpage.hero.title" })}
               </Typography>
-              <Typography style={{ marginBottom: tokens.spacings.comfortable.x_large }} variant="ingress">{intl.formatMessage({ id: "frontpage.hero.ingress" })}</Typography>
+              <Typography style={{ marginBottom: tokens.spacings.comfortable.x_large }} variant="ingress">
+                {intl.formatMessage({ id: "frontpage.hero.ingress" })}
+              </Typography>
               <Banner>
                 <InfoIcon>
                   <Icon data={info_circle} />
                 </InfoIcon>
-                <Banner.Message>
-                  {intl.formatMessage({ id: "frontpage.disclaimer" })}
-                </Banner.Message>
+                <Banner.Message>{intl.formatMessage({ id: "frontpage.disclaimer" })}</Banner.Message>
               </Banner>
             </HeroContent>
             <HeroIllustration />
@@ -128,10 +105,16 @@ const Frontpage: NextPage = () => {
               <FormattedMessage id="frontpage.popularProductsHeader" />
             </Typography>
           </SectionHeader>
-          {popularDataProducts.length > 0 ? (
+          {isLoading ? (
+            <CircularProgress />
+          ) : (
             <GridContainer>
               {popularDataProducts.map((product) => (
-                <Link key={product.id} href={{ pathname: "/assets/[id]", query: { id: product.id } }} title={product.name}>
+                <Link
+                  key={product.id}
+                  href={{ pathname: "/assets/[id]", query: { id: product.id } }}
+                  title={product.name}
+                >
                   <CardGrid elevation="raised">
                     <Card.Header>
                       <Card.HeaderTitle>
@@ -153,7 +136,7 @@ const Frontpage: NextPage = () => {
                 </Link>
               ))}
             </GridContainer>
-          ) : <CircularProgress />}
+          )}
         </Section>
       </main>
     </Page>
