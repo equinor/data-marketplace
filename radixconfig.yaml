@@ -19,10 +19,10 @@ spec:
           resources:
             requests:
               memory: 256Mi
-              cpu: 100m
+              cpu: 1000m
             limits:
               memory: 256Mi
-              cpu: 100m
+              cpu: 1000m
           variables:
             BASE_URL: https://web-data-marketplace-test.radix.equinor.com/
             AUTH_SCOPE: https://equinor-test.collibra.com/user_impersonation
