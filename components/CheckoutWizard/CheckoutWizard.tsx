@@ -1,9 +1,7 @@
 import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { useRouter } from "next/router"
-import {
-  FunctionComponent, useEffect, PropsWithChildren, useState,
-} from "react"
+import { FunctionComponent, useEffect, PropsWithChildren, useState } from "react"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -15,7 +13,7 @@ import type { CheckoutSteps } from "./types"
 import { useCheckoutData } from "hooks/useCheckoutData"
 
 const CheckoutNavContainer = styled.div`
-  margin-block: ${tokens.spacings.comfortable.x_large} ${tokens.spacings.comfortable.xxx_large}  ;
+  margin-block: ${tokens.spacings.comfortable.x_large} ${tokens.spacings.comfortable.xxx_large};
 `
 
 const Heading = styled.div`
@@ -25,7 +23,7 @@ const Heading = styled.div`
 const ContentContainer = styled.div`
   width: 50%;
 `
-const steps: CheckoutSteps[] = ["terms", "access", "redirect"]
+const steps: CheckoutSteps[] = ["terms", "redirect"]
 
 type Props = PropsWithChildren & {
   assetName?: string | null
@@ -72,7 +70,9 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
       {assetName && (
         <Heading>
           <Typography variant="h1">
-            <Typography variant="overline" as="div">{intl.formatMessage({ id: "checkout.title.eyebrow" })}</Typography>
+            <Typography variant="overline" as="div">
+              {intl.formatMessage({ id: "checkout.title.eyebrow" })}
+            </Typography>
             {assetName}
           </Typography>
         </Heading>
@@ -80,9 +80,7 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
       <CheckoutNavContainer>
         <Stepper currentStep={currentStep} />
       </CheckoutNavContainer>
-      <ContentContainer>
-        {children}
-      </ContentContainer>
+      <ContentContainer>{children}</ContentContainer>
     </Section>
   )
 }
