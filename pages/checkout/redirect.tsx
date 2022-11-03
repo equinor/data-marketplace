@@ -7,18 +7,22 @@ import type { NextPage, GetServerSideProps } from "next/types"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { CheckoutWizard, NoAsset, formatCheckoutTitle } from "components/CheckoutWizard"
+import { CheckoutWizard, NoAsset, CancelButton, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Page } from "components/Page"
 import { config } from "config"
-import { useCheckoutData } from "hooks"
 import { ClientError, ERR_CODES, ExternalError } from "lib/errors"
 import { __Error__ } from "lib/errors/__Error__"
 import { Asset } from "model/Asset"
 import { makeCollibraService } from "services"
 import { getAssetByID, getRightsToUse } from "services/collibra"
 
-const StyledButton = styled(Button)`
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
   margin-top: ${tokens.spacings.comfortable.x_large};
+  > *:not(:last-child) {
+    margin-right: 1rem;
+  }
 `
 
 type Props = {
@@ -29,9 +33,8 @@ type Props = {
   }
 }
 
-const CheckoutRedirectView: NextPage<Props> = ({ authorizationUrl }) => {
+const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
   const intl = useIntl()
-  const { checkoutData } = useCheckoutData()
 
   const checkoutUrl = authorizationUrl?.value || config.ACCESSIT_BASE_URL
 
@@ -43,16 +46,19 @@ const CheckoutRedirectView: NextPage<Props> = ({ authorizationUrl }) => {
       )}
     >
       <main>
-        <CheckoutWizard assetName={checkoutData.asset?.name}>
-          {!checkoutData.asset ? (
+        <CheckoutWizard assetName={asset?.name}>
+          {!asset ? (
             <NoAsset />
           ) : (
             <>
               <Typography variant="ingress">{intl.formatMessage({ id: "checkout.redirect.headline" })}</Typography>
-              <StyledButton link href={checkoutUrl} target="_blank" rel="noopener noreferrer nofollow">
-                {intl.formatMessage({ id: "checkout.redirect.button.text" })}
-                <Icon data={external_link} />
-              </StyledButton>
+              <ButtonContainer>
+                <CancelButton assetId={asset?.id} />
+                <Button link href={checkoutUrl} target="_blank" rel="noopener noreferrer nofollow">
+                  {intl.formatMessage({ id: "checkout.redirect.button.text" })}
+                  <Icon data={external_link} />
+                </Button>
+              </ButtonContainer>
             </>
           )}
         </CheckoutWizard>
