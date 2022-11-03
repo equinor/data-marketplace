@@ -4,7 +4,7 @@ import { external_link } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { getToken } from "next-auth/jwt"
 import type { NextPage, GetServerSideProps } from "next/types"
-import { useIntl } from "react-intl"
+import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
 import { CheckoutWizard, NoAsset, CancelButton, formatCheckoutTitle } from "components/CheckoutWizard"
@@ -33,10 +33,21 @@ type Props = {
   }
 }
 
+const getAccessitTitle = (url: string | undefined) => {
+  const fallbackText = "[Missing title]"
+  if (!url) return fallbackText
+
+  const params = new URL(url).searchParams
+  const term = params.get("term")
+
+  return (term && decodeURI(term).replaceAll(/\+/g, " ")) || fallbackText
+}
+
 const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
   const intl = useIntl()
 
   const checkoutUrl = authorizationUrl?.value || config.ACCESSIT_BASE_URL
+  const accessitTitle = getAccessitTitle(authorizationUrl?.value)
 
   return (
     <Page
@@ -52,10 +63,18 @@ const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
           ) : (
             <>
               <Typography variant="ingress">{intl.formatMessage({ id: "checkout.redirect.headline" })}</Typography>
+              <Typography style={{ marginTop: tokens.spacings.comfortable.x_large }} variant="ingress">
+                <FormattedMessage
+                  id="checkout.redirect.accessit.guidance"
+                  values={{
+                    accessitTitle: <b>{accessitTitle}</b>,
+                  }}
+                />
+              </Typography>
               <ButtonContainer>
                 <CancelButton assetId={asset?.id} />
                 <Button link href={checkoutUrl} target="_blank" rel="noopener noreferrer nofollow">
-                  {intl.formatMessage({ id: "checkout.redirect.button.text" })}
+                  <FormattedMessage id="checkout.redirect.button.text" />
                   <Icon data={external_link} />
                 </Button>
               </ButtonContainer>
