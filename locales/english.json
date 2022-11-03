@@ -54,7 +54,7 @@
   "checkout.redirect.progess.arialabel": "Redirecting to AccessIT",
   "checkout.redirect.collibraWorkflowError": "Failed communicating your request to Collibra",
   "checkout.no.asset": "In order to checkout, you must first select an asset",
-  "checkout.nav.step.terms": "Terms and conditions",
+  "checkout.nav.step.terms": "Accept Terms and conditions",
   "checkout.nav.step.access": "Request access",
   "checkout.nav.step.redirect": "Redirect to AccessIT",
   "checkout.title.eyebrow": "Request access to",
