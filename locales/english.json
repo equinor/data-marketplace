@@ -46,6 +46,7 @@
   "terms.error.E1002.bannerMessage": "Unfortunately, we were unable to get the Terms and Conditions for this data product from Collibra.",
   "terms.error.E1002.additional": "Because accepting Terms and Conditions is a requirement to get access to a data product, we are unable to let you proceed with the checkout.",
   "checkout.redirect.headline": "Checkout is handled by AccessIT.",
+  "checkout.redirect.accessit.guidance": "Request access by adding this data product to your cart and check out: {accessitTitle}",
   "checkout.redirect.button.text": "OK, take me to AccessIT",
   "checkout.redirect.collibraWorkflowError": "Failed communicating your request to Collibra",
   "checkout.no.asset": "In order to checkout, you must first select an asset",
