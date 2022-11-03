@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Button, Icon, Typography, Tabs } from "@equinor/eds-core-react"
-import { shopping_cart_add } from "@equinor/eds-icons"
+import { add } from "@equinor/eds-icons"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import NextLink from "next/link"
@@ -110,7 +110,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
               passHref
             >
               <Button as="a">
-                <Icon data={shopping_cart_add} />
+                <Icon data={add} />
                 <FormattedMessage id="asset.getAccess" />
               </Button>
             </NextLink>
@@ -175,6 +175,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     const updateFrequency = attributes.find((attr) => attr.type.name.toLowerCase() === "timeliness")?.value ?? null
 
     asset.description = getPortableText(description)
+
     asset.updateFrequency = getPortableText(updateFrequency)
 
     let responsibilities = await makeCollibraServiceRequest(getAssetResponsibilities)(id)
