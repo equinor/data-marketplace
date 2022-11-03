@@ -92,11 +92,6 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
   const onAcceptTerms = () => {
     setCheckoutData({
       ...checkoutData,
-      asset: {
-        ...(checkoutData.asset ?? {}),
-        id: asset?.id ?? "",
-        name: asset?.name ?? "",
-      },
       terms: { ...checkoutData.terms, termsAccepted: !hasAcceptedTerms },
     })
   }

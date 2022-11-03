@@ -1,12 +1,8 @@
 import useLocalStorageState from "use-local-storage-state"
 
 type CheckoutData = {
-  asset?: Pick<Collibra.Asset, "id"|"name">
   terms?: {
-    termsAccepted:boolean
-  }
-  access?: {
-    description: string
+    termsAccepted: boolean
   }
 }
 
