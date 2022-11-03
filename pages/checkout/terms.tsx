@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Banner, Button, Checkbox, Icon, Typography } from "@equinor/eds-core-react"
-import { warning_filled } from "@equinor/eds-icons"
+import { warning_filled, chevron_right } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { PortableText } from "@portabletext/react"
 import { PortableTextBlock } from "@portabletext/types"
@@ -141,7 +141,10 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
               </CheckboxContainer>
               <ButtonContainer>
                 <CancelButton assetId={asset?.id} />
-                <Button onClick={onContinue}>{intl.formatMessage({ id: "common.continue" })}</Button>
+                <Button onClick={onContinue}>
+                  {intl.formatMessage({ id: "common.continue" })}
+                  <Icon data={chevron_right} />
+                </Button>
               </ButtonContainer>
             </>
           )}
