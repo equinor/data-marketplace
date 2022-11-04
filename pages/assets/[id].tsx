@@ -109,7 +109,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
               }}
               passHref
             >
-              <Button as="a">
+              <Button as="span">
                 <Icon data={add} />
                 <FormattedMessage id="asset.getAccess" />
               </Button>

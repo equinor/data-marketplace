@@ -63,8 +63,8 @@ export const NavBar = () => {
       <EDSTopBar>
         <TopBar.Header>
           <NextLink href="/" passHref>
-            <Button as="a" variant="ghost" color="secondary">
-              <Typography>
+            <Button as="span" variant="ghost" color="secondary">
+              <Typography as="span">
                 <FormattedMessage id="navbar.logo" />
               </Typography>
             </Button>

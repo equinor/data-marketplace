@@ -10,7 +10,7 @@ export const CancelButton: FunctionComponent<AssetIdProp> = ({ assetId }) => {
 
   return (
     <Link href={{ pathname: "/assets/[id]", query: { id: assetId } }} passHref>
-      <Button variant="outlined" color="secondary" as="a">
+      <Button variant="outlined" color="secondary" as="span">
         {intl.formatMessage({ id: "common.cancel" })}
       </Button>
     </Link>

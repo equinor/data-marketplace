@@ -12,13 +12,13 @@ const PageWrapper = styled.div`
   flex-direction: column;
   &:has(.background-highlight:last-child) {
     background-color: var(--highlight-colour);
-  } 
+  }
 `
 
 type Props = {
   children: ReactNode
   documentTitle?: string
-};
+}
 
 export const Page: FunctionComponent<Props> = ({ documentTitle, children }) => {
   const intl = useIntl()
@@ -26,9 +26,7 @@ export const Page: FunctionComponent<Props> = ({ documentTitle, children }) => {
   return (
     <PageWrapper>
       <Head>
-        <title>
-          {documentTitle || intl.formatMessage({ id: "common.documentTitle" })}
-        </title>
+        <title>{documentTitle || intl.formatMessage({ id: "common.documentTitle" })}</title>
       </Head>
       <NavBar />
 
