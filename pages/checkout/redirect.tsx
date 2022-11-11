@@ -51,7 +51,6 @@ const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
   const accessitTitle = getAccessitTitle(authorizationUrl?.value)
 
   const onAccessItRedirectClick = () => {
-    console.log("clicked")
     appInsights.trackEvent({
       name: "Access IT redirect click",
       properties: { checkoutUrl, assetId: asset?.id, assetName: asset?.name },
