@@ -7,6 +7,7 @@ import type { NextPage, GetServerSideProps } from "next/types"
 import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
+import { appInsights } from "appInsights"
 import { CheckoutWizard, NoAsset, CancelButton, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Page } from "components/Page"
 import { config } from "config"
@@ -49,6 +50,13 @@ const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
   const checkoutUrl = authorizationUrl?.value || config.ACCESSIT_BASE_URL
   const accessitTitle = getAccessitTitle(authorizationUrl?.value)
 
+  const onAccessItRedirectClick = () => {
+    appInsights.trackEvent({
+      name: "Access IT redirect click",
+      properties: { checkoutUrl, assetId: asset?.id, assetName: asset?.displayName },
+    })
+  }
+
   return (
     <Page
       documentTitle={formatCheckoutTitle(
@@ -73,7 +81,13 @@ const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
               </Typography>
               <ButtonContainer>
                 <CancelButton assetId={asset?.id} />
-                <Button link href={checkoutUrl} target="_blank" rel="noopener noreferrer nofollow">
+                <Button
+                  link
+                  href={checkoutUrl}
+                  onClick={onAccessItRedirectClick}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                >
                   <FormattedMessage id="checkout.redirect.button.text" />
                   <Icon data={external_link} />
                 </Button>
