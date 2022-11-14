@@ -73,7 +73,7 @@ jobs:
         run: |
           npm run build
         env:
-          NEXT_PUBLIC_COLLIBRA_BASE_URL: ${{ secrets.NEXT_PUBLIC_COLLIBRA_BASE_URL }}
+          COLLIBRA_BASE_URL: ${{ secrets.COLLIBRA_BASE_URL }}
       - name: log-errors-to-slack
         uses: act10ns/slack@v1
         with:

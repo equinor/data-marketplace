@@ -6,7 +6,7 @@ RUN npm ci
 
 FROM node:lts-alpine AS builder
 WORKDIR /opt/app
-ENV NEXT_PUBLIC_COLLIBRA_BASE_URL https://equinor-test.collibra.com/rest/2.0
+ENV COLLIBRA_BASE_URL https://equinor-test.collibra.com/rest/2.0
 ENV NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRING InstrumentationKey=e4d53b02-e08f-45e0-8632-7a066b44bc4f;IngestionEndpoint=https://northeurope-2.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
 ENV NEXT_PUBLIC_COLLIBRA_FIRST_TIME_VISITOR https://equinor-test.collibra.com
 

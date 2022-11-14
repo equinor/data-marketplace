@@ -24,7 +24,7 @@ const nextConfig = {
   rewrites: async () => [
     {
       source: "/api/collibra/:path*",
-      destination: `${getEnvironmentVariable("NEXT_PUBLIC_COLLIBRA_BASE_URL")}/:path*`,
+      destination: `${getEnvironmentVariable("COLLIBRA_BASE_URL")}/:path*`,
     },
   ],
 }
