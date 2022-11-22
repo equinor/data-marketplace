@@ -1,0 +1,31 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: env-vars-list
+spec:
+  params:
+    - name: NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRINGT
+    - name: NEXT_PUBLIC_COLLIBRA_FIRST_TIME_VISITORT
+    - name: BASE_URLT
+    - name: AUTH_SCOPET
+      default:
+        type: string
+        stringVal: https://equinor-test.collibra.com/user_impersonation
+    - name: COLLIBRA_BASE_URLT
+  steps:
+    - name: show-env-vars-list
+      image: alpine
+      env:
+        - name: VAR1example
+          value: $(params.NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRINGT)
+        - name: VAR2example
+          value: $(params.NEXT_PUBLIC_COLLIBRA_FIRST_TIME_VISITORT)
+        - name: VAR3example
+          value: $(params.BASE_URLT)
+        - name: VAR4example
+          value: $(params.AUTH_SCOPET)
+        - name: VAR5example
+          value: $(params.COLLIBRA_BASE_URLT)
+      script: |
+        #!/usr/bin/env sh
+        printenv | grep 'VAR'
