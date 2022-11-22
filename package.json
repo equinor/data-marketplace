@@ -30,7 +30,7 @@
     "@portabletext/types": "^2.0.0",
     "@sanity/block-tools": "^2.35.0",
     "@sanity/schema": "^2.35.0",
-    "applicationinsights": "^2.3.5",
+    "applicationinsights": "^2.3.6",
     "axios": "^0.27.2",
     "dotenv": "^16.0.3",
     "jsdom": "^20.0.2",
