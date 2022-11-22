@@ -32,3 +32,5 @@ tasks:
         value:
           type: string
           stringVal: $(params.COLLIBRA_BASE_URL)
+    taskRef:
+      name: env-vars-list
