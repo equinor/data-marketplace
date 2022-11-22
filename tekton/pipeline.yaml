@@ -1,0 +1,34 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-data-marketplace
+spec:
+  params:
+    - name: NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRING
+    - name: NEXT_PUBLIC_COLLIBRA_FIRST_TIME_VISITOR
+    - name: BASE_URL
+    - name: AUTH_SCOPE
+    - name: COLLIBRA_BASE_URL
+tasks:
+  - name: show-env-vars
+    params:
+      - name: NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRINGT
+        value:
+          type: string
+          stringVal: $(params.NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRING)
+      - name: NEXT_PUBLIC_COLLIBRA_FIRST_TIME_VISITORT
+        value:
+          type: string
+          stringVal: $(params.NEXT_PUBLIC_COLLIBRA_FIRST_TIME_VISITOR)
+      - name: BASE_URLT
+        value:
+          type: string
+          stringVal: $(params.BASE_URL)
+      - name: AUTH_SCOPET
+        value:
+          type: string
+          stringVal: $(params.AUTH_SCOPE)
+      - name: COLLIBRA_BASE_URLT
+        value:
+          type: string
+          stringVal: $(params.COLLIBRA_BASE_URL)
