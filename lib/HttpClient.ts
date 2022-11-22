@@ -8,16 +8,7 @@ type HttpClientConfig = {
   headers?: Record<string, any>
 }
 
-type HttpMethod = "GET"
-| "DELETE"
-| "HEAD"
-| "OPTIONS"
-| "POST"
-| "PUT"
-| "PATCH"
-| "PURGE"
-| "LINK"
-| "UNLINK"
+type HttpMethod = "GET" | "DELETE" | "HEAD" | "OPTIONS" | "POST" | "PUT" | "PATCH" | "PURGE" | "LINK" | "UNLINK"
 
 interface HttpResponse<T> {
   statusCode: number
@@ -29,7 +20,7 @@ interface HttpResponse<T> {
 type HttpRequestConfig = {
   query?: Record<string, any>
   body?: any
-  method?: HttpMethod,
+  method?: HttpMethod
   headers?: Record<string, any>
 }
 
@@ -40,10 +31,7 @@ export class __HttpClient__ {
     this.client = axios.create(cfg)
   }
 
-  private async request<T>(
-    url: string,
-    config: HttpRequestConfig,
-  ): Promise<HttpResponse<T>> {
+  private async request<T>(url: string, config: HttpRequestConfig): Promise<HttpResponse<T>> {
     try {
       const res = await this.client.request({
         data: config.body,
@@ -63,41 +51,30 @@ export class __HttpClient__ {
     } catch (error) {
       const err = error as AxiosError
 
-      console.log(`${err.config.method?.toUpperCase()} request to ${err.config.baseURL}${err.config.url} failed: ${err.response?.status} (${err.response?.statusText})`)
-      throw new HttpError(
-        err.message,
-        err.response!.status,
-        err.response!.headers,
-        err.response!.data,
-      )
+      if (err.isAxiosError) {
+        throw new HttpError(err.message, err.response!.status ?? 500, err.response!.headers ?? {}, err.response!.data)
+      }
+
+      throw err
     }
   }
 
   public async get<T = any>(
     url: string,
-    config?: Omit<HttpRequestConfig, "method" | "body">,
+    config?: Omit<HttpRequestConfig, "method" | "body">
   ): Promise<HttpResponse<T>> {
     return this.request(url, { ...config, method: "GET" })
   }
 
-  public async post<T = any>(
-    url: string,
-    config?: Omit<HttpRequestConfig, "method">,
-  ): Promise<HttpResponse<T>> {
+  public async post<T = any>(url: string, config?: Omit<HttpRequestConfig, "method">): Promise<HttpResponse<T>> {
     return this.request(url, { ...config, method: "POST" })
   }
 
-  public async patch<T = any>(
-    url: string,
-    config?: Omit<HttpRequestConfig, "method">,
-  ): Promise<HttpResponse<T>> {
+  public async patch<T = any>(url: string, config?: Omit<HttpRequestConfig, "method">): Promise<HttpResponse<T>> {
     return this.request(url, { ...config, method: "PATCH" })
   }
 
-  public async delete<T = any>(
-    url: string,
-    config?: Omit<HttpRequestConfig, "method">,
-  ): Promise<HttpResponse<T>> {
+  public async delete<T = any>(url: string, config?: Omit<HttpRequestConfig, "method">): Promise<HttpResponse<T>> {
     return this.request(url, { ...config, method: "DELETE" })
   }
 }
