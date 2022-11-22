@@ -11,7 +11,7 @@
     "prepare": "husky install",
     "docker:build": "docker build -t data-marketplace/web -f Dockerfile .",
     "docker:run": "docker run -p 3000:3000 --env-file=.env.local data-marketplace/web",
-    "docker:inspect": "docker run -p 3000:3000 --env-file=web/.env.local -it data-marketplace/web /bin/sh"
+    "docker:inspect": "docker run -p 3000:3000 --env-file=.env.local -it data-marketplace/web /bin/sh"
   },
   "lint-staged": {
     "*.{j,t}s?(x)": [
