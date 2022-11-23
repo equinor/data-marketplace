@@ -1,16 +1,5 @@
 import withBundleAnalyzer from "@next/bundle-analyzer"
 
-const getEnvironmentVariable = (environmentVariable) => {
-  const unvalidatedEnvironmentVariable = process.env[environmentVariable]
-  if (!unvalidatedEnvironmentVariable) {
-    throw new Error(
-      `Couldn't find environment variable: ${environmentVariable}`,
-    )
-  } else {
-    return unvalidatedEnvironmentVariable
-  }
-}
-
 const withBundle = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 })
@@ -21,12 +10,6 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  rewrites: async () => [
-    {
-      source: "/api/collibra/:path*",
-      destination: `${getEnvironmentVariable("COLLIBRA_BASE_URL")}/:path*`,
-    },
-  ],
 }
 
 export default withBundle(nextConfig)
