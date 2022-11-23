@@ -47,7 +47,7 @@ const getAccessitTitle = (url: string | undefined) => {
 const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
   const intl = useIntl()
 
-  const checkoutUrl = authorizationUrl?.value || config.ACCESSIT_BASE_URL
+  const checkoutUrl = authorizationUrl?.value || (config.ACCESSIT_BASE_URL as string)
   const accessitTitle = getAccessitTitle(authorizationUrl?.value)
 
   const onAccessItRedirectClick = () => {

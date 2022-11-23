@@ -1,4 +1,6 @@
-export const config = Object.freeze({
+type ConfigType = { [key: string]: string | boolean }
+
+export const config: ConfigType = {
   BASE_URL: process.env.BASE_URL ?? "http://localhost:3000",
   COLLIBRA_BASE_URL: process.env.COLLIBRA_BASE_URL ?? "",
   INSIGHTS_CONNECTION_STRING: process.env.NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRING ?? "",
@@ -12,4 +14,4 @@ export const config = Object.freeze({
   ACCESSIT_BASE_URL: "https://accessit.equinor.com",
 
   PREVENT_COLLIBRA_WORKFLOW: process.env.NEXT_PUBLIC_PREVENT_COLLIBRA_WORKFLOW === "true",
-})
+}

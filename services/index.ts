@@ -7,18 +7,16 @@ export type ServiceRequester<T> = (client: __HttpClient__) => (...v: any) => Pro
 
 type Headers = Record<string, OutgoingHttpHeader>
 
-const makeService = (baseURL: string) => (defaultHeaders?: Headers) => (
-  (headers?: Headers) => {
-    const client = new __HttpClient__({
-      baseURL,
-      headers: {
-        ...defaultHeaders,
-        ...(headers || {}),
-      },
-    })
+const makeService = (baseURL: string) => (defaultHeaders?: Headers) => (headers?: Headers) => {
+  const client = new __HttpClient__({
+    baseURL,
+    headers: {
+      ...defaultHeaders,
+      ...(headers || {}),
+    },
+  })
 
-    return <T>(request: ServiceRequester<T>) => request(client)
-  }
-)
+  return <T>(request: ServiceRequester<T>) => request(client)
+}
 
-export const makeCollibraService = makeService(config.COLLIBRA_BASE_URL)({ accept: "application/json" })
+export const makeCollibraService = makeService(config.COLLIBRA_BASE_URL as string)({ accept: "application/json" })

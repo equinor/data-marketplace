@@ -30,11 +30,11 @@ export const attemptAccessTokenRefresh = async (token: Token) => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
-        client_id: config.AUTH_CLIENT_ID,
-        scope: `openid offline_access ${config.AUTH_SCOPE}`,
-        redirect_uri: `${config.BASE_URL}/api/auth/callback/azure-ad`,
+        client_id: config.AUTH_CLIENT_ID as string,
+        scope: `openid offline_access ${config.AUTH_SCOPE as string}`,
+        redirect_uri: `${config.BASE_URL as string}/api/auth/callback/azure-ad`,
         grant_type: "refresh_token",
-        client_secret: config.AUTH_CLIENT_SECRET,
+        client_secret: config.AUTH_CLIENT_SECRET as string,
         refresh_token: token.refreshToken,
       }),
     }

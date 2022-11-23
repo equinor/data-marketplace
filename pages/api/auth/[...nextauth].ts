@@ -8,9 +8,9 @@ const SCOPE = `openid offline_access ${config.AUTH_SCOPE}`
 export default NextAuth({
   providers: [
     ADProvider({
-      clientId: config.AUTH_CLIENT_ID,
-      clientSecret: config.AUTH_CLIENT_SECRET,
-      tenantId: config.AUTH_TENANT_ID,
+      clientId: config.AUTH_CLIENT_ID as string,
+      clientSecret: config.AUTH_CLIENT_SECRET as string,
+      tenantId: config.AUTH_TENANT_ID as string,
       authorization: {
         params: {
           scope: SCOPE,
