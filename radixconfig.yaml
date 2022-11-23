@@ -10,18 +10,7 @@ spec:
     - name: test
       build:
         from: main
-        variables:
-          BASE_URL: https://web-data-marketplace-test.radix.equinor.com/
-          AUTH_SCOPE: https://equinor-test.collibra.com/user_impersonation
-          COLLIBRA_BASE_URL: https://equinor-test.collibra.com/rest/2.0
-          NEXT_PUBLIC_COLLIBRA_FIRST_TIME_VISITOR: https://equinor-test.collibra.com
     - name: prod
-      build:
-        variables:
-          BASE_URL: https://web-data-marketplace-prod.radix.equinor.com
-          AUTH_SCOPE: https://equinor-prod.collibra.com/user_impersonation
-          COLLIBRA_BASE_URL: https://equinor-prod.collibra.com/rest/2.0
-          NEXT_PUBLIC_COLLIBRA_FIRST_TIME_VISITOR: https://equinor-prod.collibra.com
   components:
     - name: web
       publicPort: http
