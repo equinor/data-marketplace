@@ -10,6 +10,13 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  serverRuntimeConfig: {
+    myRuntimeEnv: process.env.COLLIBRA_BASE_URL, // Pass through env variables
+  },
+  publicRuntimeConfig: {
+    // Will be available on both server and client
+    publicRuntimeEnv: process.env.COLLIBRA_BASE_URL,
+  },
 }
 
 export default withBundle(nextConfig)

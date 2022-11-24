@@ -1,7 +1,11 @@
 import { ReactPlugin } from "@microsoft/applicationinsights-react-js"
 import { ApplicationInsights } from "@microsoft/applicationinsights-web"
+import getConfig from "next/config"
 
 import { config } from "config"
+
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+
 // import { HttpClient } from "lib/HttpClient"
 
 const env = process.env.NODE_ENV
@@ -15,6 +19,8 @@ if (typeof window !== "undefined") {
   const connectionString = await HttpClient.get("/api/configsettings/insights_connection_string")
   return connectionString
 } */
+console.log("************** server config ****************", serverRuntimeConfig.myRuntimeEnv)
+console.log("************** public config ****************", publicRuntimeConfig.publicRuntimeEnv)
 
 const reactPlugin = new ReactPlugin()
 
