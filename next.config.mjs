@@ -10,10 +10,6 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  serverRuntimeConfig: {
-    firstTimeVisitor: process.env.COLLIBRA_FIRST_TIME_VISITOR,
-    test: "hei",
-  },
 }
 
 export default withBundle(nextConfig)

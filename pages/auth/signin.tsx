@@ -2,7 +2,6 @@ import { Typography, Button, Icon } from "@equinor/eds-core-react"
 import { lock } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { signIn } from "next-auth/react"
-import getConfig from "next/config"
 import { useRouter } from "next/router"
 import type { NextPage, GetServerSideProps } from "next/types"
 import { useCallback, ReactNode } from "react"
@@ -12,8 +11,6 @@ import styled from "styled-components"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { SigninInformationDialog } from "components/SigninInformationDialog"
-
-const { serverRuntimeConfig } = getConfig()
 
 const Information = styled.div`
   width: min(33ch, 90%);
@@ -35,13 +32,11 @@ const StyledButton = styled(Button)`
 
 type Props = {
   firstTimeVisitor: string
-  test: string
 }
 
-const SignIn: NextPage<Props> = ({ firstTimeVisitor, test }) => {
+const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
   const intl = useIntl()
   const { query } = useRouter()
-  console.log("First time user", firstTimeVisitor, serverRuntimeConfig.firstTimeVisitor, process.env, test)
 
   const callbackUrl = (query.callbackUrl as string) || "/"
 
@@ -82,14 +77,12 @@ const SignIn: NextPage<Props> = ({ firstTimeVisitor, test }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  console.log("server runtime config", serverRuntimeConfig.firstTimeVisitor, serverRuntimeConfig)
-  return {
-    props: {
-      firstTimeVisitor: serverRuntimeConfig.firstTimeVisitor,
-      test: process.env.COLLIBRA_FIRST_TIME_VISITOR,
-    },
-  }
-}
+export const getServerSideProps: GetServerSideProps = async () => ({
+  props: {
+    // This is not a secret, it's just an environment specific value.
+    // It doesn't matter if we expose it to the client
+    firstTimeVisitor: process.env.COLLIBRA_FIRST_TIME_VISITOR || "",
+  },
+})
 
 export default SignIn
