@@ -1,8 +1,6 @@
 import { ReactPlugin } from "@microsoft/applicationinsights-react-js"
 import { ApplicationInsights } from "@microsoft/applicationinsights-web"
 
-import { config } from "config"
-
 // import { HttpClient } from "lib/HttpClient"
 
 const env = process.env.NODE_ENV
@@ -18,17 +16,25 @@ if (typeof window !== "undefined") {
   return connectionString
 } */
 
+const getConnectionString = (hostname: string) => {
+  if (hostname.includes("datamarketplace.equinor.com")) {
+    return "InstrumentationKey=e4d53b02-e08f-45e0-8632-7a066b44bc4f;IngestionEndpoint=https://northeurope-2.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
+  }
+  return "InstrumentationKey=a8e5931e-ee21-4caf-accc-e1a49ed1a166;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
+}
+
 const reactPlugin = new ReactPlugin()
-
-const appInsights = new ApplicationInsights({
-  config: {
-    connectionString: config.INSIGHTS_CONNECTION_STRING as string, // getConnectionString()
-    extensions: [reactPlugin],
-    enableAutoRouteTracking: true,
-  },
-})
-
+// eslint-disable-next-line import/no-mutable-exports
+let appInsights: ApplicationInsights
 if (typeof window !== "undefined" && env === "production") {
+  appInsights = new ApplicationInsights({
+    config: {
+      connectionString: getConnectionString(window.location.hostname), // getConnectionString()
+      extensions: [reactPlugin],
+      enableAutoRouteTracking: true,
+    },
+  })
+
   appInsights.loadAppInsights()
 }
 
