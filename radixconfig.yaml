@@ -3,9 +3,6 @@ kind: RadixApplication
 metadata:
   name: data-marketplace
 spec:
-  build:
-    variables:
-      NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=e4d53b02-e08f-45e0-8632-7a066b44bc4f;IngestionEndpoint=https://northeurope-2.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
   environments:
     - name: test
       build:
@@ -31,6 +28,7 @@ spec:
             AUTH_SCOPE: https://equinor.collibra.com/user_impersonation
             COLLIBRA_BASE_URL: https://equinor.collibra.com/rest/2.0
             COLLIBRA_FIRST_TIME_VISITOR: https://equinor.collibra.com
+            APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=e4d53b02-e08f-45e0-8632-7a066b44bc4f;IngestionEndpoint=https://northeurope-2.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
         - environment: test
           resources:
             requests:
@@ -44,6 +42,7 @@ spec:
             AUTH_SCOPE: https://equinor-test.collibra.com/user_impersonation
             COLLIBRA_BASE_URL: https://equinor-test.collibra.com/rest/2.0
             COLLIBRA_FIRST_TIME_VISITOR: https://equinor-test.collibra.com
+            APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=a8e5931e-ee21-4caf-accc-e1a49ed1a166;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
       secrets:
         - AUTH_CLIENT_ID
         - AUTH_CLIENT_SECRET

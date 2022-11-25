@@ -3,7 +3,7 @@ type ConfigType = { [key: string]: string | boolean }
 export const config: ConfigType = {
   BASE_URL: process.env.BASE_URL ?? "http://localhost:3000",
   COLLIBRA_BASE_URL: process.env.COLLIBRA_BASE_URL ?? "",
-  INSIGHTS_CONNECTION_STRING: process.env.NEXT_PUBLIC_APP_INSIGHTS_CONNECTION_STRING ?? "",
+  INSIGHTS_CONNECTION_STRING: process.env.APP_INSIGHTS_CONNECTION_STRING ?? "",
 
   /* Auth config */
   AUTH_CLIENT_ID: process.env.AUTH_CLIENT_ID ?? "",
