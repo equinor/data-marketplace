@@ -1,7 +1,7 @@
 import { ReactPlugin } from "@microsoft/applicationinsights-react-js"
 import { ApplicationInsights } from "@microsoft/applicationinsights-web"
 
-/* import { config } from "config" */
+import { config } from "config"
 
 // import { HttpClient } from "lib/HttpClient"
 
@@ -22,7 +22,7 @@ const reactPlugin = new ReactPlugin()
 
 const appInsights = new ApplicationInsights({
   config: {
-    connectionString: process.env.INSIGHTS_CONNECTION_STRING as string, // getConnectionString()
+    connectionString: config.INSIGHTS_CONNECTION_STRING as string, // getConnectionString()
     extensions: [reactPlugin],
     enableAutoRouteTracking: true,
   },
