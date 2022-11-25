@@ -10,9 +10,6 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  publicRuntimeConfig: {
-    MY_VAR: process.env.APP_INSIGHTS_CONNECTION_STRING,
-  },
 }
 
 export default withBundle(nextConfig)

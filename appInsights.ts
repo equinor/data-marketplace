@@ -1,8 +1,7 @@
 import { ReactPlugin } from "@microsoft/applicationinsights-react-js"
 import { ApplicationInsights } from "@microsoft/applicationinsights-web"
-import getConfig from "next/config"
 
-/* import { config } from "config" */
+import { config } from "config"
 
 // import { HttpClient } from "lib/HttpClient"
 
@@ -19,14 +18,11 @@ if (typeof window !== "undefined") {
   return connectionString
 } */
 
-const { publicRuntimeConfig } = getConfig()
-console.log("The environtment var", publicRuntimeConfig.MY_VAR)
-
 const reactPlugin = new ReactPlugin()
 
 const appInsights = new ApplicationInsights({
   config: {
-    connectionString: publicRuntimeConfig.MY_VAR as string, // getConnectionString()
+    connectionString: config.INSIGHTS_CONNECTION_STRING as string, // getConnectionString()
     extensions: [reactPlugin],
     enableAutoRouteTracking: true,
   },
