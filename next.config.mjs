@@ -11,7 +11,7 @@ const nextConfig = {
     styledComponents: true,
   },
   serverRuntimeConfig: {
-    firstTimeUser: process.env.COLLIBRA_FIRST_TIME_VISITOR,
+    firstTimeVisitor: process.env.COLLIBRA_FIRST_TIME_VISITOR,
   },
 }
 
