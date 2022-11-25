@@ -30,7 +30,7 @@ spec:
             BASE_URL: https://web-data-marketplace.radix.equinor.com/
             AUTH_SCOPE: https://equinor.collibra.com/user_impersonation
             COLLIBRA_BASE_URL: https://equinor.collibra.com/rest/2.0
-            NEXT_PUBLIC_COLLIBRA_FIRST_TIME_VISITOR: https://equinor.collibra.com
+            COLLIBRA_FIRST_TIME_VISITOR: https://equinor.collibra.com
         - environment: test
           resources:
             requests:
@@ -43,7 +43,7 @@ spec:
             BASE_URL: https://web-data-marketplace-test.radix.equinor.com
             AUTH_SCOPE: https://equinor-test.collibra.com/user_impersonation
             COLLIBRA_BASE_URL: https://equinor-test.collibra.com/rest/2.0
-            NEXT_PUBLIC_COLLIBRA_FIRST_TIME_VISITOR: https://equinor-test.collibra.com
+            COLLIBRA_FIRST_TIME_VISITOR: https://equinor-test.collibra.com
       secrets:
         - AUTH_CLIENT_ID
         - AUTH_CLIENT_SECRET

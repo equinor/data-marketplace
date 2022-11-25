@@ -2,7 +2,9 @@ import { Typography, Button, Icon } from "@equinor/eds-core-react"
 import { lock } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { signIn } from "next-auth/react"
+import getConfig from "next/config"
 import { useRouter } from "next/router"
+import type { NextPage, GetServerSideProps } from "next/types"
 import { useCallback, ReactNode } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
@@ -10,6 +12,8 @@ import styled from "styled-components"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { SigninInformationDialog } from "components/SigninInformationDialog"
+
+const { serverRuntimeConfig } = getConfig()
 
 const Information = styled.div`
   width: min(33ch, 90%);
@@ -29,15 +33,20 @@ const StyledButton = styled(Button)`
   margin-block: ${tokens.spacings.comfortable.x_large};
 `
 
-const SignIn = () => {
+type Props = {
+  firstTimeVisitor: string
+}
+
+const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
   const intl = useIntl()
   const { query } = useRouter()
+  console.log("First time user", firstTimeVisitor, serverRuntimeConfig.firstTimeVisitor)
 
   const callbackUrl = (query.callbackUrl as string) || "/"
 
   const FormattedLink = useCallback(
     (chunks: ReactNode[]) => (
-      <Typography link href="https://equinor-prod.collibra.com" target="_blank" rel="noopener noreferrer nofollow">
+      <Typography link href={firstTimeVisitor} target="_blank" rel="noopener noreferrer nofollow">
         {chunks}
       </Typography>
     ),
@@ -71,5 +80,11 @@ const SignIn = () => {
     </Page>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = async () => ({
+  props: {
+    firstTimeVisitor: serverRuntimeConfig.firstTimeVisitor,
+  },
+})
 
 export default SignIn
