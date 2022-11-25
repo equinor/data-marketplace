@@ -46,7 +46,7 @@ const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
         {chunks}
       </Typography>
     ),
-    []
+    [firstTimeVisitor]
   )
   return (
     <Page documentTitle={intl.formatMessage({ id: "auth.signin.document.title" })}>
