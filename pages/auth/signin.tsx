@@ -40,7 +40,7 @@ type Props = {
 const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
   const intl = useIntl()
   const { query } = useRouter()
-  console.log("First time user", firstTimeVisitor, serverRuntimeConfig.firstTimeVisitor)
+  console.log("First time user", firstTimeVisitor, serverRuntimeConfig.firstTimeVisitor, process.env)
 
   const callbackUrl = (query.callbackUrl as string) || "/"
 
@@ -81,10 +81,13 @@ const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => ({
-  props: {
-    firstTimeVisitor: serverRuntimeConfig.firstTimeVisitor,
-  },
-})
+export const getServerSideProps: GetServerSideProps = async () => {
+  console.log("server runtime config", serverRuntimeConfig.firstTimeVisitor, serverRuntimeConfig)
+  return {
+    props: {
+      firstTimeVisitor: serverRuntimeConfig.firstTimeVisitor,
+    },
+  }
+}
 
 export default SignIn
