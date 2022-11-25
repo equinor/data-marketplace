@@ -32,6 +32,7 @@
     "@sanity/schema": "^2.35.0",
     "applicationinsights": "^2.3.5",
     "axios": "^0.27.2",
+    "dotenv": "^16.0.3",
     "jsdom": "^20.0.2",
     "next": "^13.0.2",
     "next-auth": "^4.15.1",
