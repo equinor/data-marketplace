@@ -35,12 +35,13 @@ const StyledButton = styled(Button)`
 
 type Props = {
   firstTimeVisitor: string
+  test: string
 }
 
-const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
+const SignIn: NextPage<Props> = ({ firstTimeVisitor, test }) => {
   const intl = useIntl()
   const { query } = useRouter()
-  console.log("First time user", firstTimeVisitor, serverRuntimeConfig.firstTimeVisitor, process.env)
+  console.log("First time user", firstTimeVisitor, serverRuntimeConfig.firstTimeVisitor, process.env, test)
 
   const callbackUrl = (query.callbackUrl as string) || "/"
 
@@ -86,6 +87,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
       firstTimeVisitor: serverRuntimeConfig.firstTimeVisitor,
+      test: process.env.COLLIBRA_FIRST_TIME_VISITOR,
     },
   }
 }

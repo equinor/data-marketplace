@@ -12,6 +12,7 @@ const nextConfig = {
   },
   serverRuntimeConfig: {
     firstTimeVisitor: process.env.COLLIBRA_FIRST_TIME_VISITOR,
+    test: "hei",
   },
 }
 
