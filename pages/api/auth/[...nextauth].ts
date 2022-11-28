@@ -1,6 +1,8 @@
 import NextAuth from "next-auth"
 import ADProvider from "next-auth/providers/azure-ad"
 
+import { attemptAccessTokenRefresh, Token } from "../../../lib/attemptAccessTokenRefresh"
+
 import { config } from "config"
 
 const SCOPE = `openid offline_access ${config.AUTH_SCOPE}`
@@ -27,7 +29,7 @@ export default NextAuth({
       if (account) {
         console.log("[NextAuth] User signed in. Retrieving access token")
 
-        Object.assign(token, {
+        return {
           tokenType: account.token_type,
           accessToken: account.access_token,
           /* expires_at is a value representing how many **seconds** since epoc
@@ -40,10 +42,30 @@ export default NextAuth({
            */
           expiresAt: account.expires_at! * 1000 - 60000 * 5,
           refreshToken: account.refresh_token,
-        })
+        }
+      }
+
+      if (Date.now() > (token.expiresAt as number)) {
+        try {
+          return attemptAccessTokenRefresh(token as Token)
+        } catch (err) {
+          console.log("[NextAuth]", err)
+
+          return {
+            ...token,
+            error: "TokenRefreshFailure",
+          }
+        }
       }
 
       return token
+    },
+    async session({ session, token }) {
+      return {
+        ...session,
+        token: token.accessToken,
+        error: token.error,
+      }
     },
   },
 })

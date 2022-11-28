@@ -1,6 +1,7 @@
 import { JWT } from "next-auth/jwt"
 
-import { HttpClient } from "./HttpClient"
+import { ERR_CODES } from "./errors"
+import { AuthError } from "./errors/AuthError"
 
 import { config } from "config"
 
@@ -23,9 +24,9 @@ type RefreshTokenResponse = {
 }
 
 export const attemptAccessTokenRefresh = async (token: Token) => {
-  const res = await HttpClient.post<RefreshTokenResponse>(
-    `https://login.microsoftonline.com/${config.AUTH_TENANT_ID}/oauth2/v2.0/token`,
-    {
+  try {
+    const res = await fetch(`https://login.microsoftonline.com/${config.AUTH_TENANT_ID}/oauth2/v2.0/token`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
@@ -37,13 +38,18 @@ export const attemptAccessTokenRefresh = async (token: Token) => {
         client_secret: config.AUTH_CLIENT_SECRET as string,
         refresh_token: token.refreshToken,
       }),
-    }
-  )
+    })
 
-  return {
-    ...token,
-    accessToken: res.body.access_token,
-    expiresAt: Date.now() + res.body.expires_in * 1000,
-    refreshToken: res.body.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+    const data: RefreshTokenResponse = await res.json()
+
+    return {
+      ...token,
+      accessToken: data.access_token,
+      expiresAt: Date.now() + data.expires_in * 1000,
+      refreshToken: data.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+    }
+  } catch (err) {
+    console.error("[attemptAccessTokenRefresh] Failed to refresh access token", err)
+    throw new AuthError("Failed to refresh access token", ERR_CODES.REFRESH_TOKEN_EXPIRED, { token })
   }
 }
