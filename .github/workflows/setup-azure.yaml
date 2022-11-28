@@ -13,6 +13,8 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Show Azure Account
+        run: az account show
 
       - name: Checkout internal 🛎️
         id: checkout-internal
@@ -28,7 +30,7 @@ jobs:
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ secrets.AZURE_RG }}
-          template: $GITHUB_WORKSPACE/ci/build-and-deploy/main.bicep
+          template: ./ci/build-and-deploy/main.bicep
           parameters: "location=northeurope"
           failOnStdErr: false
       - name: log-errors-to-slack
