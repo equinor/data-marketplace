@@ -20,7 +20,7 @@ jobs:
         with:
           repository: "equinor/data-marketplace-internal"
           ref: main
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          token: ${{ secrets.PAT_INTERNAL }}
 
       # Deploy Bicep file
       - name: deploy
