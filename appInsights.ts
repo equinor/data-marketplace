@@ -1,20 +1,7 @@
 import { ReactPlugin } from "@microsoft/applicationinsights-react-js"
 import { ApplicationInsights } from "@microsoft/applicationinsights-web"
 
-// import { HttpClient } from "lib/HttpClient"
-
 const env = process.env.NODE_ENV
-/* let history: History | null = null
-
-if (typeof window !== "undefined") {
-  history = window.history
-} */
-
-/* const getConnectionString = () => {
-  const connectionString = fetch("/api/configsettings/insights_connection_string")
-  console.log("The string", connectionString)
-  return connectionString
-} */
 
 const getConnectionString = (hostname: string) => {
   const testConnectionString =
@@ -33,7 +20,7 @@ let appInsights: ApplicationInsights
 if (typeof window !== "undefined" && env === "production") {
   appInsights = new ApplicationInsights({
     config: {
-      connectionString: getConnectionString(window.location.hostname), // getConnectionString()
+      connectionString: getConnectionString(window.location.hostname),
       extensions: [reactPlugin],
       enableAutoRouteTracking: true,
     },
