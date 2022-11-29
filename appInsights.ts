@@ -17,10 +17,14 @@ if (typeof window !== "undefined") {
 } */
 
 const getConnectionString = (hostname: string) => {
+  const testConnectionString =
+    "InstrumentationKey=dfd96105-2c77-4afb-af8d-f7dca537a938;IngestionEndpoint=https://northeurope-3.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
+  const prodConnectionString =
+    "InstrumentationKey=e9198130-5b49-4cdc-9d93-0ddd24022bc3;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
   if (hostname.includes("datamarketplace.equinor.com")) {
-    return "InstrumentationKey=e4d53b02-e08f-45e0-8632-7a066b44bc4f;IngestionEndpoint=https://northeurope-2.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
+    return prodConnectionString
   }
-  return "InstrumentationKey=a8e5931e-ee21-4caf-accc-e1a49ed1a166;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
+  return testConnectionString
 }
 
 const reactPlugin = new ReactPlugin()
