@@ -2,19 +2,13 @@
 import { Button, Icon, Menu } from "@equinor/eds-core-react"
 import { account_circle, power } from "@equinor/eds-icons"
 import { signOut } from "next-auth/react"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { useIntl } from "react-intl"
 // @TODO Disable the log out option it there is no active session?
 
 export const UserMenu = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false)
-  const [showUserMenu, setShowUserMenu] = useState(false)
 
-  // Wait until after client-side hydration to show
-  // as a workaround for the useEffectLayout in the EDS library
-  useEffect(() => {
-    setShowUserMenu(true)
-  }, [])
   const intl = useIntl()
 
   const userMenuAnchor = useRef<HTMLButtonElement>(null)
@@ -24,10 +18,6 @@ export const UserMenu = () => {
   }
 
   const onSignOutClick = () => signOut()
-
-  if (!showUserMenu) {
-    return null
-  }
 
   return (
     <nav aria-label={intl.formatMessage({ id: "navbar.ariaUserMenu" })}>
@@ -40,7 +30,7 @@ export const UserMenu = () => {
         color="secondary"
         onClick={onUserMenuAnchorClick}
       >
-        <Icon data={account_circle} title={intl.formatMessage({ id: "navbar.titleAccount" })} />
+        <Icon data={account_circle} />
       </Button>
 
       <Menu
