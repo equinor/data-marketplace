@@ -4,7 +4,6 @@ import { tokens } from "@equinor/eds-tokens"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/router"
 import type { NextPage, GetServerSideProps } from "next/types"
-import { useCallback, ReactNode } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
@@ -34,20 +33,11 @@ type Props = {
   firstTimeVisitor: string
 }
 
-const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
+const SignIn: NextPage<Props> = () => {
   const intl = useIntl()
   const { query } = useRouter()
 
   const callbackUrl = (query.callbackUrl as string) || "/"
-
-  const FormattedLink = useCallback(
-    (chunks: ReactNode[]) => (
-      <Typography link href={firstTimeVisitor} target="_blank" rel="noopener noreferrer nofollow">
-        {chunks}
-      </Typography>
-    ),
-    [firstTimeVisitor]
-  )
   return (
     <Page documentTitle={intl.formatMessage({ id: "auth.signin.document.title" })}>
       <Section>
@@ -62,14 +52,6 @@ const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
             <Icon data={lock} />
             <FormattedMessage id="auth.signin.c2a" />
           </StyledButton>
-          <CenteredText variant="body_short">
-            <FormattedMessage
-              id="auth.signin.first.time.visiting"
-              values={{
-                a: FormattedLink,
-              }}
-            />
-          </CenteredText>
           <SigninInformationDialog />
         </Information>
       </Section>
