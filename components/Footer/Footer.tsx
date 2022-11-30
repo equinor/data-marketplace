@@ -1,5 +1,5 @@
 import { Typography, List, Icon } from "@equinor/eds-core-react"
-import { github, slack } from "@equinor/eds-icons"
+import { github, email } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
@@ -8,7 +8,7 @@ const FOOTER_HEIGHT = "10rem"
 
 const FooterWrapper = styled.div`
   min-height: calc(${FOOTER_HEIGHT} + ${tokens.spacings.comfortable.xxx_large});
-  margin-top:  auto;
+  margin-top: auto;
   padding-top: ${tokens.spacings.comfortable.xxx_large};
 `
 
@@ -25,14 +25,14 @@ const FooterContainer = styled.div`
 `
 
 const InvertedText = styled(Typography)`
-   color: ${tokens.colors.ui.background__default.hex}; 
+  color: ${tokens.colors.ui.background__default.hex};
 `
 
 const FooterLink = styled(List.Item)`
-   color: ${tokens.colors.ui.background__default.hex}; 
-   &:not(:last-child) {
-     margin-bottom: ${tokens.spacings.comfortable.small};
-   }
+  color: ${tokens.colors.ui.background__default.hex};
+  &:not(:last-child) {
+    margin-bottom: ${tokens.spacings.comfortable.small};
+  }
   @media screen and (min-width: 550px) {
     &:not(:last-child) {
       margin-bottom: ${tokens.spacings.comfortable.medium};
@@ -74,16 +74,13 @@ export const Footer = () => {
     <FooterWrapper>
       <FooterContainer>
         <FooterContent>
-          <InvertedText variant="body_short">
-            {intl.formatMessage({ id: "footer.copyright" })}
-          </InvertedText>
+          <InvertedText variant="body_short">{intl.formatMessage({ id: "footer.copyright" })}</InvertedText>
           <UnstyledList>
             <FooterLink>
-              <Link href="https://equinor.slack.com/archives/C041CV62HRR">
+              <Link href="mailto:fg_data_marketplace@equinor.com" target="_blank" rel="noopener noreferrer nofollow">
                 {intl.formatMessage({ id: "footer.feedback" })}
-                <Icon data={slack} />
+                <Icon data={email} />
               </Link>
-
             </FooterLink>
             <FooterLink>
               <Link href="https://github.com/equinor/data-marketplace">
