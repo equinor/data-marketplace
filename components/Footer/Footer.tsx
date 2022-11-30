@@ -77,7 +77,13 @@ export const Footer = () => {
           <InvertedText variant="body_short">{intl.formatMessage({ id: "footer.copyright" })}</InvertedText>
           <UnstyledList>
             <FooterLink>
-              <Link href="mailto:fg_data_marketplace@equinor.com" target="_blank" rel="noopener noreferrer nofollow">
+              <Link
+                href={`mailto:fg_data_marketplace@equinor.com?subject=${intl.formatMessage({
+                  id: "footer.feedback.subject",
+                })}`}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+              >
                 {intl.formatMessage({ id: "footer.feedback" })}
                 <Icon data={email} />
               </Link>
