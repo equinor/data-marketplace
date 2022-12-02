@@ -10,11 +10,6 @@ const { Header, Title, CustomContent, Actions } = Dialog
 
 const CenteredText = styled(Typography)`
   text-align: center;
-  &:is(h1) {
-    margin-block: ${tokens.spacings.comfortable.xx_large};
-    word-break: break-word;s
-    hyphens: auto;
-  }
 `
 
 const OpenDialog = styled(Button)`
@@ -26,7 +21,7 @@ const DialogBox = styled(Dialog)`
   left: 50%;
   line-height: 26px;
   width: 40%;
-  maxwidth: 768px;
+  max-width: 768px;
   height: 250px;
   text-decoration: none;
 `
