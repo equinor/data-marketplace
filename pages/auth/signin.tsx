@@ -7,9 +7,9 @@ import type { NextPage, GetServerSideProps } from "next/types"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
+import { ActivateAccount } from "components/ActivateAccount"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
-import { SigninInformationDialog } from "components/SigninInformationDialog"
 
 const Information = styled.div`
   width: min(33ch, 90%);
@@ -53,7 +53,7 @@ const SignIn: NextPage<Props> = () => {
           <Typography variant="h5" as="h2" style={{ textAlign: "center" }}>
             <FormattedMessage id="auth.signin.first.time.visiting1" values={{ linebreak: <br /> }} />
           </Typography>
-          <SigninInformationDialog />
+          <ActivateAccount />
         </Information>
       </Section>
     </Page>
