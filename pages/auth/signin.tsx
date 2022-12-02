@@ -45,9 +45,7 @@ const SignIn: NextPage<Props> = () => {
           <CenteredText variant="h1">
             <FormattedMessage id="auth.signin.title" values={{ linebreak: <br /> }} />
           </CenteredText>
-          <CenteredText variant="ingress">
-            <FormattedMessage id="auth.signin.intro" />
-          </CenteredText>
+
           <StyledButton onClick={() => signIn("azure-ad", { callbackUrl })}>
             <Icon data={lock} />
             <FormattedMessage id="auth.signin.c2a" />
