@@ -33,7 +33,7 @@ type Props = {
   firstTimeVisitor: string
 }
 
-const SignIn: NextPage<Props> = () => {
+const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
   const intl = useIntl()
   const { query } = useRouter()
 
@@ -51,9 +51,9 @@ const SignIn: NextPage<Props> = () => {
             <FormattedMessage id="auth.signin.c2a" />
           </StyledButton>
           <Typography variant="h5" as="h2" style={{ textAlign: "center" }}>
-            <FormattedMessage id="auth.signin.first.time.visiting1" values={{ linebreak: <br /> }} />
+            <FormattedMessage id="auth.signin.first.time.visiting" values={{ linebreak: <br /> }} />
           </Typography>
-          <ActivateAccount />
+          <ActivateAccount activateLink={firstTimeVisitor} />
         </Information>
       </Section>
     </Page>
