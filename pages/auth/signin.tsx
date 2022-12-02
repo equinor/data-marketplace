@@ -50,6 +50,9 @@ const SignIn: NextPage<Props> = () => {
             <Icon data={lock} />
             <FormattedMessage id="auth.signin.c2a" />
           </StyledButton>
+          <Typography variant="h5" as="h2" style={{ textAlign: "center" }}>
+            <FormattedMessage id="auth.signin.first.time.visiting1" values={{ linebreak: <br /> }} />
+          </Typography>
           <SigninInformationDialog />
         </Information>
       </Section>
