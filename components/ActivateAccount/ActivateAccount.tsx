@@ -12,18 +12,18 @@ const CenteredText = styled(Typography)`
   text-align: center;
 `
 
+const SpacedTypography = styled(Typography)`
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+`
+
 const OpenDialog = styled(Button)`
   margin-top: ${tokens.spacings.comfortable.small};
 `
 
 const DialogBox = styled(Dialog)`
-  top: 50%;
-  left: 50%;
-  line-height: 26px;
-  width: 40%;
-  max-width: 768px;
-  height: 250px;
-  text-decoration: none;
+  width: clamp(25ch, 60vw, 600px);
 `
 
 export const ActivateAccount = () => {
@@ -41,7 +41,7 @@ export const ActivateAccount = () => {
     <>
       <CenteredText variant="body_short">
         <OpenDialog variant="ghost" aria-haspopup="dialog" onClick={handleOpen}>
-          {intl.formatMessage({ id: "auth.signin.activate.account" })}
+          {intl.formatMessage({ id: "auth.signin.activate.account.dialog.button.text" })}
         </OpenDialog>
       </CenteredText>
       <DialogBox open={isOpen} isDismissable onClose={handleClose}>
@@ -49,9 +49,12 @@ export const ActivateAccount = () => {
           <Title>{intl.formatMessage({ id: "auth.signin.why.dialog.title" })}</Title>
         </Header>
         <CustomContent>
-          <Typography variant="body_short">{intl.formatMessage({ id: "auth.signin.why.dialog.text1" })}</Typography>
-          <br />
-          <Typography variant="body_short">{intl.formatMessage({ id: "auth.signin.why.dialog.text2" })}</Typography>
+          <SpacedTypography variant="body_long">
+            {intl.formatMessage({ id: "auth.signin.why.dialog.text1" })}
+          </SpacedTypography>
+          <SpacedTypography variant="body_long">
+            {intl.formatMessage({ id: "auth.signin.why.dialog.text2" })}
+          </SpacedTypography>
         </CustomContent>
         <Actions>
           <Button href={collibraUrl} target="_blank" onClick={handleClose}>
