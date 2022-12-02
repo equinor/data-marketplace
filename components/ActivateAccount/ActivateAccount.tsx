@@ -27,7 +27,7 @@ const DialogBox = styled(Dialog)`
   text-decoration: none;
 `
 
-export const SigninInformationDialog = () => {
+export const ActivateAccount = () => {
   const intl = useIntl()
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = () => {
