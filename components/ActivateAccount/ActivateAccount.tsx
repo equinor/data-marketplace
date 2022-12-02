@@ -17,6 +17,10 @@ const CenteredText = styled(Typography)`
   }
 `
 
+const OpenDialog = styled(Button)`
+  margin-top: ${tokens.spacings.comfortable.small};
+`
+
 const DialogBox = styled(Dialog)`
   top: 50%;
   left: 50%;
@@ -41,9 +45,9 @@ export const ActivateAccount = () => {
   return (
     <>
       <CenteredText variant="body_short">
-        <Typography link target="_blank" rel="noopener noreferrer nofollow" onClick={handleOpen}>
-          {intl.formatMessage({ id: "auth.signin.why.dialog.title" })}
-        </Typography>
+        <OpenDialog variant="ghost" aria-haspopup="dialog" onClick={handleOpen}>
+          {intl.formatMessage({ id: "auth.signin.activate.account" })}
+        </OpenDialog>
       </CenteredText>
       <DialogBox open={isOpen} isDismissable onClose={handleClose}>
         <Header>

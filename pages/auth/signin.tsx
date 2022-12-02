@@ -26,7 +26,7 @@ const CenteredText = styled(Typography)`
   }
 `
 const StyledButton = styled(Button)`
-  margin-block: ${tokens.spacings.comfortable.x_large};
+  margin-block: ${tokens.spacings.comfortable.x_large} ${tokens.spacings.comfortable.xxx_large};
 `
 
 type Props = {
