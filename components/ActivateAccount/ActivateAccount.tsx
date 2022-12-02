@@ -23,7 +23,7 @@ const OpenDialog = styled(Button)`
 `
 
 const DialogBox = styled(Dialog)`
-  width: clamp(25ch, 60vw, 600px);
+  width: clamp(25ch, 60vw, 600px) !important;
 `
 
 export const ActivateAccount = () => {
