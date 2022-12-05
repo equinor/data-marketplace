@@ -1,4 +1,4 @@
-export const Illustration = ({ ...rest }) => (
+export const EquinorIllustration = ({ ...rest }) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
   <svg width="500" height="270" viewBox="0 0 500 270" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
     <g clipPath="url(#clip0_2156_11530)">
