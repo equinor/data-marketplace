@@ -9,7 +9,7 @@ import styled from "styled-components"
 import { Link } from "components/Link"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
-import { EquinorIllustration } from "components/frontpage"
+import { Illustration } from "components/frontpage"
 import { usePopularProducts } from "hooks"
 import { fmtNumber } from "lib/fmtNumber"
 
@@ -64,7 +64,7 @@ const HeroContent = styled.div`
   }
 `
 
-const HeroIllustration = styled(EquinorIllustration)`
+const HeroIllustration = styled(Illustration)`
   width: clamp(350px, 50%, 600px);
   justify-self: center;
   @media (min-width: 35rem) {
