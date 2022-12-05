@@ -43,30 +43,33 @@ const Views = styled(Typography)`
 
 const Hero = styled.div`
   display: grid;
-  grid-template-areas: "hero";
-  min-height: 28rem;
-  align-items: center;
-
-  > * {
-    grid-area: hero;
+  @media (min-width: 35rem) {
+    grid-template-areas: "hero";
+    align-items: center;
+    > * {
+      grid-area: hero;
+    }
   }
 `
 
 const HeroContent = styled.div`
-  width: clamp(25ch, 60%, 600px);
   z-index: 1;
   align-self: start;
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: ${tokens.shape.corners.borderRadius};
   padding: 0.5rem 0.5rem 0.5rem 0;
-  @media (min-width: 40rem) {
+  @media (min-width: 35rem) {
+    width: clamp(25ch, 60%, 600px);
     align-self: auto;
   }
 `
 
 const HeroIllustration = styled(EquinorIllustration)`
-  width: clamp(300px, 40%, 500px);
-  justify-self: end;
+  width: clamp(350px, 40%, 500px);
+  justify-self: center;
+  @media (min-width: 35rem) {
+    justify-self: end;
+  }
 `
 
 const Frontpage: NextPage = () => {
