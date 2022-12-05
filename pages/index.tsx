@@ -69,6 +69,7 @@ const HeroIllustration = styled(EquinorIllustration)`
   justify-self: center;
   @media (min-width: 35rem) {
     justify-self: end;
+    align-self: end;
   }
 `
 
