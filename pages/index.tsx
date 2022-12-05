@@ -59,13 +59,13 @@ const HeroContent = styled.div`
   border-radius: ${tokens.shape.corners.borderRadius};
   padding: 0.5rem 0.5rem 0.5rem 0;
   @media (min-width: 35rem) {
-    width: clamp(25ch, 60%, 600px);
+    width: clamp(25ch, 50%, 600px);
     align-self: auto;
   }
 `
 
 const HeroIllustration = styled(EquinorIllustration)`
-  width: clamp(350px, 40%, 500px);
+  width: clamp(350px, 50%, 600px);
   justify-self: center;
   @media (min-width: 35rem) {
     justify-self: end;
