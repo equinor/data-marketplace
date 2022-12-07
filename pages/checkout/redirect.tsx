@@ -2,10 +2,12 @@
 import { Button, Icon, Typography } from "@equinor/eds-core-react"
 import { external_link } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
+import { JSDOM } from "jsdom"
 import { getToken } from "next-auth/jwt"
 import type { NextPage, GetServerSideProps } from "next/types"
 import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
+import xss from "xss"
 
 import { appInsights } from "appInsights"
 import { CheckoutWizard, NoAsset, CancelButton, formatCheckoutTitle } from "components/CheckoutWizard"
@@ -126,7 +128,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     }
 
     const rtuAttrs = await makeCollibraServiceRequest(getRightsToUse)(id)
-    const authorizationUrl = rtuAttrs.find((attr) => attr.type.toLowerCase() === "authorization url")
+    const authorizationUrl = rtuAttrs.find((attr) => attr.type.toLowerCase() === "authorization url")?.value ?? ""
+    const authUrlHref = authorizationUrl.includes("href")
+      ? new JSDOM(xss(authorizationUrl)).window.document.querySelector("a")?.getAttribute("href")
+      : authorizationUrl
 
     if (!authorizationUrl) {
       throw new ExternalError(`No authorization URL found for ${asset.name} (ID: ${asset.id})`, ERR_CODES.MISSING_DATA)
@@ -136,7 +141,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       props: {
         asset: JSON.parse(JSON.stringify(asset)),
         authorizationUrl: {
-          value: authorizationUrl.value,
+          value: authUrlHref,
         },
       },
     }
