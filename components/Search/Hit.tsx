@@ -1,9 +1,8 @@
 import { Card, Typography, List } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
+import NextLink from "next/link"
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-
-import { Link } from "components/Link"
 
 const { Header: CardHeader, HeaderTitle: CardHeaderTitle } = Card
 const { Item } = List
@@ -14,6 +13,10 @@ const SearchResultItem = styled(Item)`
   }
 `
 
+const StyledLink = styled(NextLink)`
+  text-decoration: none;
+`
+
 type Props = {
   hit: Collibra.Asset
 }
@@ -22,7 +25,7 @@ export const Hit: FunctionComponent<Props> = ({ hit }) => {
   const { name, id } = hit
   return (
     <SearchResultItem>
-      <Link href={{ pathname: "/assets/[id]", query: { id } }}>
+      <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
         <Card elevation="raised">
           <CardHeader>
             <CardHeaderTitle>
@@ -32,7 +35,7 @@ export const Hit: FunctionComponent<Props> = ({ hit }) => {
             </CardHeaderTitle>
           </CardHeader>
         </Card>
-      </Link>
+      </StyledLink>
     </SearchResultItem>
   )
 }
