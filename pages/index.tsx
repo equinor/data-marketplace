@@ -3,10 +3,10 @@ import { Card, Typography, CircularProgress, Banner, Icon } from "@equinor/eds-c
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
+import NextLink from "next/link"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { Link } from "components/Link"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { Illustration } from "components/frontpage"
@@ -29,6 +29,9 @@ const InfoIcon = styled(Banner.Icon)`
   @media screen and (max-width: 550px) {
     display: none;
   }
+`
+const StyledLink = styled(NextLink)`
+  text-decoration: none;
 `
 
 const GridContainer = styled.div`
@@ -114,7 +117,7 @@ const Frontpage: NextPage = () => {
           ) : (
             <GridContainer>
               {popularDataProducts.map((product) => (
-                <Link
+                <StyledLink
                   key={product.id}
                   href={{ pathname: "/assets/[id]", query: { id: product.id } }}
                   title={product.name}
@@ -137,7 +140,7 @@ const Frontpage: NextPage = () => {
                     </Card.Header>
                     <Card.Content />
                   </CardGrid>
-                </Link>
+                </StyledLink>
               ))}
             </GridContainer>
           )}
