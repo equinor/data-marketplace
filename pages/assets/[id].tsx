@@ -5,7 +5,7 @@ import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
@@ -72,17 +72,6 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
   const tabs = getTabs()
   const [currentTab, setCurrentTab] = useState<Tab>(getInitialTab(tabs, tabQuery))
 
-  useEffect(() => {
-    const { tab } = router.query
-    if (!(tab === currentTab.name)) {
-      router.replace(
-        { query: { ...router.query, tab: currentTab.name } },
-        { query: { tab: currentTab.name } },
-        { shallow: true }
-      )
-    }
-  }, [currentTab, router])
-
   if (!asset) {
     return <div>Issues with fetching the asset - TODO figure out what to do here</div>
   }
@@ -91,8 +80,14 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
 
   const handleTabChange = (index: number) => {
     const newTab = tabs.find((tab) => tab.id === index)
+
     if (newTab && newTab.name !== currentTab.name) {
       setCurrentTab(newTab)
+      router.replace(
+        { query: { ...router.query, tab: newTab.name } },
+        { query: { tab: newTab.name } },
+        { shallow: true }
+      )
     }
   }
 
