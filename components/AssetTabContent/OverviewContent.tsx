@@ -1,4 +1,6 @@
-import { Typography } from "@equinor/eds-core-react"
+/* eslint-disable camelcase */
+import { Typography, Icon } from "@equinor/eds-core-react"
+import { external_link } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { PortableText } from "@portabletext/react"
 import { FunctionComponent, PropsWithChildren } from "react"
@@ -7,7 +9,6 @@ import styled from "styled-components"
 
 import { AssetTabContentSectionContainer } from "./AssetTabContentSectionContainer"
 
-// import { config } from "config"
 import { defaultComponents } from "htmlParsing/portableText"
 
 const Overview = styled.div`
@@ -18,10 +19,18 @@ const Overview = styled.div`
   max-width: 70ch;
 `
 
+const IconLink = styled.a`
+  display: inline-flex;
+  text-decoration: none;
+  align-items: center;
+  gap: 2px;
+`
+
 export type OverviewContentSections = Pick<DataMarketplace.Asset, "description" | "updateFrequency">
 
 type Props = {
   content: OverviewContentSections
+  assetId: string
 }
 
 const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) => (
@@ -30,9 +39,9 @@ const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) =>
   </Typography>
 )
 
-export const OverviewContent = ({ content }: Props) => {
+export const OverviewContent = ({ content, assetId }: Props) => {
   const { description, updateFrequency } = content
-
+  const collibraUrl = `collibra-url${assetId}`
   return (
     <Overview>
       {description && (
@@ -53,6 +62,10 @@ export const OverviewContent = ({ content }: Props) => {
           <PortableText value={updateFrequency} components={defaultComponents} />
         </AssetTabContentSectionContainer>
       )}
+      <IconLink href={collibraUrl}>
+        <FormattedMessage id="asset.view.in.collibra" />
+        <Icon data={external_link} size={16} />
+      </IconLink>
     </Overview>
   )
 }
