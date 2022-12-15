@@ -31,6 +31,7 @@ export type OverviewContentSections = Pick<DataMarketplace.Asset, "description" 
 type Props = {
   content: OverviewContentSections
   assetId: string
+  collibraBaseUrl: string
 }
 
 const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) => (
@@ -39,9 +40,9 @@ const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) =>
   </Typography>
 )
 
-export const OverviewContent = ({ content, assetId }: Props) => {
+export const OverviewContent = ({ content, assetId, collibraBaseUrl }: Props) => {
   const { description, updateFrequency } = content
-  const collibraUrl = `collibra-url${assetId}`
+  const collibraUrl = `${collibraBaseUrl}/asset/${assetId}`
   return (
     <Overview>
       {description && (
