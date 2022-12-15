@@ -19,4 +19,4 @@ const makeService = (baseURL: string) => (defaultHeaders?: Headers) => (headers?
   return <T>(request: ServiceRequester<T>) => request(client)
 }
 
-export const makeCollibraService = makeService(config.COLLIBRA_BASE_URL as string)({ accept: "application/json" })
+export const makeCollibraService = makeService(config.COLLIBRA_API_URL as string)({ accept: "application/json" })

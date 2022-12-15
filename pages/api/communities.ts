@@ -19,13 +19,16 @@ const CommunitiesHandler: NextApiHandler = async (req, res) => {
   const authorization = `Bearer ${token.accessToken}`
 
   try {
-    const allComunities = await HttpClient.get<Collibra.PagedCommunityResponse>(`${config.COLLIBRA_BASE_URL}/communities`, {
-      headers: { authorization },
-      query: {
-        name: "equinor",
-        nameMatchMode: "ANYWHERE",
-      },
-    })
+    const allComunities = await HttpClient.get<Collibra.PagedCommunityResponse>(
+      `${config.COLLIBRA_API_URL}/communities`,
+      {
+        headers: { authorization },
+        query: {
+          name: "equinor",
+          nameMatchMode: "ANYWHERE",
+        },
+      }
+    )
 
     const equinorCommunity = allComunities.body?.results[0]
 
@@ -33,10 +36,13 @@ const CommunitiesHandler: NextApiHandler = async (req, res) => {
       return res.status(500).end()
     }
 
-    const communities = await HttpClient.get<Collibra.PagedCommunityResponse>(`${config.COLLIBRA_BASE_URL}/communities`, {
-      headers: { authorization },
-      query: { parentId: equinorCommunity.id },
-    })
+    const communities = await HttpClient.get<Collibra.PagedCommunityResponse>(
+      `${config.COLLIBRA_API_URL}/communities`,
+      {
+        headers: { authorization },
+        query: { parentId: equinorCommunity.id },
+      }
+    )
 
     return res.json(communities.body?.results)
   } catch (error) {

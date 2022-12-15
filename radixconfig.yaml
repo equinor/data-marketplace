@@ -26,7 +26,7 @@ spec:
           variables:
             BASE_URL: https://web-data-marketplace.radix.equinor.com/
             AUTH_SCOPE: https://equinor.collibra.com/user_impersonation
-            COLLIBRA_BASE_URL: https://equinor.collibra.com/rest/2.0
+            COLLIBRA_BASE_URL: https://equinor.collibra.com
             COLLIBRA_FIRST_TIME_VISITOR: https://equinor.collibra.com
             APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=e9198130-5b49-4cdc-9d93-0ddd24022bc3;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
         - environment: test
@@ -40,7 +40,7 @@ spec:
           variables:
             BASE_URL: https://web-data-marketplace-test.radix.equinor.com
             AUTH_SCOPE: https://equinor-test.collibra.com/user_impersonation
-            COLLIBRA_BASE_URL: https://equinor-test.collibra.com/rest/2.0
+            COLLIBRA_BASE_URL: https://equinor-test.collibra.com
             COLLIBRA_FIRST_TIME_VISITOR: https://equinor-test.collibra.com
             APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=dfd96105-2c77-4afb-af8d-f7dca537a938;IngestionEndpoint=https://northeurope-3.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
       secrets:
