@@ -119,6 +119,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
             <Panels>
               <Panel>
                 <OverviewContent
+                  assetId={assetId}
                   content={{
                     description: asset.description,
                     updateFrequency: asset.updateFrequency,
