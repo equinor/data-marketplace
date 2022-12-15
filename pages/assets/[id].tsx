@@ -62,9 +62,10 @@ const getInitialTab = (tabs: Tab[], tabQuery: string | undefined | string[]) => 
 type AssetDetailProps = {
   asset?: DataMarketplace.Asset | null
   responsibilitiesData?: ResponsibilitiesContentSections
+  collibraBaseUrl: string
 }
 
-const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesData }) => {
+const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesData, collibraBaseUrl }) => {
   const router = useRouter()
   const intl = useIntl()
 
@@ -120,6 +121,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
               <Panel>
                 <OverviewContent
                   assetId={assetId}
+                  collibraBaseUrl={collibraBaseUrl}
                   content={{
                     description: asset.description,
                     updateFrequency: asset.updateFrequency,
@@ -202,6 +204,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     return {
       props: {
         asset: JSON.parse(JSON.stringify(asset)),
+        collibraBaseUrl: process.env.COLLIBRA_BASE_URL || "",
         responsibilitiesData: JSON.parse(JSON.stringify(responsibilitiesData)),
       },
     }
