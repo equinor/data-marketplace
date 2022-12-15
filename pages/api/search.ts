@@ -24,11 +24,11 @@ const SearchHandler: NextApiHandler = async (req, res) => {
 
   try {
     // get the status id of the approved status
-    const approvedStatusRes = await HttpClient.get(`${config.COLLIBRA_BASE_URL}/statuses/name/Approved`, {
+    const approvedStatusRes = await HttpClient.get(`${config.COLLIBRA_API_URL}/statuses/name/Approved`, {
       headers: { authorization },
     })
 
-    const dataProductRes = await HttpClient.get(`${config.COLLIBRA_BASE_URL}/assetTypes`, {
+    const dataProductRes = await HttpClient.get(`${config.COLLIBRA_API_URL}/assetTypes`, {
       headers: { authorization },
       query: { name: "data product" },
     })
@@ -44,9 +44,7 @@ const SearchHandler: NextApiHandler = async (req, res) => {
     if (req.query.community) {
       filters.push({
         field: "community",
-        values: typeof req.query.community === "string"
-          ? [req.query.community]
-          : req.query.community,
+        values: typeof req.query.community === "string" ? [req.query.community] : req.query.community,
       })
     }
 
@@ -54,7 +52,7 @@ const SearchHandler: NextApiHandler = async (req, res) => {
     const offset = limit * (Number.isNaN(Number(req.query.offset)) ? 0 : Number(req.query.offset))
 
     // get search results
-    const searchRes = await HttpClient.post<{ results: SearchResult[] }>(`${config.COLLIBRA_BASE_URL}/search`, {
+    const searchRes = await HttpClient.post<{ results: SearchResult[] }>(`${config.COLLIBRA_API_URL}/search`, {
       headers: { authorization },
       body: {
         keywords: req.query.q,

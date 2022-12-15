@@ -16,7 +16,7 @@ const getPopularAssets = async (
   offset = 0
 ): Promise<PopularAsset[]> => {
   const mostViewedStats = await HttpClient.get<Collibra.PagedNavigationStatisticResponse>(
-    `${config.COLLIBRA_BASE_URL}/navigation/most_viewed`,
+    `${config.COLLIBRA_API_URL}/navigation/most_viewed`,
     {
       headers: { authorization },
       query: { offset: offset * limit, limit, isGuestExcluded: true },
@@ -25,7 +25,7 @@ const getPopularAssets = async (
 
   const assetsResponse = await Promise.all(
     mostViewedStats.body?.results.map((stat) =>
-      HttpClient.get<Collibra.PagedAssetResponse>(`${config.COLLIBRA_BASE_URL}/assets`, {
+      HttpClient.get<Collibra.PagedAssetResponse>(`${config.COLLIBRA_API_URL}/assets`, {
         headers: { authorization },
         query: {
           name: stat.name,
@@ -73,14 +73,14 @@ const PopularAssetsHandler: NextApiHandler = async (req, res) => {
   try {
     const authString = `Bearer ${token.accessToken}`
     const approvedStatusResp = await HttpClient.get<Collibra.Status>(
-      `${config.COLLIBRA_BASE_URL}/statuses/name/Approved`,
+      `${config.COLLIBRA_API_URL}/statuses/name/Approved`,
       {
         headers: { authorization: authString },
       }
     )
 
     const dataProductTypeIdRes = await HttpClient.get<Collibra.PagedAssetTypeResponse>(
-      `${config.COLLIBRA_BASE_URL}/assetTypes`,
+      `${config.COLLIBRA_API_URL}/assetTypes`,
       {
         headers: { authorization: authString },
         query: { name: "data product" },
