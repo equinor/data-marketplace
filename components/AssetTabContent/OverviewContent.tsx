@@ -24,6 +24,9 @@ const IconLink = styled.a`
   text-decoration: none;
   align-items: center;
   gap: 2px;
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 export type OverviewContentSections = Pick<DataMarketplace.Asset, "description" | "updateFrequency">
