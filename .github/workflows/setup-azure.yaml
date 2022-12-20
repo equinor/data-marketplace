@@ -30,6 +30,7 @@ jobs:
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           scope: subscription
+          region: northeurope
           template: ./ci/build-and-deploy/main.bicep
           parameters: "location=northeurope"
           failOnStdErr: false
