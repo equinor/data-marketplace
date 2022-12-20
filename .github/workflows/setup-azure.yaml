@@ -29,7 +29,7 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-          resourceGroupName: ${{ secrets.AZURE_RG }}
+          scope: subscription
           template: ./ci/build-and-deploy/main.bicep
           parameters: "location=northeurope"
           failOnStdErr: false
