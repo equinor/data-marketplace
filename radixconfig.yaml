@@ -28,7 +28,7 @@ spec:
             AUTH_SCOPE: https://equinor.collibra.com/user_impersonation
             COLLIBRA_BASE_URL: https://equinor.collibra.com
             COLLIBRA_FIRST_TIME_VISITOR: https://equinor.collibra.com
-            APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=e9198130-5b49-4cdc-9d93-0ddd24022bc3;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
+            APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=7eea9263-fb34-4006-9954-dc4568c322ac;IngestionEndpoint=https://northeurope-3.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
         - environment: test
           resources:
             requests:
@@ -42,7 +42,7 @@ spec:
             AUTH_SCOPE: https://equinor-test.collibra.com/user_impersonation
             COLLIBRA_BASE_URL: https://equinor-test.collibra.com
             COLLIBRA_FIRST_TIME_VISITOR: https://equinor-test.collibra.com
-            APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=dfd96105-2c77-4afb-af8d-f7dca537a938;IngestionEndpoint=https://northeurope-3.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
+            APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=3a749405-8c63-4e7a-99c7-a7e66f47fa2f;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
       secrets:
         - AUTH_CLIENT_ID
         - AUTH_CLIENT_SECRET
