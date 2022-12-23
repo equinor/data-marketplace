@@ -1,7 +1,5 @@
 /* eslint-disable camelcase */
-import {
-  Typography,
-} from "@equinor/eds-core-react"
+import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage } from "next"
 import NextLink from "next/link"
@@ -18,7 +16,7 @@ const Hero = styled.div`
   min-height: 35rem;
   align-items: center;
 
-   > * {
+  > * {
     grid-area: hero;
   }
 `
@@ -53,21 +51,23 @@ const PageNotFound: NextPage = () => {
         <Section>
           <Hero>
             <HeroContent>
-              <Typography variant="meta">
-                {intl.formatMessage({ id: "notfound.code.number" })}
-              </Typography>
+              <Typography variant="meta">{intl.formatMessage({ id: "notfound.code.number" })}</Typography>
 
               <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
                 {intl.formatMessage({ id: "notfound.hero.title" })}
               </Typography>
               <TypographyStyle style={{ marginBottom: tokens.spacings.comfortable.x_large }} variant="ingress">
-
                 <FormattedMessage
                   id="notfound.hero.ingress"
-                  // eslint-disable-next-line react/no-unstable-nested-components
-                  values={{ a: (chunks) => <NextLink href="/" passHref><TypographyStyle link>{chunks}</TypographyStyle></NextLink> }}
+                  values={{
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    a: (chunks) => (
+                      <NextLink href="/">
+                        <TypographyStyle as="span">{chunks}</TypographyStyle>
+                      </NextLink>
+                    ),
+                  }}
                 />
-
               </TypographyStyle>
             </HeroContent>
             <HeroIllustration />
