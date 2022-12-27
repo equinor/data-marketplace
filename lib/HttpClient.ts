@@ -42,6 +42,12 @@ export class __HttpClient__ {
         url,
       })
 
+      console.log(
+        `${res.config.method?.toUpperCase()} ${res.config.baseURL}${res.config.url}${
+          res.config.params ? `?${new URLSearchParams(res.config.params).toString()}` : ""
+        }`
+      )
+
       return {
         headers: res.headers,
         statusCode: res.status,
