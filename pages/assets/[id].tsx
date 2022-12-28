@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
+import type { Asset, Maintainer } from "@equinor/data-marketplace-models"
 import { Button, Icon, Typography, Tabs } from "@equinor/eds-core-react"
 import { add } from "@equinor/eds-icons"
+import axios from "axios"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import NextLink from "next/link"
@@ -12,11 +14,7 @@ import styled from "styled-components"
 import { OverviewContent, ResponsibilitiesContent, ResponsibilitiesContentSections } from "components/AssetTabContent"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
-import { getPortableText } from "htmlParsing/richTextContent"
-import { Asset } from "model/Asset"
-import { makeCollibraService } from "services"
-import { getAssetAttributes, getAssetByID, getAssetResponsibilities } from "services/collibra"
-import { getUser } from "services/collibra/getUser"
+import { config } from "config"
 
 const { Tab: EdsTab, List, Panel, Panels } = Tabs
 
@@ -60,7 +58,7 @@ const getInitialTab = (tabs: Tab[], tabQuery: string | undefined | string[]) => 
 }
 
 type AssetDetailProps = {
-  asset?: DataMarketplace.Asset | null
+  asset?: Asset | null
   responsibilitiesData?: ResponsibilitiesContentSections
   collibraBaseUrl: string
 }
@@ -157,55 +155,52 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     }
   }
 
-  const makeCollibraServiceRequest = makeCollibraService({ authorization: `Bearer ${token.accessToken}` })
-
   try {
-    const asset = await makeCollibraServiceRequest(getAssetByID)(id)
+    // the adapter service has a bug where it sends two requests.
+    // the first request goes through, while the second fails.
+    // TODO: refactor services
+    const { data: asset } = await axios.get<Asset>(`${config.ADAPTER_SERVICE_API_URL}/assets/${id}`, {
+      headers: {
+        authorization: `Bearer ${token.accessToken}`,
+      },
+      params: {
+        code: config.ADAPTER_SERVICE_APP_KEY,
+      },
+    })
 
-    if (!asset || !asset.approved || !Asset.isDataProduct(asset)) {
-      return {
-        notFound: true,
+    const { data: maintainers } = await axios.get<Maintainer[]>(
+      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}/maintainers`,
+      {
+        headers: {
+          authorization: `Bearer ${token.accessToken}`,
+        },
+        params: {
+          code: config.ADAPTER_SERVICE_APP_KEY,
+        },
       }
-    }
-
-    const attributes = await makeCollibraServiceRequest(getAssetAttributes)(id, "description", "timeliness")
-    const description = attributes.find((attr) => attr.type.name.toLowerCase() === "description")?.value ?? null
-    const updateFrequency = attributes.find((attr) => attr.type.name.toLowerCase() === "timeliness")?.value ?? null
-
-    asset.description = getPortableText(description)
-
-    asset.updateFrequency = getPortableText(updateFrequency)
-
-    let responsibilities = await makeCollibraServiceRequest(getAssetResponsibilities)(id)
-
-    if (!responsibilities) {
-      console.warn("[AssetDetailView] No responsibilites found for", id)
-    }
-
-    // filter out results that are not a "User" type
-    responsibilities = responsibilities.filter((responsibility) => responsibility.owner.type === "User")
-
-    const users = await Promise.all(
-      responsibilities.map((responsibility) => makeCollibraServiceRequest(getUser)(responsibility.owner.id))
     )
-
-    const responsibilitiesData: ResponsibilitiesContentSections = responsibilities.reduce((data, responsibility) => {
-      const user = users.find((u) => u.id === responsibility.owner.id)
-      if (!user) return data
-
-      const responsibilityName = responsibility.name.toUpperCase().replace(/\s/g, "_")
-
-      return {
-        ...data,
-        [responsibilityName]: [...(data[responsibilityName] ?? []), user],
-      }
-    }, {} as ResponsibilitiesContentSections)
 
     return {
       props: {
-        asset: JSON.parse(JSON.stringify(asset)),
+        asset,
         collibraBaseUrl: process.env.COLLIBRA_BASE_URL || "",
-        responsibilitiesData: JSON.parse(JSON.stringify(responsibilitiesData)),
+        responsibilitiesData: Array.isArray(maintainers)
+          ? maintainers.reduce((map, maintainer) => {
+              const key = maintainer.role.name.toUpperCase().replaceAll(/\s/g, "_")
+
+              if (key in map) {
+                return {
+                  ...map,
+                  [key]: [...map[key], maintainer],
+                }
+              }
+
+              return {
+                ...map,
+                [key]: [maintainer],
+              }
+            }, {} as Record<string, Maintainer[]>)
+          : {},
       },
     }
   } catch (error) {
