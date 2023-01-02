@@ -2,6 +2,7 @@
 import type { Asset, Maintainer } from "@equinor/data-marketplace-models"
 import { Button, Icon, Typography, Tabs } from "@equinor/eds-core-react"
 import { add } from "@equinor/eds-icons"
+import { tokens } from "@equinor/eds-tokens"
 import axios from "axios"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
@@ -16,7 +17,7 @@ import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { config } from "config"
 
-const { Tab: EdsTab, List, Panel, Panels } = Tabs
+const { Tab: EdsTab, List, Panel: EdsPanel, Panels } = Tabs
 
 const Header = styled.header`
   display: grid;
@@ -24,8 +25,13 @@ const Header = styled.header`
   grid-gap: 1.5rem;
   align-items: baseline;
 `
+
 const StyledTabs = styled(Tabs)`
   margin-top: 48px;
+`
+
+const Panel = styled(EdsPanel)`
+  padding: ${tokens.spacings.comfortable.large} 0;
 `
 
 const AssetHeading = styled(Typography)`
@@ -123,6 +129,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
                   content={{
                     description: asset.description,
                     updateFrequency: asset.updateFrequency,
+                    excerpt: asset.excerpt,
                   }}
                 />
               </Panel>
