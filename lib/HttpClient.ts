@@ -1,5 +1,4 @@
 import axios, { Axios, AxiosError } from "axios"
-import qs from "query-string"
 
 import { HttpError } from "./HttpError"
 
@@ -38,9 +37,17 @@ export class __HttpClient__ {
         headers: config.headers,
         method: config.method ?? "GET",
         params: config.query,
-        paramsSerializer: (params: Record<string, any>) => qs.stringify(params, { arrayFormat: "none" }),
+        paramsSerializer: {
+          serialize: (params) => new URLSearchParams(params).toString(),
+        },
         url,
       })
+
+      console.log(
+        `${res.config.method?.toUpperCase()} ${res.config.baseURL}${res.config.url}${
+          res.config.params ? `?${new URLSearchParams(res.config.params).toString()}` : ""
+        }`
+      )
 
       return {
         headers: res.headers,
@@ -52,7 +59,7 @@ export class __HttpClient__ {
       const err = error as AxiosError
 
       if (err.isAxiosError) {
-        throw new HttpError(err.message, err.response!.status ?? 500, err.response!.headers ?? {}, err.response!.data)
+        throw new HttpError(err.message, err.response?.status ?? 500, err.response?.headers ?? {}, err.response?.data)
       }
 
       throw err

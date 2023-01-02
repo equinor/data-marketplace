@@ -31,7 +31,7 @@
     "@sanity/block-tools": "^2.35.0",
     "@sanity/schema": "^2.35.0",
     "applicationinsights": "^2.3.6",
-    "axios": "^0.27.2",
+    "axios": "^1.2.1",
     "dotenv": "^16.0.3",
     "jsdom": "^20.0.3",
     "next": "^13.1.1",
@@ -45,6 +45,7 @@
     "xss": "^1.0.14"
   },
   "devDependencies": {
+    "@equinor/data-marketplace-models": "^2.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.2.4",
