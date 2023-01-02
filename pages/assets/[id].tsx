@@ -156,8 +156,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   }
 
   try {
-    // the adapter service has a bug where it sends two requests.
+    // the HttpClient class seems to have a bug where it sends two requests.
     // the first request goes through, while the second fails.
+    // this has not been observed with other requests (although it hasn't been thoroughly investigated).
     // TODO: refactor services
     const { data: asset } = await axios.get<Asset>(`${config.ADAPTER_SERVICE_API_URL}/assets/${id}`, {
       headers: {
@@ -180,27 +181,29 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       }
     )
 
+    const responsibilitiesData = Array.isArray(maintainers)
+      ? maintainers.reduce((maintainerMap, maintainer) => {
+          const roleName = maintainer.role.name.toUpperCase().replaceAll(/\s/g, "_")
+
+          if (roleName in maintainerMap) {
+            return {
+              ...maintainerMap,
+              [roleName]: [...maintainerMap[roleName], maintainer],
+            }
+          }
+
+          return {
+            ...maintainerMap,
+            [roleName]: [maintainer],
+          }
+        }, {} as Record<string, Maintainer[]>)
+      : {}
+
     return {
       props: {
         asset,
         collibraBaseUrl: process.env.COLLIBRA_BASE_URL || "",
-        responsibilitiesData: Array.isArray(maintainers)
-          ? maintainers.reduce((map, maintainer) => {
-              const key = maintainer.role.name.toUpperCase().replaceAll(/\s/g, "_")
-
-              if (key in map) {
-                return {
-                  ...map,
-                  [key]: [...map[key], maintainer],
-                }
-              }
-
-              return {
-                ...map,
-                [key]: [maintainer],
-              }
-            }, {} as Record<string, Maintainer[]>)
-          : {},
+        responsibilitiesData,
       },
     }
   } catch (error) {
