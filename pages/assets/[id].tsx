@@ -162,31 +162,23 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     }
   }
 
+  const adapterServiceClient = axios.create({
+    baseURL: (config.ADAPTER_SERVICE_API_URL as string) ?? "",
+    headers: {
+      authorization: `Bearer ${token.accessToken}`,
+    },
+    params: {
+      code: config.ADAPTER_SERVICE_APP_KEY,
+    },
+  })
+
   try {
     // the HttpClient class seems to have a bug where it sends two requests.
     // the first request goes through, while the second fails.
     // this has not been observed with other requests (although it hasn't been thoroughly investigated).
     // TODO: refactor services
-    const { data: asset } = await axios.get<Asset>(`${config.ADAPTER_SERVICE_API_URL}/assets/${id}`, {
-      headers: {
-        authorization: `Bearer ${token.accessToken}`,
-      },
-      params: {
-        code: config.ADAPTER_SERVICE_APP_KEY,
-      },
-    })
-
-    const { data: maintainers } = await axios.get<Maintainer[]>(
-      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}/maintainers`,
-      {
-        headers: {
-          authorization: `Bearer ${token.accessToken}`,
-        },
-        params: {
-          code: config.ADAPTER_SERVICE_APP_KEY,
-        },
-      }
-    )
+    const { data: asset } = await adapterServiceClient.get<Asset>(`/assets/${id}`)
+    const { data: maintainers } = await adapterServiceClient.get<Maintainer[]>(`/assets/${id}/maintainers`)
 
     const responsibilitiesData = Array.isArray(maintainers)
       ? maintainers.reduce((maintainerMap, maintainer) => {
