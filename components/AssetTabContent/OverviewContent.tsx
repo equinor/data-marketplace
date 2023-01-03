@@ -1,9 +1,10 @@
 /* eslint-disable camelcase */
-import { Typography, Icon } from "@equinor/eds-core-react"
-import { external_link } from "@equinor/eds-icons"
+import type { Asset } from "@equinor/data-marketplace-models"
+import { Typography, Icon, Button, Divider } from "@equinor/eds-core-react"
+import { chevron_down, chevron_up, external_link } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { PortableText } from "@portabletext/react"
-import { FunctionComponent, PropsWithChildren } from "react"
+import { FunctionComponent, PropsWithChildren, useState } from "react"
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
@@ -12,11 +13,15 @@ import { AssetTabContentSectionContainer } from "./AssetTabContentSectionContain
 import { defaultComponents } from "htmlParsing/portableText"
 
 const Overview = styled.div`
-  padding-top: ${tokens.spacings.comfortable.x_large};
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: ${tokens.spacings.comfortable.x_large};
   max-width: 70ch;
+`
+
+const MoreInfoDisclosure = styled.div`
+  padding-top: ${tokens.spacings.comfortable.medium_small};
 `
 
 const IconLink = styled.a`
@@ -29,7 +34,7 @@ const IconLink = styled.a`
   }
 `
 
-export type OverviewContentSections = Pick<DataMarketplace.Asset, "description" | "updateFrequency">
+export type OverviewContentSections = Pick<Asset, "description" | "updateFrequency" | "excerpt">
 
 type Props = {
   content: OverviewContentSections
@@ -44,19 +49,46 @@ const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) =>
 )
 
 export const OverviewContent = ({ content, assetId, collibraBaseUrl }: Props) => {
-  const { description, updateFrequency } = content
+  const [isMoreInfoOpen, setIsMoreInfoOpen] = useState<boolean>(false)
+
+  const { excerpt, description, updateFrequency } = content
   const collibraUrl = `${collibraBaseUrl}/asset/${assetId}`
+
   return (
     <Overview>
-      {description && (
+      {excerpt && (
         <AssetTabContentSectionContainer>
           <OverviewSubTitle>
             <FormattedMessage id="asset.description" />
           </OverviewSubTitle>
           {/* @ts-ignore: Look into the correct way of doing this */}
-          <PortableText value={description} components={defaultComponents} />
+          <PortableText value={excerpt} components={defaultComponents} />
+
+          {description && (
+            <>
+              <Button
+                data-action="disclosure"
+                aria-controls="more-information"
+                aria-expanded={isMoreInfoOpen}
+                variant="outlined"
+                onClick={() => setIsMoreInfoOpen(!isMoreInfoOpen)}
+              >
+                More information
+                <Icon data={isMoreInfoOpen ? chevron_up : chevron_down} />
+              </Button>
+
+              {isMoreInfoOpen && (
+                <MoreInfoDisclosure id="more-information" aria-hidden={!isMoreInfoOpen}>
+                  <Divider variant="small" />
+                  {/* @ts-ignore: Look into the correct way of doing this */}
+                  <PortableText value={description} components={defaultComponents} />
+                </MoreInfoDisclosure>
+              )}
+            </>
+          )}
         </AssetTabContentSectionContainer>
       )}
+
       {updateFrequency && (
         <AssetTabContentSectionContainer>
           <OverviewSubTitle>

@@ -2,6 +2,7 @@
 import type { Asset, Maintainer } from "@equinor/data-marketplace-models"
 import { Button, Icon, Typography, Tabs } from "@equinor/eds-core-react"
 import { add } from "@equinor/eds-icons"
+import { tokens } from "@equinor/eds-tokens"
 import axios from "axios"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
@@ -16,7 +17,7 @@ import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { config } from "config"
 
-const { Tab: EdsTab, List, Panel, Panels } = Tabs
+const { Tab: EdsTab, List, Panel: EdsPanel, Panels } = Tabs
 
 const Header = styled.header`
   display: grid;
@@ -24,8 +25,13 @@ const Header = styled.header`
   grid-gap: 1.5rem;
   align-items: baseline;
 `
+
 const StyledTabs = styled(Tabs)`
   margin-top: 48px;
+`
+
+const Panel = styled(EdsPanel)`
+  padding: ${tokens.spacings.comfortable.large} 0;
 `
 
 const AssetHeading = styled(Typography)`
@@ -123,6 +129,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
                   content={{
                     description: asset.description,
                     updateFrequency: asset.updateFrequency,
+                    excerpt: asset.excerpt,
                   }}
                 />
               </Panel>
@@ -155,31 +162,23 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     }
   }
 
+  const adapterServiceClient = axios.create({
+    baseURL: (config.ADAPTER_SERVICE_API_URL as string) ?? "",
+    headers: {
+      authorization: `Bearer ${token.accessToken}`,
+    },
+    params: {
+      code: config.ADAPTER_SERVICE_APP_KEY,
+    },
+  })
+
   try {
     // the HttpClient class seems to have a bug where it sends two requests.
     // the first request goes through, while the second fails.
     // this has not been observed with other requests (although it hasn't been thoroughly investigated).
     // TODO: refactor services
-    const { data: asset } = await axios.get<Asset>(`${config.ADAPTER_SERVICE_API_URL}/assets/${id}`, {
-      headers: {
-        authorization: `Bearer ${token.accessToken}`,
-      },
-      params: {
-        code: config.ADAPTER_SERVICE_APP_KEY,
-      },
-    })
-
-    const { data: maintainers } = await axios.get<Maintainer[]>(
-      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}/maintainers`,
-      {
-        headers: {
-          authorization: `Bearer ${token.accessToken}`,
-        },
-        params: {
-          code: config.ADAPTER_SERVICE_APP_KEY,
-        },
-      }
-    )
+    const { data: asset } = await adapterServiceClient.get<Asset>(`/assets/${id}`)
+    const { data: maintainers } = await adapterServiceClient.get<Maintainer[]>(`/assets/${id}/maintainers`)
 
     const responsibilitiesData = Array.isArray(maintainers)
       ? maintainers.reduce((maintainerMap, maintainer) => {
