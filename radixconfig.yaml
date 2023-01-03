@@ -29,6 +29,7 @@ spec:
             COLLIBRA_BASE_URL: https://equinor.collibra.com
             COLLIBRA_FIRST_TIME_VISITOR: https://equinor.collibra.com
             APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=7eea9263-fb34-4006-9954-dc4568c322ac;IngestionEndpoint=https://northeurope-3.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
+            ADAPTER_SERVICE_BASE_URL: https://func-datamarketplace-prod.azurewebsites.net
         - environment: test
           resources:
             requests:
@@ -43,12 +44,14 @@ spec:
             COLLIBRA_BASE_URL: https://equinor-test.collibra.com
             COLLIBRA_FIRST_TIME_VISITOR: https://equinor-test.collibra.com
             APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=3a749405-8c63-4e7a-99c7-a7e66f47fa2f;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
+            ADAPTER_SERVICE_BASE_URL: https://func-datamarketplace-test.azurewebsites.net
       secrets:
         - AUTH_CLIENT_ID
         - AUTH_CLIENT_SECRET
         - AUTH_TENANT_ID
         - NEXTAUTH_URL
         - NEXTAUTH_SECRET
+        - ADAPTER_SERVICE_APP_KEY
   dnsAppAlias:
     environment: prod
     component: web
