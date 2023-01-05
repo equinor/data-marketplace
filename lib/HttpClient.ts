@@ -43,11 +43,12 @@ export class __HttpClient__ {
         url,
       })
 
-      console.log(
+      // @TODO This console.log statement bloats the logs. A nice future improvement can be to add a verboose option
+      /*    console.log(
         `${res.config.method?.toUpperCase()} ${res.config.baseURL}${res.config.url}${
           res.config.params ? `?${new URLSearchParams(res.config.params).toString()}` : ""
         }`
-      )
+      ) */
 
       return {
         headers: res.headers,
