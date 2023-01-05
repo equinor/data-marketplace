@@ -20,6 +20,10 @@ const Overview = styled.div`
   max-width: 70ch;
 `
 
+const MoreInfoContainer = styled.div<{ alone: boolean }>`
+  ${({ alone }) => alone && `margin-top: ${tokens.spacings.comfortable.medium};`}
+`
+
 const MoreInfoDisclosure = styled.div`
   padding-top: ${tokens.spacings.comfortable.medium_small};
 `
@@ -56,16 +60,19 @@ export const OverviewContent = ({ content, assetId, collibraBaseUrl }: Props) =>
 
   return (
     <Overview>
-      {excerpt && (
+      {(excerpt || description) && (
         <AssetTabContentSectionContainer>
           <OverviewSubTitle>
             <FormattedMessage id="asset.description" />
           </OverviewSubTitle>
-          {/* @ts-ignore: Look into the correct way of doing this */}
-          <PortableText value={excerpt} components={defaultComponents} />
+
+          {excerpt && (
+            /* @ts-ignore: Look into the correct way of doing this */
+            <PortableText value={excerpt} components={defaultComponents} />
+          )}
 
           {description && (
-            <>
+            <MoreInfoContainer alone={Boolean(!excerpt && description)}>
               <Button
                 data-action="disclosure"
                 aria-controls="more-information"
@@ -84,7 +91,7 @@ export const OverviewContent = ({ content, assetId, collibraBaseUrl }: Props) =>
                   <PortableText value={description} components={defaultComponents} />
                 </MoreInfoDisclosure>
               )}
-            </>
+            </MoreInfoContainer>
           )}
         </AssetTabContentSectionContainer>
       )}
