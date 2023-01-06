@@ -18,7 +18,6 @@ import { Page } from "components/Page"
 import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { defaultComponents } from "htmlParsing/portableText"
-import { getPortableText } from "htmlParsing/richTextContent"
 import { ERR_CODES } from "lib/errors"
 
 const IngressContainer = styled.div`
@@ -201,10 +200,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     const { data: rightsToUseAttributes } = await adapterServiceClient.get<RightsToUse>(`/assets/${id}/terms`)
 
     const { terms } = rightsToUseAttributes
-
-    if (terms.value) {
-      terms.value = getPortableText(terms.value as string)
-    }
 
     return {
       props: {
