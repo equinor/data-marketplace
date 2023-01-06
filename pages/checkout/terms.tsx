@@ -1,9 +1,11 @@
 /* eslint-disable camelcase */
+import type { Asset, RightsToUse } from "@equinor/data-marketplace-models"
 import { Banner, Button, Checkbox, Icon, Typography } from "@equinor/eds-core-react"
 import { warning_filled, chevron_right } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { PortableText } from "@portabletext/react"
 import { PortableTextBlock } from "@portabletext/types"
+import axios from "axios"
 import type { GetServerSideProps, NextPage } from "next"
 import { getToken } from "next-auth/jwt"
 import { useRouter } from "next/router"
@@ -13,14 +15,11 @@ import styled from "styled-components"
 
 import { CheckoutWizard, NoAsset, CancelButton, ValidationError, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Page } from "components/Page"
+import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { defaultComponents } from "htmlParsing/portableText"
 import { getPortableText } from "htmlParsing/richTextContent"
-import { ClientError, ERR_CODES, ExternalError } from "lib/errors"
-import { __Error__ } from "lib/errors/__Error__"
-import { Asset } from "model/Asset"
-import { makeCollibraService } from "services"
-import { getAssetByID, getRightsToUse } from "services/collibra"
+import { ERR_CODES } from "lib/errors"
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
@@ -173,7 +172,6 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
-
   const defaultPageProps: Props = { asset: null }
 
   if (typeof id !== "string") {
@@ -182,57 +180,43 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
   const token = await getToken({ req })
 
-  if (typeof token?.accessToken !== "string") {
-    return { props: defaultPageProps }
+  if (!token || !token.accessToken || typeof token.accessToken !== "string") {
+    return {
+      props: defaultPageProps,
+    }
   }
 
-  const authorization = `Bearer ${token!.accessToken}`
-
-  const makeCollibraServiceRequest = makeCollibraService({ authorization })
+  const adapterServiceClient = axios.create({
+    baseURL: (config.ADAPTER_SERVICE_API_URL as string) ?? "",
+    headers: {
+      authorization: `Bearer ${token.accessToken}`,
+    },
+    params: {
+      code: config.ADAPTER_SERVICE_APP_KEY,
+    },
+  })
 
   try {
-    const asset = await makeCollibraServiceRequest(getAssetByID)(id)
+    const { data: asset } = await adapterServiceClient.get<Asset>(`/assets/${id}`)
+    const { data: rightsToUseAttributes } = await adapterServiceClient.get<RightsToUse>(`/assets/${id}/terms`)
 
-    if (!asset.approved || !Asset.isDataProduct(asset)) {
-      throw new ClientError(`Data product ${id} not approved`, ERR_CODES.ASSET_NOT_APPROVED)
-    }
-
-    const rtuAttrs = await makeCollibraServiceRequest(getRightsToUse)(id)
-
-    const terms = rtuAttrs.find((attr) => attr.type.toLowerCase() === "terms and conditions")
-
-    if (!terms) {
-      throw new ExternalError(
-        `No terms and conditions found for rights to use asset ${asset.name} (ID: ${asset.id})`,
-        ERR_CODES.MISSING_DATA
-      )
-    }
+    const { terms } = rightsToUseAttributes
 
     if (terms.value) {
-      terms.value = getPortableText(terms.value)
+      terms.value = getPortableText(terms.value as string)
     }
 
     return {
       props: {
-        asset: JSON.parse(JSON.stringify(asset)),
+        asset,
         rightsToUse: {
-          name: terms.type,
+          name: terms.name,
           value: terms.value,
         },
       },
     }
   } catch (error) {
-    console.error("[CheckoutTermsView]", error)
-
-    // if (error instanceof ExternalError || error instanceof ClientError) {
-    if (error instanceof __Error__) {
-      return {
-        props: {
-          ...defaultPageProps,
-          error: error.code,
-        },
-      }
-    }
+    console.error(`[CheckoutTermsView] in getServerSideProps for asset ${id}`, error)
 
     return {
       props: defaultPageProps,
