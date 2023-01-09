@@ -179,7 +179,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
   const token = await getToken({ req })
 
-  if (!token || !token.accessToken || typeof token.accessToken !== "string") {
+  if (typeof token?.accessToken !== "string") {
     return {
       props: defaultPageProps,
     }
