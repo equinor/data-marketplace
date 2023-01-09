@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
+import type { Asset, RightsToUse } from "@equinor/data-marketplace-models"
 import { Button, Icon, Typography } from "@equinor/eds-core-react"
 import { external_link } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
+import axios from "axios"
 import { JSDOM } from "jsdom"
 import { getToken } from "next-auth/jwt"
 import type { NextPage, GetServerSideProps } from "next/types"
@@ -13,11 +15,6 @@ import { appInsights } from "appInsights"
 import { CheckoutWizard, NoAsset, CancelButton, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Page } from "components/Page"
 import { config } from "config"
-import { ClientError, ERR_CODES, ExternalError } from "lib/errors"
-import { __Error__ } from "lib/errors/__Error__"
-import { Asset } from "model/Asset"
-import { makeCollibraService } from "services"
-import { getAssetByID, getRightsToUse } from "services/collibra"
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -104,7 +101,6 @@ const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
-
   const defaultPageProps: Props = { asset: null }
 
   if (typeof id !== "string") {
@@ -113,29 +109,31 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
   const token = await getToken({ req })
 
-  if (typeof token?.accessToken !== "string") {
-    return { props: defaultPageProps }
+  if (!token || !token.accessToken || typeof token.accessToken !== "string") {
+    return {
+      props: defaultPageProps,
+    }
   }
 
-  const authorization = `Bearer ${token!.accessToken}`
-  const makeCollibraServiceRequest = makeCollibraService({ authorization })
+  const adapterServiceClient = axios.create({
+    baseURL: (config.ADAPTER_SERVICE_API_URL as string) ?? "",
+    headers: {
+      authorization: `Bearer ${token.accessToken}`,
+    },
+    params: {
+      code: config.ADAPTER_SERVICE_APP_KEY,
+    },
+  })
 
   try {
-    const asset = await makeCollibraServiceRequest(getAssetByID)(id)
+    const { data: asset } = await adapterServiceClient.get<Asset>(`/assets/${id}`)
+    const { data: rightsToUseAttributes } = await adapterServiceClient.get<RightsToUse>(`/assets/${id}/terms`)
 
-    if (!asset.approved || !Asset.isDataProduct(asset)) {
-      throw new ClientError(`Data product ${id} not approved`, ERR_CODES.ASSET_NOT_APPROVED)
-    }
+    const authUrl = rightsToUseAttributes.authURL?.value as string
 
-    const rtuAttrs = await makeCollibraServiceRequest(getRightsToUse)(id)
-    const authorizationUrl = rtuAttrs.find((attr) => attr.type.toLowerCase() === "authorization url")?.value ?? ""
-    const authUrlHref = authorizationUrl.includes("href")
-      ? new JSDOM(xss(authorizationUrl)).window.document.querySelector("a")?.getAttribute("href")
-      : authorizationUrl
-
-    if (!authorizationUrl) {
-      throw new ExternalError(`No authorization URL found for ${asset.name} (ID: ${asset.id})`, ERR_CODES.MISSING_DATA)
-    }
+    const authUrlHref = authUrl.includes("href")
+      ? new JSDOM(xss(authUrl)).window.document.querySelector("a")?.getAttribute("href")
+      : authUrl
 
     return {
       props: {
@@ -146,17 +144,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       },
     }
   } catch (error) {
-    console.error("[CheckoutRedirectView]", error)
-
-    // if (error instanceof ExternalError || error instanceof ClientError) {
-    if (error instanceof __Error__) {
-      return {
-        props: {
-          ...defaultPageProps,
-          error: error.code,
-        },
-      }
-    }
+    console.error(`[CheckoutRedirectView] in getServerSideProps for asset ${id}`, error)
 
     return {
       props: defaultPageProps,
