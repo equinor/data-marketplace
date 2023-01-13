@@ -1,11 +1,8 @@
 /* eslint-disable camelcase */
-import type { Asset } from "@equinor/data-marketplace-models"
 import { Card, Typography, CircularProgress, Banner, Icon } from "@equinor/eds-core-react"
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import axios from "axios"
-import type { NextPage, GetServerSideProps } from "next"
-import { getToken } from "next-auth/jwt"
+import type { NextPage } from "next"
 import NextLink from "next/link"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
@@ -13,8 +10,7 @@ import styled from "styled-components"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { Illustration } from "components/frontpage"
-// import { usePopularProducts } from "hooks"
-import { config } from "config"
+import { usePopularProducts } from "hooks"
 import { fmtNumber } from "lib/fmtNumber"
 
 const CardGrid = styled(Card)`
@@ -79,20 +75,14 @@ const HeroIllustration = styled(Illustration)`
     align-self: end;
   }
 `
-type AssetWithViews = Asset & { views: number }
 
-type Props = {
-  popularDataProducts: AssetWithViews[]
-}
-
-const Frontpage: NextPage<Props> = ({ popularDataProducts }) => {
+const Frontpage: NextPage = () => {
   const intl = useIntl()
-  // const { popularDataProducts, isLoading, error } = usePopularProducts()
+  const { popularDataProducts, isLoading, error } = usePopularProducts()
 
-  /*   if (error) {
+  if (error) {
     console.warn("[Frontpage] Failed while fetching most viewed data products", error)
-  } */
-  const isLoading = false
+  }
 
   return (
     <Page>
@@ -139,7 +129,7 @@ const Frontpage: NextPage<Props> = ({ popularDataProducts }) => {
                           <FormattedMessage
                             id="frontpage.numberOfViews"
                             values={{
-                              numberOfViews: fmtNumber(product.views),
+                              numberOfViews: fmtNumber(product.numberOfViews),
                             }}
                           />
                         </Views>
@@ -158,46 +148,6 @@ const Frontpage: NextPage<Props> = ({ popularDataProducts }) => {
       </main>
     </Page>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const token = await getToken({ req })
-
-  if (typeof token?.accessToken !== "string") {
-    return {
-      props: {
-        popularDataProducts: [],
-      },
-    }
-  }
-
-  const adapterServiceClient = axios.create({
-    baseURL: (config.ADAPTER_SERVICE_API_URL as string) ?? "",
-    headers: {
-      authorization: `Bearer ${token.accessToken}`,
-    },
-    params: {
-      code: config.ADAPTER_SERVICE_APP_KEY,
-      limit: 6,
-    },
-  })
-
-  try {
-    const { data: popularDataProducts } = await adapterServiceClient.get<Asset>("/lists/popular")
-    return {
-      props: {
-        popularDataProducts,
-      },
-    }
-  } catch (error) {
-    console.error("[CheckoutRedirectView] in getServerSideProps for index page", error)
-
-    return {
-      props: {
-        popularDataProducts: [],
-      },
-    }
-  }
 }
 
 export default Frontpage
