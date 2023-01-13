@@ -129,7 +129,7 @@ const Frontpage: NextPage = () => {
                           <FormattedMessage
                             id="frontpage.numberOfViews"
                             values={{
-                              numberOfViews: fmtNumber(product.numberOfViews),
+                              numberOfViews: fmtNumber(product.views),
                             }}
                           />
                         </Views>
