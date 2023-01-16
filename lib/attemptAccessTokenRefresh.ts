@@ -49,6 +49,7 @@ export const attemptAccessTokenRefresh = async (token: Token) => {
       refreshToken: data.refresh_token ?? token.refreshToken, // Fall back to old refresh token
     }
   } catch (err) {
+    /* eslint-disable no-console */
     console.error("[attemptAccessTokenRefresh] Failed to refresh access token", err)
     throw new AuthError("Failed to refresh access token", ERR_CODES.REFRESH_TOKEN_EXPIRED, { token })
   }

@@ -81,6 +81,7 @@ const Frontpage: NextPage = () => {
   const { popularDataProducts, isLoading, error } = usePopularProducts()
 
   if (error) {
+    /* eslint-disable no-console */
     console.warn("[Frontpage] Failed while fetching most viewed data products", error)
   }
 

@@ -27,6 +27,7 @@ export default NextAuth({
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
+        /* eslint-disable no-console */
         console.log("[NextAuth] User signed in. Retrieving access token")
 
         return {

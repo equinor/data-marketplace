@@ -23,6 +23,7 @@ export const Link = ({ value, children }: { value: PortableTextLink; children: R
   const { href } = value
   // Adding this temporarily to make it easier to see internal links
   if (href.startsWith("/")) {
+    /* eslint-disable no-console */
     console.warn("Internal link", href)
   }
   return (

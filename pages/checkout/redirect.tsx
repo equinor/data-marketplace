@@ -144,6 +144,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       },
     }
   } catch (error) {
+    /* eslint-disable no-console */
     console.error(`[CheckoutRedirectView] in getServerSideProps for asset ${id}`, error)
 
     return {

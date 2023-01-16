@@ -206,6 +206,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       },
     }
   } catch (error) {
+    /* eslint-disable no-console */
     console.error(`[AssetDetailView] in getServerSideProps - Failed getting asset details for asset ${id}`, error)
 
     return { props: defaultPageProps }
