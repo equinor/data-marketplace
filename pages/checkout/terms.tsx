@@ -59,7 +59,7 @@ const DataSourceErrorContainer = styled.div`
 `
 
 type Props = {
-  asset?: Collibra.Asset | null
+  asset?: Asset | null
   error?: string
   rightsToUse?: {
     name: string
