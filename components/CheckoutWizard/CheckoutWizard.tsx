@@ -40,8 +40,8 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
   // we will not notice that. But if we add it to the deps array, then if will fire if the user
   // clicks "Cancel" since we then remove the local storage and thus changes the checkoutData
   // We should revisit this.
-  // Might be to overengineered with only steps.
-  // Perhaps take some steps back
+  // Might be to overengineered with only 2 steps.
+
   useEffect(() => {
     const stepByPathname = steps.findIndex((step) => router.pathname.includes(step))
     if (stepByPathname > 0 && !(checkoutData as any)[steps[stepByPathname - 1]]) {
