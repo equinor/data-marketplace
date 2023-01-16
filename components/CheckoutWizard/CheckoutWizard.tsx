@@ -35,6 +35,13 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
   const intl = useIntl()
   const { checkoutData, removeItem } = useCheckoutData()
 
+  // @TODO This code doesn't work very well. The missing checkoutData in the dependency array
+  // is actually a problem, since one can remove the locale storage using devtools on step 2 and
+  // we will not notice that. But if we add it to the deps array, then if will fire if the user
+  // clicks "Cancel" since we then remove the local storage and thus changes the checkoutData
+  // We should revisit this.
+  // Might be to overengineered with only steps.
+  // Perhaps take some steps back
   useEffect(() => {
     const stepByPathname = steps.findIndex((step) => router.pathname.includes(step))
     if (stepByPathname > 0 && !(checkoutData as any)[steps[stepByPathname - 1]]) {

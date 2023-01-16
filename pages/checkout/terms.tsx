@@ -211,6 +211,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       },
     }
   } catch (error) {
+    /* eslint-disable no-console */
     console.error(`[CheckoutTermsView] in getServerSideProps for asset ${id}`, error)
 
     return {

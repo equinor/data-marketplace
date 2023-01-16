@@ -64,6 +64,7 @@ const Search: NextPage = () => {
   }, [router.query.community])
 
   if (searchResultError) {
+    /* eslint-disable no-console */
     console.log("[Search] Failed fetching search results", searchResultError)
   }
 

@@ -74,6 +74,7 @@ const SearchHandler: NextApiHandler = async (req, res) => {
       results,
     })
   } catch (error) {
+    /* eslint-disable no-console */
     console.log("[SearchHandler]", error)
     const err = error as HttpError
     return res.status(err.statusCode ?? 500).json(err.body)

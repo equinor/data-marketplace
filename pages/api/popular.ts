@@ -33,6 +33,7 @@ const PopularAssetsHandler: NextApiHandler = async (req, res) => {
 
     return res.json(popularDataProducts)
   } catch (error) {
+    /* eslint-disable no-console */
     console.log("[PopularAssetsHandler]", error)
     const err = error as HttpError
     return res.status(err.statusCode ?? 500).json(err.body)

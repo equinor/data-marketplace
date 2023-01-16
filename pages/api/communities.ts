@@ -46,6 +46,7 @@ const CommunitiesHandler: NextApiHandler = async (req, res) => {
 
     return res.json(communities.body?.results)
   } catch (error) {
+    /* eslint-disable no-console  */
     console.log("[CommunitiesHandler]", error)
     const err = error as HttpError
     return res.status(err.statusCode ?? 500).json(err.body)
