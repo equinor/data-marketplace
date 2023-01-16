@@ -1,5 +1,6 @@
 import { STATUS_CODES } from "http"
 
+import { Asset } from "@equinor/data-marketplace-models"
 import { NextApiHandler } from "next"
 import { getToken } from "next-auth/jwt"
 
@@ -8,7 +9,7 @@ import { HttpClient } from "lib/HttpClient"
 import { HttpError } from "lib/HttpError"
 
 type SearchResult = {
-  resource: Collibra.Asset
+  resource: Asset
 }
 
 const SearchHandler: NextApiHandler = async (req, res) => {

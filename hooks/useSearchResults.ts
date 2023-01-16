@@ -1,15 +1,16 @@
+import { Asset } from "@equinor/data-marketplace-models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
 import { HttpClient } from "../lib/HttpClient"
 
 type SearchResult = {
-  resource: Collibra.Asset
+  resource: Asset
 }
 
 export const useSearchResults = () => {
   const router = useRouter()
-  const [searchResults, setSearchResults] = useState<Collibra.Asset[]>()
+  const [searchResults, setSearchResults] = useState<Asset[]>()
   const [total, setTotal] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>()

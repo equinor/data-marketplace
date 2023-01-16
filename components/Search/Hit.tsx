@@ -1,3 +1,4 @@
+import { Asset } from "@equinor/data-marketplace-models"
 import { Card, Typography, List } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
@@ -18,7 +19,7 @@ const StyledLink = styled(NextLink)`
 `
 
 type Props = {
-  hit: Collibra.Asset
+  hit: Asset
 }
 
 export const Hit: FunctionComponent<Props> = ({ hit }) => {
