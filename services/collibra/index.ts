@@ -1,7 +1,0 @@
-export { getAssetAttributes } from "./getAssetAttributes"
-export { getAssetByID } from "./getAssetByID"
-export { getAssetResponsibilities } from "./getAssetResponsibilities"
-export { getAssets } from "./getAssets"
-export { getDomainByName } from "./getDomainByName"
-export { getStatusByName } from "./getStatusByName"
-export { getUser } from "./getUser"
