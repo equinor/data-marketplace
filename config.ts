@@ -1,3 +1,5 @@
+import algoliasearch from "algoliasearch/lite"
+
 type ConfigType = Record<string, string | number | boolean>
 
 export const config: ConfigType = {
@@ -18,3 +20,12 @@ export const config: ConfigType = {
 
   PREVENT_COLLIBRA_WORKFLOW: process.env.NEXT_PUBLIC_PREVENT_COLLIBRA_WORKFLOW === "true",
 }
+
+const algolia = {
+  applicationId: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || "",
+  searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY || "",
+  searchApiServerKey: process.env.ALGOLIA_SEARCH_API_SERVER_KEY || "",
+}
+
+export const searchClient = algoliasearch(algolia.applicationId, algolia.searchApiKey)
+export const searchClientServer = algoliasearch(algolia.applicationId, algolia.searchApiServerKey)
