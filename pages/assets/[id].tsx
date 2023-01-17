@@ -102,18 +102,18 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
         <Section>
           <Header>
             <AssetHeading variant="h1">{asset.name}</AssetHeading>
-            <NextLink
+            <Button
+              as={NextLink}
+              /*  Because EDS types href as string */
+              /* @ts-ignore */
               href={{
                 pathname: "/checkout/terms",
                 query: { id: assetId },
               }}
-              passHref
             >
-              <Button as="span">
-                <Icon data={add} />
-                <FormattedMessage id="asset.getAccess" />
-              </Button>
-            </NextLink>
+              <Icon data={add} />
+              <FormattedMessage id="asset.getAccess" />
+            </Button>
           </Header>
 
           <StyledTabs onChange={handleTabChange} activeTab={currentTab.id}>
