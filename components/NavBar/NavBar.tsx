@@ -62,13 +62,12 @@ export const NavBar = () => {
     <TopbarWrapper>
       <EDSTopBar>
         <TopBar.Header>
-          <NextLink href="/" passHref>
-            <Button as="span" variant="ghost" color="secondary">
-              <Typography as="span">
-                <FormattedMessage id="navbar.logo" />
-              </Typography>
-            </Button>
-          </NextLink>
+          {/*  @ts-ignore  */}
+          <Button as={NextLink} href="/" variant="ghost" color="secondary">
+            <Typography as="span">
+              <FormattedMessage id="navbar.logo" />
+            </Typography>
+          </Button>
         </TopBar.Header>
         <EDSCustomContent>
           <form onSubmit={onSearchSubmit}>
