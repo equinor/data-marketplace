@@ -52,6 +52,7 @@ spec:
         - NEXTAUTH_URL
         - NEXTAUTH_SECRET
         - ADAPTER_SERVICE_APP_KEY
+        - ALGOLIA_SEARCH_API_SERVER_KEY
   dnsAppAlias:
     environment: prod
     component: web
