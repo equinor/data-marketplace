@@ -37,33 +37,37 @@ const Hit = ({ hit }: HitProps) => (
   </>
 )
 
+const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
+  /* eslint-disable-next-line react/jsx-props-no-spreading */
+  <InstantSearchSSRProvider {...serverState}>
+    <InstantSearch
+      searchClient={isServerRendered ? searchClientServer : searchClient}
+      indexName="test_assets"
+      routing={{
+        router: history({
+          /*  @ts-ignore */
+          getLocation: () => (typeof window === "undefined" ? new URL(serverUrl) : window.location),
+        }),
+      }}
+    >
+      <Configure hitsPerPage={50} snippetEllipsisText="..." />
+      <SearchBox />
+      <Hits hitComponent={Hit} />
+    </InstantSearch>
+  </InstantSearchSSRProvider>
+)
+
 const SearchPage: NextPage<Props> = ({ serverState, isServerRendered = false, serverUrl }) => (
-  <Page documentTitle="Beta for improved search">
+  <Page documentTitle="Beta for new and improved search">
     <h1>Beta version for improved search</h1>
-    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-    <InstantSearchSSRProvider {...serverState}>
-      <InstantSearch
-        searchClient={isServerRendered ? searchClientServer : searchClient}
-        indexName="test_assets"
-        routing={{
-          router: history({
-            /*  @ts-ignore */
-            getLocation: () => (typeof window === "undefined" ? new URL(serverUrl) : window.location),
-          }),
-        }}
-      >
-        <Configure hitsPerPage={50} snippetEllipsisText="..." />
-        <SearchBox />
-        <Hits hitComponent={Hit} />
-      </InstantSearch>
-    </InstantSearchSSRProvider>
+    <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
   </Page>
 )
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const protocol = req.headers.referer?.split("://")[0] || "https"
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`
-  const serverState = await getServerState(<SearchPage serverUrl={serverUrl} isServerRendered />, { renderToString })
+  const serverState = await getServerState(<Search serverUrl={serverUrl} isServerRendered />, { renderToString })
 
   return {
     props: {
