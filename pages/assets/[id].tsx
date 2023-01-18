@@ -97,7 +97,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
   }
 
   return (
-    <Page documentTitle={asset.name || undefined}>
+    <Page documentTitle={asset.name || intl.formatMessage({ id: "common.documentTitle" })}>
       <main>
         <Section>
           <Header>
