@@ -2,6 +2,7 @@
   "common.cancel": "Cancel",
   "common.continue": "Continue",
   "common.documentTitle": "Data Marketplace",
+  "404.documentTitle": "Data Marketplace - Page not found",
   "auth.loading": "Signing you in\u2026",
   "auth.prompt": "Please sign in",
   "auth.signin.title": "Sign in to {linebreak} Data Marketplace",
