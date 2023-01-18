@@ -86,7 +86,7 @@ const Frontpage: NextPage = () => {
   }
 
   return (
-    <Page>
+    <Page documentTitle={intl.formatMessage({ id: "common.documentTitle" })}>
       <main>
         <Section>
           <Hero>

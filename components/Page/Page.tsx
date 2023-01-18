@@ -2,7 +2,6 @@ import { useSession } from "next-auth/react"
 import Head from "next/head"
 import Router from "next/router"
 import { FunctionComponent, PropsWithChildren, useEffect } from "react"
-import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Footer } from "../Footer"
@@ -19,11 +18,10 @@ const PageWrapper = styled.div`
 `
 
 type Props = PropsWithChildren<{
-  documentTitle?: string
+  documentTitle: string
 }>
 
 export const Page: FunctionComponent<Props> = ({ documentTitle, children }) => {
-  const intl = useIntl()
   const { data } = useSession()
 
   useEffect(() => {
@@ -37,7 +35,7 @@ export const Page: FunctionComponent<Props> = ({ documentTitle, children }) => {
   return (
     <PageWrapper>
       <Head>
-        <title>{documentTitle || intl.formatMessage({ id: "common.documentTitle" })}</title>
+        <title>{documentTitle}</title>
       </Head>
       <NavBar />
 
