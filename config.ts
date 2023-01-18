@@ -27,7 +27,5 @@ const algolia = {
   searchApiServerKey: process.env.ALGOLIA_SEARCH_API_SERVER_KEY || "",
 }
 
-console.log("Algolia config", algolia.applicationId, algolia.searchApiKey)
-
 export const searchClient = algoliasearch(algolia.applicationId, algolia.searchApiKey)
 export const searchClientServer = algoliasearch(algolia.applicationId, algolia.searchApiServerKey)
