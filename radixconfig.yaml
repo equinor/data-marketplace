@@ -30,6 +30,8 @@ spec:
             COLLIBRA_FIRST_TIME_VISITOR: https://equinor.collibra.com
             APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=7eea9263-fb34-4006-9954-dc4568c322ac;IngestionEndpoint=https://northeurope-3.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
             ADAPTER_SERVICE_BASE_URL: https://func-datamarketplace-prod.azurewebsites.net
+            NEXT_PUBLIC_ALGOLIA_APP_ID: EGZK3PRPU0
+            NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY: 3f31994287d16977fe070ed752c0f17d
         - environment: test
           resources:
             requests:
@@ -45,6 +47,8 @@ spec:
             COLLIBRA_FIRST_TIME_VISITOR: https://equinor-test.collibra.com
             APP_INSIGHTS_CONNECTION_STRING: InstrumentationKey=3a749405-8c63-4e7a-99c7-a7e66f47fa2f;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
             ADAPTER_SERVICE_BASE_URL: https://func-datamarketplace-test.azurewebsites.net
+            NEXT_PUBLIC_ALGOLIA_APP_ID: EGZK3PRPU0
+            NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY: 3f31994287d16977fe070ed752c0f17d
       secrets:
         - AUTH_CLIENT_ID
         - AUTH_CLIENT_SECRET
