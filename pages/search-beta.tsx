@@ -21,6 +21,9 @@ type Props = {
   serverState?: InstantSearchServerState
   serverUrl: URL | string
   isServerRendered: boolean
+  featureFlags?: {
+    USE_IMPROVED_SEARCH: "true" | "false"
+  }
 }
 
 type HitProps = {
@@ -57,22 +60,36 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   </InstantSearchSSRProvider>
 )
 
-const SearchPage: NextPage<Props> = ({ serverState, isServerRendered = false, serverUrl }) => (
-  <Page documentTitle="Beta for new and improved search">
-    <h1>Beta version for improved search</h1>
-    <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
-  </Page>
-)
+const SearchPage: NextPage<Props> = ({
+  serverState,
+  isServerRendered = false,
+  serverUrl,
+  featureFlags = { USE_IMPROVED_SEARCH: "false" },
+}) => {
+  const { USE_IMPROVED_SEARCH } = featureFlags
+
+  return (
+    <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
+      <main>
+        <h1>Beta version for improved search</h1>
+        <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
+      </main>
+    </Page>
+  )
+}
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const protocol = req.headers.referer?.split("://")[0] || "https"
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`
   const serverState = await getServerState(<Search serverUrl={serverUrl} isServerRendered />, { renderToString })
-
+  const { USE_IMPROVED_SEARCH } = process.env
   return {
     props: {
       serverState,
       serverUrl,
+      featureFlags: {
+        USE_IMPROVED_SEARCH,
+      },
     },
   }
 }
