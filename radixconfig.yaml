@@ -32,6 +32,7 @@ spec:
             ADAPTER_SERVICE_BASE_URL: https://func-datamarketplace-prod.azurewebsites.net
             NEXT_PUBLIC_ALGOLIA_APP_ID: EGZK3PRPU0
             NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY: 3f31994287d16977fe070ed752c0f17d
+            USE_IMPROVED_SEARCH: false
         - environment: test
           resources:
             requests:
@@ -49,6 +50,7 @@ spec:
             ADAPTER_SERVICE_BASE_URL: https://func-datamarketplace-test.azurewebsites.net
             NEXT_PUBLIC_ALGOLIA_APP_ID: EGZK3PRPU0
             NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY: 3f31994287d16977fe070ed752c0f17d
+            USE_IMPROVED_SEARCH: true
       secrets:
         - AUTH_CLIENT_ID
         - AUTH_CLIENT_SECRET

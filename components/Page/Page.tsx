@@ -19,9 +19,10 @@ const PageWrapper = styled.div`
 
 type Props = PropsWithChildren<{
   documentTitle: string
+  useImprovedSearch?: "true" | "false"
 }>
 
-export const Page: FunctionComponent<Props> = ({ documentTitle, children }) => {
+export const Page: FunctionComponent<Props> = ({ documentTitle, useImprovedSearch = "false", children }) => {
   const { data } = useSession()
 
   useEffect(() => {
@@ -31,13 +32,12 @@ export const Page: FunctionComponent<Props> = ({ documentTitle, children }) => {
       Router.push("/auth/signin")
     }
   }, [data])
-
   return (
     <PageWrapper>
       <Head>
         <title>{documentTitle}</title>
       </Head>
-      <NavBar />
+      <NavBar useImprovedSearch={useImprovedSearch} />
 
       {children}
       <Footer />

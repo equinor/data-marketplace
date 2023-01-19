@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
-import { Button, Search, TopBar, Typography } from "@equinor/eds-core-react"
+import { Button, Search, TopBar, Typography, Icon } from "@equinor/eds-core-react"
+import { search } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
@@ -29,8 +30,11 @@ const EDSTopBar = styled(TopBar)`
 const EDSCustomContent = styled(TopBar.CustomContent)`
   width: 100%;
 `
+type Props = {
+  useImprovedSearch: "true" | "false"
+}
 
-export const NavBar = () => {
+export const NavBar = ({ useImprovedSearch }: Props) => {
   const [searchQuery, setSearchQuery] = useState<string>("")
 
   const router = useRouter()
@@ -57,7 +61,6 @@ export const NavBar = () => {
   const onSearchChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearchQuery(e.target.value)
   }
-
   return (
     <TopbarWrapper>
       <EDSTopBar>
@@ -69,16 +72,24 @@ export const NavBar = () => {
             </Typography>
           </Button>
         </TopBar.Header>
+
         <EDSCustomContent>
-          <form onSubmit={onSearchSubmit}>
-            <Search
-              aria-label="sitewide"
-              id="search-normal"
-              placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })}
-              onChange={onSearchChange}
-              value={searchQuery}
-            />
-          </form>
+          {useImprovedSearch === "true" ? (
+            /* @ts-ignore */
+            <Button variant="ghost_icon" as={NextLink} href="/search-beta" aria-label="Search">
+              <Icon data={search} />
+            </Button>
+          ) : (
+            <form onSubmit={onSearchSubmit}>
+              <Search
+                aria-label="sitewide"
+                id="search-normal"
+                placeholder={intl.formatMessage({ id: "navbar.placeholderSearch" })}
+                onChange={onSearchChange}
+                value={searchQuery}
+              />
+            </form>
+          )}
         </EDSCustomContent>
         <TopBar.Actions>
           <UserMenu />
