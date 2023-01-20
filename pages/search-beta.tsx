@@ -12,11 +12,13 @@ import {
   InstantSearchServerState,
   InstantSearchSSRProvider,
 } from "react-instantsearch-hooks-web"
+import { IntlProvider } from "react-intl"
 
 import { SearchBox } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
+import englishTexts from "locales/english.json"
 
 type Props = {
   serverState?: InstantSearchServerState
@@ -44,20 +46,22 @@ const Hit = ({ hit }: HitProps) => (
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
   <InstantSearchSSRProvider {...serverState}>
-    <InstantSearch
-      searchClient={isServerRendered ? searchClientServer : searchClient}
-      indexName="test_assets"
-      routing={{
-        router: history({
-          /*  @ts-ignore */
-          getLocation: () => (typeof window === "undefined" ? new URL(serverUrl) : window.location),
-        }),
-      }}
-    >
-      <Configure hitsPerPage={50} snippetEllipsisText="..." />
-      <SearchBox />
-      <Hits hitComponent={Hit} />
-    </InstantSearch>
+    <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
+      <InstantSearch
+        searchClient={isServerRendered ? searchClientServer : searchClient}
+        indexName="test_assets"
+        routing={{
+          router: history({
+            /*  @ts-ignore */
+            getLocation: () => (typeof window === "undefined" ? new URL(serverUrl) : window.location),
+          }),
+        }}
+      >
+        <Configure hitsPerPage={50} snippetEllipsisText="..." />
+        <SearchBox />
+        <Hits hitComponent={Hit} />
+      </InstantSearch>
+    </IntlProvider>
   </InstantSearchSSRProvider>
 )
 
