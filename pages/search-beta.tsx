@@ -1,4 +1,3 @@
-import { Hit as AlgoliaHit } from "instantsearch.js"
 // eslint-disable-next-line import/extensions
 import { history } from "instantsearch.js/es/lib/routers/index.js"
 import type { NextPage, GetServerSideProps } from "next/types"
@@ -8,17 +7,28 @@ import {
   Configure,
   InstantSearch,
   Hits,
-  Highlight,
   InstantSearchServerState,
   InstantSearchSSRProvider,
 } from "react-instantsearch-hooks-web"
 import { IntlProvider } from "react-intl"
+import styled from "styled-components"
 
-import { SearchBox } from "components/ImprovedSearch"
+import { SearchBox, Hit } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
+
+const StyledHits = styled(Hits)`
+  /* Temporary styles */
+  & .ais-Hits-list {
+    list-style-type: none;
+  }
+
+  & .ais-Hits-item {
+    margin-block: 1rem;
+  }
+`
 
 type Props = {
   serverState?: InstantSearchServerState
@@ -28,20 +38,6 @@ type Props = {
     USE_IMPROVED_SEARCH: "true" | "false"
   }
 }
-
-type HitProps = {
-  hit: AlgoliaHit<{
-    name: string
-    price: number
-  }>
-}
-
-const Hit = ({ hit }: HitProps) => (
-  <>
-    <Highlight hit={hit} attribute="name" className="Hit-label" />
-    <span className="Hit-price">${hit.price}</span>
-  </>
-)
 
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
@@ -59,7 +55,8 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
       >
         <Configure hitsPerPage={50} snippetEllipsisText="..." />
         <SearchBox />
-        <Hits hitComponent={Hit} />
+        {/* @ts-ignore  */}
+        <StyledHits hitComponent={Hit} />
       </InstantSearch>
     </IntlProvider>
   </InstantSearchSSRProvider>
