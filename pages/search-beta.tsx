@@ -6,14 +6,13 @@ import { getServerState } from "react-instantsearch-hooks-server"
 import {
   Configure,
   InstantSearch,
-  Hits,
   InstantSearchServerState,
   InstantSearchSSRProvider,
 } from "react-instantsearch-hooks-web"
 import { IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import { SearchBox, Hit } from "components/ImprovedSearch"
+import { SearchBox, Hits, Hit } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
