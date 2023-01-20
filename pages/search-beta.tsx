@@ -9,12 +9,13 @@ import {
   InstantSearch,
   Hits,
   Highlight,
-  SearchBox,
   InstantSearchServerState,
   InstantSearchSSRProvider,
 } from "react-instantsearch-hooks-web"
 
+import { SearchBox } from "components/ImprovedSearch"
 import { Page } from "components/Page"
+import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
 
 type Props = {
@@ -71,8 +72,10 @@ const SearchPage: NextPage<Props> = ({
   return (
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
-        <h1>Beta version for improved search</h1>
-        <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
+        <Section>
+          <h1>Beta version for improved search</h1>
+          <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
+        </Section>
       </main>
     </Page>
   )
