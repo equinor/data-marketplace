@@ -3,7 +3,7 @@ import { tokens } from "@equinor/eds-tokens"
 import { useHits } from "react-instantsearch-hooks-web"
 import styled from "styled-components"
 
-import { Hit } from "components/ImprovedSearch"
+import { Hit } from "./Hit"
 
 const { Item } = List
 
