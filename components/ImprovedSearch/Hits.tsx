@@ -1,4 +1,5 @@
 import { List } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
 import { useHits } from "react-instantsearch-hooks-web"
 import styled from "styled-components"
 
@@ -7,7 +8,9 @@ import { Hit } from "components/ImprovedSearch"
 const { Item } = List
 
 const HitItem = styled(Item)`
-  margin-block: 1rem;
+  &:not(:last-child) {
+    margin-block: ${tokens.spacings.comfortable.large};
+  }
 `
 
 const StyledList = styled(List)`

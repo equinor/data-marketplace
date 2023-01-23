@@ -7,12 +7,6 @@ import styled from "styled-components"
 // import type { SendEventForHits } from "instantsearch.js/es/lib/utils"
 const { Header: CardHeader, HeaderTitle: CardHeaderTitle } = Card
 
-const SearchResultItem = styled.div`
-  &:not(:last-child) {
-    margin-bottom: ${tokens.spacings.comfortable.large};
-  }
-`
-
 const StyledHightLight = styled(Highlight)`
   & .highlighted {
     background-color: ${tokens.colors.interactive.primary__selected_highlight.hsla};
@@ -36,27 +30,25 @@ export type HitProps = {
 export const Hit = ({ hit }: HitProps) => {
   const { id, community = [] } = hit
   return (
-    <SearchResultItem>
-      <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
-        <Card elevation="raised">
-          <CardHeader>
-            <CardHeaderTitle>
-              {community.map((item) => (
-                <Chip key={item}>{item}</Chip>
-              ))}
-              <Typography variant="h5" as="h2" style={{ marginBlock: "0.4rem" }}>
-                <StyledHightLight
-                  hit={hit}
-                  attribute="name"
-                  classNames={{
-                    highlighted: "highlighted",
-                  }}
-                />
-              </Typography>
-            </CardHeaderTitle>
-          </CardHeader>
-        </Card>
-      </StyledLink>
-    </SearchResultItem>
+    <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
+      <Card elevation="raised">
+        <CardHeader>
+          <CardHeaderTitle>
+            {community.map((item) => (
+              <Chip key={item}>{item}</Chip>
+            ))}
+            <Typography variant="h5" as="h2" style={{ marginBlock: "0.4rem" }}>
+              <StyledHightLight
+                hit={hit}
+                attribute="name"
+                classNames={{
+                  highlighted: "highlighted",
+                }}
+              />
+            </Typography>
+          </CardHeaderTitle>
+        </CardHeader>
+      </Card>
+    </StyledLink>
   )
 }
