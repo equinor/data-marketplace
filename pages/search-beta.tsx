@@ -31,8 +31,11 @@ const StyledHits = styled(Hits)`
 
 const Filters = styled.div``
 
-const Main = styled.main`
+const SearchContainer = styled.div`
   display: grid;
+  @media (min-width: 700px) {
+    grid-template-columns: 10rem 1fr;
+  }
 `
 
 type Props = {
@@ -77,13 +80,18 @@ const SearchPage: NextPage<Props> = ({
 
   return (
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
-      <Main>
-        <Filters />
+      <main>
         <Section>
+          <Filters />
           <h1>Beta version for improved search</h1>
-          <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
+          <SearchContainer>
+            <Filters>Filters</Filters>
+            <div>
+              <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
+            </div>
+          </SearchContainer>
         </Section>
-      </Main>
+      </main>
     </Page>
   )
 }
