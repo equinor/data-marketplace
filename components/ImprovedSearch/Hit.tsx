@@ -17,27 +17,35 @@ const StyledLink = styled(NextLink)`
   text-decoration: none;
 `
 
+const TagsContainer = styled.div`
+  display: flex;
+  gap: ${tokens.spacings.comfortable.small};
+`
+
 export type HitProps = {
   hit: AlgoliaHit<{
     // @TODO Asset types
     name: string
     id: string
     community: string[]
+    tags: string[]
   }>
   /*   sendEvent?: SendEventForHits */
 } & HTMLDivElement
 
 export const Hit = ({ hit }: HitProps) => {
-  const { id, community = [] } = hit
+  const { id, community = [], tags = [] } = hit
   return (
     <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
       <Card elevation="raised">
         <CardHeader>
           <CardHeaderTitle>
             {community.map((item) => (
-              <Chip key={item}>{item}</Chip>
+              <Typography variant="overline" key={item}>
+                {item}
+              </Typography>
             ))}
-            <Typography variant="h5" as="h2" style={{ marginBlock: "0.4rem" }}>
+            <Typography variant="h5" as="h2" style={{ marginBottom: "0.65rem" }}>
               <StyledHightLight
                 hit={hit}
                 attribute="name"
@@ -46,6 +54,13 @@ export const Hit = ({ hit }: HitProps) => {
                 }}
               />
             </Typography>
+            {tags.length > 0 && (
+              <TagsContainer>
+                {tags.map((item) => (
+                  <Chip key={item}>{item}</Chip>
+                ))}
+              </TagsContainer>
+            )}
           </CardHeaderTitle>
         </CardHeader>
       </Card>

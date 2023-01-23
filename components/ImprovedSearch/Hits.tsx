@@ -14,6 +14,7 @@ const HitItem = styled(Item)`
 `
 
 const StyledList = styled(List)`
+  padding: 0;
   list-style-type: none;
 `
 /* 

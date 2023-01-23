@@ -29,6 +29,12 @@ const StyledHits = styled(Hits)`
   }
 `
 
+const Filters = styled.div``
+
+const Main = styled.main`
+  display: grid;
+`
+
 type Props = {
   serverState?: InstantSearchServerState
   serverUrl: URL | string
@@ -71,12 +77,13 @@ const SearchPage: NextPage<Props> = ({
 
   return (
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
-      <main>
+      <Main>
+        <Filters />
         <Section>
           <h1>Beta version for improved search</h1>
           <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
         </Section>
-      </main>
+      </Main>
     </Page>
   )
 }
