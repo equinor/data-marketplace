@@ -25,6 +25,7 @@ const StyledLink = styled(NextLink)`
 `
 
 const TagsContainer = styled.div`
+  margin-top: ${tokens.spacings.comfortable.medium};
   display: flex;
   gap: ${tokens.spacings.comfortable.small};
 `
