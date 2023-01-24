@@ -53,7 +53,7 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
     <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
       <InstantSearch
         searchClient={isServerRendered ? searchClientServer : searchClient}
-        indexName="test_assets"
+        indexName="Data_Set"
         routing={{
           router: history({
             /*  @ts-ignore */
@@ -61,7 +61,7 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
           }),
         }}
       >
-        <Configure hitsPerPage={50} snippetEllipsisText="..." />
+        <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
         <SearchBox />
         {/* @ts-ignore  */}
         <StyledHits hitComponent={Hit} />
