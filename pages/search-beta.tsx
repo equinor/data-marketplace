@@ -1,6 +1,8 @@
 // eslint-disable-next-line import/extensions
-import { history } from "instantsearch.js/es/lib/routers/index.js"
+// import { history } from "instantsearch.js/es/lib/routers/index.js"
 import type { NextPage, GetServerSideProps } from "next/types"
+// import Router, { useRouter } from "next/router"
+import { useRef } from "react"
 import { renderToString } from "react-dom/server"
 import { getServerState } from "react-instantsearch-hooks-server"
 import {
@@ -12,7 +14,7 @@ import {
 import { IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import { SearchBox, Hits, Hit } from "components/ImprovedSearch"
+import { SearchBox, Hits, Hit, algoliaNextJsHistoryRouter } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
@@ -40,26 +42,54 @@ const SearchContainer = styled.div`
 
 type Props = {
   serverState?: InstantSearchServerState
-  serverUrl: URL | string
+  serverUrl?: URL | string
   isServerRendered: boolean
+  routingRef?: any
   featureFlags?: {
     USE_IMPROVED_SEARCH: "true" | "false"
   }
 }
 
-const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
+/* const onStateChange = async (params: any) => {
+  if (Object.keys(params.uiState.instant_search).length > 0 && Router.pathname !== "/search") {
+    await Router.push("/search", undefined, { shallow: true })
+  }
+
+  params.setUiState(params.uiState)
+}
+ */
+const routing = (requestUrl: string) => ({
+  router: algoliaNextJsHistoryRouter({
+    getLocation() {
+      if (typeof window === "undefined") {
+        const url = new URL(requestUrl)
+        return url
+      }
+
+      return window.location as any
+    },
+  }),
+})
+
+const Search = ({ serverState, isServerRendered, /* serverUrl, */ routingRef }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
   <InstantSearchSSRProvider {...serverState}>
     <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
       <InstantSearch
         searchClient={isServerRendered ? searchClientServer : searchClient}
         indexName="Data_Set"
-        routing={{
+        /*  routing={{
           router: history({
-            /*  @ts-ignore */
-            getLocation: () => (typeof window === "undefined" ? new URL(serverUrl) : window.location),
+            getLocation() {
+              if (typeof window === "undefined") {
+                return new URL(serverUrl!) as unknown as Location
+              }
+              return window.location
+            },
           }),
-        }}
+        }} */
+        /*  onStateChange={onStateChange} */
+        routing={routingRef}
       >
         <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
         <SearchBox />
@@ -77,6 +107,7 @@ const SearchPage: NextPage<Props> = ({
   featureFlags = { USE_IMPROVED_SEARCH: "false" },
 }) => {
   const { USE_IMPROVED_SEARCH } = featureFlags
+  const routingRef = useRef(routing(serverUrl as string))
 
   return (
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
@@ -87,7 +118,12 @@ const SearchPage: NextPage<Props> = ({
           <SearchContainer>
             <Filters>Filters</Filters>
             <div>
-              <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
+              <Search
+                routingRef={routingRef.current}
+                serverState={serverState}
+                isServerRendered={isServerRendered}
+                serverUrl={serverUrl}
+              />
             </div>
           </SearchContainer>
         </Section>
@@ -99,7 +135,9 @@ const SearchPage: NextPage<Props> = ({
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const protocol = req.headers.referer?.split("://")[0] || "https"
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`
-  const serverState = await getServerState(<Search serverUrl={serverUrl} isServerRendered />, { renderToString })
+  const serverState = await getServerState(<Search serverUrl={serverUrl} isServerRendered />, {
+    renderToString,
+  })
   const { USE_IMPROVED_SEARCH } = process.env
   return {
     props: {
