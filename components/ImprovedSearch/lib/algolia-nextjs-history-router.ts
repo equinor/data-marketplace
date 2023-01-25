@@ -140,6 +140,7 @@ class BrowserHistory<TRouteState> implements Router<TRouteState> {
         // console.log("write", this.shouldWrite(url), url);
         if (this.shouldWrite(url) && loc === window.location.href) {
           // window.history.pushState(routeState, title || "", url);
+          // eslint-disable-next-line no-console
           NextRouter.replace(url).catch(console.error)
           this.latestAcknowledgedHistory = window.history.length
         }

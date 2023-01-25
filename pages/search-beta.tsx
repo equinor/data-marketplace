@@ -1,8 +1,5 @@
 // eslint-disable-next-line import/extensions
-// import { history } from "instantsearch.js/es/lib/routers/index.js"
 import type { NextPage, GetServerSideProps } from "next/types"
-// import Router, { useRouter } from "next/router"
-import { useRef } from "react"
 import { renderToString } from "react-dom/server"
 import { getServerState } from "react-instantsearch-hooks-server"
 import {
@@ -50,36 +47,15 @@ type Props = {
   }
 }
 
-/* const onStateChange = async (params: any) => {
-  if (Object.keys(params.uiState.instant_search).length > 0 && Router.pathname !== "/search") {
-    await Router.push("/search", undefined, { shallow: true })
-  }
-
-  params.setUiState(params.uiState)
-}
- */
-const routing = (requestUrl: string) => ({
-  router: algoliaNextJsHistoryRouter({
-    getLocation() {
-      if (typeof window === "undefined") {
-        const url = new URL(requestUrl)
-        return url
-      }
-
-      return window.location as any
-    },
-  }),
-})
-
-const Search = ({ serverState, isServerRendered, /* serverUrl, */ routingRef }: Props) => (
+const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
   <InstantSearchSSRProvider {...serverState}>
     <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
       <InstantSearch
         searchClient={isServerRendered ? searchClientServer : searchClient}
         indexName="Data_Set"
-        /*  routing={{
-          router: history({
+        routing={{
+          router: algoliaNextJsHistoryRouter({
             getLocation() {
               if (typeof window === "undefined") {
                 return new URL(serverUrl!) as unknown as Location
@@ -87,9 +63,7 @@ const Search = ({ serverState, isServerRendered, /* serverUrl, */ routingRef }: 
               return window.location
             },
           }),
-        }} */
-        /*  onStateChange={onStateChange} */
-        routing={routingRef}
+        }}
       >
         <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
         <SearchBox />
@@ -107,7 +81,6 @@ const SearchPage: NextPage<Props> = ({
   featureFlags = { USE_IMPROVED_SEARCH: "false" },
 }) => {
   const { USE_IMPROVED_SEARCH } = featureFlags
-  const routingRef = useRef(routing(serverUrl as string))
 
   return (
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
@@ -118,12 +91,7 @@ const SearchPage: NextPage<Props> = ({
           <SearchContainer>
             <Filters>Filters</Filters>
             <div>
-              <Search
-                routingRef={routingRef.current}
-                serverState={serverState}
-                isServerRendered={isServerRendered}
-                serverUrl={serverUrl}
-              />
+              <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
             </div>
           </SearchContainer>
         </Section>
@@ -135,10 +103,12 @@ const SearchPage: NextPage<Props> = ({
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const protocol = req.headers.referer?.split("://")[0] || "https"
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`
+
   const serverState = await getServerState(<Search serverUrl={serverUrl} isServerRendered />, {
     renderToString,
   })
-  const { USE_IMPROVED_SEARCH } = process.env
+
+  const { USE_IMPROVED_SEARCH = "false" } = process.env
   return {
     props: {
       serverState,
