@@ -17,17 +17,6 @@ import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
 
-const StyledHits = styled(Hits)`
-  /* Temporary styles */
-  & .ais-Hits-list {
-    list-style-type: none;
-  }
-
-  & .ais-Hits-item {
-    margin-block: 1rem;
-  }
-`
-
 const Filters = styled.div``
 
 const SearchContainer = styled.div`
@@ -68,7 +57,7 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
         <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
         <SearchBox />
         {/* @ts-ignore  */}
-        <StyledHits hitComponent={Hit} />
+        <Hits hitComponent={Hit} />
       </InstantSearch>
     </IntlProvider>
   </InstantSearchSSRProvider>
