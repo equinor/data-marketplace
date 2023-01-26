@@ -11,8 +11,7 @@ import {
 } from "react-instantsearch-hooks-web"
 import { IntlProvider } from "react-intl"
 import styled from "styled-components"
-
-import { SearchBox, Hits, Hit } from "components/ImprovedSearch"
+import { SearchBox, Hits, Hit, RefinementList } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
@@ -47,6 +46,7 @@ type Props = {
   }
 }
 
+
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
   <InstantSearchSSRProvider {...serverState}>
@@ -62,13 +62,16 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
         }}
       >
         <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
+
         <SearchBox />
+       <RefinementList attribute="community"/>
         {/* @ts-ignore  */}
         <StyledHits hitComponent={Hit} />
       </InstantSearch>
     </IntlProvider>
   </InstantSearchSSRProvider>
 )
+
 
 const SearchPage: NextPage<Props> = ({
   serverState,
@@ -85,7 +88,9 @@ const SearchPage: NextPage<Props> = ({
           <Filters />
           <h1>Beta version for improved search</h1>
           <SearchContainer>
-            <Filters>Filters</Filters>
+        
+            <filter>filter</filter>
+           
             <div>
               <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
             </div>

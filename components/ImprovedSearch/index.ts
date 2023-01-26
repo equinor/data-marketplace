@@ -1,5 +1,5 @@
 export { SearchBox } from "./SearchBox"
 export { Hit } from "./Hit"
 export { Hits } from "./Hits"
-
+export { RefinementList } from "./RefinementList"
 export type { HitProps } from "./Hit"
