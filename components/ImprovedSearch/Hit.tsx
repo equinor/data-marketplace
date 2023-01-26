@@ -25,6 +25,10 @@ const StyledSnippet = styled(Snippet)`
 
 const StyledLink = styled(NextLink)`
   text-decoration: none;
+  display: block;
+  &:focus-visible {
+    outline: 2px dashed ${tokens.colors.infographic.primary__moss_green_100.hsla};
+  }
 `
 
 const TagsContainer = styled.div`
