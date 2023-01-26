@@ -8,9 +8,11 @@ import { Hit } from "./Hit"
 const { Item } = List
 
 const HitItem = styled(Item)`
-  &:not(:last-child) {
-    margin-block: ${tokens.spacings.comfortable.large};
-  }
+  position: relative;
+  padding-bottom: ${tokens.spacings.comfortable.large};
+  margin-block: ${tokens.spacings.comfortable.large};
+
+  border-bottom: 1px solid ${tokens.colors.ui.background__info.hsla};
 `
 
 const StyledList = styled(List)`
