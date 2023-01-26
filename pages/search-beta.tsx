@@ -11,7 +11,7 @@ import {
 import { IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import { SearchBox, Hits, Hit, algoliaNextJsHistoryRouter } from "components/ImprovedSearch"
+import { SearchBox, Hits, Hit, RefinementList, algoliaNextJsHistoryRouter } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
@@ -56,6 +56,7 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
       >
         <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt:35", "description:15"]} />
         <SearchBox />
+        <RefinementList attribute="community" />
         {/* @ts-ignore  */}
         <Hits hitComponent={Hit} />
       </InstantSearch>
@@ -78,7 +79,8 @@ const SearchPage: NextPage<Props> = ({
           <Filters />
           <h1>Beta version for improved search</h1>
           <SearchContainer>
-            <Filters>Filters</Filters>
+            <filter>filter</filter>
+
             <div>
               <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
             </div>
