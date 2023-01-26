@@ -6,13 +6,17 @@ import { Highlight, Snippet } from "react-instantsearch-hooks-web"
 import styled from "styled-components"
 // import type { SendEventForHits } from "instantsearch.js/es/lib/utils"
 
-const StyledHightLight = styled(Highlight)`
+const StyledName = styled(Highlight)`
   & .highlighted {
-    background-color: ${tokens.colors.interactive.primary__selected_highlight.hsla};
+    /* Just testing out some colour contrast */
+    color: hsla(34, 100%, 74%, 1);
+    /* color: ${tokens.colors.interactive.warning__text.hsla}; */
+    background-color: hsl(207, 25%, 24%);
   }
 `
 
 const StyledSnippet = styled(Snippet)`
+  display: block;
   color: ${tokens.colors.text.static_icons__default.hsla};
   & .highlighted {
     background-color: ${tokens.colors.interactive.primary__selected_highlight.hsla};
@@ -52,7 +56,7 @@ export const Hit = ({ hit }: HitProps) => {
         </Typography>
       ))}
       <Typography variant="h5" as="h2" style={{ marginBottom: "0.65rem" }}>
-        <StyledHightLight
+        <StyledName
           hit={hit}
           attribute="name"
           classNames={{
@@ -61,22 +65,26 @@ export const Hit = ({ hit }: HitProps) => {
         />
       </Typography>
       {hit.excerpt && (
-        <StyledSnippet
-          hit={hit}
-          attribute="excerpt"
-          classNames={{
-            highlighted: "highlighted",
-          }}
-        />
+        <Typography variant="body_short">
+          <StyledSnippet
+            hit={hit}
+            attribute="excerpt"
+            classNames={{
+              highlighted: "highlighted",
+            }}
+          />
+        </Typography>
       )}
       {hit.description && (
-        <StyledSnippet
-          hit={hit}
-          attribute="description"
-          classNames={{
-            highlighted: "highlighted",
-          }}
-        />
+        <Typography variant="body_short">
+          <StyledSnippet
+            hit={hit}
+            attribute="description"
+            classNames={{
+              highlighted: "highlighted",
+            }}
+          />
+        </Typography>
       )}
       {tags.length > 0 && (
         <TagsContainer>
