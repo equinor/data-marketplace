@@ -23,7 +23,7 @@ export const SearchBox = () => {
     <StyledSearch
       onChange={handleOnChange}
       value={inputValue}
-      placeholder={intl.formatMessage({ id: "search.box.placeholder" })}
+      placeholder={intl.formatMessage({ id: "improvedSearch.box.placeholder" })}
     />
   )
 }
