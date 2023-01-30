@@ -22,6 +22,7 @@ const SearchContainer = styled.div`
   display: grid;
   grid-template-areas:
     "search"
+    "totalResults"
     "filter"
     "results";
   @media (min-width: 900px) {
@@ -30,6 +31,7 @@ const SearchContainer = styled.div`
     grid-template-areas:
       ". . search"
       ". . ."
+      ". . totalResults"
       "filter .  results";
   }
 `
@@ -43,6 +45,11 @@ const FilterContainer = styled.div`
 
 const StyledHits = styled.div`
   grid-area: results;
+`
+
+const TotalResults = styled.div`
+  margin-block: ${tokens.spacings.comfortable.medium};
+  grid-area: totalResults;
 `
 
 type Props = {
@@ -79,6 +86,7 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
           <StyledSearchBox>
             <SearchBox />
           </StyledSearchBox>
+          <TotalResults>x - y of z items</TotalResults>
           <FilterContainer>
             <RefinementList attribute="community" />
           </FilterContainer>
