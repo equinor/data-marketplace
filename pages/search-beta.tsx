@@ -17,10 +17,9 @@ import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
 
-<<<<<<< HEAD
 const Filters = styled.div``
-=======
 const StyledHits = styled(Hits)`
+  grid-area: results;
   /* Temporary styles */
   & .ais-Hits-list {
     list-style-type: none;
@@ -31,25 +30,22 @@ const StyledHits = styled(Hits)`
   }
 `
 
-const StyledFilters = styled.div`
-  @media (min-width: 800px) {
-    display: grid;
-    grid-template-rows: var(--space-56) min-content min-content;
-  }
+const StyledSearchBox = styled(SearchBox)`
+  grid-area: search;
 `
->>>>>>> 081bed4 (Dtyling changes for filter)
 
 const SearchContainer = styled.div`
   display: grid;
+  grid-template-areas:
+    ". search"
+    "filter results";
   @media (min-width: 900px) {
     grid-template-columns: 14rem 1fr;
   }
 `
 
 const FilterContainer = styled.div`
-  display: grid;
-  @media (min-width: 300px) {
-  }
+  grid-area: filter;
 `
 
 type Props = {
@@ -80,21 +76,27 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
           }),
         }}
       >
-<<<<<<< HEAD
         <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt:35", "description:15"]} />
         <SearchBox />
         <RefinementList attribute="community" />
-=======
-        <div>
-        <RefinementList attribute="community" />
-        </div>
+
         <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
-        
+
         <SearchBox />
-      
->>>>>>> 081bed4 (Dtyling changes for filter)
+
         {/* @ts-ignore  */}
         <Hits hitComponent={Hit} />
+
+        <SearchContainer>
+          <StyledSearchBox />
+          <FilterContainer>
+            <RefinementList attribute="community" />
+          </FilterContainer>
+          <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
+
+          {/* @ts-ignore  */}
+          <StyledHits hitComponent={Hit} />
+        </SearchContainer>
       </InstantSearch>
     </IntlProvider>
   </InstantSearchSSRProvider>
@@ -112,20 +114,11 @@ const SearchPage: NextPage<Props> = ({
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
         <Section>
-         
           <h1>Beta version for improved search</h1>
-          <SearchContainer>
-<<<<<<< HEAD
-            <filter>filter</filter>
 
-=======
-           
->>>>>>> 081bed4 (Dtyling changes for filter)
-            <div>
-              <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
-            </div>
-            
-          </SearchContainer>
+          <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
+
+          <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
         </Section>
       </main>
     </Page>
