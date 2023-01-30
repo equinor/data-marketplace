@@ -19,6 +19,7 @@ import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
 
 const SearchContainer = styled.div`
+  --huge-space: calc(2 * ${tokens.spacings.comfortable.xxx_large});
   display: grid;
   grid-template-areas:
     "search"
@@ -26,8 +27,8 @@ const SearchContainer = styled.div`
     "filter"
     "results";
   @media (min-width: 900px) {
-    grid-template-columns: auto calc(2 * ${tokens.spacings.comfortable.xxx_large}) 1fr;
-    grid-template-rows: min-content calc(2 * ${tokens.spacings.comfortable.xxx_large}) min-content;
+    grid-template-columns: 17rem var(--huge-space) 1fr;
+    grid-template-rows: min-content var(--huge-space) min-content;
     grid-template-areas:
       ". . search"
       ". . ."
