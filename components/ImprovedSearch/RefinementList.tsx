@@ -1,4 +1,4 @@
-import { useRefinementList, UseRefinementListProps } from 'react-instantsearch-hooks-web'
+import { useRefinementList, UseRefinementListProps, RefinementList as RF } from 'react-instantsearch-hooks-web'
 import { List, Checkbox } from "@equinor/eds-core-react"
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
@@ -22,19 +22,19 @@ const StyledItem = styled(Item)`
 `
 export function RefinementList(props: RefinementListProps) {
   const { items, refine } = useRefinementList(props)
-
   return (
     <>
       {items.length > 0 ? (
-        <StyledList>
+        <StyledList >
           {items.map((item) => (
-            <StyledItem key={item.value}>
+            
               <Checkbox
                 value={item.value}
+                label={`${item.label} (${item.count})`}
                 checked={item.isRefined}
                 onChange={() => refine(item.value)}
               ></Checkbox>
-            </StyledItem>
+          
           ))}
         </StyledList>
       ) : (

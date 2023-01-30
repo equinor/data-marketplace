@@ -28,12 +28,23 @@ const StyledHits = styled(Hits)`
   }
 `
 
-const Filters = styled.div``
+const StyledFilters = styled.div`
+  @media (min-width: 800px) {
+    display: grid;
+    grid-template-rows: var(--space-56) min-content min-content;
+  }
+`
 
 const SearchContainer = styled.div`
   display: grid;
-  @media (min-width: 700px) {
-    grid-template-columns: 10rem 1fr;
+  @media (min-width: 900px) {
+    grid-template-columns: 14rem 1fr;
+  }
+`
+
+const FilterContainer = styled.div`
+  display: grid;
+  @media (min-width: 300px) {
   }
 `
 
@@ -61,17 +72,19 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
           }),
         }}
       >
+        <div>
+        <RefinementList attribute="community" />
+        </div>
         <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
-
+        
         <SearchBox />
-       <RefinementList attribute="community"/>
+      
         {/* @ts-ignore  */}
         <StyledHits hitComponent={Hit} />
       </InstantSearch>
     </IntlProvider>
   </InstantSearchSSRProvider>
 )
-
 
 const SearchPage: NextPage<Props> = ({
   serverState,
@@ -85,15 +98,14 @@ const SearchPage: NextPage<Props> = ({
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
         <Section>
-          <Filters />
+         
           <h1>Beta version for improved search</h1>
           <SearchContainer>
-        
-            <filter>filter</filter>
            
             <div>
               <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
             </div>
+            
           </SearchContainer>
         </Section>
       </main>
