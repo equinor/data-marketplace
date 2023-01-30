@@ -17,12 +17,38 @@ import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
 
+<<<<<<< HEAD
 const Filters = styled.div``
+=======
+const StyledHits = styled(Hits)`
+  /* Temporary styles */
+  & .ais-Hits-list {
+    list-style-type: none;
+  }
+
+  & .ais-Hits-item {
+    margin-block: 1rem;
+  }
+`
+
+const StyledFilters = styled.div`
+  @media (min-width: 800px) {
+    display: grid;
+    grid-template-rows: var(--space-56) min-content min-content;
+  }
+`
+>>>>>>> 081bed4 (Dtyling changes for filter)
 
 const SearchContainer = styled.div`
   display: grid;
-  @media (min-width: 700px) {
-    grid-template-columns: 10rem 1fr;
+  @media (min-width: 900px) {
+    grid-template-columns: 14rem 1fr;
+  }
+`
+
+const FilterContainer = styled.div`
+  display: grid;
+  @media (min-width: 300px) {
   }
 `
 
@@ -54,9 +80,19 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
           }),
         }}
       >
+<<<<<<< HEAD
         <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt:35", "description:15"]} />
         <SearchBox />
         <RefinementList attribute="community" />
+=======
+        <div>
+        <RefinementList attribute="community" />
+        </div>
+        <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
+        
+        <SearchBox />
+      
+>>>>>>> 081bed4 (Dtyling changes for filter)
         {/* @ts-ignore  */}
         <Hits hitComponent={Hit} />
       </InstantSearch>
@@ -76,14 +112,19 @@ const SearchPage: NextPage<Props> = ({
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
         <Section>
-          <Filters />
+         
           <h1>Beta version for improved search</h1>
           <SearchContainer>
+<<<<<<< HEAD
             <filter>filter</filter>
 
+=======
+           
+>>>>>>> 081bed4 (Dtyling changes for filter)
             <div>
               <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
             </div>
+            
           </SearchContainer>
         </Section>
       </main>
