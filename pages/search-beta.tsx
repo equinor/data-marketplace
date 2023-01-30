@@ -23,8 +23,8 @@ const SearchContainer = styled.div`
   display: grid;
   grid-template-areas:
     "search"
-    "totalResults"
     "filter"
+    "totalResults"
     "results";
   @media (min-width: 900px) {
     grid-template-columns: 17rem var(--huge-space) 1fr;
@@ -88,14 +88,13 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             <SearchBox />
           </StyledSearchBox>
           <TotalResults>x - y of z items</TotalResults>
-          <FilterContainer>
-            <RefinementList attribute="community" />
-          </FilterContainer>
-
           <StyledHits>
             {/* @ts-ignore  */}
             <Hits hitComponent={Hit} />
           </StyledHits>
+          <FilterContainer>
+            <RefinementList attribute="community" />
+          </FilterContainer>
         </SearchContainer>
       </InstantSearch>
     </IntlProvider>
