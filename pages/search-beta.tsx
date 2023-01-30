@@ -104,7 +104,7 @@ const SearchPage: NextPage<Props> = ({
   return (
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
-        <Section>
+        <Section highlight>
           <h1>Beta version for improved search</h1>
           <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
         </Section>
