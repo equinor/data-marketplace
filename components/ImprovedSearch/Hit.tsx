@@ -24,6 +24,8 @@ const StyledSnippet = styled(Snippet)`
 `
 
 const StyledLink = styled(NextLink)`
+  background-color: ${tokens.colors.ui.background__default.hsla};
+  padding: ${tokens.spacings.comfortable.medium};
   text-decoration: none;
   display: block;
   &:focus-visible {
