@@ -39,6 +39,11 @@ const TagsContainer = styled.div`
   gap: ${tokens.spacings.comfortable.small};
 `
 
+const StyledChip = styled(Chip)`
+  background-color: ${tokens.colors.infographic.primary__moss_green_21.hsla};
+  color: ${tokens.colors.text.static_icons__default.hsla};
+`
+
 export type HitProps = {
   hit: AlgoliaHit<{
     // @TODO Asset types
@@ -95,7 +100,7 @@ export const Hit = ({ hit }: HitProps) => {
       {tags.length > 0 && (
         <TagsContainer>
           {tags.map((item) => (
-            <Chip key={item}>{item}</Chip>
+            <StyledChip key={item}>{item}</StyledChip>
           ))}
         </TagsContainer>
       )}
