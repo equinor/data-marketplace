@@ -2,6 +2,7 @@ import { JWT } from "next-auth/jwt"
 
 import { ERR_CODES } from "./errors"
 import { AuthError } from "./errors/AuthError"
+import { getTokenExpirationTime } from "./getTokenExpirationTime"
 
 import { config } from "config"
 
@@ -45,7 +46,7 @@ export const attemptAccessTokenRefresh = async (token: Token) => {
     return {
       ...token,
       accessToken: data.access_token,
-      expiresAt: Date.now() + data.expires_in * 1000,
+      expiresAt: getTokenExpirationTime(data.access_token),
       refreshToken: data.refresh_token ?? token.refreshToken, // Fall back to old refresh token
     }
   } catch (err) {
