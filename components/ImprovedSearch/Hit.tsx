@@ -8,10 +8,8 @@ import styled from "styled-components"
 
 const StyledName = styled(Highlight)`
   & .highlighted {
-    /* Just testing out some colour contrast */
-    color: hsla(34, 100%, 74%, 1);
-    /* color: ${tokens.colors.interactive.warning__text.hsla}; */
-    background-color: hsl(207, 25%, 24%);
+    color: ${tokens.colors.interactive.danger__resting.hsla};
+    background: ${tokens.colors.ui.background__default.hsla};
   }
 `
 
@@ -19,7 +17,8 @@ const StyledSnippet = styled(Snippet)`
   display: block;
   color: ${tokens.colors.text.static_icons__default.hsla};
   & .highlighted {
-    background-color: ${tokens.colors.interactive.primary__selected_highlight.hsla};
+    color: ${tokens.colors.interactive.danger__resting.hsla};
+    background: ${tokens.colors.ui.background__default.hsla};
   }
 `
 
