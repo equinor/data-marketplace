@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/extensions
+import { tokens } from "@equinor/eds-tokens"
 import type { NextPage, GetServerSideProps } from "next/types"
 import { renderToString } from "react-dom/server"
 import { getServerState } from "react-instantsearch-hooks-server"
@@ -17,35 +18,31 @@ import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
 
-const Filters = styled.div``
-const StyledHits = styled(Hits)`
-  grid-area: results;
-  /* Temporary styles */
-  & .ais-Hits-list {
-    list-style-type: none;
-  }
-
-  & .ais-Hits-item {
-    margin-block: 1rem;
-  }
-`
-
-const StyledSearchBox = styled(SearchBox)`
-  grid-area: search;
-`
-
 const SearchContainer = styled.div`
   display: grid;
   grid-template-areas:
-    ". search"
-    "filter results";
+    "search"
+    "filter"
+    "results";
   @media (min-width: 900px) {
-    grid-template-columns: 14rem 1fr;
+    grid-template-columns: auto calc(2 * ${tokens.spacings.comfortable.xxx_large}) 1fr;
+    grid-template-rows: min-content calc(2 * ${tokens.spacings.comfortable.xxx_large}) min-content;
+    grid-template-areas:
+      ". . search"
+      ". . ."
+      "filter .  results";
   }
+`
+const StyledSearchBox = styled.div`
+  grid-area: search;
 `
 
 const FilterContainer = styled.div`
   grid-area: filter;
+`
+
+const StyledHits = styled.div`
+  grid-area: results;
 `
 
 type Props = {
@@ -77,25 +74,19 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
         }}
       >
         <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt:35", "description:15"]} />
-        <SearchBox />
-        <RefinementList attribute="community" />
-
-        <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
-
-        <SearchBox />
-
-        {/* @ts-ignore  */}
-        <Hits hitComponent={Hit} />
 
         <SearchContainer>
-          <StyledSearchBox />
+          <StyledSearchBox>
+            <SearchBox />
+          </StyledSearchBox>
           <FilterContainer>
             <RefinementList attribute="community" />
           </FilterContainer>
-          <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt", "description"]} />
 
-          {/* @ts-ignore  */}
-          <StyledHits hitComponent={Hit} />
+          <StyledHits>
+            {/* @ts-ignore  */}
+            <Hits hitComponent={Hit} />
+          </StyledHits>
         </SearchContainer>
       </InstantSearch>
     </IntlProvider>
@@ -115,9 +106,6 @@ const SearchPage: NextPage<Props> = ({
       <main>
         <Section>
           <h1>Beta version for improved search</h1>
-
-          <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
-
           <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
         </Section>
       </main>
