@@ -44,6 +44,12 @@ const StyledChip = styled(Chip)`
   color: ${tokens.colors.text.static_icons__default.hsla};
 `
 
+const StyledTypography = styled(Typography)`
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+`
+
 export type HitProps = {
   hit: AlgoliaHit<{
     // @TODO Asset types
@@ -66,7 +72,7 @@ export const Hit = ({ hit }: HitProps) => {
           {item}
         </Typography>
       ))}
-      <Typography variant="h5" as="h2" style={{ marginBottom: "0.65rem" }}>
+      <Typography variant="h5" as="h2">
         <StyledName
           hit={hit}
           attribute="name"
@@ -76,7 +82,7 @@ export const Hit = ({ hit }: HitProps) => {
         />
       </Typography>
       {hit.excerpt && (
-        <Typography variant="body_short">
+        <StyledTypography variant="body_short">
           <StyledSnippet
             hit={hit}
             attribute="excerpt"
@@ -84,10 +90,10 @@ export const Hit = ({ hit }: HitProps) => {
               highlighted: "highlighted",
             }}
           />
-        </Typography>
+        </StyledTypography>
       )}
       {hit.description && (
-        <Typography variant="body_short">
+        <StyledTypography variant="body_short">
           <StyledSnippet
             hit={hit}
             attribute="description"
@@ -95,7 +101,7 @@ export const Hit = ({ hit }: HitProps) => {
               highlighted: "highlighted",
             }}
           />
-        </Typography>
+        </StyledTypography>
       )}
       {tags.length > 0 && (
         <TagsContainer>
