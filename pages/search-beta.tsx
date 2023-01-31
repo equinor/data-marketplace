@@ -81,7 +81,7 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
           }),
         }}
       >
-        <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt:10", "description:12"]} />
+        <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt:10", "description:10"]} />
 
         <SearchContainer>
           <StyledSearchBox>

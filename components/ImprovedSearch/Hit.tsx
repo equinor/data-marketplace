@@ -13,9 +13,21 @@ const StyledName = styled(Highlight)`
   }
 `
 
+const TruncatedExcerpt = styled(Highlight)`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  & .highlighted {
+    color: ${tokens.colors.interactive.danger__resting.hsla};
+    background: ${tokens.colors.ui.background__default.hsla};
+  }
+`
+
 const StyledSnippet = styled(Snippet)`
   display: block;
   color: ${tokens.colors.text.static_icons__default.hsla};
+  padding-left: ${tokens.spacings.comfortable.xx_large};
   & .highlighted {
     color: ${tokens.colors.interactive.danger__resting.hsla};
     background: ${tokens.colors.ui.background__default.hsla};
@@ -81,17 +93,15 @@ export const Hit = ({ hit }: HitProps) => {
           }}
         />
       </Typography>
-      {hit.excerpt && (
-        <StyledTypography variant="body_short">
-          <StyledSnippet
-            hit={hit}
-            attribute="excerpt"
-            classNames={{
-              highlighted: "highlighted",
-            }}
-          />
-        </StyledTypography>
-      )}
+      <StyledTypography variant="body_short">
+        <TruncatedExcerpt
+          hit={hit}
+          attribute="excerpt"
+          classNames={{
+            highlighted: "highlighted",
+          }}
+        />
+      </StyledTypography>
       {hit.description && (
         <StyledTypography variant="body_short">
           <StyledSnippet
