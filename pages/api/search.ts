@@ -1,44 +1,32 @@
 import { STATUS_CODES } from "http"
 
-import { Asset } from "@equinor/data-marketplace-models"
 import { NextApiHandler } from "next"
-import { getToken } from "next-auth/jwt"
 
 import { config } from "config"
-import { HttpClient } from "lib/HttpClient"
 import { HttpError } from "lib/HttpError"
-
-type SearchResult = {
-  resource: Asset
-}
+import { request } from "lib/net/request"
 
 const SearchHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") {
     return res.status(405).json({ error: STATUS_CODES[405] })
   }
 
-  const token = await getToken({ req })
-
-  if (!token) return res.status(401).end()
-
-  const authorization = `Bearer ${token.accessToken}`
-
   try {
-    // get the status id of the approved status
-    const approvedStatusRes = await HttpClient.get(`${config.COLLIBRA_API_URL}/statuses/name/Approved`, {
-      headers: { authorization },
+    const approvedStatusRes = await request(`${config.COLLIBRA_API_URL}/statuses/name/Approved`, { retries: 3 })({
+      req,
     })
+    const approvedStatus: Collibra.Status = await approvedStatusRes.json()
 
-    const dataProductRes = await HttpClient.get(`${config.COLLIBRA_API_URL}/assetTypes`, {
-      headers: { authorization },
-      query: { name: "data product" },
+    const dataProductRes = await request(`${config.COLLIBRA_API_URL}/assetTypes?name=data%20product`, { retries: 3 })({
+      req,
     })
+    const dataProduct: Collibra.PagedAssetResponse = await dataProductRes.json()
 
     const filters = [
-      { field: "status", values: [approvedStatusRes.body.id] },
+      { field: "status", values: [approvedStatus.id] },
       {
         field: "assetType",
-        values: dataProductRes.body.results.map((result: any) => result.id),
+        values: dataProduct.results.map((result) => result.id),
       },
     ]
 
@@ -52,18 +40,20 @@ const SearchHandler: NextApiHandler = async (req, res) => {
     const limit = 20
     const offset = limit * (Number.isNaN(Number(req.query.offset)) ? 0 : Number(req.query.offset))
 
-    // get search results
-    const searchRes = await HttpClient.post<{ results: SearchResult[] }>(`${config.COLLIBRA_API_URL}/search`, {
-      headers: { authorization },
-      body: {
-        keywords: req.query.q,
-        filters,
-        limit,
-        offset,
-      },
+    const searchParams = new URLSearchParams({
+      keywords: req.query.q! as string,
+      filters: filters.join(","),
+      limit: limit.toString(),
+      offset: offset.toString(),
     })
 
-    const results = searchRes.body?.results.map((result: SearchResult) => ({
+    const searchRes = await request(`${config.COLLIBRA_API_URL}/search?${searchParams.toString()}`, {
+      method: "POST",
+      retries: 3,
+    })({ req })
+    const searchResults: Collibra.SearchResponse = await searchRes.json()
+
+    const results = searchResults.results.map((result) => ({
       resource: {
         ...result.resource,
       },
