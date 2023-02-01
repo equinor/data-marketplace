@@ -1,46 +1,20 @@
 import type { Asset } from "@equinor/data-marketplace-models"
 import type { NextApiHandler } from "next"
-import { getToken } from "next-auth/jwt"
 
 import { config } from "config"
 import { HttpError } from "lib/HttpError"
+import { request } from "lib/net/request"
 
 const PopularAssetsHandler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") {
     return res.status(405).end()
   }
 
-  let session = await getToken({ req })
-
-  if (!session) {
-    return res.status(401).end()
-  }
-
   try {
-    // const adapterServiceClient = axios.create({
-    //   baseURL: (config.ADAPTER_SERVICE_API_URL as string) ?? "",
-    //   headers: {
-    //     authorization: `Bearer ${token.accessToken}`,
-    //   },
-    //   params: {
-    //     code: config.ADAPTER_SERVICE_APP_KEY,
-    //     limit: 6,
-    //   },
-    // })
-
-    // const { data: popularDataProducts } = await adapterServiceClient.get<Asset>("/lists/popular")
-
-    const response = await fetch(
+    const response = await request(
       `${config.ADAPTER_SERVICE_API_URL}/lists/popular?code=${config.ADAPTER_SERVICE_APP_KEY}&limit=6`,
-      {
-        headers: {
-          authorization: `Bearer ${session.accessToken}`,
-        },
-      }
-    )
-    if (response.status === 401) {
-      session = await getToken({ req })
-    }
+      { retries: 3 }
+    )({ req })
 
     const popularDataProducts = (await response.json()) as Asset[]
 
