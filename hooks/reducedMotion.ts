@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react"
 
-const QUERY = '(prefers-reduced-motion: no-preference)'
+const QUERY = "(prefers-reduced-motion: no-preference)"
 
 export const usePrefersReducedMotion = (): boolean => {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(true)
@@ -14,10 +14,10 @@ export const usePrefersReducedMotion = (): boolean => {
       setPrefersReducedMotion(!event.matches)
     }
 
-    mediaQueryList.addEventListener('change', listener)
+    mediaQueryList.addEventListener("change", listener)
 
     return () => {
-      mediaQueryList.removeEventListener('change', listener)
+      mediaQueryList.removeEventListener("change", listener)
     }
   }, [])
 

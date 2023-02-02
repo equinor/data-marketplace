@@ -1,43 +1,37 @@
-import { usePagination } from 'react-instantsearch-hooks-web'
-import { Button } from "./Button"
-import styled from 'styled-components'
+import { Button, List, ListItemProps } from "@equinor/eds-core-react"
+import { usePagination } from "react-instantsearch-hooks-web"
+import styled from "styled-components"
 
-
-const StyledListItem = styled.li`
-  display: inline-block;
-`
-
-const PaginationLink = styled(Button)<{ isCurrent?: boolean; inverted?: boolean }>`
+const PaginationLink = styled(Button)<{ isCurrent?: boolean }>`
   width: 44px;
   height: 44px;
-  color: ${(props) => (props.inverted ? 'hsl(184, 31%, 74%)' : 'hsl(206, 32%, 21%);')}
-  ${({ isCurrent, inverted }) =>
+  color: ("hsl(206, 32%, 21%);")}
+  ${({ isCurrent }) =>
     isCurrent && {
-      background: inverted ? 'hsl(184, 31%, 74%)' : 'hsl(184, 100%, 24%)',
-      color: inverted ? 'hsl(0, 0%, 0%)' : 'rgba(61, 61, 61, 1)',
+      background: "hsl(184, 100%, 24%)",
+      color: "rgba(61, 61, 61, 1)",
     }}
-
   :hover {
-    color: ${(props) => (props.inverted ? 'vhsl(0, 0%, 0%)' : '')};
+    color: ( "")};
 
     :disabled {
-      color: ${(props) => (props.inverted ? 'hsl(207, 14%, 37%)' : 'hsl(0, 0%, 86%)')};
+      color: ("hsl(0, 0%, 86%)")};
     }
   }
 
   :disabled {
     cursor: auto;
-    color: ${(props) => (props.inverted ? 'hsl(207, 14%, 37%)' : 'hsl(0, 0%, 86%)')};
+    color:  ( "hsl(0, 0%, 86%)")};
   }
 `
 
-export function isModifierClick(event: React.MouseEvent) {
+export const isModifierClick = (event: React.MouseEvent) => {
   const isMiddleClick = event.button === 1
   return Boolean(isMiddleClick || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
 }
 
-type PaginationItemProps = React.ComponentProps<'a'> &
-  Pick<ReturnType<typeof usePagination>, 'refine' | 'createURL'> & {
+type PaginationItemProps = ListItemProps &
+  Pick<ReturnType<typeof usePagination>, "refine" | "createURL"> & {
     isDisabled: boolean
     value: number
     isCurrent: boolean
@@ -56,7 +50,7 @@ export const PaginationItem = ({
 }: PaginationItemProps) => {
   if (isDisabled || isCurrent) {
     return (
-      <StyledListItem>
+      <List>
         <PaginationLink
           disabled={isDisabled}
           isCurrent={isCurrent}
@@ -66,12 +60,12 @@ export const PaginationItem = ({
         >
           {children}
         </PaginationLink>
-      </StyledListItem>
+      </List>
     )
   }
 
   return (
-    <StyledListItem>
+    <List>
       <PaginationLink
         disabled={isDisabled}
         variant="ghost_icon"
@@ -88,6 +82,6 @@ export const PaginationItem = ({
       >
         {children}
       </PaginationLink>
-    </StyledListItem>
+    </List>
   )
 }

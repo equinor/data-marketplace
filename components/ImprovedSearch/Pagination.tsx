@@ -1,14 +1,18 @@
-import { Icon } from '@equinor/eds-core-react'
-import { chevron_left, chevron_right, first_page, last_page } from '@equinor/eds-icons'
-import { useContext, useEffect, useRef } from 'react'
-import { usePagination, UsePaginationProps } from 'react-instantsearch-hooks-web'
-import styled from 'styled-components'
-import { usePrefersReducedMotion } from './ReducedMotion'
-import { PaginationContext } from './PaginationContext'
-import { PaginationItem } from './PaginationItem'
+import { Icon, List } from "@equinor/eds-core-react"
+/* eslint-disable camelcase */
+import { chevron_left, chevron_right, first_page, last_page } from "@equinor/eds-icons"
+import { useContext, useEffect, useRef } from "react"
+import { usePagination, UsePaginationProps } from "react-instantsearch-hooks-web"
+import { useIntl } from "react-intl"
+import styled from "styled-components"
+
+import { usePrefersReducedMotion } from "../../hooks/reducedMotion"
+
+import { PaginationContext } from "./PaginationContext"
+import { PaginationItem } from "./PaginationItem"
 
 
-const PaginationList = styled.ul`
+const PaginationList = styled(List)`
   list-style: none;
   padding: 0;
   margin: 0;
@@ -20,11 +24,10 @@ const PaginationList = styled.ul`
 
 export type PaginationProps = {
   hitsPerPage?: number
-  inverted?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } & UsePaginationProps
 
-export const Pagination = ({ totalPages, padding, hitsPerPage = 5, inverted = false, ...rest }: PaginationProps) => {
+export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: PaginationProps) => {
   const { refine, createURL, pages, currentRefinement, isFirstPage, isLastPage, nbPages, nbHits } = usePagination({
     totalPages,
     padding,
@@ -33,10 +36,11 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, inverted = fa
   const { resultsRef } = useContext(PaginationContext)
   const prevRefinement = useRef<number>(currentRefinement)
   const prefersReducedMotion = usePrefersReducedMotion()
+  const intl = useIntl()
 
   useEffect(() => {
     if (!prefersReducedMotion && resultsRef?.current && currentRefinement !== prevRefinement.current) {
-      resultsRef.current.scrollIntoView({ behavior: 'smooth' })
+      resultsRef.current.scrollIntoView({ behavior: "smooth" })
     }
   }, [currentRefinement, prefersReducedMotion, resultsRef])
 
@@ -49,26 +53,25 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, inverted = fa
   }
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <PaginationList {...rest}>
       <PaginationItem
-        ariaLabel="First page"
+        ariaLabel={intl.formatMessage({ id: "pagination.firstPage" })}
         value={0}
         isCurrent={false}
         isDisabled={isFirstPage}
         createURL={createURL}
         refine={refine}
-        inverted={inverted}
       >
         <Icon data={first_page} />
       </PaginationItem>
       <PaginationItem
-        ariaLabel="Previous"
+        ariaLabel={intl.formatMessage({ id: "pagination.previous" })}
         value={currentRefinement - 1}
         isCurrent={false}
         isDisabled={isFirstPage}
         createURL={createURL}
         refine={refine}
-        inverted={inverted}
       >
         <Icon data={chevron_left} />
       </PaginationItem>
@@ -82,32 +85,29 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, inverted = fa
           isDisabled={false}
           createURL={createURL}
           refine={refine}
-          inverted={inverted}
         >
           {page + 1}
         </PaginationItem>
       ))}
 
       <PaginationItem
-        ariaLabel="Next"
+        ariaLabel={intl.formatMessage({ id: "pagination.next" })}
         value={currentRefinement + 1}
         isCurrent={false}
         isDisabled={isLastPage}
         createURL={createURL}
         refine={refine}
-        inverted={inverted}
       >
         <Icon data={chevron_right} />
       </PaginationItem>
 
       <PaginationItem
-        ariaLabel="Last page"
+        ariaLabel={intl.formatMessage({ id: "pagination.lastPage" })}
         value={nbPages - 1}
         isCurrent={false}
         isDisabled={isLastPage}
         createURL={createURL}
         refine={refine}
-        inverted={inverted}
       >
         <Icon data={last_page} />
       </PaginationItem>

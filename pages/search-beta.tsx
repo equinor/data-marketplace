@@ -12,14 +12,7 @@ import {
 import { IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import { 
-  SearchBox,
-  Hits,
-  Hit, 
-  RefinementList, 
-  algoliaNextJsHistoryRouter,
-  Pagination
- } from "components/ImprovedSearch"
+import { SearchBox, Hits, Hit, RefinementList, algoliaNextJsHistoryRouter, Pagination } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
@@ -44,8 +37,6 @@ const SearchContainer = styled.div`
 `
 const StyledPagination = styled(Pagination)`
   justify-content: center;
-
-
 `
 
 const StyledSearchBox = styled.div`
@@ -75,7 +66,6 @@ type Props = {
 }
 
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
-  
   /* eslint-disable-next-line react/jsx-props-no-spreading */
   <InstantSearchSSRProvider {...serverState}>
     <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
@@ -96,10 +86,8 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
         <Configure hitsPerPage={10} snippetEllipsisText="..." attributesToSnippet={["excerpt:35", "description:15"]} />
 
         <SearchContainer>
-        
           <StyledSearchBox>
             <SearchBox />
-            
           </StyledSearchBox>
           <FilterContainer>
             <RefinementList attribute="community" />
@@ -109,10 +97,9 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             {/* @ts-ignore  */}
             <Hits hitComponent={Hit} />
           </StyledHits>
-         
         </SearchContainer>
         <PaginationContainer>
-        <StyledPagination  hitsPerPage={10} />
+          <StyledPagination hitsPerPage={10} />
         </PaginationContainer>
       </InstantSearch>
     </IntlProvider>
@@ -129,14 +116,12 @@ const SearchPage: NextPage<Props> = ({
 
   return (
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
-      
       <main>
         <Section>
           <h1>Beta version for improved search</h1>
           <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
         </Section>
       </main>
-     
     </Page>
   )
 }
