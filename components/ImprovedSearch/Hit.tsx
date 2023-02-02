@@ -79,11 +79,12 @@ export const Hit = ({ hit }: HitProps) => {
   const { id, community = [], tags = [] } = hit
   return (
     <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
-      {community.map((item) => (
-        <Typography variant="overline" key={item}>
-          {item}
-        </Typography>
-      ))}
+      {community &&
+        community.map((item) => (
+          <Typography variant="overline" key={item}>
+            {item}
+          </Typography>
+        ))}
       <Typography variant="h5" as="h2">
         <StyledName
           hit={hit}

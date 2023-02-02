@@ -12,7 +12,14 @@ import {
 import { IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import { SearchBox, Hits, Hit, RefinementList, algoliaNextJsHistoryRouter } from "components/ImprovedSearch"
+import {
+  SearchBox,
+  Hits,
+  Hit,
+  RefinementList,
+  algoliaNextJsHistoryRouter,
+  PlainRefinementList,
+} from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
@@ -94,6 +101,11 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
           </StyledHits>
           <FilterContainer>
             <RefinementList attribute="community" />
+            <PlainRefinementList label="Provider" attribute="provider" />
+            <PlainRefinementList label="Owner" attribute="owner" />
+            <PlainRefinementList label="Technical steward" attribute="technicalSteward" />
+            <PlainRefinementList label="Data office admin" attribute="dataOfficeAdmin" />
+            <PlainRefinementList label="Data steward" attribute="dataSteward" />
           </FilterContainer>
         </SearchContainer>
       </InstantSearch>

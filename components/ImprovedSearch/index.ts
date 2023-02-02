@@ -5,3 +5,6 @@ export { algoliaNextJsHistoryRouter } from "./lib/algolia-nextjs-history-router"
 
 export { RefinementList } from "./RefinementList"
 export type { HitProps } from "./Hit"
+
+// Just for testing
+export { PlainRefinementList } from "./PlainRefinementList"
