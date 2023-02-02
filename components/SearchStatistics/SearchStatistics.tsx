@@ -4,10 +4,10 @@ import { usePagination } from "react-instantsearch-hooks-web"
 import { useIntl } from "react-intl"
 
 type Props = {
-  pageSize: number
+  hitsPerPage: number
 }
 
-export const SearchStatistics: FunctionComponent<Props> = ({ pageSize }) => {
+export const SearchStatistics: FunctionComponent<Props> = ({ hitsPerPage }) => {
   const { nbHits: totalHits, currentRefinement } = usePagination()
   const { formatMessage } = useIntl()
 
@@ -15,8 +15,8 @@ export const SearchStatistics: FunctionComponent<Props> = ({ pageSize }) => {
     return null
   }
 
-  const currentOffset = currentRefinement * pageSize + 1
-  const offsetEnd = Math.min(currentRefinement * pageSize + pageSize, totalHits)
+  const currentOffset = currentRefinement * hitsPerPage + 1
+  const offsetEnd = Math.min(currentRefinement * hitsPerPage + hitsPerPage, totalHits)
 
   return <Typography>{formatMessage({ id: "search.statistics" }, { currentOffset, offsetEnd, totalHits })}</Typography>
 }

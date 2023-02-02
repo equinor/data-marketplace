@@ -102,7 +102,7 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             <SearchBox />
           </StyledSearchBox>
           <TotalResults>
-            <SearchStatistics pageSize={HITS_PER_PAGE} />
+            <SearchStatistics hitsPerPage={HITS_PER_PAGE} />
           </TotalResults>
           <StyledHits>
             {/* @ts-ignore  */}
