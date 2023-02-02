@@ -21,6 +21,7 @@ import {
   PlainRefinementList,
 } from "components/ImprovedSearch"
 import { Page } from "components/Page"
+import { SearchStatistics } from "components/SearchStatistics"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
@@ -70,6 +71,8 @@ type Props = {
   }
 }
 
+const HITS_PER_PAGE = 50
+
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
   <InstantSearchSSRProvider {...serverState}>
@@ -88,13 +91,19 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
           }),
         }}
       >
-        <Configure hitsPerPage={50} snippetEllipsisText="..." attributesToSnippet={["excerpt:10", "description:10"]} />
+        <Configure
+          hitsPerPage={HITS_PER_PAGE}
+          snippetEllipsisText="..."
+          attributesToSnippet={["excerpt:10", "description:10"]}
+        />
 
         <SearchContainer>
           <StyledSearchBox>
             <SearchBox />
           </StyledSearchBox>
-          <TotalResults>x - y of z items</TotalResults>
+          <TotalResults>
+            <SearchStatistics pageSize={HITS_PER_PAGE} />
+          </TotalResults>
           <StyledHits>
             {/* @ts-ignore  */}
             <Hits hitComponent={Hit} />
