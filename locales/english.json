@@ -17,7 +17,7 @@
   "auth.signin.why.dialog.button.ok": "OK, take me to Collibra",
   "frontpage.hero.title": "Find the data you need",
   "frontpage.hero.ingress": "Data Marketplace makes it easy for you to find and request access to the data you need, across Equinor.",
-  "frontpage.disclaimer": "Data Marketplace is currently in beta. Some functionality might be limited, but we’re constantly working to improve your experience.",
+  "frontpage.disclaimer": "Data Marketplace is currently in beta. Some functionality might be limited, but we\u0027re constantly working to improve your experience.",
   "frontpage.popularProductsHeader": "Popular data",
   "frontpage.numberOfViews": "{numberOfViews} views",
   "notfound.code.number": "404",
