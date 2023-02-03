@@ -143,6 +143,14 @@ const SearchPage: NextPage<Props> = ({
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { USE_IMPROVED_SEARCH = "false" } = process.env
+
+  if (USE_IMPROVED_SEARCH === "false") {
+    return {
+      notFound: true,
+    }
+  }
+
   const protocol = req.headers.referer?.split("://")[0] || "https"
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`
 
@@ -150,7 +158,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     renderToString,
   })
 
-  const { USE_IMPROVED_SEARCH = "false" } = process.env
   return {
     props: {
       serverState,
