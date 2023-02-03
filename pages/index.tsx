@@ -2,7 +2,7 @@
 import { Card, Typography, CircularProgress, Banner, Icon } from "@equinor/eds-core-react"
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import type { NextPage } from "next"
+import type { NextPage, GetServerSideProps } from "next"
 import NextLink from "next/link"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
@@ -76,9 +76,16 @@ const HeroIllustration = styled(Illustration)`
   }
 `
 
-const Frontpage: NextPage = () => {
+type Props = {
+  featureFlags?: {
+    USE_IMPROVED_SEARCH: "true" | "false"
+  }
+}
+
+const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: "false" } }) => {
   const intl = useIntl()
   const { popularDataProducts, isLoading, error } = usePopularProducts()
+  const { USE_IMPROVED_SEARCH } = featureFlags
 
   if (error) {
     /* eslint-disable no-console */
@@ -86,7 +93,7 @@ const Frontpage: NextPage = () => {
   }
 
   return (
-    <Page documentTitle={intl.formatMessage({ id: "common.documentTitle" })}>
+    <Page documentTitle={intl.formatMessage({ id: "common.documentTitle" })} useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
         <Section>
           <Hero>
@@ -152,3 +159,15 @@ const Frontpage: NextPage = () => {
 }
 
 export default Frontpage
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { USE_IMPROVED_SEARCH = "false" } = process.env
+
+  return {
+    props: {
+      featureFlags: {
+        USE_IMPROVED_SEARCH,
+      },
+    },
+  }
+}
