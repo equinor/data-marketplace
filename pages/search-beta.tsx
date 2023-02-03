@@ -12,27 +12,39 @@ import {
 import { IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import { SearchBox, Hits, Hit, RefinementList, algoliaNextJsHistoryRouter, Pagination } from "components/ImprovedSearch"
+import {
+  SearchBox,
+  Hits,
+  Hit,
+  RefinementList,
+  algoliaNextJsHistoryRouter,
+  PlainRefinementList,
+  Pagination
+} from "components/ImprovedSearch"
 import { Page } from "components/Page"
+import { SearchStatistics } from "components/SearchStatistics"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
 
 const SearchContainer = styled.div`
+  --huge-space: calc(2 * ${tokens.spacings.comfortable.xxx_large});
   display: grid;
   grid-template-areas:
     "search"
     "filter"
+    "totalResults"
     "results"
     "pagination";
   @media (min-width: 900px) {
-    grid-template-columns: auto calc(2 * ${tokens.spacings.comfortable.xxx_large}) 1fr;
-    grid-template-rows: min-content calc(2 * ${tokens.spacings.comfortable.xxx_large}) min-content;
+    grid-template-columns: 17rem var(--huge-space) 1fr;
+    grid-template-rows: min-content var(--huge-space) min-content;
     grid-template-areas:
       ". . search"
       ". . ."
-      "filter .  results"
-      ". . pagination";
+      ". . totalResults"
+      "filter .  results
+       ". . pagination";
   }
 `
 const StyledPagination = styled(Pagination)`
@@ -55,6 +67,11 @@ const StyledHits = styled.div`
   grid-area: results;
 `
 
+const TotalResults = styled.div`
+  margin-block: ${tokens.spacings.comfortable.medium};
+  grid-area: totalResults;
+`
+
 type Props = {
   serverState?: InstantSearchServerState
   serverUrl?: URL | string
@@ -64,6 +81,8 @@ type Props = {
     USE_IMPROVED_SEARCH: "true" | "false"
   }
 }
+
+const HITS_PER_PAGE = 50
 
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
@@ -83,20 +102,31 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
           }),
         }}
       >
-        <Configure hitsPerPage={5} snippetEllipsisText="..." attributesToSnippet={["excerpt:35", "description:15"]} />
+        <Configure
+          hitsPerPage={HITS_PER_PAGE}
+          snippetEllipsisText="..."
+          attributesToSnippet={["excerpt:10", "description:10"]}
+        />
 
         <SearchContainer>
           <StyledSearchBox>
             <SearchBox />
           </StyledSearchBox>
-          <FilterContainer>
-            <RefinementList attribute="community" />
-          </FilterContainer>
-
+          <TotalResults>
+            <SearchStatistics hitsPerPage={HITS_PER_PAGE} />
+          </TotalResults>
           <StyledHits>
             {/* @ts-ignore  */}
             <Hits hitComponent={Hit} />
           </StyledHits>
+          <FilterContainer>
+            <RefinementList attribute="community" />
+            <PlainRefinementList label="Provider" attribute="provider" />
+            <PlainRefinementList label="Owner" attribute="owner" />
+            <PlainRefinementList label="Technical steward" attribute="technicalSteward" />
+            <PlainRefinementList label="Data office admin" attribute="dataOfficeAdmin" />
+            <PlainRefinementList label="Data steward" attribute="dataSteward" />
+          </FilterContainer>
         </SearchContainer>
         <PaginationContainer>
           <StyledPagination hitsPerPage={5} padding={1} />
@@ -117,7 +147,7 @@ const SearchPage: NextPage<Props> = ({
   return (
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
-        <Section>
+        <Section highlight>
           <h1>Beta version for improved search</h1>
           <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
         </Section>

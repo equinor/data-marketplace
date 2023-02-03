@@ -3,9 +3,7 @@ import type { Asset, Maintainer } from "@equinor/data-marketplace-models"
 import { Button, Icon, Typography, Tabs } from "@equinor/eds-core-react"
 import { add } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import axios from "axios"
 import type { GetServerSideProps, NextPage } from "next"
-import { getToken } from "next-auth/jwt"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -16,6 +14,7 @@ import { OverviewContent, ResponsibilitiesContent, ResponsibilitiesContentSectio
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { config } from "config"
+import { request } from "lib/net/request"
 
 const { Tab: EdsTab, List, Panel: EdsPanel, Panels } = Tabs
 
@@ -154,31 +153,22 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     }
   }
 
-  const token = await getToken({ req })
-
-  if (typeof token?.accessToken !== "string") {
-    return {
-      props: defaultPageProps,
-    }
-  }
-
-  const adapterServiceClient = axios.create({
-    baseURL: (config.ADAPTER_SERVICE_API_URL as string) ?? "",
-    headers: {
-      authorization: `Bearer ${token.accessToken}`,
-    },
-    params: {
-      code: config.ADAPTER_SERVICE_APP_KEY,
-    },
-  })
-
   try {
     // the HttpClient class seems to have a bug where it sends two requests.
     // the first request goes through, while the second fails.
     // this has not been observed with other requests (although it hasn't been thoroughly investigated).
     // TODO: refactor services
-    const { data: asset } = await adapterServiceClient.get<Asset>(`/assets/${id}`)
-    const { data: maintainers } = await adapterServiceClient.get<Maintainer[]>(`/assets/${id}/maintainers`)
+    const assetRes = await request(
+      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}?code=${config.ADAPTER_SERVICE_APP_KEY}`,
+      { retries: 3 }
+    )({ req })
+    const asset: Asset = await assetRes.json()
+
+    const maintainersRes = await request(
+      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}/maintainers?code=${config.ADAPTER_SERVICE_APP_KEY}`,
+      { retries: 3 }
+    )({ req })
+    const maintainers: Maintainer[] = await maintainersRes.json()
 
     const responsibilitiesData = Array.isArray(maintainers)
       ? maintainers.reduce((maintainerMap, maintainer) => {

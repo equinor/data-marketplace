@@ -4,6 +4,7 @@ import ADProvider from "next-auth/providers/azure-ad"
 import { attemptAccessTokenRefresh, Token } from "../../../lib/attemptAccessTokenRefresh"
 
 import { config } from "config"
+import { getTokenExpirationTime } from "lib/getTokenExpirationTime"
 
 const SCOPE = `openid offline_access ${config.AUTH_SCOPE}`
 
@@ -23,34 +24,27 @@ export default NextAuth({
   pages: {
     signIn: "/auth/signin",
   },
-
+  session: {
+    maxAge: 60 * 60 * 24, // 24 hours
+    generateSessionToken: () => crypto.randomUUID(),
+  },
   callbacks: {
     async jwt({ token, account }) {
-      if (account) {
-        /* eslint-disable no-console */
-        console.log("[NextAuth] User signed in. Retrieving access token")
-
+      if (account?.access_token) {
         return {
-          tokenType: account.token_type,
           accessToken: account.access_token,
-          /* expires_at is a value representing how many **seconds** since epoc
-           * the token expires at. we store it as a number representing how many
-           * **milliseconds** since epoc it expires at. that way we can do Date
-           * comparison to figure out when to refresh it.
-           *
-           * we also subtract five minutes from it so that we're sure to refresh
-           * the token **before** it expires.
-           */
-          expiresAt: account.expires_at! * 1000 - 60000 * 5,
+          expiresAt: getTokenExpirationTime(account.access_token),
           refreshToken: account.refresh_token,
         }
       }
 
       if (Date.now() > (token.expiresAt as number)) {
         try {
+          console.log("[NextAuth] Attempting to refersh access token")
+
           return attemptAccessTokenRefresh(token as Token)
         } catch (err) {
-          console.log("[NextAuth]", err)
+          console.log("[NextAuth] Failed refreshing access token", err)
 
           return {
             ...token,
@@ -64,6 +58,7 @@ export default NextAuth({
     async session({ session, token }) {
       return {
         ...session,
+        expires: new Date(token.expiresAt as number).toISOString(),
         token: token.accessToken,
         error: token.error,
       }
