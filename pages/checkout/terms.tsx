@@ -5,9 +5,7 @@ import { warning_filled, chevron_right } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { PortableText } from "@portabletext/react"
 import { PortableTextBlock } from "@portabletext/types"
-import axios from "axios"
 import type { GetServerSideProps, NextPage } from "next"
-import { getToken } from "next-auth/jwt"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
@@ -19,6 +17,7 @@ import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { defaultComponents } from "htmlParsing/portableText"
 import { ERR_CODES } from "lib/errors"
+import { request } from "lib/net/request"
 
 const IngressContainer = styled.div`
   margin-bottom: 1.5rem;
@@ -173,33 +172,20 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   const { id } = query
   const defaultPageProps: Props = { asset: null }
 
-  if (typeof id !== "string") {
-    return { props: defaultPageProps }
-  }
-
-  const token = await getToken({ req })
-
-  if (typeof token?.accessToken !== "string") {
-    return {
-      props: defaultPageProps,
-    }
-  }
-
-  const adapterServiceClient = axios.create({
-    baseURL: (config.ADAPTER_SERVICE_API_URL as string) ?? "",
-    headers: {
-      authorization: `Bearer ${token.accessToken}`,
-    },
-    params: {
-      code: config.ADAPTER_SERVICE_APP_KEY,
-    },
-  })
-
   try {
-    const { data: asset } = await adapterServiceClient.get<Asset>(`/assets/${id}`)
-    const { data: rightsToUseAttributes } = await adapterServiceClient.get<RightsToUse>(`/assets/${id}/terms`)
+    const assetRes = await request(
+      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}?code=${config.ADAPTER_SERVICE_APP_KEY}`,
+      { retries: 3 }
+    )({ req })
+    const asset: Asset = await assetRes.json()
 
-    const { terms } = rightsToUseAttributes
+    const rtuRes = await request(
+      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}/terms?code=${config.ADAPTER_SERVICE_APP_KEY}`,
+      { retries: 3 }
+    )({ req })
+    const rtu: RightsToUse = await rtuRes.json()
+
+    const { terms } = rtu
 
     return {
       props: {

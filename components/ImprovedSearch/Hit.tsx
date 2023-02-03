@@ -8,22 +8,35 @@ import styled from "styled-components"
 
 const StyledName = styled(Highlight)`
   & .highlighted {
-    /* Just testing out some colour contrast */
-    color: hsla(34, 100%, 74%, 1);
-    /* color: ${tokens.colors.interactive.warning__text.hsla}; */
-    background-color: hsl(207, 25%, 24%);
+    color: ${tokens.colors.interactive.danger__resting.hsla};
+    background: ${tokens.colors.ui.background__default.hsla};
+  }
+`
+
+const TruncatedExcerpt = styled(Highlight)`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  & .highlighted {
+    color: ${tokens.colors.interactive.danger__resting.hsla};
+    background: ${tokens.colors.ui.background__default.hsla};
   }
 `
 
 const StyledSnippet = styled(Snippet)`
   display: block;
   color: ${tokens.colors.text.static_icons__default.hsla};
+  padding-left: ${tokens.spacings.comfortable.xx_large};
   & .highlighted {
-    background-color: ${tokens.colors.interactive.primary__selected_highlight.hsla};
+    color: ${tokens.colors.interactive.danger__resting.hsla};
+    background: ${tokens.colors.ui.background__default.hsla};
   }
 `
 
 const StyledLink = styled(NextLink)`
+  background-color: ${tokens.colors.ui.background__default.hsla};
+  padding: ${tokens.spacings.comfortable.medium};
   text-decoration: none;
   display: block;
   &:focus-visible {
@@ -36,6 +49,17 @@ const TagsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: ${tokens.spacings.comfortable.small};
+`
+
+const StyledChip = styled(Chip)`
+  background-color: ${tokens.colors.infographic.primary__moss_green_21.hsla};
+  color: ${tokens.colors.text.static_icons__default.hsla};
+`
+
+const StyledTypography = styled(Typography)`
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
 `
 
 export type HitProps = {
@@ -55,12 +79,13 @@ export const Hit = ({ hit }: HitProps) => {
   const { id, community = [], tags = [] } = hit
   return (
     <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
-      {community.map((item) => (
-        <Typography variant="overline" key={item}>
-          {item}
-        </Typography>
-      ))}
-      <Typography variant="h5" as="h2" style={{ marginBottom: "0.65rem" }}>
+      {community &&
+        community.map((item) => (
+          <Typography variant="overline" key={item}>
+            {item}
+          </Typography>
+        ))}
+      <Typography variant="h5" as="h2">
         <StyledName
           hit={hit}
           attribute="name"
@@ -69,19 +94,17 @@ export const Hit = ({ hit }: HitProps) => {
           }}
         />
       </Typography>
-      {hit.excerpt && (
-        <Typography variant="body_short">
-          <StyledSnippet
-            hit={hit}
-            attribute="excerpt"
-            classNames={{
-              highlighted: "highlighted",
-            }}
-          />
-        </Typography>
-      )}
+      <StyledTypography variant="body_short">
+        <TruncatedExcerpt
+          hit={hit}
+          attribute="excerpt"
+          classNames={{
+            highlighted: "highlighted",
+          }}
+        />
+      </StyledTypography>
       {hit.description && (
-        <Typography variant="body_short">
+        <StyledTypography variant="body_short">
           <StyledSnippet
             hit={hit}
             attribute="description"
@@ -89,12 +112,12 @@ export const Hit = ({ hit }: HitProps) => {
               highlighted: "highlighted",
             }}
           />
-        </Typography>
+        </StyledTypography>
       )}
       {tags.length > 0 && (
         <TagsContainer>
           {tags.map((item) => (
-            <Chip key={item}>{item}</Chip>
+            <StyledChip key={item}>{item}</StyledChip>
           ))}
         </TagsContainer>
       )}

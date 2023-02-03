@@ -6,3 +6,6 @@ export { Pagination } from "./Pagination"
 export { PaginationContext } from "./PaginationContext"
 export { RefinementList } from "./RefinementList"
 export type { HitProps } from "./Hit"
+
+// Just for testing
+export { PlainRefinementList } from "./PlainRefinementList"

@@ -3,9 +3,7 @@ import type { Asset, RightsToUse } from "@equinor/data-marketplace-models"
 import { Button, Icon, Typography } from "@equinor/eds-core-react"
 import { external_link } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import axios from "axios"
 import { JSDOM } from "jsdom"
-import { getToken } from "next-auth/jwt"
 import type { NextPage, GetServerSideProps } from "next/types"
 import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
@@ -15,6 +13,7 @@ import { appInsights } from "appInsights"
 import { CheckoutWizard, NoAsset, CancelButton, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Page } from "components/Page"
 import { config } from "config"
+import { request } from "lib/net/request"
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -107,29 +106,20 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     return { props: defaultPageProps }
   }
 
-  const token = await getToken({ req })
-
-  if (typeof token?.accessToken !== "string") {
-    return {
-      props: defaultPageProps,
-    }
-  }
-
-  const adapterServiceClient = axios.create({
-    baseURL: (config.ADAPTER_SERVICE_API_URL as string) ?? "",
-    headers: {
-      authorization: `Bearer ${token.accessToken}`,
-    },
-    params: {
-      code: config.ADAPTER_SERVICE_APP_KEY,
-    },
-  })
-
   try {
-    const { data: asset } = await adapterServiceClient.get<Asset>(`/assets/${id}`)
-    const { data: rightsToUseAttributes } = await adapterServiceClient.get<RightsToUse>(`/assets/${id}/terms`)
+    const assetRes = await request(
+      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}?code=${config.ADAPTER_SERVICE_APP_KEY}`,
+      { retries: 3 }
+    )({ req })
+    const asset: Asset = await assetRes.json()
 
-    const authUrl = rightsToUseAttributes.authURL?.value as string
+    const rtuRes = await request(
+      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}/terms?code=${config.ADAPTER_SERVICE_APP_KEY}`,
+      { retries: 3 }
+    )({ req })
+    const rtu: RightsToUse = await rtuRes.json()
+
+    const authUrl = rtu.authURL?.value as string
 
     const authUrlHref = authUrl.includes("href")
       ? new JSDOM(xss(authUrl)).window.document.querySelector("a")?.getAttribute("href")

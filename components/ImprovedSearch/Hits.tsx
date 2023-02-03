@@ -9,7 +9,6 @@ const { Item } = List
 
 const HitItem = styled(Item)`
   position: relative;
-  padding-bottom: ${tokens.spacings.comfortable.large};
   margin-block: ${tokens.spacings.comfortable.large};
   border-bottom: 1px solid ${tokens.colors.ui.background__info.hsla};
 `
