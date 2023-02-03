@@ -66,8 +66,8 @@ type AssetDetailProps = {
   asset?: Asset | null
   responsibilitiesData?: ResponsibilitiesContentSections
   collibraBaseUrl: string
-  featureFlags?: {
-    USE_IMPROVED_SEARCH: "true" | "false"
+  featureFlags: {
+    USE_IMPROVED_SEARCH: string
   }
 }
 

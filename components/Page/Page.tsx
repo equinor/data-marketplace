@@ -19,7 +19,7 @@ const PageWrapper = styled.div`
 
 type Props = PropsWithChildren<{
   documentTitle: string
-  useImprovedSearch?: "true" | "false"
+  useImprovedSearch: string
 }>
 
 export const Page: FunctionComponent<Props> = ({ documentTitle, useImprovedSearch = "false", children }) => {

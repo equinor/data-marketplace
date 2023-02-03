@@ -77,8 +77,8 @@ const HeroIllustration = styled(Illustration)`
 `
 
 type Props = {
-  featureFlags?: {
-    USE_IMPROVED_SEARCH: "true" | "false"
+  featureFlags: {
+    USE_IMPROVED_SEARCH: string
   }
 }
 
