@@ -31,7 +31,7 @@ const EDSCustomContent = styled(TopBar.CustomContent)`
   width: 100%;
 `
 type Props = {
-  useImprovedSearch: "true" | "false"
+  useImprovedSearch: string
 }
 
 export const NavBar = ({ useImprovedSearch }: Props) => {

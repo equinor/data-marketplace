@@ -66,7 +66,7 @@ type Props = {
   isServerRendered: boolean
   routingRef?: any
   featureFlags?: {
-    USE_IMPROVED_SEARCH: "true" | "false"
+    USE_IMPROVED_SEARCH: string
   }
 }
 
