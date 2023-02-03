@@ -7,7 +7,7 @@ const PaginationLink = styled(Button)<{ isCurrent?: boolean }>`
   --button-size: 44px;
   width: var(--button-size);
   height: var(--button-size); 
-  color: ("hsl(206, 32%, 21%);")}
+  color: tokens.colors.text.static_icons__default.hex} 
   ${({ isCurrent }) =>
     isCurrent && {
       background: tokens.colors.interactive.primary__resting.hex,
