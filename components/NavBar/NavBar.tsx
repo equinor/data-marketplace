@@ -72,14 +72,8 @@ export const NavBar = ({ useImprovedSearch }: Props) => {
             </Typography>
           </Button>
         </TopBar.Header>
-
-        <EDSCustomContent>
-          {useImprovedSearch === "true" ? (
-            /* @ts-ignore */
-            <Button variant="ghost_icon" as={NextLink} href="/search-beta" aria-label="Search">
-              <Icon data={search} />
-            </Button>
-          ) : (
+        {useImprovedSearch !== "true" && (
+          <EDSCustomContent>
             <form onSubmit={onSearchSubmit}>
               <Search
                 aria-label="sitewide"
@@ -89,9 +83,15 @@ export const NavBar = ({ useImprovedSearch }: Props) => {
                 value={searchQuery}
               />
             </form>
-          )}
-        </EDSCustomContent>
+          </EDSCustomContent>
+        )}
         <TopBar.Actions>
+          {useImprovedSearch === "true" && (
+            /* @ts-ignore */
+            <Button variant="ghost_icon" as={NextLink} href="/search-beta" aria-label="Search">
+              <Icon data={search} />
+            </Button>
+          )}
           <UserMenu />
         </TopBar.Actions>
       </EDSTopBar>
