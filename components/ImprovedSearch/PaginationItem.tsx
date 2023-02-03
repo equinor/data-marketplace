@@ -1,27 +1,29 @@
 import { Button, List, ListItemProps } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
 import { usePagination } from "react-instantsearch-hooks-web"
 import styled from "styled-components"
 
 const PaginationLink = styled(Button)<{ isCurrent?: boolean }>`
-  width: 44px;
-  height: 44px;
+  --button-size: 44px;
+  width: var(--button-size);
+  height: var(--button-size); 
   color: ("hsl(206, 32%, 21%);")}
   ${({ isCurrent }) =>
     isCurrent && {
-      background: "hsl(184, 100%, 24%)",
-      color: "rgba(61, 61, 61, 1)",
+      background: tokens.colors.interactive.primary__resting.hex,
+      color: tokens.colors.text.static_icons__default.hex,
     }}
   :hover {
-    color: ( "")};
+    color: tokens.colors.interactive.primary__resting.hex;
 
     :disabled {
-      color: ("hsl(0, 0%, 86%)")};
+      color: tokens.colors.ui.background__medium.hex;
     }
   }
 
   :disabled {
     cursor: auto;
-    color:  ( "hsl(0, 0%, 86%)")};
+    color: tokens.colors.ui.background__medium.hex;
   }
 `
 
