@@ -39,7 +39,7 @@ const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
 
   const callbackUrl = (query.callbackUrl as string) || "/"
   return (
-    <Page documentTitle={intl.formatMessage({ id: "auth.signin.document.title" })}>
+    <Page documentTitle={intl.formatMessage({ id: "auth.signin.document.title" })} useImprovedSearch="false">
       <Section>
         <Information>
           <CenteredText variant="h1">
