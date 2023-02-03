@@ -73,7 +73,7 @@ export const PaginationItem = ({
         variant="ghost_icon"
         aria-label={ariaLabel}
         inverted={inverted}
-        onClick={(event) => {
+        onClick={(event: React.MouseEvent) => {
           if (isModifierClick(event)) {
             return
           }

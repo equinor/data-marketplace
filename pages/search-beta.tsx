@@ -19,7 +19,7 @@ import {
   RefinementList,
   algoliaNextJsHistoryRouter,
   PlainRefinementList,
-  Pagination
+  Pagination,
 } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
@@ -82,7 +82,7 @@ type Props = {
   }
 }
 
-const HITS_PER_PAGE = 50
+const HITS_PER_PAGE = 5
 
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
