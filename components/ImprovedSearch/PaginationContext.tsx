@@ -1,4 +1,4 @@
-import { createContext, RefObject, useState } from 'react'
+import { createContext, RefObject, useState } from "react"
 
 type Props = {
   resultsRef: RefObject<HTMLDivElement> | undefined
@@ -15,6 +15,6 @@ export const PaginationContext = createContext<Props>({
 
 export const PaginationContextProvider = ({ defaultRef, children }: ProviderProps) => {
   const [resultsRef] = useState<RefObject<HTMLDivElement> | undefined>(defaultRef)
-
+  /* eslint-disable */
   return <PaginationContext.Provider value={{ resultsRef }}>{children}</PaginationContext.Provider>
 }
