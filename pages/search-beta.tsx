@@ -34,8 +34,8 @@ const SearchContainer = styled.div`
     "search"
     "filter"
     "totalResults"
-    "results"
-    "pagination";
+    "pagination"
+    "results";
   @media (min-width: 900px) {
     grid-template-columns: 17rem var(--huge-space) 1fr;
     grid-template-rows: min-content var(--huge-space) min-content;
@@ -43,8 +43,8 @@ const SearchContainer = styled.div`
       ". . search"
       ". . ."
       ". . totalResults"
-      "filter .  results
-       ". . pagination";
+      ". . pagination"
+      "filter .  results";
   }
 `
 const StyledPagination = styled(Pagination)`
@@ -82,7 +82,7 @@ type Props = {
   }
 }
 
-const HITS_PER_PAGE = 5
+const HITS_PER_PAGE = 10
 
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
