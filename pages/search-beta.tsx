@@ -127,10 +127,10 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             <PlainRefinementList label="Data office admin" attribute="dataOfficeAdmin" />
             <PlainRefinementList label="Data steward" attribute="dataSteward" />
           </FilterContainer>
+          <PaginationContainer>
+            <StyledPagination hitsPerPage={HITS_PER_PAGE} padding={1} />
+          </PaginationContainer>
         </SearchContainer>
-        <PaginationContainer>
-          <StyledPagination hitsPerPage={5} padding={1} />
-        </PaginationContainer>
       </InstantSearch>
     </IntlProvider>
   </InstantSearchSSRProvider>
