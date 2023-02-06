@@ -1,6 +1,8 @@
 // eslint-disable-next-line import/extensions
 import { tokens } from "@equinor/eds-tokens"
+import { type NextRouter, useRouter } from "next/router"
 import type { NextPage, GetServerSideProps } from "next/types"
+import { useDeferredValue, useEffect, useMemo, useState } from "react"
 import { renderToString } from "react-dom/server"
 import { getServerState } from "react-instantsearch-hooks-server"
 import {
@@ -12,14 +14,7 @@ import {
 import { IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import {
-  SearchBox,
-  Hits,
-  Hit,
-  RefinementList,
-  algoliaNextJsHistoryRouter,
-  PlainRefinementList,
-} from "components/ImprovedSearch"
+import { SearchBox, Hits, Hit, RefinementList, PlainRefinementList } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
 import { Section } from "components/Section"
@@ -63,7 +58,8 @@ const TotalResults = styled.div`
 
 type Props = {
   serverState?: InstantSearchServerState
-  serverUrl?: URL | string
+  serverUrl?: string
+  router?: NextRouter
   isServerRendered: boolean
   routingRef?: any
   featureFlags?: {
@@ -73,54 +69,74 @@ type Props = {
 
 const HITS_PER_PAGE = 50
 
-const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
-  /* eslint-disable-next-line react/jsx-props-no-spreading */
-  <InstantSearchSSRProvider {...serverState}>
-    <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
-      <InstantSearch
-        searchClient={isServerRendered ? searchClientServer : searchClient}
-        indexName="Data_Set"
-        routing={{
-          router: algoliaNextJsHistoryRouter({
-            getLocation() {
-              if (typeof window === "undefined") {
-                return new URL(serverUrl!) as unknown as Location
-              }
-              return window.location
-            },
-          }),
-        }}
-      >
-        <Configure
-          hitsPerPage={HITS_PER_PAGE}
-          snippetEllipsisText="..."
-          attributesToSnippet={["excerpt:10", "description:10"]}
-        />
+const Search = ({ serverState, isServerRendered, serverUrl, router }: Props) => {
+  // TODO: Get initial page
 
-        <SearchContainer>
-          <StyledSearchBox>
-            <SearchBox />
-          </StyledSearchBox>
-          <TotalResults>
-            <SearchStatistics hitsPerPage={HITS_PER_PAGE} />
-          </TotalResults>
-          <StyledHits>
-            {/* @ts-ignore  */}
-            <Hits hitComponent={Hit} />
-          </StyledHits>
-          <FilterContainer>
-            <RefinementList attribute="community" />
-            <PlainRefinementList label="Provider" attribute="provider" />
-            <PlainRefinementList label="Owner" attribute="owner" />
-            <PlainRefinementList label="Technical steward" attribute="technicalSteward" />
-            <PlainRefinementList label="Data office admin" attribute="dataOfficeAdmin" />
-            <PlainRefinementList label="Data steward" attribute="dataSteward" />
-          </FilterContainer>
-        </SearchContainer>
-      </InstantSearch>
-    </IntlProvider>
-  </InstantSearchSSRProvider>
-)
+  const url = useMemo(() => new URL(serverUrl as string), [serverUrl])
+
+  const [query, setQuery] = useState(url.searchParams.get("Data_Set[query]") ?? "")
+  const deferredQuery = useDeferredValue(query)
+
+  useEffect(() => {
+    router?.replace(
+      "/search-beta",
+      {
+        query: {
+          "Data_Set[query]": deferredQuery,
+        },
+      },
+      { shallow: true }
+    )
+  }, [deferredQuery])
+
+  return (
+    /* eslint-disable-next-line react/jsx-props-no-spreading */
+    <InstantSearchSSRProvider {...serverState}>
+      <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
+        <InstantSearch
+          searchClient={isServerRendered ? searchClientServer : searchClient}
+          indexName="Data_Set"
+          onStateChange={({ uiState, setUiState }) => {
+            setQuery(uiState.Data_Set.query as string)
+            setUiState(uiState)
+          }}
+          initialUiState={{
+            Data_Set: {
+              query,
+            },
+          }}
+        >
+          <Configure
+            hitsPerPage={HITS_PER_PAGE}
+            snippetEllipsisText="..."
+            attributesToSnippet={["excerpt:10", "description:10"]}
+          />
+
+          <SearchContainer>
+            <StyledSearchBox>
+              <SearchBox />
+            </StyledSearchBox>
+            <TotalResults>
+              <SearchStatistics hitsPerPage={HITS_PER_PAGE} />
+            </TotalResults>
+            <StyledHits>
+              {/* @ts-ignore  */}
+              <Hits hitComponent={Hit} />
+            </StyledHits>
+            <FilterContainer>
+              <RefinementList attribute="community" />
+              <PlainRefinementList label="Provider" attribute="provider" />
+              <PlainRefinementList label="Owner" attribute="owner" />
+              <PlainRefinementList label="Technical steward" attribute="technicalSteward" />
+              <PlainRefinementList label="Data office admin" attribute="dataOfficeAdmin" />
+              <PlainRefinementList label="Data steward" attribute="dataSteward" />
+            </FilterContainer>
+          </SearchContainer>
+        </InstantSearch>
+      </IntlProvider>
+    </InstantSearchSSRProvider>
+  )
+}
 
 const SearchPage: NextPage<Props> = ({
   serverState,
@@ -129,13 +145,14 @@ const SearchPage: NextPage<Props> = ({
   featureFlags = { USE_IMPROVED_SEARCH: "false" },
 }) => {
   const { USE_IMPROVED_SEARCH } = featureFlags
+  const router = useRouter()
 
   return (
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
         <Section highlight>
           <h1>Beta version for improved search</h1>
-          <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
+          <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} router={router} />
         </Section>
       </main>
     </Page>
