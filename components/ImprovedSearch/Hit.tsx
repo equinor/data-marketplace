@@ -24,6 +24,13 @@ const TruncatedExcerpt = styled(Highlight)`
   }
 `
 
+const TruncatedStaticExcerpt = styled(Typography)`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+`
+
 const StyledSnippet = styled(Snippet)`
   display: block;
   color: ${tokens.colors.text.static_icons__default.hsla};
@@ -35,6 +42,8 @@ const StyledSnippet = styled(Snippet)`
 `
 
 const StyledLink = styled(NextLink)`
+  /* Temporary */
+  max-width: 660px;
   background-color: ${tokens.colors.ui.background__default.hsla};
   padding: ${tokens.spacings.comfortable.medium};
   text-decoration: none;
@@ -72,10 +81,11 @@ export type HitProps = {
     description: string
     excerpt: string
   }>
+  query: boolean
   /*   sendEvent?: SendEventForHits */
 } & HTMLDivElement
 
-export const Hit = ({ hit }: HitProps) => {
+export const Hit = ({ hit, query }: HitProps) => {
   const { id, community = [], tags = [] } = hit
   return (
     <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
@@ -85,7 +95,8 @@ export const Hit = ({ hit }: HitProps) => {
             {item}
           </Typography>
         ))}
-      <Typography variant="h5" as="h2">
+
+      <Typography variant="h5" as="h2" style={{ marginBottom: tokens.spacings.comfortable.medium }}>
         <StyledName
           hit={hit}
           attribute="name"
@@ -94,25 +105,31 @@ export const Hit = ({ hit }: HitProps) => {
           }}
         />
       </Typography>
-      <StyledTypography variant="body_short">
-        <TruncatedExcerpt
-          hit={hit}
-          attribute="excerpt"
-          classNames={{
-            highlighted: "highlighted",
-          }}
-        />
-      </StyledTypography>
-      {hit.description && (
-        <StyledTypography variant="body_short">
-          <StyledSnippet
-            hit={hit}
-            attribute="description"
-            classNames={{
-              highlighted: "highlighted",
-            }}
-          />
-        </StyledTypography>
+      {query ? (
+        <>
+          <StyledTypography variant="body_short">
+            <TruncatedExcerpt
+              hit={hit}
+              attribute="excerpt"
+              classNames={{
+                highlighted: "highlighted",
+              }}
+            />
+          </StyledTypography>
+          {hit.description && (
+            <StyledTypography variant="body_short">
+              <StyledSnippet
+                hit={hit}
+                attribute="description"
+                classNames={{
+                  highlighted: "highlighted",
+                }}
+              />
+            </StyledTypography>
+          )}
+        </>
+      ) : (
+        <TruncatedStaticExcerpt variant="body_short">{hit.excerpt || hit.description}</TruncatedStaticExcerpt>
       )}
       {tags.length > 0 && (
         <TagsContainer>
