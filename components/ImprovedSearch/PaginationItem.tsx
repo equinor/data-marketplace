@@ -26,6 +26,9 @@ const PaginationLink = styled(Button)<{ isCurrent?: boolean }>`
     color: tokens.colors.ui.background__medium.hex;
   }
 `
+const { Item: EdsItem } = List
+
+const StyledListItem = styled(EdsItem)``
 
 export const isModifierClick = (event: React.MouseEvent) => {
   const isMiddleClick = event.button === 1
@@ -52,7 +55,7 @@ export const PaginationItem = ({
 }: PaginationItemProps) => {
   if (isDisabled || isCurrent) {
     return (
-      <List>
+      <StyledListItem>
         <PaginationLink
           disabled={isDisabled}
           isCurrent={isCurrent}
@@ -62,12 +65,12 @@ export const PaginationItem = ({
         >
           {children}
         </PaginationLink>
-      </List>
+      </StyledListItem>
     )
   }
 
   return (
-    <List>
+    <StyledListItem>
       <PaginationLink
         disabled={isDisabled}
         variant="ghost_icon"
@@ -84,6 +87,6 @@ export const PaginationItem = ({
       >
         {children}
       </PaginationLink>
-    </List>
+    </StyledListItem>
   )
 }
