@@ -31,7 +31,7 @@ type Props = {
     value: string
   }
   featureFlags: {
-    USE_IMPROVED_SEARCH: string
+    USE_IMPROVED_SEARCH: boolean
   }
 }
 
@@ -48,7 +48,7 @@ const getAccessitTitle = (url: string | undefined) => {
 const CheckoutRedirectView: NextPage<Props> = ({
   asset,
   authorizationUrl,
-  featureFlags = { USE_IMPROVED_SEARCH: "false" },
+  featureFlags = { USE_IMPROVED_SEARCH: false },
 }) => {
   const intl = useIntl()
   const { USE_IMPROVED_SEARCH } = featureFlags
@@ -108,7 +108,7 @@ const CheckoutRedirectView: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
-  const { USE_IMPROVED_SEARCH = "false" } = process.env
+  const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
   const defaultPageProps: Props = {
     asset: null,
     featureFlags: {

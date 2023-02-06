@@ -19,10 +19,10 @@ const PageWrapper = styled.div`
 
 type Props = PropsWithChildren<{
   documentTitle: string
-  useImprovedSearch: string
+  useImprovedSearch: boolean
 }>
 
-export const Page: FunctionComponent<Props> = ({ documentTitle, useImprovedSearch = "false", children }) => {
+export const Page: FunctionComponent<Props> = ({ documentTitle, useImprovedSearch = false, children }) => {
   const { data } = useSession()
 
   useEffect(() => {

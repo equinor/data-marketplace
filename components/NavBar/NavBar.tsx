@@ -31,7 +31,7 @@ const EDSCustomContent = styled(TopBar.CustomContent)`
   width: 100%;
 `
 type Props = {
-  useImprovedSearch: string
+  useImprovedSearch: boolean
 }
 
 export const NavBar = ({ useImprovedSearch }: Props) => {
@@ -72,7 +72,7 @@ export const NavBar = ({ useImprovedSearch }: Props) => {
             </Typography>
           </Button>
         </TopBar.Header>
-        {useImprovedSearch !== "true" && (
+        {!useImprovedSearch && (
           <EDSCustomContent>
             <form onSubmit={onSearchSubmit}>
               <Search
@@ -86,7 +86,7 @@ export const NavBar = ({ useImprovedSearch }: Props) => {
           </EDSCustomContent>
         )}
         <TopBar.Actions>
-          {useImprovedSearch === "true" && (
+          {useImprovedSearch && (
             /* @ts-ignore */
             <Button variant="ghost_icon" as={NextLink} href="/search-beta" aria-label="Search">
               <Icon data={search} />

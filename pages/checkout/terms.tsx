@@ -65,7 +65,7 @@ type Props = {
     value: string | PortableTextBlock[]
   }
   featureFlags: {
-    USE_IMPROVED_SEARCH: string
+    USE_IMPROVED_SEARCH: boolean
   }
 }
 
@@ -73,7 +73,7 @@ const CheckoutTermsView: NextPage<Props> = ({
   asset,
   error,
   rightsToUse,
-  featureFlags = { USE_IMPROVED_SEARCH: "false" },
+  featureFlags = { USE_IMPROVED_SEARCH: false },
 }) => {
   const { USE_IMPROVED_SEARCH } = featureFlags
   const intl = useIntl()
@@ -179,7 +179,8 @@ const CheckoutTermsView: NextPage<Props> = ({
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
-  const { USE_IMPROVED_SEARCH = "false" } = process.env
+  const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
+
   const { id } = query
 
   const defaultPageProps: Props = {
