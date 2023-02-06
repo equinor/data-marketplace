@@ -10,12 +10,12 @@ import {
   InstantSearch,
   InstantSearchServerState,
   InstantSearchSSRProvider,
-  SearchBox,
 } from "react-instantsearch-hooks-web"
 import { FormattedMessage, IntlProvider } from "react-intl"
 import styled from "styled-components"
 
 import {
+  SearchBox,
   Hits,
   Hit,
   RefinementList,
