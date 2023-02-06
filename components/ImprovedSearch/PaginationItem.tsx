@@ -7,33 +7,28 @@ const PaginationLink = styled(Button)<{ isCurrent?: boolean }>`
   --button-size: 44px;
   width: var(--button-size);
   height: var(--button-size); 
-  color: tokens.colors.text.static_icons__default.hex} 
+  color: ${tokens.colors.text.static_icons__default.hex} 
   ${({ isCurrent }) =>
     isCurrent && {
       background: tokens.colors.interactive.primary__resting.hex,
       color: tokens.colors.text.static_icons__default.hex,
     }}
   :hover {
-    color: tokens.colors.interactive.primary__resting.hex;
+    color: ${tokens.colors.interactive.primary__resting.hex};
 
     :disabled {
-      color: tokens.colors.ui.background__medium.hex;
+      color: ${tokens.colors.ui.background__medium.hex};
     }
   }
 
   :disabled {
     cursor: auto;
-    color: tokens.colors.ui.background__medium.hex;
+    color: ${tokens.colors.ui.background__medium.hex};
   }
 `
 const { Item: EdsItem } = List
 
 const StyledListItem = styled(EdsItem)``
-
-export const isModifierClick = (event: React.MouseEvent) => {
-  const isMiddleClick = event.button === 1
-  return Boolean(isMiddleClick || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
-}
 
 type PaginationItemProps = ListItemProps &
   Pick<ReturnType<typeof usePagination>, "refine" | "createURL"> & {
@@ -77,10 +72,6 @@ export const PaginationItem = ({
         aria-label={ariaLabel}
         inverted={inverted}
         onClick={(event: React.MouseEvent) => {
-          if (isModifierClick(event)) {
-            return
-          }
-
           event.preventDefault()
           refine(value)
         }}

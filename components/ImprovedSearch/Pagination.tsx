@@ -11,7 +11,6 @@ import { usePrefersReducedMotion } from "../../hooks/reducedMotion"
 import { PaginationContext } from "./PaginationContext"
 import { PaginationItem } from "./PaginationItem"
 
-
 const PaginationList = styled(List)`
   list-style: none;
   padding: 0;
@@ -56,7 +55,7 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
     // eslint-disable-next-line react/jsx-props-no-spreading
     <PaginationList {...rest}>
       <PaginationItem
-        ariaLabel={intl.formatMessage({ id: "pagination.firstPage" })}
+        ariaLabel={intl.formatMessage({ id: "search.pagination.firstPage" })}
         value={0}
         isCurrent={false}
         isDisabled={isFirstPage}
@@ -66,7 +65,7 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
         <Icon data={first_page} />
       </PaginationItem>
       <PaginationItem
-        ariaLabel={intl.formatMessage({ id: "pagination.previous" })}
+        ariaLabel={intl.formatMessage({ id: "search.pagination.previous" })}
         value={currentRefinement - 1}
         isCurrent={false}
         isDisabled={isFirstPage}
@@ -91,7 +90,7 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
       ))}
 
       <PaginationItem
-        ariaLabel={intl.formatMessage({ id: "pagination.next" })}
+        ariaLabel={intl.formatMessage({ id: "search.pagination.next" })}
         value={currentRefinement + 1}
         isCurrent={false}
         isDisabled={isLastPage}
@@ -102,7 +101,7 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
       </PaginationItem>
 
       <PaginationItem
-        ariaLabel={intl.formatMessage({ id: "pagination.lastPage" })}
+        ariaLabel={intl.formatMessage({ id: "search.pagination.lastPage" })}
         value={nbPages - 1}
         isCurrent={false}
         isDisabled={isLastPage}
