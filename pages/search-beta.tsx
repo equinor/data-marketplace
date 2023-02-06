@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/extensions
 import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
+import { createInstantSearchNextRouter } from "instantsearch-router-next-experimental"
 import type { NextPage, GetServerSideProps } from "next/types"
 import { renderToString } from "react-dom/server"
 import { getServerState } from "react-instantsearch-hooks-server"
@@ -14,7 +15,12 @@ import {
 import { FormattedMessage, IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import { Hits, Hit, RefinementList, algoliaNextJsHistoryRouter, PlainRefinementList } from "components/ImprovedSearch"
+import {
+  Hits,
+  Hit,
+  RefinementList,
+  /* algoliaNextJsHistoryRouter, */ PlainRefinementList,
+} from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
 import { Section } from "components/Section"
@@ -69,9 +75,8 @@ type Props = {
 
 const HITS_PER_PAGE = 10
 
-const onStateChange = async (params: any) => {
-  console.log("Query", params.uiState.Data_Set?.query)
-
+// Because there so many thing going on without this
+const onStateChange = (params: any) => {
   params.setUiState(params.uiState)
 }
 
@@ -83,16 +88,8 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
         searchClient={isServerRendered ? searchClientServer : searchClient}
         indexName="Data_Set"
         onStateChange={onStateChange}
-        routing={{
-          router: algoliaNextJsHistoryRouter({
-            getLocation() {
-              if (typeof window === "undefined") {
-                return new URL(serverUrl!) as unknown as Location
-              }
-              return window.location
-            },
-          }),
-        }}
+        /* @ts-ignore */
+        routing={{ router: createInstantSearchNextRouter({ serverUrl }) }}
       >
         <Configure
           hitsPerPage={HITS_PER_PAGE}
