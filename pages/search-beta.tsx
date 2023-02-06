@@ -94,7 +94,7 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
         <Configure
           hitsPerPage={HITS_PER_PAGE}
           snippetEllipsisText="..."
-          attributesToSnippet={["excerpt:10", "description:10"]}
+          attributesToSnippet={["excerpt:30", "description:30"]}
         />
 
         <SearchContainer>
