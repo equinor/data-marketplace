@@ -35,6 +35,7 @@
     "applicationinsights": "^2.4.0",
     "axios": "^1.2.2",
     "dotenv": "^16.0.3",
+    "instantsearch-router-next-experimental": "^0.2.0",
     "instantsearch.js": "^4.49.4",
     "jsdom": "^20.0.3",
     "jsonwebtoken": "^9.0.0",
