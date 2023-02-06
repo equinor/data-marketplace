@@ -43,8 +43,8 @@ const SearchContainer = styled.div`
       ". . search"
       ". . ."
       ". . totalResults"
-      ". . pagination"
-      "filter .  results";
+      "filter .  results"
+      ". . pagination";
   }
 `
 const StyledPagination = styled(Pagination)`
