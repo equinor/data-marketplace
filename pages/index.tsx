@@ -78,11 +78,11 @@ const HeroIllustration = styled(Illustration)`
 
 type Props = {
   featureFlags: {
-    USE_IMPROVED_SEARCH: string
+    USE_IMPROVED_SEARCH: boolean
   }
 }
 
-const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: "false" } }) => {
+const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: false } }) => {
   const intl = useIntl()
   const { popularDataProducts, isLoading, error } = usePopularProducts()
   const { USE_IMPROVED_SEARCH } = featureFlags
@@ -161,7 +161,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: "fal
 export default Frontpage
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { USE_IMPROVED_SEARCH = "false" } = process.env
+  const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
 
   return {
     props: {

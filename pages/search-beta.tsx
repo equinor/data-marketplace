@@ -66,7 +66,7 @@ type Props = {
   isServerRendered: boolean
   routingRef?: any
   featureFlags?: {
-    USE_IMPROVED_SEARCH: string
+    USE_IMPROVED_SEARCH: boolean
   }
 }
 
@@ -117,7 +117,7 @@ const SearchPage: NextPage<Props> = ({
   serverState,
   isServerRendered = false,
   serverUrl,
-  featureFlags = { USE_IMPROVED_SEARCH: "false" },
+  featureFlags = { USE_IMPROVED_SEARCH: false },
 }) => {
   const { USE_IMPROVED_SEARCH } = featureFlags
 
@@ -134,9 +134,9 @@ const SearchPage: NextPage<Props> = ({
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const { USE_IMPROVED_SEARCH = "false" } = process.env
+  const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
 
-  if (USE_IMPROVED_SEARCH === "false") {
+  if (!USE_IMPROVED_SEARCH) {
     return {
       notFound: true,
     }
