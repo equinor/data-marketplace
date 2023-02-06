@@ -28,13 +28,12 @@ type Props = {
 export const Hits = () => {
   const { hits } = useHits()
   const { query } = useSearchBox()
-  console.log("query", query, query === "")
   return (
     <StyledList variant="numbered">
       {hits.map((hit) => (
         <HitItem key={hit.objectID}>
           {/* @ts-ignore @TODO se på typene her */}
-          <Hit hit={hit} query={query !== ""} />
+          <Hit hit={hit} hasQuery={query !== ""} />
         </HitItem>
       ))}
     </StyledList>
