@@ -71,7 +71,7 @@ type Props = {
   }
 }
 
-const HITS_PER_PAGE = 50
+const HITS_PER_PAGE = 10
 
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
