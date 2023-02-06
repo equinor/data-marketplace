@@ -8,18 +8,12 @@ import {
   InstantSearch,
   InstantSearchServerState,
   InstantSearchSSRProvider,
+  SearchBox,
 } from "react-instantsearch-hooks-web"
 import { IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import {
-  SearchBox,
-  Hits,
-  Hit,
-  RefinementList,
-  algoliaNextJsHistoryRouter,
-  PlainRefinementList,
-} from "components/ImprovedSearch"
+import { Hits, Hit, RefinementList, algoliaNextJsHistoryRouter, PlainRefinementList } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
 import { Section } from "components/Section"
@@ -73,6 +67,12 @@ type Props = {
 
 const HITS_PER_PAGE = 10
 
+const onStateChange = async (params: any) => {
+  console.log("Query", params.uiState.Data_Set?.query)
+
+  params.setUiState(params.uiState)
+}
+
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
   <InstantSearchSSRProvider {...serverState}>
@@ -80,6 +80,7 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
       <InstantSearch
         searchClient={isServerRendered ? searchClientServer : searchClient}
         indexName="Data_Set"
+        onStateChange={onStateChange}
         routing={{
           router: algoliaNextJsHistoryRouter({
             getLocation() {
