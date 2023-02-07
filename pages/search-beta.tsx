@@ -19,7 +19,9 @@ import {
   Hits,
   Hit,
   RefinementList,
-  /* algoliaNextJsHistoryRouter, */ PlainRefinementList,
+  PlainRefinementList,
+  Pagination,
+
 } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
@@ -34,6 +36,7 @@ const SearchContainer = styled.div`
     "search"
     "filter"
     "totalResults"
+    "pagination"
     "results";
   @media (min-width: 900px) {
     /* Temp. column width restriction until new page layout is ready */
@@ -43,15 +46,24 @@ const SearchContainer = styled.div`
       ". . search"
       ". . ."
       ". . totalResults"
-      "filter .  results";
+      "filter .  results"
+      ". . pagination";
   }
 `
+const StyledPagination = styled(Pagination)`
+  justify-content: center;
+`
+
 const StyledSearchBox = styled.div`
   grid-area: search;
 `
 
 const FilterContainer = styled.div`
   grid-area: filter;
+`
+
+const PaginationContainer = styled.div`
+  grid-area: pagination;
 `
 
 const StyledHits = styled.div`
@@ -75,10 +87,12 @@ type Props = {
 
 const HITS_PER_PAGE = 10
 
+
 // Because there so many thing going on without this
 const onStateChange = (params: any) => {
   params.setUiState(params.uiState)
 }
+
 
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
@@ -116,6 +130,9 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             <PlainRefinementList label="Data office admin" attribute="dataOfficeAdmin" />
             <PlainRefinementList label="Data steward" attribute="dataSteward" />
           </FilterContainer>
+          <PaginationContainer>
+            <StyledPagination hitsPerPage={HITS_PER_PAGE} padding={1} />
+          </PaginationContainer>
         </SearchContainer>
       </InstantSearch>
     </IntlProvider>
