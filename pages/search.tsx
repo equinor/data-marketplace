@@ -70,7 +70,7 @@ const Search: NextPage = () => {
 
   const searchQuery = router.query.q
   return (
-    <Page documentTitle={intl.formatMessage({ id: "search.title" })}>
+    <Page documentTitle={intl.formatMessage({ id: "search.title" })} useImprovedSearch={false}>
       <main>
         <Section>
           <Typography variant="h1">{intl.formatMessage({ id: "search.header" })}</Typography>

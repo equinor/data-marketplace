@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/extensions
+import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
+import { createInstantSearchNextRouter } from "instantsearch-router-next-experimental"
 import type { NextPage, GetServerSideProps } from "next/types"
 import { renderToString } from "react-dom/server"
 import { getServerState } from "react-instantsearch-hooks-server"
@@ -9,7 +11,7 @@ import {
   InstantSearchServerState,
   InstantSearchSSRProvider,
 } from "react-instantsearch-hooks-web"
-import { IntlProvider } from "react-intl"
+import { FormattedMessage, IntlProvider } from "react-intl"
 import styled from "styled-components"
 
 import {
@@ -17,9 +19,9 @@ import {
   Hits,
   Hit,
   RefinementList,
-  algoliaNextJsHistoryRouter,
   PlainRefinementList,
   Pagination,
+
 } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
@@ -37,7 +39,8 @@ const SearchContainer = styled.div`
     "pagination"
     "results";
   @media (min-width: 900px) {
-    grid-template-columns: 17rem var(--huge-space) 1fr;
+    /* Temp. column width restriction until new page layout is ready */
+    grid-template-columns: 17rem var(--huge-space) minmax(auto, 660px);
     grid-template-rows: min-content var(--huge-space) min-content;
     grid-template-areas:
       ". . search"
@@ -78,11 +81,18 @@ type Props = {
   isServerRendered: boolean
   routingRef?: any
   featureFlags?: {
-    USE_IMPROVED_SEARCH: "true" | "false"
+    USE_IMPROVED_SEARCH: boolean
   }
 }
 
 const HITS_PER_PAGE = 10
+
+
+// Because there so many thing going on without this
+const onStateChange = (params: any) => {
+  params.setUiState(params.uiState)
+}
+
 
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
@@ -91,21 +101,14 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
       <InstantSearch
         searchClient={isServerRendered ? searchClientServer : searchClient}
         indexName="Data_Set"
-        routing={{
-          router: algoliaNextJsHistoryRouter({
-            getLocation() {
-              if (typeof window === "undefined") {
-                return new URL(serverUrl!) as unknown as Location
-              }
-              return window.location
-            },
-          }),
-        }}
+        onStateChange={onStateChange}
+        /* @ts-ignore */
+        routing={{ router: createInstantSearchNextRouter({ serverUrl }) }}
       >
         <Configure
           hitsPerPage={HITS_PER_PAGE}
           snippetEllipsisText="..."
-          attributesToSnippet={["excerpt:10", "description:10"]}
+          attributesToSnippet={["excerpt:30", "description:30"]}
         />
 
         <SearchContainer>
@@ -140,7 +143,7 @@ const SearchPage: NextPage<Props> = ({
   serverState,
   isServerRendered = false,
   serverUrl,
-  featureFlags = { USE_IMPROVED_SEARCH: "false" },
+  featureFlags = { USE_IMPROVED_SEARCH: false },
 }) => {
   const { USE_IMPROVED_SEARCH } = featureFlags
 
@@ -148,7 +151,9 @@ const SearchPage: NextPage<Props> = ({
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
         <Section highlight>
-          <h1>Beta version for improved search</h1>
+          <Typography variant="h1" style={{ textAlign: "center", marginBlock: tokens.spacings.comfortable.xxx_large }}>
+            <FormattedMessage id="improvedSearch.header" />
+          </Typography>
           <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
         </Section>
       </main>
@@ -157,6 +162,14 @@ const SearchPage: NextPage<Props> = ({
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
+
+  if (!USE_IMPROVED_SEARCH) {
+    return {
+      notFound: true,
+    }
+  }
+
   const protocol = req.headers.referer?.split("://")[0] || "https"
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`
 
@@ -164,7 +177,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     renderToString,
   })
 
-  const { USE_IMPROVED_SEARCH = "false" } = process.env
   return {
     props: {
       serverState,

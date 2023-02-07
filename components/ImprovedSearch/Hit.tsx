@@ -1,6 +1,6 @@
 import { Typography, Chip } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
-import type { Hit as AlgoliaHit } from "instantsearch.js"
+import type { Hit as AlgoliaHit, HitAttributeSnippetResult } from "instantsearch.js"
 import NextLink from "next/link"
 import { Highlight, Snippet } from "react-instantsearch-hooks-web"
 import styled from "styled-components"
@@ -13,21 +13,16 @@ const StyledName = styled(Highlight)`
   }
 `
 
-const TruncatedExcerpt = styled(Highlight)`
+const TruncatedStaticExcerpt = styled(Typography)`
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   overflow: hidden;
-  & .highlighted {
-    color: ${tokens.colors.interactive.danger__resting.hsla};
-    background: ${tokens.colors.ui.background__default.hsla};
-  }
 `
 
 const StyledSnippet = styled(Snippet)`
   display: block;
   color: ${tokens.colors.text.static_icons__default.hsla};
-  padding-left: ${tokens.spacings.comfortable.xx_large};
   & .highlighted {
     color: ${tokens.colors.interactive.danger__resting.hsla};
     background: ${tokens.colors.ui.background__default.hsla};
@@ -58,8 +53,6 @@ const StyledChip = styled(Chip)`
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 1rem;
-  font-size: 0.875rem;
-  line-height: 1rem;
 `
 
 export type HitProps = {
@@ -72,11 +65,31 @@ export type HitProps = {
     description: string
     excerpt: string
   }>
-  /*   sendEvent?: SendEventForHits */
+  hasQuery: boolean
 } & HTMLDivElement
 
-export const Hit = ({ hit }: HitProps) => {
+/* We want to show only one attribute as the snippet, preferrably the excerpt.
+If neither the excerpt or the description is a match (like the match can be for
+  a resonsible person) we will fallback to either the excerpt or description, like
+  in the static text without any query)
+*/
+const getSnippetAttribute = (hit: HitProps["hit"]) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const excerptSnippet = hit._snippetResult?.excerpt as HitAttributeSnippetResult
+  // eslint-disable-next-line no-underscore-dangle
+  const descriptionSnippet = hit._snippetResult?.description as HitAttributeSnippetResult
+  if (hit.excerpt && excerptSnippet && excerptSnippet.matchLevel === ("full" || "partial")) {
+    return "excerpt"
+    /* eslint no-else-return: "error"  */
+  } else if (hit.description && descriptionSnippet && descriptionSnippet.matchLevel === ("full" || "partial")) {
+    return "description"
+  }
+  return hit.excerpt ? "excerpt" : "description"
+}
+
+export const Hit = ({ hit, hasQuery }: HitProps) => {
   const { id, community = [], tags = [] } = hit
+
   return (
     <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
       {community &&
@@ -85,7 +98,8 @@ export const Hit = ({ hit }: HitProps) => {
             {item}
           </Typography>
         ))}
-      <Typography variant="h5" as="h2">
+
+      <Typography variant="h5" as="h2" style={{ marginBottom: tokens.spacings.comfortable.medium }}>
         <StyledName
           hit={hit}
           attribute="name"
@@ -94,25 +108,18 @@ export const Hit = ({ hit }: HitProps) => {
           }}
         />
       </Typography>
-      <StyledTypography variant="body_short">
-        <TruncatedExcerpt
-          hit={hit}
-          attribute="excerpt"
-          classNames={{
-            highlighted: "highlighted",
-          }}
-        />
-      </StyledTypography>
-      {hit.description && (
+      {hasQuery ? (
         <StyledTypography variant="body_short">
           <StyledSnippet
             hit={hit}
-            attribute="description"
+            attribute={getSnippetAttribute(hit)}
             classNames={{
               highlighted: "highlighted",
             }}
           />
         </StyledTypography>
+      ) : (
+        <TruncatedStaticExcerpt variant="body_short">{hit.excerpt || hit.description}</TruncatedStaticExcerpt>
       )}
       {tags.length > 0 && (
         <TagsContainer>

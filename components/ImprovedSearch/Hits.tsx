@@ -1,6 +1,6 @@
 import { List } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
-import { useHits } from "react-instantsearch-hooks-web"
+import { useHits, useSearchBox } from "react-instantsearch-hooks-web"
 import styled from "styled-components"
 
 import { Hit } from "./Hit"
@@ -27,12 +27,13 @@ type Props = {
 
 export const Hits = () => {
   const { hits } = useHits()
+  const { query } = useSearchBox()
   return (
     <StyledList variant="numbered">
       {hits.map((hit) => (
         <HitItem key={hit.objectID}>
           {/* @ts-ignore @TODO se på typene her */}
-          <Hit hit={hit} />
+          <Hit hit={hit} hasQuery={query !== ""} />
         </HitItem>
       ))}
     </StyledList>
