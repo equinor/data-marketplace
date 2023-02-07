@@ -40,15 +40,17 @@ const SearchHandler: NextApiHandler = async (req, res) => {
     const limit = 20
     const offset = limit * (Number.isNaN(Number(req.query.offset)) ? 0 : Number(req.query.offset))
 
-    const searchParams = new URLSearchParams({
-      keywords: req.query.q! as string,
-      filters: filters.join(","),
-      limit: limit.toString(),
-      offset: offset.toString(),
-    })
-
-    const searchRes = await request(`${config.COLLIBRA_API_URL}/search?${searchParams.toString()}`, {
+    const searchRes = await request(`${config.COLLIBRA_API_URL}/search`, {
       method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        keywords: req.query.q! as string,
+        filters,
+        limit: limit.toString(),
+        offset: offset.toString(),
+      }),
       retries: 3,
     })({ req })
     const searchResults: Collibra.SearchResponse = await searchRes.json()
