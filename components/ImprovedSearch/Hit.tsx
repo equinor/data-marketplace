@@ -30,8 +30,6 @@ const StyledSnippet = styled(Snippet)`
 `
 
 const StyledLink = styled(NextLink)`
-  /* Temporary */
-  max-width: 660px;
   background-color: ${tokens.colors.ui.background__default.hsla};
   padding: ${tokens.spacings.comfortable.medium};
   text-decoration: none;

@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/extensions
+import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage, GetServerSideProps } from "next/types"
 import { renderToString } from "react-dom/server"
@@ -9,7 +10,7 @@ import {
   InstantSearchServerState,
   InstantSearchSSRProvider,
 } from "react-instantsearch-hooks-web"
-import { IntlProvider } from "react-intl"
+import { FormattedMessage, IntlProvider } from "react-intl"
 import styled from "styled-components"
 
 import {
@@ -35,7 +36,8 @@ const SearchContainer = styled.div`
     "totalResults"
     "results";
   @media (min-width: 900px) {
-    grid-template-columns: 17rem var(--huge-space) 1fr;
+    /* Temp. column width restriction until new page layout is ready */
+    grid-template-columns: 17rem var(--huge-space) minmax(auto, 660px);
     grid-template-rows: min-content var(--huge-space) min-content;
     grid-template-areas:
       ". . search"
@@ -134,7 +136,9 @@ const SearchPage: NextPage<Props> = ({
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
         <Section highlight>
-          <h1>Beta version for improved search</h1>
+          <Typography variant="h1" style={{ textAlign: "center", marginBlock: tokens.spacings.comfortable.xxx_large }}>
+            <FormattedMessage id="improvedSearch.header" />
+          </Typography>
           <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
         </Section>
       </main>
