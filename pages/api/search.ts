@@ -53,6 +53,7 @@ const SearchHandler: NextApiHandler = async (req, res) => {
       }),
       retries: 3,
     })({ req })
+
     const searchResults: Collibra.SearchResponse = await searchRes.json()
 
     const results = searchResults.results.map((result) => ({
@@ -62,7 +63,7 @@ const SearchHandler: NextApiHandler = async (req, res) => {
     }))
 
     return res.json({
-      ...searchRes.body,
+      ...searchResults,
       results,
     })
   } catch (error) {
