@@ -1,31 +1,79 @@
-/* eslint-disable camelcase */
-import { Icon } from "@equinor/eds-core-react"
-import { warning_filled } from "@equinor/eds-icons"
+import { Icon, Typography } from "@equinor/eds-core-react"
+import type { IconData } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import { FunctionComponent, ReactNode } from "react"
-import styled from "styled-components"
+import type { FunctionComponent, PropsWithChildren } from "react"
+import styled, { css } from "styled-components"
 
-type Props = {
-  variant: string
-  children: ReactNode
-}
+type BannerVariant = "info" | "warning" | "error"
 
-const BannerContainer = styled.div<{ variant: string }>`
-  background-color: ${({ variant }) => (variant === "danger" ? tokens.colors.ui.background__danger.rgba : tokens.colors.ui.background__warning.rgba)};
+type Props = PropsWithChildren<{
+  variant?: BannerVariant
+  icon?: IconData
+}>
+
+const getContainerVariantStyles = (variant: BannerVariant) =>
+  ((
+    {
+      error: css`
+        --container-background: ${tokens.colors.ui.background__danger.hex};
+        --container-border-color: transparent;
+      `,
+      info: css`
+        --container-background: ${tokens.colors.ui.background__default.hex};
+        --container-border-color: rgba(0, 0, 0, 0.14);
+      `,
+      warning: css`
+        --container-background: ${tokens.colors.interactive.warning__highlight.hex};
+        --container-border-color: transparent;
+      `,
+    } as Record<BannerVariant, ReturnType<typeof css>>
+  )[variant])
+
+const Container = styled.div<{ variant: BannerVariant }>`
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 1rem;
+  grid-gap: 0.5rem;
   padding: 1rem;
-  border-radius: 4px;
+  border-radius: ${tokens.shape.corners.borderRadius};
+  border: 1px solid;
+
+  ${({ variant }) => getContainerVariantStyles(variant)}
+  background-color: var(--container-background);
+  border-color: var(--container-border-color);
 `
 
-export const Banner: FunctionComponent<Props> = ({ variant, children, ...rest }) => (
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  <BannerContainer variant={variant} {...rest}>
-    <Icon color={variant === "danger" ? tokens.colors.interactive.danger__text.rgba : tokens.colors.interactive.warning__text.rgba} data={warning_filled} />
+const getIconContainerVariantStyles = (variant: BannerVariant) =>
+  ((
+    {
+      error: css``,
+      info: css``,
+      warning: css`
+        --icon-background: ${tokens.colors.logo.fill_negative.hex};
+        --icon-fill: ${tokens.colors.interactive.warning__text.hex};
+      `,
+    } as Record<BannerVariant, ReturnType<typeof css>>
+  )[variant])
 
-    <div>
-      {children}
-    </div>
-  </BannerContainer>
+const IconContainer = styled.span<{ variant: BannerVariant }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+
+  ${({ variant }) => getIconContainerVariantStyles(variant)}
+  background-color: var(--icon-background);
+  color: var(--icon-fill);
+`
+
+export const Banner: FunctionComponent<Props> = ({ children, icon, variant = "info" }) => (
+  <Container variant={variant}>
+    {icon && (
+      <IconContainer variant={variant}>
+        <Icon data={icon} />
+      </IconContainer>
+    )}
+    <Typography>{children}</Typography>
+  </Container>
 )

@@ -65,7 +65,7 @@ export const NavBar = ({ useImprovedSearch }: Props) => {
     <TopbarWrapper>
       <EDSTopBar>
         <TopBar.Header>
-          {/*  @ts-ignore  */}
+          {/* @ts-ignore  */}
           <Button as={NextLink} href="/" variant="ghost" color="secondary">
             <Typography as="span">
               <FormattedMessage id="navbar.logo" />
