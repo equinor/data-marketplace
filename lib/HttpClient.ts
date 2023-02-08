@@ -30,15 +30,29 @@ export class __HttpClient__ {
     this.client = axios.create(cfg)
   }
 
+  private static serializeQuery(query: Record<string, any>): string {
+    const params = new URLSearchParams()
+
+    Object.entries(query).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((v) => params.append(key, v))
+      } else {
+        params.append(key, value)
+      }
+    })
+
+    return params.toString()
+  }
+
   private async request<T>(url: string, config: HttpRequestConfig): Promise<HttpResponse<T>> {
     try {
-      const res = await this.client.request({
+      const res = await this.client.request<T>({
         data: config.body,
         headers: config.headers,
         method: config.method ?? "GET",
         params: config.query,
         paramsSerializer: {
-          serialize: (params) => new URLSearchParams(params).toString(),
+          serialize: __HttpClient__.serializeQuery,
         },
         url,
       })
