@@ -22,6 +22,7 @@ const SectionHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  margin-bottom: 1.5rem;
 `
 
 const SearchButtonContainer = styled.div`
