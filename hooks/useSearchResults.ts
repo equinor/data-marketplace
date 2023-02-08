@@ -1,16 +1,11 @@
-import { Asset } from "@equinor/data-marketplace-models"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
 import { HttpClient } from "../lib/HttpClient"
 
-type SearchResult = {
-  resource: Asset
-}
-
 export const useSearchResults = () => {
   const router = useRouter()
-  const [searchResults, setSearchResults] = useState<Asset[]>()
+  const [searchResults, setSearchResults] = useState<Collibra.Resource[]>()
   const [total, setTotal] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>()
@@ -21,11 +16,13 @@ export const useSearchResults = () => {
     const getData = async () => {
       if (router.query.q) {
         setIsLoading(true)
+
         try {
-          const { body } = await HttpClient.get("/api/search", { query: router.query })
+          const res = await HttpClient.get<Collibra.SearchResponse>("/api/search", { query: router.query })
+
           if (!ignore) {
-            setSearchResults(body.results.map((result: SearchResult) => result.resource))
-            setTotal(body.total)
+            setSearchResults(res.body.results.map((result) => result.resource))
+            setTotal(res.body.total)
           }
           setIsLoading(false)
         } catch (err) {

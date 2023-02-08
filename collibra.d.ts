@@ -466,7 +466,7 @@ declare namespace Collibra {
   }
 
   export type SearchResult = {
-    resource: Resource
+    resource: NamedResource
     highlights: {
       field: string
       fragment: string
