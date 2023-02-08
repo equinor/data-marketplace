@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
-import { Card, Typography, CircularProgress, Banner, Icon } from "@equinor/eds-core-react"
-import { info_circle } from "@equinor/eds-icons"
+import { Card, Typography, CircularProgress, Icon } from "@equinor/eds-core-react"
+import { info_circle, search } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage, GetServerSideProps } from "next"
 import NextLink from "next/link"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
+import { Banner } from "components/Banner"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
-import { Illustration } from "components/frontpage"
 import { usePopularProducts } from "hooks"
 import { fmtNumber } from "lib/fmtNumber"
 
@@ -22,14 +22,36 @@ const SectionHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 1.5rem;
 `
 
-const InfoIcon = styled(Banner.Icon)`
-  @media screen and (max-width: 550px) {
-    display: none;
+const SearchButtonContainer = styled.div`
+  margin-bottom: 3rem;
+`
+
+const SearchButton = styled(NextLink)`
+  --background: ${tokens.colors.interactive.primary__resting.hex};
+
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: ${tokens.colors.text.static_icons__primary_white.hex};
+  background-color: var(--background);
+  height: 3.5rem;
+  padding: 0 3.5rem 0 3rem;
+  font-size: ${tokens.typography.heading.h4.fontSize};
+  border-radius: 0.25rem;
+
+  &:hover {
+    --background: ${tokens.colors.interactive.primary__hover.hex};
+  }
+
+  &:focus-visible {
+    outline: 2px dashed ${tokens.colors.interactive.primary__resting.hex};
+    outline-offset: -2px;
   }
 `
+
 const StyledLink = styled(NextLink)`
   text-decoration: none;
 `
@@ -45,34 +67,18 @@ const Views = styled(Typography)`
 `
 
 const Hero = styled.div`
-  display: grid;
-  @media (min-width: 35rem) {
-    grid-template-areas: "hero";
-    align-items: center;
-    > * {
-      grid-area: hero;
-    }
-  }
+  display: flex;
+  justify-content: center;
 `
 
 const HeroContent = styled.div`
-  z-index: 1;
-  align-self: start;
-  background-color: rgba(255, 255, 255, 0.85);
-  border-radius: ${tokens.shape.corners.borderRadius};
-  padding: 0.5rem 0.5rem 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   @media (min-width: 35rem) {
     width: clamp(25ch, 50%, 600px);
     align-self: auto;
-  }
-`
-
-const HeroIllustration = styled(Illustration)`
-  width: clamp(350px, 50%, 600px);
-  justify-self: center;
-  @media (min-width: 35rem) {
-    justify-self: end;
-    align-self: end;
   }
 `
 
@@ -98,20 +104,22 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
         <Section>
           <Hero>
             <HeroContent>
-              <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
+              <Typography variant="h1" style={{ marginBottom: "3rem", textAlign: "center" }} bold>
                 {intl.formatMessage({ id: "frontpage.hero.title" })}
               </Typography>
-              <Typography style={{ marginBottom: tokens.spacings.comfortable.x_large }} variant="ingress">
-                {intl.formatMessage({ id: "frontpage.hero.ingress" })}
-              </Typography>
-              <Banner>
-                <InfoIcon>
-                  <Icon data={info_circle} />
-                </InfoIcon>
-                <Banner.Message>{intl.formatMessage({ id: "frontpage.disclaimer" })}</Banner.Message>
+
+              <SearchButtonContainer>
+                {/* @ts-ignore */}
+                <SearchButton href={USE_IMPROVED_SEARCH ? "/search-beta" : "/search"} tabindex="0">
+                  <Icon data={search} />
+                  Find data
+                </SearchButton>
+              </SearchButtonContainer>
+
+              <Banner variant="warning" icon={info_circle}>
+                {intl.formatMessage({ id: "frontpage.disclaimer" })}
               </Banner>
             </HeroContent>
-            <HeroIllustration />
           </Hero>
         </Section>
         <Section highlight>
