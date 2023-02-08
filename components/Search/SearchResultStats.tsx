@@ -10,7 +10,9 @@ type Props = {
 // Sorry future self for way too many returns here, but
 // this logic will be completely different with Algolia
 export const SearchResultStats: FunctionComponent<Props> = ({ numberOfHits, numberOfFilters, query }) => {
-  if (numberOfHits === null) return null
+  // loose null assertion catches both null and undefined
+  if (numberOfHits == null) return null
+
   // No results and that's probably because of the use of community filter/s
   if (numberOfHits === 0 && numberOfFilters > 0) {
     return (
@@ -23,6 +25,7 @@ export const SearchResultStats: FunctionComponent<Props> = ({ numberOfHits, numb
       />
     )
   }
+
   return (
     <FormattedMessage
       id="search.results"
