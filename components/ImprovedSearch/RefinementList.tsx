@@ -53,7 +53,9 @@ export const RefinementList = (props: RefinementListProps) => {
         </EdsProvider>
       ) : (
         <NoRelevant>
-          <FormattedMessage id="asset.no.relevant.filters" defaultMessage="No assets for this filter" />
+          <Typography group="paragraph" variant="meta" color="Tertiary">
+            <FormattedMessage id="asset.no.relevant.filters" defaultMessage="No assets for this filter" />
+          </Typography>
         </NoRelevant>
       )}
     </div>

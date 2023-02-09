@@ -12,7 +12,7 @@ export const SearchStatistics: FunctionComponent<Props> = ({ hitsPerPage }) => {
   const { formatMessage } = useIntl()
 
   if (totalHits === 0) {
-    return null
+    return <Typography>{formatMessage({ id: "search.noresult.statistics" })}</Typography>
   }
 
   const currentOffset = currentRefinement * hitsPerPage + 1

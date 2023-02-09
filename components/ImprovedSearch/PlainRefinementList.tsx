@@ -28,8 +28,8 @@ export const PlainRefinementList = (props: RefinementListProps) => {
     <div>
       <EdsProvider density="compact">
         <Typography
-          variant="label"
-          group="input"
+          group="paragraph"
+          variant="caption"
           style={{ textTransform: "uppercase", fontWeight: "400", marginTop: "1rem", marginBottom: "0.25rem" }}
           as="h3"
         >
@@ -51,7 +51,9 @@ export const PlainRefinementList = (props: RefinementListProps) => {
           </StyledList>
         ) : (
           <NoRelevant>
-            <FormattedMessage id="asset.no.relevant.filters" defaultMessage="No assets for this filter" />
+            <Typography group="paragraph" variant="meta" color="Tertiary">
+              <FormattedMessage id="asset.no.relevant.filters" defaultMessage="No assets for this filter" />
+            </Typography>
           </NoRelevant>
         )}
       </EdsProvider>
