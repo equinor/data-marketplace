@@ -38,11 +38,9 @@ export const Hits = () => {
   if (!hits || hits.length === 0) {
     return (
       <NoresultContainer>
-        <StyledList>
-          <Typography group="paragraph" variant="body_short" style={{ textAlign: "center" }}>
-            <FormattedMessage id="search.no.results.algolia" defaultMessage="No assets for this filter" />
-          </Typography>
-        </StyledList>
+        <Typography group="paragraph" variant="body_short" style={{ textAlign: "center" }}>
+          <FormattedMessage id="search.no.results.algolia" defaultMessage="No assets for this filter" />
+        </Typography>
       </NoresultContainer>
     )
   }
