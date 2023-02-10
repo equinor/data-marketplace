@@ -19,7 +19,7 @@ const StyledList = styled(List)`
   list-style-type: none;
 `
 
-const NoRelevant = styled.span`
+const NoresultContainer = styled.div`
   justify-content: center;
 `
 
@@ -37,13 +37,13 @@ export const Hits = () => {
 
   if (!hits || hits.length === 0) {
     return (
-      <StyledList variant="numbered">
-        <NoRelevant>
-          <Typography group="paragraph" variant="body_short" style={{ color: "Tertiary", textAlign: "center" }}>
+      <NoresultContainer>
+        <StyledList>
+          <Typography group="paragraph" variant="body_short" style={{ textAlign: "center" }}>
             <FormattedMessage id="search.no.results.algolia" defaultMessage="No assets for this filter" />
           </Typography>
-        </NoRelevant>
-      </StyledList>
+        </StyledList>
+      </NoresultContainer>
     )
   }
   return (

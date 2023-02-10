@@ -1,4 +1,5 @@
 import { List, Checkbox, EdsProvider, Typography } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
 import { useRefinementList, UseRefinementListProps } from "react-instantsearch-hooks-web"
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
@@ -51,7 +52,7 @@ export const PlainRefinementList = (props: RefinementListProps) => {
           </StyledList>
         ) : (
           <NoRelevant>
-            <Typography group="paragraph" variant="meta" color="Tertiary">
+            <Typography group="paragraph" variant="meta" color={tokens.colors.text.static_icons__tertiary.hex}>
               <FormattedMessage id="asset.no.relevant.filters" defaultMessage="No assets for this filter" />
             </Typography>
           </NoRelevant>
