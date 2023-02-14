@@ -10,19 +10,12 @@ import {
   InstantSearch,
   InstantSearchServerState,
   InstantSearchSSRProvider,
+  ClearRefinements,
 } from "react-instantsearch-hooks-web"
 import { FormattedMessage, IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import {
-  SearchBox,
-  Hits,
-  Hit,
-  RefinementList,
-  PlainRefinementList,
-  Pagination,
-
-} from "components/ImprovedSearch"
+import { SearchBox, Hits, Hit, PlainRefinementList, Pagination } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
 import { Section } from "components/Section"
@@ -50,6 +43,7 @@ const SearchContainer = styled.div`
       ". . pagination";
   }
 `
+
 const StyledPagination = styled(Pagination)`
   justify-content: center;
 `
@@ -87,12 +81,10 @@ type Props = {
 
 const HITS_PER_PAGE = 10
 
-
 // Because there so many thing going on without this
 const onStateChange = (params: any) => {
   params.setUiState(params.uiState)
 }
-
 
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
@@ -123,7 +115,15 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             <Hits hitComponent={Hit} />
           </StyledHits>
           <FilterContainer>
-            <RefinementList attribute="community" />
+            <Typography variant="h4" as="h2" style={{ marginBottom: "0.67rem" }}>
+              <FormattedMessage id="improvedSearch.filter.header" />
+              <ClearRefinements>
+                <FormattedMessage id="improvedSearch.filter.clear" />
+              </ClearRefinements>
+            </Typography>
+            <hr />
+            <PlainRefinementList label="Data Office" attribute="community" />
+
             <PlainRefinementList label="Provider" attribute="provider" />
             <PlainRefinementList label="Owner" attribute="owner" />
             <PlainRefinementList label="Technical steward" attribute="technicalSteward" />
