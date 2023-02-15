@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/extensions
-import { Typography } from "@equinor/eds-core-react"
+import { Typography, Divider } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { createInstantSearchNextRouter } from "instantsearch-router-next-experimental"
 import type { NextPage, GetServerSideProps } from "next/types"
@@ -10,32 +10,16 @@ import {
   InstantSearch,
   InstantSearchServerState,
   InstantSearchSSRProvider,
-  ClearRefinements,
 } from "react-instantsearch-hooks-web"
 import { FormattedMessage, IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import { SearchBox, Hits, Hit, PlainRefinementList, Pagination } from "components/ImprovedSearch"
+import { SearchBox, Hits, Hit, PlainRefinementList, Pagination, CustomClearRefinement } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
 import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
-
-const StyledName = styled(ClearRefinements)`
-  & .MyCustomClearRefinementsButton {
-    color: ${tokens.colors.text.static_icons__tertiary.hex};
-    background: ${tokens.colors.infographic.primary__moss_green_13.hex};
-    border-width: 0;
-  }
-
-  .DisabledButton {
-    color: ${tokens.colors.text.static_icons__tertiary.hex};
-  }
-
-  padding-left: 8.25rem;
-  margin-top: 10px;
-`
 
 const SearchContainer = styled.div`
   --huge-space: calc(2 * ${tokens.spacings.comfortable.xxx_large});
@@ -137,24 +121,13 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
 
           <FilterContainer>
             <Header>
-              <Typography variant="h4" weight="medium" style={{ marginBottom: "0.67rem" }}>
+              <Typography variant="h4" weight="medium">
                 <FormattedMessage id="improvedSearch.filter.header" />
               </Typography>
-              <StyledName
-                translations={{
-                  resetButtonText: "Clear Filters",
-                }}
-                classNames={{
-                  root: "MyCustomClearRefinements",
-                  button: "MyCustomClearRefinementsButton",
-                  disabledButton: "DisabledButton",
-                }}
-              >
-                <FormattedMessage id="improvedSearch.filter.clear" />
-              </StyledName>
+              <CustomClearRefinement />
             </Header>
 
-            <hr />
+            <Divider color="medium" />
             <PlainRefinementList label="Data Office" attribute="community" />
 
             <PlainRefinementList label="Provider" attribute="provider" />
