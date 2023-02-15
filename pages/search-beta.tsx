@@ -22,6 +22,21 @@ import { Section } from "components/Section"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
 
+const StyledName = styled(ClearRefinements)`
+  & .MyCustomClearRefinementsButton {
+    color: ${tokens.colors.text.static_icons__tertiary.hex};
+    background: ${tokens.colors.infographic.primary__moss_green_13.hex};
+    border-width: 0;
+  }
+
+  .DisabledButton {
+    color: ${tokens.colors.text.static_icons__tertiary.hex};
+  }
+
+  padding-left: 8.25rem;
+  margin-top: 10px;
+`
+
 const SearchContainer = styled.div`
   --huge-space: calc(2 * ${tokens.spacings.comfortable.xxx_large});
   display: grid;
@@ -62,6 +77,11 @@ const PaginationContainer = styled.div`
 
 const StyledHits = styled.div`
   grid-area: results;
+`
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
 `
 
 const TotalResults = styled.div`
@@ -114,13 +134,26 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             {/* @ts-ignore  */}
             <Hits hitComponent={Hit} />
           </StyledHits>
+
           <FilterContainer>
-            <Typography variant="h4" as="h2" style={{ marginBottom: "0.67rem" }}>
-              <FormattedMessage id="improvedSearch.filter.header" />
-              <ClearRefinements>
+            <Header>
+              <Typography variant="h4" weight="medium" style={{ marginBottom: "0.67rem" }}>
+                <FormattedMessage id="improvedSearch.filter.header" />
+              </Typography>
+              <StyledName
+                translations={{
+                  resetButtonText: "Clear Filters",
+                }}
+                classNames={{
+                  root: "MyCustomClearRefinements",
+                  button: "MyCustomClearRefinementsButton",
+                  disabledButton: "DisabledButton",
+                }}
+              >
                 <FormattedMessage id="improvedSearch.filter.clear" />
-              </ClearRefinements>
-            </Typography>
+              </StyledName>
+            </Header>
+
             <hr />
             <PlainRefinementList label="Data Office" attribute="community" />
 
