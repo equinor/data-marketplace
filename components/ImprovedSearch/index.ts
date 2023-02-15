@@ -9,4 +9,4 @@ export { PaginationContext } from "./PaginationContext"
 export type { HitProps } from "./Hit"
 
 // Just for testing
-export { PlainRefinementList } from "./RefinementList"
+export { RefinementList } from "./RefinementList"

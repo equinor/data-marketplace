@@ -14,7 +14,7 @@ import {
 import { FormattedMessage, IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import { SearchBox, Hits, Hit, PlainRefinementList, Pagination, CustomClearRefinement } from "components/ImprovedSearch"
+import { SearchBox, Hits, Hit, RefinementList, Pagination, CustomClearRefinement } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
 import { Section } from "components/Section"
@@ -128,13 +128,13 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             </Header>
 
             <Divider color="medium" />
-            <PlainRefinementList label="Data Office" attribute="community" />
+            <RefinementList label="Data Office" attribute="community" />
 
-            <PlainRefinementList label="Provider" attribute="provider" />
-            <PlainRefinementList label="Owner" attribute="owner" />
-            <PlainRefinementList label="Technical steward" attribute="technicalSteward" />
-            <PlainRefinementList label="Data office admin" attribute="dataOfficeAdmin" />
-            <PlainRefinementList label="Data steward" attribute="dataSteward" />
+            <RefinementList label="Provider" attribute="provider" />
+            <RefinementList label="Owner" attribute="owner" />
+            <RefinementList label="Technical steward" attribute="technicalSteward" />
+            <RefinementList label="Data office admin" attribute="dataOfficeAdmin" />
+            <RefinementList label="Data steward" attribute="dataSteward" />
           </FilterContainer>
           <PaginationContainer>
             <StyledPagination hitsPerPage={HITS_PER_PAGE} padding={1} />

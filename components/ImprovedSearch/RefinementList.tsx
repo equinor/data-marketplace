@@ -28,7 +28,7 @@ const StyledList = styled(List)`
 const StyledItem = styled(Item)`
   padding-left: var(--space-small);
 `
-export const PlainRefinementList = (props: RefinementListProps) => {
+export const RefinementList = (props: RefinementListProps) => {
   const { items, refine } = useRefinementList(props)
   return (
     <div>
