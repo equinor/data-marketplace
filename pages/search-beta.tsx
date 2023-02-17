@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/extensions
-import { Typography } from "@equinor/eds-core-react"
+import { Typography, Divider } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { createInstantSearchNextRouter } from "instantsearch-router-next-experimental"
 import type { NextPage, GetServerSideProps } from "next/types"
@@ -14,15 +14,7 @@ import {
 import { FormattedMessage, IntlProvider } from "react-intl"
 import styled from "styled-components"
 
-import {
-  SearchBox,
-  Hits,
-  Hit,
-  RefinementList,
-  PlainRefinementList,
-  Pagination,
-
-} from "components/ImprovedSearch"
+import { SearchBox, Hits, Hit, RefinementList, Pagination, CustomClearRefinement } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
 import { Section } from "components/Section"
@@ -50,6 +42,7 @@ const SearchContainer = styled.div`
       ". . pagination";
   }
 `
+
 const StyledPagination = styled(Pagination)`
   justify-content: center;
 `
@@ -70,6 +63,12 @@ const StyledHits = styled.div`
   grid-area: results;
 `
 
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
 const TotalResults = styled.div`
   margin-block: ${tokens.spacings.comfortable.medium};
   grid-area: totalResults;
@@ -87,12 +86,10 @@ type Props = {
 
 const HITS_PER_PAGE = 10
 
-
 // Because there so many thing going on without this
 const onStateChange = (params: any) => {
   params.setUiState(params.uiState)
 }
-
 
 const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
@@ -122,13 +119,23 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             {/* @ts-ignore  */}
             <Hits hitComponent={Hit} />
           </StyledHits>
+
           <FilterContainer>
-            <RefinementList attribute="community" />
-            <PlainRefinementList label="Provider" attribute="provider" />
-            <PlainRefinementList label="Owner" attribute="owner" />
-            <PlainRefinementList label="Technical steward" attribute="technicalSteward" />
-            <PlainRefinementList label="Data office admin" attribute="dataOfficeAdmin" />
-            <PlainRefinementList label="Data steward" attribute="dataSteward" />
+            <Header>
+              <Typography variant="h4" weight="medium">
+                <FormattedMessage id="improvedSearch.filter.header" />
+              </Typography>
+              <CustomClearRefinement />
+            </Header>
+
+            <Divider color="medium" />
+            <RefinementList label="Data Office" attribute="community" />
+
+            <RefinementList label="Provider" attribute="provider" />
+            <RefinementList label="Owner" attribute="owner" />
+            <RefinementList label="Technical steward" attribute="technicalSteward" />
+            <RefinementList label="Data office admin" attribute="dataOfficeAdmin" />
+            <RefinementList label="Data steward" attribute="dataSteward" />
           </FilterContainer>
           <PaginationContainer>
             <StyledPagination hitsPerPage={HITS_PER_PAGE} padding={1} />

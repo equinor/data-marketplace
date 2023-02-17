@@ -3,9 +3,10 @@ export { Hit } from "./Hit"
 export { Hits } from "./Hits"
 export { algoliaNextJsHistoryRouter } from "./lib/algolia-nextjs-history-router"
 export { Pagination } from "./Pagination"
+export { CustomClearRefinement } from "./CustomClearRefinement"
 export { PaginationContext } from "./PaginationContext"
-export { RefinementList } from "./RefinementList"
+
 export type { HitProps } from "./Hit"
 
 // Just for testing
-export { PlainRefinementList } from "./PlainRefinementList"
+export { RefinementList } from "./RefinementList"
