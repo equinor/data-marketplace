@@ -6,37 +6,37 @@ type BackgroundProps = {
   isHighlighted: boolean
 }
 
-const BackgroundContainer = styled.div.attrs<BackgroundProps>(({ isHighlighted }) => (isHighlighted
-  ? {
-    className: "background-highlight",
-  } : {
-    className: "background-default",
-  }
-
-))<BackgroundProps>`
-  background-color: ${({ isHighlighted }) => (isHighlighted ? "var(--highlight-colour)" : tokens.colors.ui.background__default.hex)} ;
+const BackgroundContainer = styled.div.attrs<BackgroundProps>(({ isHighlighted }) =>
+  isHighlighted
+    ? {
+        className: "background-highlight",
+      }
+    : {
+        className: "background-default",
+      }
+)<BackgroundProps>`
+  background-color: ${({ isHighlighted }) =>
+    isHighlighted ? "tokens.colors.infographic.primary__moss_green_13.hex" : tokens.colors.ui.background__default.hex};
 `
 
 const StyledSection = styled.section`
-    width: 100%;
-    max-width: var(--layout-max-width);
-    margin-inline: auto;
-    padding: var(--layout-padding-block) var(--layout-padding-inline);
-    ${BackgroundContainer}.background-default + ${BackgroundContainer}.background-default &,
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin-inline: auto;
+  padding: var(--layout-padding-block) var(--layout-padding-inline);
+  ${BackgroundContainer}.background-default + ${BackgroundContainer}.background-default &,
     ${BackgroundContainer}.background-highlight + ${BackgroundContainer}.background-highlight & {
-      padding-top: 0;
-    }
+    padding-top: 0;
+  }
 `
 
 type Props = {
-  highlight?: boolean,
-  children?: ReactNode | undefined;
+  highlight?: boolean
+  children?: ReactNode | undefined
 }
 
 export const Section: FunctionComponent<Props> = ({ highlight = false, children }) => (
   <BackgroundContainer isHighlighted={highlight}>
-    <StyledSection>
-      {children}
-    </StyledSection>
+    <StyledSection>{children}</StyledSection>
   </BackgroundContainer>
 )

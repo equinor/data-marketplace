@@ -5,29 +5,17 @@ import { useClearRefinements, UseClearRefinementsProps } from "react-instantsear
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
-const ButtonNew = styled(Button)`
+const ClearButton = styled(Button)`
   color: ${tokens.colors.text.static_icons__default.hex};
   background: ${tokens.colors.infographic.primary__moss_green_13.hex};
-  border-width: 0;
-  font-weight: 14pt;
-  padding-left: 8.15rem;
+  font-weight: 1.2em;
+  flex-direction: row;
   :hover {
     color: ${tokens.colors.text.static_icons__default.hex};
-    background: ${tokens.colors.infographic.primary__moss_green_13.hex};
-    border-width: 0;
   }
-`
-
-const ButtonDisabled = styled(Button)`
-  color: ${tokens.colors.text.static_icons__tertiary.hex};
-  background: ${tokens.colors.infographic.primary__moss_green_13.hex};
-  border-width: 0;
-  font-weight: 14pt;
-  padding-left: 8.15rem;
-  :hover {
+  :disabled {
     color: ${tokens.colors.text.static_icons__tertiary.hex};
     background: ${tokens.colors.infographic.primary__moss_green_13.hex};
-    border-width: 0;
   }
 `
 
@@ -35,7 +23,15 @@ export const CustomClearRefinement = (props: UseClearRefinementsProps) => {
   const { canRefine, refine } = useClearRefinements(props)
   const intl = useIntl()
   if (canRefine) {
-    return <ButtonNew onClick={refine}>{intl.formatMessage({ id: "improvedSearch.filter.clear" })}</ButtonNew>
+    return (
+      <ClearButton variant="ghost" onClick={refine}>
+        {intl.formatMessage({ id: "improvedSearch.filter.clear" })}
+      </ClearButton>
+    )
   }
-  return <ButtonDisabled onClick={refine}>{intl.formatMessage({ id: "improvedSearch.filter.clear" })}</ButtonDisabled>
+  return (
+    <ClearButton variant="ghost" disabled onClick={refine}>
+      {intl.formatMessage({ id: "improvedSearch.filter.clear" })}
+    </ClearButton>
+  )
 }

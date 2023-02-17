@@ -66,6 +66,7 @@ const StyledHits = styled.div`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `
 
 const TotalResults = styled.div`
