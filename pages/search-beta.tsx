@@ -84,7 +84,7 @@ type Props = {
   }
 }
 
-const HITS_PER_PAGE = 60
+const HITS_PER_PAGE = 10
 
 // Because there so many thing going on without this
 const onStateChange = (params: any) => {
