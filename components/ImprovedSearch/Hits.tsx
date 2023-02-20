@@ -12,6 +12,9 @@ const HitItem = styled(Item)`
   position: relative;
   margin-block: ${tokens.spacings.comfortable.large};
   border-bottom: 1px solid ${tokens.colors.ui.background__info.hsla};
+  &:first-child {
+    margin-top: 0;
+  }
 `
 
 const StyledList = styled(List)`
@@ -22,14 +25,6 @@ const StyledList = styled(List)`
 const NoresultContainer = styled.div`
   justify-content: center;
 `
-
-/* 
-type Props = {
-  hitComponent: React.JSXElementConstructor<{
-    hit: Hit
-    sendEvent: SendEventForHits
-  }>
-} */
 
 export const Hits = () => {
   const { hits } = useHits()

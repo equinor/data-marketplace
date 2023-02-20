@@ -4,9 +4,7 @@ import { useRefinementList, UseRefinementListProps } from "react-instantsearch-h
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
-export type RefinementListProps = React.ComponentProps<"div"> & {
-  label: string
-} & UseRefinementListProps
+export type RefinementListProps = React.PropsWithChildren & UseRefinementListProps
 
 const { Item } = List
 
@@ -20,6 +18,11 @@ const FilterContainer = styled.div`
   grid-area: filter;
 `
 
+const StyledCheckbox = styled(Checkbox)`
+  /* Not an EDS colour */
+  --eds_interactive_primary__hover_alt: rgba(186, 209, 220, 1);
+`
+
 const StyledList = styled(List)`
   padding: 0;
   list-style-type: none;
@@ -28,8 +31,8 @@ const StyledList = styled(List)`
 const StyledItem = styled(Item)`
   padding-left: var(--space-small);
 `
-export const RefinementList = (props: RefinementListProps) => {
-  const { items, refine } = useRefinementList(props)
+export const RefinementList = ({ children, ...rest }: RefinementListProps) => {
+  const { items, refine } = useRefinementList({ ...rest })
   return (
     <div>
       <EdsProvider density="compact">
@@ -39,14 +42,13 @@ export const RefinementList = (props: RefinementListProps) => {
             variant="accordion_header"
             style={{ fontWeight: "21px", marginTop: "1rem", marginBottom: "0.25rem" }}
           >
-            {/*  eslint-disable-next-line react/destructuring-assignment */}
-            {props.label}
+            {children}
           </Typography>
           {items.length > 0 ? (
             <StyledList>
               {items.map((item) => (
                 <StyledItem key={item.value}>
-                  <Checkbox
+                  <StyledCheckbox
                     value={item.value}
                     label={`${item.label} (${item.count})`}
                     checked={item.isRefined}
