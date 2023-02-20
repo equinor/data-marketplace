@@ -7,23 +7,18 @@ const PaginationLink = styled(Button)<{ isCurrent?: boolean }>`
   --button-size: 44px;
   width: var(--button-size);
   height: var(--button-size); 
-  color: ${tokens.colors.text.static_icons__default.hex}}
+  color: ${tokens.colors.text.static_icons__default.rgba}}
   ${({ isCurrent }) =>
     isCurrent && {
-      background: tokens.colors.interactive.primary__resting.hex,
-      color: tokens.colors.text.static_icons__default.hex,
+      background: tokens.colors.ui.background__default.rgba,
+      color: tokens.colors.interactive.secondary__link_hover.rgba,
     }}
   :hover {
-    color: ${tokens.colors.interactive.primary__resting.hex};
-
-    :disabled {
-      color: ${tokens.colors.ui.background__medium.hex};
-    }
-  }
-
+    /* Not an EDS colour */
+    background-color: rgba(186, 209, 220, 1);
   :disabled {
     cursor: auto;
-    color: ${tokens.colors.ui.background__medium.hex};
+    color: ${tokens.colors.interactive.disabled__text.rgba};
   }
 `
 const { Item: EdsItem } = List
