@@ -18,6 +18,11 @@ const FilterContainer = styled.div`
   grid-area: filter;
 `
 
+const StyledCheckbox = styled(Checkbox)`
+  /* Not an EDS colour */
+  --eds_interactive_primary__hover_alt: rgba(186, 209, 220, 1);
+`
+
 const StyledList = styled(List)`
   padding: 0;
   list-style-type: none;
@@ -43,7 +48,7 @@ export const RefinementList = ({ children, ...rest }: RefinementListProps) => {
             <StyledList>
               {items.map((item) => (
                 <StyledItem key={item.value}>
-                  <Checkbox
+                  <StyledCheckbox
                     value={item.value}
                     label={`${item.label} (${item.count})`}
                     checked={item.isRefined}
