@@ -128,7 +128,7 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
               <CustomClearRefinement />
             </Header>
 
-            <Divider color="medium" />
+            <Divider variant="small" />
             <RefinementList label="Data Office" attribute="community" />
 
             <RefinementList label="Provider" attribute="provider" />

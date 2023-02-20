@@ -57,7 +57,13 @@ export const RefinementList = (props: RefinementListProps) => {
             </StyledList>
           ) : (
             <NoRelevant>
-              <Typography group="paragraph" variant="body_short" color={tokens.colors.text.static_icons__tertiary.hex}>
+              <Typography
+                group="paragraph"
+                variant="meta"
+                weight="regular"
+                style={{ fontSize: "14px" }}
+                color={tokens.colors.text.static_icons__tertiary.hex}
+              >
                 <FormattedMessage id="asset.no.relevant.filters" defaultMessage="No assets for this filter" />
               </Typography>
             </NoRelevant>
