@@ -94,7 +94,7 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
     <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
       {community &&
         community.map((item) => (
-          <Typography variant="overline" style={{ fontSize: "0.7rem", fontWeight: "medium" }} key={item}>
+          <Typography variant="overline" style={{ fontSize: "0.75rem", fontWeight: "medium" }} key={item}>
             {item}
           </Typography>
         ))}
@@ -113,7 +113,7 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
         />
       </Typography>
       {hasQuery ? (
-        <StyledTypography variant="body_short" style={{ fontSize: "0.87rem", fontWeight: "regular" }}>
+        <StyledTypography variant="body_short" style={{ fontSize: "0.875rem", fontWeight: "regular" }}>
           <StyledSnippet
             hit={hit}
             attribute={getSnippetAttribute(hit)}
@@ -123,7 +123,9 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
           />
         </StyledTypography>
       ) : (
-        <TruncatedStaticExcerpt variant="body_short">{hit.excerpt || hit.description}</TruncatedStaticExcerpt>
+        <TruncatedStaticExcerpt variant="body_short" style={{ fontSize: "0.875rem", fontWeight: "regular" }}>
+          {hit.excerpt || hit.description}
+        </TruncatedStaticExcerpt>
       )}
       {tags.length > 0 && (
         <TagsContainer>
