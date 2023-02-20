@@ -94,12 +94,16 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
     <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
       {community &&
         community.map((item) => (
-          <Typography variant="overline" key={item}>
+          <Typography variant="overline" style={{ fontSize: "0.7rem", fontWeight: "medium" }} key={item}>
             {item}
           </Typography>
         ))}
 
-      <Typography variant="h5" as="h2" style={{ marginBottom: tokens.spacings.comfortable.medium }}>
+      <Typography
+        variant="h5"
+        as="h2"
+        style={{ marginBottom: tokens.spacings.comfortable.medium, fontSize: "1.25rem", fontWeight: "bold" }}
+      >
         <StyledName
           hit={hit}
           attribute="name"
@@ -109,7 +113,7 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
         />
       </Typography>
       {hasQuery ? (
-        <StyledTypography variant="body_short">
+        <StyledTypography variant="body_short" style={{ fontSize: "0.87rem", fontWeight: "regular" }}>
           <StyledSnippet
             hit={hit}
             attribute={getSnippetAttribute(hit)}
