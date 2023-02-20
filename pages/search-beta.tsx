@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/extensions
-import { Typography, Divider } from "@equinor/eds-core-react"
+import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { createInstantSearchNextRouter } from "instantsearch-router-next-experimental"
 import type { NextPage, GetServerSideProps } from "next/types"
@@ -74,6 +74,11 @@ const TotalResults = styled.div`
   grid-area: totalResults;
 `
 
+const Filters = styled.div`
+  background-color: ${tokens.colors.ui.background__default.hsla};
+  padding: ${tokens.spacings.comfortable.small};
+`
+
 type Props = {
   serverState?: InstantSearchServerState
   serverUrl?: URL | string
@@ -126,14 +131,14 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
               </Typography>
               <CustomClearRefinement />
             </Header>
-
-            <Divider color="medium" />
-            <RefinementList attribute="community">
-              <FormattedMessage id="improvedSearch.community.filter.header" />
-            </RefinementList>
-            <RefinementList attribute="people">
-              <FormattedMessage id="improvedSearch.people.filter.header" />
-            </RefinementList>
+            <Filters>
+              <RefinementList attribute="community">
+                <FormattedMessage id="improvedSearch.community.filter.header" />
+              </RefinementList>
+              <RefinementList attribute="people">
+                <FormattedMessage id="improvedSearch.people.filter.header" />
+              </RefinementList>
+            </Filters>
           </FilterContainer>
           <PaginationContainer>
             <StyledPagination hitsPerPage={HITS_PER_PAGE} padding={1} />
