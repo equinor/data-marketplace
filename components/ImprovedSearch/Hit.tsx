@@ -47,7 +47,7 @@ const TagsContainer = styled.div`
 `
 
 const StyledChip = styled(Chip)`
-  background-color: ${tokens.colors.infographic.primary__spruce_wood.hex};
+  background-color: rgb(255, 218, 168);
   color: ${tokens.colors.text.static_icons__default.hsla};
 `
 

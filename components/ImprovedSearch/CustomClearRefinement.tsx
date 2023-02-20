@@ -12,6 +12,8 @@ const ClearButton = styled(Button)`
   flex-direction: row;
   :hover {
     color: ${tokens.colors.text.static_icons__default.hex};
+    /* Not an EDS colour */
+    background-color: rgba(186, 209, 220, 1);
   }
   :disabled {
     color: ${tokens.colors.text.static_icons__tertiary.hex};

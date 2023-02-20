@@ -16,7 +16,6 @@ const PaginationLink = styled(Button)<{ isCurrent?: boolean }>`
   :hover {
     /* Not an EDS colour */
     background-color: rgba(186, 209, 220, 1);
-
   :disabled {
     cursor: auto;
     color: ${tokens.colors.interactive.disabled__text.rgba};
@@ -69,6 +68,11 @@ export const PaginationItem = ({
         inverted={inverted}
         onClick={(event: React.MouseEvent) => {
           event.preventDefault()
+          window.scroll({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+          })
           refine(value)
         }}
       >

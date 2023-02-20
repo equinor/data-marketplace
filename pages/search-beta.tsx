@@ -122,13 +122,13 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
 
           <FilterContainer>
             <Header>
-              <Typography variant="h4" weight="medium">
+              <Typography variant="h3" style={{ fontWeight: "26px" }}>
                 <FormattedMessage id="improvedSearch.filter.header" />
               </Typography>
               <CustomClearRefinement />
             </Header>
 
-            <Divider color="medium" />
+            <Divider variant="small" />
             <RefinementList label="Data Office" attribute="community" />
 
             <RefinementList label="Provider" attribute="provider" />
