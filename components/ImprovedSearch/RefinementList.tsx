@@ -4,9 +4,7 @@ import { useRefinementList, UseRefinementListProps } from "react-instantsearch-h
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
-export type RefinementListProps = React.ComponentProps<"div"> & {
-  label: string
-} & UseRefinementListProps
+export type RefinementListProps = React.PropsWithChildren & UseRefinementListProps
 
 const { Item } = List
 
@@ -40,7 +38,7 @@ export const RefinementList = (props: RefinementListProps) => {
             style={{ fontWeight: "21px", marginTop: "1rem", marginBottom: "0.25rem" }}
           >
             {/*  eslint-disable-next-line react/destructuring-assignment */}
-            {props.label}
+            {props.children}
           </Typography>
           {items.length > 0 ? (
             <StyledList>

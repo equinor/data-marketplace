@@ -119,7 +119,6 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             {/* @ts-ignore  */}
             <Hits hitComponent={Hit} />
           </StyledHits>
-
           <FilterContainer>
             <Header>
               <Typography variant="h3" style={{ fontWeight: "26px" }}>
@@ -128,14 +127,14 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
               <CustomClearRefinement />
             </Header>
 
-            <Divider variant="small" />
-            <RefinementList label="Data Office" attribute="community" />
-
-            <RefinementList label="Provider" attribute="provider" />
-            <RefinementList label="Owner" attribute="owner" />
+            <Divider color="medium" />
+            <RefinementList attribute="community">
+              <FormattedMessage id="improvedSearch.community.filter.header" />
+            </RefinementList>
+            {/*        <RefinementList label="Owner" attribute="owner" />
             <RefinementList label="Technical steward" attribute="technicalSteward" />
             <RefinementList label="Data office admin" attribute="dataOfficeAdmin" />
-            <RefinementList label="Data steward" attribute="dataSteward" />
+            <RefinementList label="Data steward" attribute="dataSteward" /> */}
           </FilterContainer>
           <PaginationContainer>
             <StyledPagination hitsPerPage={HITS_PER_PAGE} padding={1} />
