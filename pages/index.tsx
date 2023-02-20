@@ -49,7 +49,6 @@ const SearchButton = styled(NextLink)`
 
   &:focus-visible {
     outline: 2px dashed ${tokens.colors.interactive.primary__resting.hex};
-    outline-offset: -2px;
   }
 `
 
@@ -111,7 +110,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
 
               <SearchButtonContainer>
                 {/* @ts-ignore */}
-                <SearchButton href={USE_IMPROVED_SEARCH ? "/search-beta" : "/search"} tabindex="0">
+                <SearchButton href={USE_IMPROVED_SEARCH ? "/search-beta" : "/search"}>
                   <Icon data={search} />
                   Find data
                 </SearchButton>
