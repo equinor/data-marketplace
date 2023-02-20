@@ -84,7 +84,7 @@ type Props = {
   }
 }
 
-const HITS_PER_PAGE = 10
+const HITS_PER_PAGE = 60
 
 // Because there so many thing going on without this
 const onStateChange = (params: any) => {
@@ -131,10 +131,9 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             <RefinementList attribute="community">
               <FormattedMessage id="improvedSearch.community.filter.header" />
             </RefinementList>
-            {/*        <RefinementList label="Owner" attribute="owner" />
-            <RefinementList label="Technical steward" attribute="technicalSteward" />
-            <RefinementList label="Data office admin" attribute="dataOfficeAdmin" />
-            <RefinementList label="Data steward" attribute="dataSteward" /> */}
+            <RefinementList attribute="people">
+              <FormattedMessage id="improvedSearch.people.filter.header" />
+            </RefinementList>
           </FilterContainer>
           <PaginationContainer>
             <StyledPagination hitsPerPage={HITS_PER_PAGE} padding={1} />

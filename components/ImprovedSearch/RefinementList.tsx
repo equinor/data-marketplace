@@ -26,8 +26,8 @@ const StyledList = styled(List)`
 const StyledItem = styled(Item)`
   padding-left: var(--space-small);
 `
-export const RefinementList = (props: RefinementListProps) => {
-  const { items, refine } = useRefinementList(props)
+export const RefinementList = ({ children, ...rest }: RefinementListProps) => {
+  const { items, refine } = useRefinementList({ ...rest })
   return (
     <div>
       <EdsProvider density="compact">
@@ -37,8 +37,7 @@ export const RefinementList = (props: RefinementListProps) => {
             variant="accordion_header"
             style={{ fontWeight: "21px", marginTop: "1rem", marginBottom: "0.25rem" }}
           >
-            {/*  eslint-disable-next-line react/destructuring-assignment */}
-            {props.children}
+            {children}
           </Typography>
           {items.length > 0 ? (
             <StyledList>
