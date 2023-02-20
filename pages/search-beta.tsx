@@ -23,21 +23,25 @@ import englishTexts from "locales/english.json"
 
 const SearchContainer = styled.div`
   --huge-space: calc(2 * ${tokens.spacings.comfortable.xxx_large});
+  /* Lot's of different text sizes going on here, I expect this to change
+  at some point. But add an explicit height for now and reuse as line height for 
+  the stats header to get proper alignment */
+  --baseline-text-height: 2.25rem;
   display: grid;
   grid-template-areas:
     "search"
     "filter"
     "totalResults"
-    "pagination"
-    "results";
+    "results"
+    "pagination";
   @media (min-width: 900px) {
     /* Temp. column width restriction until new page layout is ready */
     grid-template-columns: 17rem var(--huge-space) minmax(auto, 660px);
-    grid-template-rows: min-content var(--huge-space) min-content;
+    grid-template-rows: min-content var(--huge-space) var(--baseline-text-height) auto auto;
     grid-template-areas:
       ". . search"
       ". . ."
-      ". . totalResults"
+      "filterHeader . totalResults"
       "filter .  results"
       ". . pagination";
   }
@@ -51,8 +55,13 @@ const StyledSearchBox = styled.div`
   grid-area: search;
 `
 
-const FilterContainer = styled.div`
+const FilterHeader = styled.div`
+  grid-area: filterHeader;
+`
+
+const Filters = styled.div`
   grid-area: filter;
+  border-top: 1px solid ${tokens.colors.text.static_icons__tertiary.hsla};
 `
 
 const PaginationContainer = styled.div`
@@ -67,16 +76,13 @@ const Header = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: baseline;
 `
 
 const TotalResults = styled.div`
-  margin-block: ${tokens.spacings.comfortable.medium};
   grid-area: totalResults;
-`
-
-const Filters = styled.div`
-  background-color: ${tokens.colors.ui.background__default.hsla};
-  padding: ${tokens.spacings.comfortable.small};
+  display: flex;
+  align-items: baseline;
 `
 
 type Props = {
@@ -118,28 +124,29 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             <SearchBox />
           </StyledSearchBox>
           <TotalResults>
-            <SearchStatistics hitsPerPage={HITS_PER_PAGE} />
+            <SearchStatistics style={{ lineHeight: "var(--baseline-text-height)" }} hitsPerPage={HITS_PER_PAGE} />
           </TotalResults>
           <StyledHits>
             {/* @ts-ignore  */}
             <Hits hitComponent={Hit} />
           </StyledHits>
-          <FilterContainer>
+          <FilterHeader>
             <Header>
-              <Typography variant="h3" style={{ fontWeight: "26px" }}>
+              <Typography variant="h3" style={{ fontSize: "1.25rem" }}>
                 <FormattedMessage id="improvedSearch.filter.header" />
               </Typography>
               <CustomClearRefinement />
             </Header>
-            <Filters>
-              <RefinementList attribute="community">
-                <FormattedMessage id="improvedSearch.community.filter.header" />
-              </RefinementList>
-              <RefinementList attribute="people">
-                <FormattedMessage id="improvedSearch.people.filter.header" />
-              </RefinementList>
-            </Filters>
-          </FilterContainer>
+          </FilterHeader>
+          <Filters>
+            <RefinementList attribute="community">
+              <FormattedMessage id="improvedSearch.community.filter.header" />
+            </RefinementList>
+            <RefinementList attribute="people">
+              <FormattedMessage id="improvedSearch.people.filter.header" />
+            </RefinementList>
+          </Filters>
+
           <PaginationContainer>
             <StyledPagination hitsPerPage={HITS_PER_PAGE} padding={1} />
           </PaginationContainer>
