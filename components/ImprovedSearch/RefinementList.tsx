@@ -35,10 +35,9 @@ export const RefinementList = (props: RefinementListProps) => {
       <EdsProvider density="compact">
         <FilterContainer>
           <Typography
-            group="paragraph"
-            variant="caption"
-            style={{ textTransform: "uppercase", fontWeight: "400", marginTop: "1rem", marginBottom: "0.25rem" }}
-            as="h3"
+            group="ui"
+            variant="accordion_header"
+            style={{ fontWeight: "21px", marginTop: "1rem", marginBottom: "0.25rem" }}
           >
             {/*  eslint-disable-next-line react/destructuring-assignment */}
             {props.label}

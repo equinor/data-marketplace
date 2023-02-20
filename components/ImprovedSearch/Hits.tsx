@@ -1,4 +1,4 @@
-import { List, Typography } from "@equinor/eds-core-react"
+import { List, Typography, Paper } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { useHits, useSearchBox } from "react-instantsearch-hooks-web"
 import { FormattedMessage } from "react-intl"
@@ -48,8 +48,10 @@ export const Hits = () => {
     <StyledList variant="numbered">
       {hits.map((hit) => (
         <HitItem key={hit.objectID}>
-          {/* @ts-ignore @TODO se på typene her */}
-          <Hit hit={hit} hasQuery={query !== ""} />
+          <Paper elevation="raised">
+            {/* @ts-ignore @TODO se på typene her */}
+            <Hit hit={hit} hasQuery={query !== ""} />
+          </Paper>
         </HitItem>
       ))}
     </StyledList>

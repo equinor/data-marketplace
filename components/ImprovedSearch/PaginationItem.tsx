@@ -7,19 +7,23 @@ const PaginationLink = styled(Button)<{ isCurrent?: boolean }>`
   --button-size: 44px;
   width: var(--button-size);
   height: var(--button-size); 
-  color: ${tokens.colors.text.static_icons__default.rgba}}
+  color: ${tokens.colors.text.static_icons__default.hex}}
   ${({ isCurrent }) =>
     isCurrent && {
-      background: tokens.colors.ui.background__default.rgba,
-      color: tokens.colors.interactive.secondary__link_hover.rgba,
+      background: tokens.colors.interactive.primary__resting.hex,
+      color: tokens.colors.text.static_icons__default.hex,
     }}
   :hover {
-    /* Not an EDS colour */
-    background-color: rgba(186, 209, 220, 1);
+    color: ${tokens.colors.interactive.primary__resting.hex};
+
+    :disabled {
+      color: ${tokens.colors.ui.background__medium.hex};
+    }
+  }
 
   :disabled {
     cursor: auto;
-    color: ${tokens.colors.interactive.disabled__text.rgba};
+    color: ${tokens.colors.ui.background__medium.hex};
   }
 `
 const { Item: EdsItem } = List
@@ -69,6 +73,11 @@ export const PaginationItem = ({
         inverted={inverted}
         onClick={(event: React.MouseEvent) => {
           event.preventDefault()
+          window.scroll({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+          })
           refine(value)
         }}
       >
