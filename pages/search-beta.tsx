@@ -142,9 +142,6 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
             <RefinementList attribute="community">
               <FormattedMessage id="improvedSearch.community.filter.header" />
             </RefinementList>
-            <RefinementList attribute="people">
-              <FormattedMessage id="improvedSearch.people.filter.header" />
-            </RefinementList>
           </Filters>
 
           <PaginationContainer>
