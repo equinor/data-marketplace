@@ -113,7 +113,7 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
         />
       </Typography>
       {hasQuery ? (
-        <StyledTypography variant="body_short" style={{ fontSize: "0.875rem", fontWeight: "regular" }}>
+        <StyledTypography variant="body_short">
           <StyledSnippet
             hit={hit}
             attribute={getSnippetAttribute(hit)}
@@ -123,9 +123,7 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
           />
         </StyledTypography>
       ) : (
-        <TruncatedStaticExcerpt variant="body_short" style={{ fontSize: "0.875rem", fontWeight: "regular" }}>
-          {hit.excerpt || hit.description}
-        </TruncatedStaticExcerpt>
+        <TruncatedStaticExcerpt variant="body_short">{hit.excerpt || hit.description}</TruncatedStaticExcerpt>
       )}
       {tags.length > 0 && (
         <TagsContainer>
