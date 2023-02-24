@@ -4,6 +4,8 @@ import { useRefinementList, UseRefinementListProps } from "react-instantsearch-h
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
+import { Heading } from "components/Typography"
+
 export type RefinementListProps = React.PropsWithChildren & UseRefinementListProps
 
 const { Item } = List
@@ -37,13 +39,9 @@ export const RefinementList = ({ children, ...rest }: RefinementListProps) => {
     <div>
       <EdsProvider density="compact">
         <FilterContainer>
-          <Typography
-            group="ui"
-            variant="accordion_header"
-            style={{ fontWeight: "21px", marginTop: "1rem", marginBottom: "0.25rem" }}
-          >
+          <Heading level="h4" size="base" style={{ marginBlock: "1rem 0.25rem", fontWeight: 500 }}>
             {children}
-          </Typography>
+          </Heading>
           {items.length > 0 ? (
             <StyledList>
               {items.map((item) => (

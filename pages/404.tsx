@@ -9,6 +9,7 @@ import styled from "styled-components"
 import { Illustration } from "components/NotFound"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
+import { Heading } from "components/Typography"
 
 const Hero = styled.div`
   display: grid;
@@ -53,9 +54,9 @@ const PageNotFound: NextPage = () => {
             <HeroContent>
               <Typography variant="meta">{intl.formatMessage({ id: "notfound.code.number" })}</Typography>
 
-              <Typography variant="h1" style={{ marginBottom: "0.67em" }} bold>
+              <Heading level="h1" size="2xl" style={{ marginBottom: "0.67em" }} bold>
                 {intl.formatMessage({ id: "notfound.hero.title" })}
-              </Typography>
+              </Heading>
               <TypographyStyle style={{ marginBottom: tokens.spacings.comfortable.x_large }} variant="ingress">
                 <FormattedMessage
                   id="notfound.hero.ingress"

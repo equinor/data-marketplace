@@ -52,8 +52,13 @@ export const Heading: FunctionComponent<HeadingProps> = ({
   <StyledHeading
     variant={level}
     center={center}
-    bold={bold}
-    token={{ fontSize: sizes[size], lineHeight: lineHeights[size], textTransform: uppercase ? "uppercase" : "none" }}
+    token={{
+      // Need to add this in a token because EDS only allows h1 to be bold
+      fontWeight: bold ? 700 : 400,
+      fontSize: sizes[size],
+      lineHeight: lineHeights[size],
+      textTransform: uppercase ? "uppercase" : "none",
+    }}
     // eslint-disable-next-line react/jsx-props-no-spreading,
     {...rest}
   >
