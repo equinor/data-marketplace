@@ -24,12 +24,12 @@ const sizes = {
 }
 
 const lineHeights = {
-  xs: "var(--lineHeight-16)",
-  sm: "var(--lineHeight-16)",
-  base: "var(--lineHeight-20)",
-  lg: "var(--lineHeight-32)",
-  xl: "var(--lineHeight-40)",
-  "2xl": "var(--lineHeight-40)",
+  xs: 1.333,
+  sm: 1.142,
+  base: 1.25,
+  lg: 1.6,
+  xl: 1.25,
+  "2xl": 1.25,
 }
 
 type HeadingProps = {
