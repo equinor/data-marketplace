@@ -6,6 +6,7 @@ import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Section } from "../Section"
+import { Heading } from "../Typography"
 
 import { Stepper } from "./Stepper"
 import type { CheckoutSteps } from "./types"
@@ -16,7 +17,7 @@ const CheckoutNavContainer = styled.div`
   margin-block: ${tokens.spacings.comfortable.x_large} ${tokens.spacings.comfortable.xxx_large};
 `
 
-const Heading = styled.div`
+const Head = styled.div`
   min-height: 48px;
 `
 
@@ -75,14 +76,14 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
   return (
     <Section>
       {assetName && (
-        <Heading>
-          <Typography variant="h1">
+        <Head>
+          <Heading level="h1" size="2xl">
             <Typography variant="overline" as="div">
               {intl.formatMessage({ id: "checkout.title.eyebrow" })}
             </Typography>
             {assetName}
-          </Typography>
-        </Heading>
+          </Heading>
+        </Head>
       )}
       <CheckoutNavContainer>
         <Stepper currentStep={currentStep} />
