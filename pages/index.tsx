@@ -10,6 +10,7 @@ import styled from "styled-components"
 import { Banner } from "components/Banner"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
+import { Heading } from "components/Typography"
 import { usePopularProducts } from "hooks"
 import { fmtNumber } from "lib/fmtNumber"
 
@@ -104,9 +105,9 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
         <Section>
           <Hero>
             <HeroContent>
-              <Typography variant="h1" style={{ marginBottom: "3rem", textAlign: "center" }} bold>
+              <Heading level="h1" size="2xl" center style={{ marginBottom: "3rem" }} bold>
                 {intl.formatMessage({ id: "frontpage.hero.title" })}
-              </Typography>
+              </Heading>
 
               <SearchButtonContainer>
                 {/* @ts-ignore */}
@@ -124,9 +125,9 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
         </Section>
         <Section highlight>
           <SectionHeader>
-            <Typography variant="h2">
+            <Heading level="h2" size="xl">
               <FormattedMessage id="frontpage.popularProductsHeader" />
-            </Typography>
+            </Heading>
           </SectionHeader>
           {isLoading ? (
             <CircularProgress />
@@ -149,9 +150,9 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
                             }}
                           />
                         </Views>
-                        <Typography variant="h5" as="h3" lines={2}>
+                        <Heading level="h3" size="lg" lines={2}>
                           {product.name}
-                        </Typography>
+                        </Heading>
                       </Card.HeaderTitle>
                     </Card.Header>
                     <Card.Content />

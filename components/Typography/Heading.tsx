@@ -1,5 +1,5 @@
 import { Typography, TypographyProps } from "@equinor/eds-core-react"
-import { HTMLAttributes, FunctionComponent } from "react"
+import { FunctionComponent } from "react"
 import styled from "styled-components"
 
 type StyledHeadingProps = {
@@ -28,7 +28,7 @@ const lineHeights = {
   sm: "var(--lineHeight-16)",
   base: "var(--lineHeight-20)",
   lg: "var(--lineHeight-32)",
-  xl: "var(--lineHeight-30)",
+  xl: "var(--lineHeight-40)",
   "2xl": "var(--lineHeight-40)",
 }
 
@@ -37,11 +37,13 @@ type HeadingProps = {
   level?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
   center?: boolean
   uppercase?: boolean
-} & HTMLAttributes<HTMLHeadingElement>
+  bold?: boolean
+} & TypographyProps
 
 export const Heading: FunctionComponent<HeadingProps> = ({
   size = "lg",
   level = "h3",
+  bold = false,
   center = false,
   uppercase = false,
   children,
@@ -50,6 +52,7 @@ export const Heading: FunctionComponent<HeadingProps> = ({
   <StyledHeading
     variant={level}
     center={center}
+    bold={bold}
     token={{ fontSize: sizes[size], lineHeight: lineHeights[size], textTransform: uppercase ? "uppercase" : "none" }}
     // eslint-disable-next-line react/jsx-props-no-spreading,
     {...rest}

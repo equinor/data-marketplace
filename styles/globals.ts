@@ -38,8 +38,8 @@ a {
   --lineHeight-20: 1.25em;
   --lineHeight-24: 1.5em;
   --lineHeight-30: 1.875em;
-  --lineHeight-32: 2em;
-  --lineHeight-40: 2.5em;
+  --lineHeight-32: 1.6;
+  --lineHeight-40: 1.25;
   
 
   @media screen and (min-width: 768px) {
