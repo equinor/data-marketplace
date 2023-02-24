@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import type { Asset, Maintainer } from "@equinor/data-marketplace-models"
-import { Button, Icon, Typography, Tabs } from "@equinor/eds-core-react"
+import { Button, Icon, Tabs } from "@equinor/eds-core-react"
 import { add } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { GetServerSideProps, NextPage } from "next"
@@ -13,6 +13,7 @@ import styled from "styled-components"
 import { OverviewContent, ResponsibilitiesContent, ResponsibilitiesContentSections } from "components/AssetTabContent"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
+import { Heading } from "components/Typography"
 import { config } from "config"
 import { request } from "lib/net/request"
 
@@ -31,10 +32,6 @@ const StyledTabs = styled(Tabs)`
 
 const Panel = styled(EdsPanel)`
   padding: ${tokens.spacings.comfortable.large} 0;
-`
-
-const AssetHeading = styled(Typography)`
-  font-size: 2.5rem;
 `
 
 type TabName = "overview" | "responsibilities"
@@ -112,7 +109,10 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
       <main>
         <Section>
           <Header>
-            <AssetHeading variant="h1">{asset.name}</AssetHeading>
+            <Heading level="h1" size="2xl">
+              {asset.name}
+            </Heading>
+
             <Button
               as={NextLink}
               /*  Because EDS types href as string */

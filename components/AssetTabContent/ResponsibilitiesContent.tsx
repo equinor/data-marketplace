@@ -5,6 +5,8 @@ import styled from "styled-components"
 
 import { ResponsibilitiesHolderList, ResponsibilityHolder } from "./ResponsibilitiesHolderList"
 
+import { Heading } from "components/Typography"
+
 export type ResponsibilitiesContentSections = Record<string, ResponsibilityHolder[]>
 
 const Responsibilities = styled.div`
@@ -17,7 +19,7 @@ const Intro = styled.div`
   max-width: 60ch;
 `
 const ResponsibilitiesWrapper = styled.div`
-  padding-top:  ${tokens.spacings.comfortable.x_large};
+  padding-top: ${tokens.spacings.comfortable.x_large};
 `
 
 type Props = {
@@ -28,15 +30,12 @@ export const ResponsibilitiesContent = ({ content }: Props) => {
   const intl = useIntl()
 
   return (
-
     <ResponsibilitiesWrapper>
       <Intro>
-        <Typography style={{ marginBottom: tokens.spacings.comfortable.small }} variant="h3" as="h2">
+        <Heading style={{ marginBottom: tokens.spacings.comfortable.small }} level="h3" size="xl">
           {intl.formatMessage({ id: "responsibility.intro.header" })}
-        </Typography>
-        <Typography variant="body_long">
-          {intl.formatMessage({ id: "responsibility.intro.ingress" })}
-        </Typography>
+        </Heading>
+        <Typography variant="body_long">{intl.formatMessage({ id: "responsibility.intro.ingress" })}</Typography>
       </Intro>
       <Responsibilities>
         {content?.DATA_STEWARD && (
@@ -45,9 +44,7 @@ export const ResponsibilitiesContent = ({ content }: Props) => {
         {content?.TECHNICAL_STEWARD && (
           <ResponsibilitiesHolderList headline="Technical stewards" holders={content.TECHNICAL_STEWARD} />
         )}
-        {content?.OWNER && (
-          <ResponsibilitiesHolderList headline="Owners" holders={content.OWNER} />
-        )}
+        {content?.OWNER && <ResponsibilitiesHolderList headline="Owners" holders={content.OWNER} />}
 
         {content?.DATA_OFFICE_ADMIN && (
           <ResponsibilitiesHolderList headline="Data office admins" holders={content.DATA_OFFICE_ADMIN} />
