@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import type { Asset } from "@equinor/data-marketplace-models"
-import { Typography, Icon, Button, Divider } from "@equinor/eds-core-react"
+import { Icon, Button, Divider } from "@equinor/eds-core-react"
 import { chevron_down, chevron_up, external_link } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import { PortableText } from "@portabletext/react"
@@ -10,6 +10,7 @@ import styled from "styled-components"
 
 import { AssetTabContentSectionContainer } from "./AssetTabContentSectionContainer"
 
+import { Heading } from "components/Typography"
 import { defaultComponents } from "htmlParsing/portableText"
 
 const Overview = styled.div`
@@ -47,9 +48,9 @@ type Props = {
 }
 
 const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) => (
-  <Typography style={{ marginBottom: tokens.spacings.comfortable.small }} variant="h3" as="h2">
+  <Heading style={{ marginBottom: tokens.spacings.comfortable.small }} level="h3" size="xl">
     {children}
-  </Typography>
+  </Heading>
 )
 
 export const OverviewContent = ({ content, assetId, collibraBaseUrl }: Props) => {

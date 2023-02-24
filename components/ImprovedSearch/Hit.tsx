@@ -4,6 +4,8 @@ import type { Hit as AlgoliaHit, HitAttributeSnippetResult } from "instantsearch
 import NextLink from "next/link"
 import { Highlight, Snippet } from "react-instantsearch-hooks-web"
 import styled from "styled-components"
+
+import { Heading } from "components/Typography"
 // import type { SendEventForHits } from "instantsearch.js/es/lib/utils"
 
 const StyledName = styled(Highlight)`
@@ -99,11 +101,7 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
           </Typography>
         ))}
 
-      <Typography
-        variant="h5"
-        as="h2"
-        style={{ marginBottom: tokens.spacings.comfortable.medium, fontSize: "1.25rem", fontWeight: "bold" }}
-      >
+      <Heading size="lg" level="h2" bold style={{ marginBottom: tokens.spacings.comfortable.medium }}>
         <StyledName
           hit={hit}
           attribute="name"
@@ -111,7 +109,7 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
             highlighted: "highlighted",
           }}
         />
-      </Typography>
+      </Heading>
       {hasQuery ? (
         <StyledTypography variant="body_short">
           <StyledSnippet

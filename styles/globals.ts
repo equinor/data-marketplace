@@ -24,6 +24,17 @@ a {
   --layout-max-width: none;
   --highlight-colour: ${tokens.colors.infographic.primary__moss_green_13.hex};
 
+
+  /* Typography sizes*/
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.25rem; /* 20px */
+  --text-xl: 1.5rem; /* 24px */
+  --text-2xl: 2rem; /* 32px */
+
+  
+
   @media screen and (min-width: 768px) {
     --layout-padding-inline: ${tokens.spacings.comfortable.large};
     --layout-padding-block: ${tokens.spacings.comfortable.xx_large};

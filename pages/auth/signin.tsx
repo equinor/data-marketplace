@@ -10,6 +10,7 @@ import styled from "styled-components"
 import { ActivateAccount } from "components/ActivateAccount"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
+import { Heading } from "components/Typography"
 
 const Information = styled.div`
   width: min(33ch, 90%);
@@ -50,9 +51,9 @@ const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
             <Icon data={lock} />
             <FormattedMessage id="auth.signin.c2a" />
           </StyledButton>
-          <Typography variant="h5" as="h2" style={{ textAlign: "center" }}>
+          <Heading level="h5" size="xl" style={{ textAlign: "center" }}>
             <FormattedMessage id="auth.signin.first.time.visiting" values={{ linebreak: <br /> }} />
-          </Typography>
+          </Heading>
           <ActivateAccount activateLink={firstTimeVisitor} />
         </Information>
       </Section>

@@ -1,8 +1,10 @@
-import { Card, Typography, List } from "@equinor/eds-core-react"
+import { Card, List } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
 import { FunctionComponent } from "react"
 import styled from "styled-components"
+
+import { Heading } from "components/Typography"
 
 const { Header: CardHeader, HeaderTitle: CardHeaderTitle } = Card
 const { Item } = List
@@ -29,9 +31,9 @@ export const Hit: FunctionComponent<Props> = ({ hit }) => {
         <Card elevation="raised">
           <CardHeader>
             <CardHeaderTitle>
-              <Typography variant="h5" as="h2">
+              <Heading level="h2" size="lg" bold>
                 {name}
-              </Typography>
+              </Heading>
             </CardHeaderTitle>
           </CardHeader>
         </Card>

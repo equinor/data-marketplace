@@ -1,5 +1,4 @@
 // eslint-disable-next-line import/extensions
-import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { createInstantSearchNextRouter } from "instantsearch-router-next-experimental"
 import type { NextPage, GetServerSideProps } from "next/types"
@@ -18,6 +17,7 @@ import { SearchBox, Hits, Hit, RefinementList, Pagination, CustomClearRefinement
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
 import { Section } from "components/Section"
+import { Heading } from "components/Typography"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
 
@@ -132,9 +132,9 @@ const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
           </StyledHits>
           <FilterHeader>
             <Header>
-              <Typography variant="h3" style={{ fontSize: "1.25rem" }}>
+              <Heading level="h3" size="lg">
                 <FormattedMessage id="improvedSearch.filter.header" />
-              </Typography>
+              </Heading>
               <CustomClearRefinement />
             </Header>
           </FilterHeader>
@@ -165,9 +165,9 @@ const SearchPage: NextPage<Props> = ({
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
         <Section highlight>
-          <Typography variant="h1" style={{ textAlign: "center", marginBlock: tokens.spacings.comfortable.xxx_large }}>
+          <Heading level="h1" size="2xl" center style={{ marginBlock: tokens.spacings.comfortable.xxx_large }}>
             <FormattedMessage id="improvedSearch.header" />
-          </Typography>
+          </Heading>
           <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
         </Section>
       </main>

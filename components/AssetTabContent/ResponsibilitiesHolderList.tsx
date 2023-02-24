@@ -8,7 +8,7 @@ const TableCell = styled(Table.Cell)`
 `
 
 const StyledCaption = styled(Table.Caption)`
-  margin-bottom: ${tokens.spacings.comfortable.medium}
+  margin-bottom: ${tokens.spacings.comfortable.medium};
 `
 
 const HeaderCell = styled(Table.Cell)`
@@ -27,25 +27,20 @@ type Props = {
   holders: ResponsibilityHolder[]
 }
 
-export const ResponsibilitiesHolderList = ({
-  headline,
-  holders,
-}: Props) => {
+export const ResponsibilitiesHolderList = ({ headline, holders }: Props) => {
   const intl = useIntl()
 
   return (
     <Table>
       <StyledCaption>
-        <Typography variant="h5" as="div">{headline}</Typography>
+        <Typography variant="h5" as="div">
+          {headline}
+        </Typography>
       </StyledCaption>
       <Table.Head>
         <Table.Row>
-          <HeaderCell>
-            {intl.formatMessage({ id: "responsibility.header.name" })}
-          </HeaderCell>
-          <HeaderCell>
-            {intl.formatMessage({ id: "responsibility.header.email" })}
-          </HeaderCell>
+          <HeaderCell>{intl.formatMessage({ id: "responsibility.header.name" })}</HeaderCell>
+          <HeaderCell>{intl.formatMessage({ id: "responsibility.header.email" })}</HeaderCell>
         </Table.Row>
       </Table.Head>
       <Table.Body>
@@ -58,13 +53,13 @@ export const ResponsibilitiesHolderList = ({
           <Table.Row key={`${headline.replace(/\s+/g, "-").toLowerCase()}_${holder.id}_${idx}`}>
             <TableCell>
               <Typography>
-                {holder.firstName}
-                {" "}
-                {holder.lastName}
+                {holder.firstName} {holder.lastName}
               </Typography>
             </TableCell>
             <TableCell>
-              <Typography variant="body_short" href={`mailto:${holder.email.toLowerCase()}`} link>{holder.email.toLowerCase()}</Typography>
+              <Typography variant="body_short" href={`mailto:${holder.email.toLowerCase()}`} link>
+                {holder.email.toLowerCase()}
+              </Typography>
             </TableCell>
           </Table.Row>
         ))}

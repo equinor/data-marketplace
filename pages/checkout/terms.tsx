@@ -13,6 +13,7 @@ import styled from "styled-components"
 
 import { CheckoutWizard, NoAsset, CancelButton, ValidationError, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Page } from "components/Page"
+import { Heading } from "components/Typography"
 import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
 import { defaultComponents } from "htmlParsing/portableText"
@@ -122,9 +123,9 @@ const CheckoutTermsView: NextPage<Props> = ({
                 />
               </IngressContainer>
               <InfoBox>
-                <Typography variant="h5" as="h2">
+                <Heading size="lg" level="h2">
                   {rightsToUse?.name}
-                </Typography>
+                </Heading>
                 {/*  @ts-ignore: Sorry Petter, cannot figure out this */}
                 <PortableText value={rightsToUse.value} components={defaultComponents} />
               </InfoBox>
