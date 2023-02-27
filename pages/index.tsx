@@ -1,30 +1,16 @@
 /* eslint-disable camelcase */
-import { Card, Typography, CircularProgress, Icon } from "@equinor/eds-core-react"
+import { Icon } from "@equinor/eds-core-react"
 import { info_circle, search } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage, GetServerSideProps } from "next"
 import NextLink from "next/link"
-import { FormattedMessage, useIntl } from "react-intl"
+import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Banner } from "components/Banner"
 import { Page } from "components/Page"
 import { Section } from "components/Section"
 import { Heading } from "components/Typography"
-import { usePopularProducts } from "hooks"
-import { fmtNumber } from "lib/fmtNumber"
-
-const CardGrid = styled(Card)`
-  justify-content: space-between;
-  height: 100%;
-`
-
-const SectionHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 1.5rem;
-`
 
 const SearchButtonContainer = styled.div`
   margin-bottom: 3rem;
@@ -53,20 +39,6 @@ const SearchButton = styled(NextLink)`
   }
 `
 
-const StyledLink = styled(NextLink)`
-  text-decoration: none;
-`
-
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 28ch), 1fr));
-  grid-gap: 1.5rem;
-`
-
-const Views = styled(Typography)`
-  justify-self: end;
-`
-
 const Hero = styled.div`
   display: flex;
   justify-content: center;
@@ -91,13 +63,7 @@ type Props = {
 
 const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: false } }) => {
   const intl = useIntl()
-  const { popularDataProducts, isLoading, error } = usePopularProducts()
   const { USE_IMPROVED_SEARCH } = featureFlags
-
-  if (error) {
-    /* eslint-disable no-console */
-    console.warn("[Frontpage] Failed while fetching most viewed data products", error)
-  }
 
   return (
     <Page documentTitle={intl.formatMessage({ id: "common.documentTitle" })} useImprovedSearch={USE_IMPROVED_SEARCH}>
@@ -122,45 +88,6 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
               </Banner>
             </HeroContent>
           </Hero>
-        </Section>
-        <Section highlight>
-          <SectionHeader>
-            <Heading level="h2" size="xl">
-              <FormattedMessage id="frontpage.popularProductsHeader" />
-            </Heading>
-          </SectionHeader>
-          {isLoading ? (
-            <CircularProgress />
-          ) : (
-            <GridContainer>
-              {popularDataProducts.map((product) => (
-                <StyledLink
-                  key={product.id}
-                  href={{ pathname: "/assets/[id]", query: { id: product.id } }}
-                  title={product.name}
-                >
-                  <CardGrid elevation="raised">
-                    <Card.Header>
-                      <Card.HeaderTitle>
-                        <Views variant="meta">
-                          <FormattedMessage
-                            id="frontpage.numberOfViews"
-                            values={{
-                              numberOfViews: fmtNumber(product.views),
-                            }}
-                          />
-                        </Views>
-                        <Heading level="h3" size="lg" lines={2}>
-                          {product.name}
-                        </Heading>
-                      </Card.HeaderTitle>
-                    </Card.Header>
-                    <Card.Content />
-                  </CardGrid>
-                </StyledLink>
-              ))}
-            </GridContainer>
-          )}
         </Section>
       </main>
     </Page>
