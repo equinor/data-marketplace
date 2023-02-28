@@ -19,6 +19,7 @@
   "frontpage.disclaimer": "Data Marketplace is currently in beta. Some functionality might be limited, but we\u0027re constantly working to improve your experience.",
   "frontpage.popularProductsHeader": "Popular data",
   "frontpage.numberOfViews": "{numberOfViews} views",
+<<<<<<< HEAD
   "frontpage.browseSpecificBusinessArea.header": "Browse data from a specific Business Area",
   "frontpage.relevantdatainfo.header": "Relevant data information",
   "frontpage.relevantdatainfo.data.tomany.title": "Country Master Data",
@@ -27,6 +28,15 @@
   "frontpage.relevantdatainfo.data.analytics.text": "An arena for information sharing, knowledge exchange and collaboration between anyone who are working with or are interested in data analytics across tools and domains.",
   "frontpage.relevantdatainfo.data.product.title": "What is Data Product?",
   "frontpage.relevantdatainfo.data.product.text": "Curious about Data Products, and how it can improve your work day? Enterprise Data Management’s educational videos gives an overview of Data Products and related topics. ",
+=======
+  "frontpage.relevantdata.header": "Relevant Information for you",
+  "frontpage.relevantdata.data.tomany": "Data to the Many",
+  "frontpage.relevantdata.data.tomany.text": "Data to the Many is an initiative aiming to make Equinor a data-driven organization. Read about the initiative and how it can help improve your work here.",
+  "frontpage.relevantdata.data.analytics": "Data Analytics Community",
+  "frontpage.relevantdata.data.analytics.text": "An arena for information sharing, knowledge exchange and collaboration between anyone who are working with or are interested in data analytics across tools and domains.",
+  "frontpage.relevantdata.data.product": "What is Data Product?",
+  "frontpage.relevantdata.data.product.text": "Curious about Data Products, and how it can improve your work day? Enterprise Data Management’s educational videos gives an overview of Data Products and related topics. ",
+>>>>>>> 1ddefcc (Add relevant Data)
   "notfound.code.number": "404",
   "notfound.hero.title": "Uh-oh This page doesn't exist",
   "notfound.hero.ingress": "Seems like you've gotten lost. Don't worry, though. We'll help you find your way back. <a>Go back to the home page.</a>",
