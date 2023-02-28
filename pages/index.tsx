@@ -116,7 +116,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
                 <Card.Header>
                   <Card.HeaderTitle>
                     <Typography variant="h5">
-                      <FormattedMessage id="frontpage.relevantdatainfo.data.tomany" />
+                      <FormattedMessage id="frontpage.relevantdatainfo.data.tomany.title" />
                     </Typography>
                   </Card.HeaderTitle>
                 </Card.Header>
@@ -135,7 +135,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
                 <Card.Header>
                   <Card.HeaderTitle>
                     <Typography variant="h5">
-                      <FormattedMessage id="frontpage.relevantdatainfo.data.analytics" />
+                      <FormattedMessage id="frontpage.relevantdatainfo.data.analytics.title" />
                     </Typography>
                   </Card.HeaderTitle>
                 </Card.Header>
@@ -156,7 +156,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
                 <Card.Header>
                   <Card.HeaderTitle>
                     <Typography variant="h5">
-                      <FormattedMessage id="frontpage.relevantdatainfo.data.product" />
+                      <FormattedMessage id="frontpage.relevantdatainfo.data.product.title" />
                     </Typography>
                   </Card.HeaderTitle>
                 </Card.Header>
