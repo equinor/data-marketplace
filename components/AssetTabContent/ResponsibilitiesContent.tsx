@@ -38,16 +38,9 @@ export const ResponsibilitiesContent = ({ content }: Props) => {
         <Typography variant="body_long">{intl.formatMessage({ id: "responsibility.intro.ingress" })}</Typography>
       </Intro>
       <Responsibilities>
-        {content?.DATA_STEWARD && (
-          <ResponsibilitiesHolderList headline="Data stewards" holders={content.DATA_STEWARD} />
-        )}
+        {content?.DATA_STEWARD && <ResponsibilitiesHolderList headline="Data steward" holders={content.DATA_STEWARD} />}
         {content?.TECHNICAL_STEWARD && (
-          <ResponsibilitiesHolderList headline="Technical stewards" holders={content.TECHNICAL_STEWARD} />
-        )}
-        {content?.OWNER && <ResponsibilitiesHolderList headline="Owners" holders={content.OWNER} />}
-
-        {content?.DATA_OFFICE_ADMIN && (
-          <ResponsibilitiesHolderList headline="Data office admins" holders={content.DATA_OFFICE_ADMIN} />
+          <ResponsibilitiesHolderList headline="Technical steward" holders={content.TECHNICAL_STEWARD} />
         )}
       </Responsibilities>
     </ResponsibilitiesWrapper>
