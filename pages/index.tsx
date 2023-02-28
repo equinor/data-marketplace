@@ -17,13 +17,6 @@ const CardGrid = styled(Card)`
   height: 100%;
 `
 
-const SectionHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 1.5rem;
-`
-
 const SearchButtonContainer = styled.div`
   margin-bottom: 3rem;
 `
@@ -54,7 +47,7 @@ const SearchButton = styled(NextLink)`
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 28ch), 1fr));
-  grid-gap: 1.5rem;
+  grid-gap: 1rem;
 `
 
 const StyledLink = styled(NextLink)`
@@ -113,24 +106,23 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
         </Section>
 
         <Section highlight>
-          <SectionHeader>
-            <Typography variant="h3">
-              <FormattedMessage id="frontpage.relevantdata.header" />
-            </Typography>
-          </SectionHeader>
+          <Heading level="h3" size="xl" style={{ marginBottom: "1.5rem" }}>
+            <FormattedMessage id="frontpage.relevantdatainfo.header" />
+          </Heading>
+
           <GridContainer>
             <StyledLink href={{ pathname: "https://statoilsrm.sharepoint.com/sites/Datatomany" }} target="_blank">
               <CardGrid elevation="raised">
                 <Card.Header>
                   <Card.HeaderTitle>
                     <Typography variant="h5">
-                      <FormattedMessage id="frontpage.relevantdata.data.tomany" />
+                      <FormattedMessage id="frontpage.relevantdatainfo.data.tomany" />
                     </Typography>
                   </Card.HeaderTitle>
                 </Card.Header>
                 <Card.Content>
                   <Typography variant="body_short">
-                    <FormattedMessage id="frontpage.relevantdata.data.tomany.text" />
+                    <FormattedMessage id="frontpage.relevantdatainfo.data.tomany.text" />
                   </Typography>
                 </Card.Content>
               </CardGrid>
@@ -143,13 +135,13 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
                 <Card.Header>
                   <Card.HeaderTitle>
                     <Typography variant="h5">
-                      <FormattedMessage id="frontpage.relevantdata.data.analytics" />
+                      <FormattedMessage id="frontpage.relevantdatainfo.data.analytics" />
                     </Typography>
                   </Card.HeaderTitle>
                 </Card.Header>
                 <Card.Content>
                   <Typography variant="body_short">
-                    <FormattedMessage id="frontpage.relevantdata.data.analytics.text" />
+                    <FormattedMessage id="frontpage.relevantdatainfo.data.analytics.text" />
                   </Typography>
                 </Card.Content>
               </CardGrid>
@@ -164,13 +156,13 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
                 <Card.Header>
                   <Card.HeaderTitle>
                     <Typography variant="h5">
-                      <FormattedMessage id="frontpage.relevantdata.data.product" />
+                      <FormattedMessage id="frontpage.relevantdatainfo.data.product" />
                     </Typography>
                   </Card.HeaderTitle>
                 </Card.Header>
                 <Card.Content>
                   <Typography variant="body_short">
-                    <FormattedMessage id="frontpage.relevantdata.data.product.text" />
+                    <FormattedMessage id="frontpage.relevantdatainfo.data.product.text" />
                   </Typography>
                 </Card.Content>
               </CardGrid>
