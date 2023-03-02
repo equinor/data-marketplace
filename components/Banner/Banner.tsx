@@ -4,7 +4,7 @@ import { tokens } from "@equinor/eds-tokens"
 import type { FunctionComponent, PropsWithChildren } from "react"
 import styled, { css } from "styled-components"
 
-type BannerVariant = "info" | "warning" | "error"
+type BannerVariant = "info" | "warning" | "error" | "none"
 
 type Props = PropsWithChildren<{
   variant?: BannerVariant
@@ -26,6 +26,10 @@ const getContainerVariantStyles = (variant: BannerVariant) =>
         --container-background: ${tokens.colors.interactive.warning__highlight.hex};
         --container-border-color: transparent;
       `,
+      none: css`
+        --container-background: transparent;
+        --container-border-color: transparent;
+      `,
     } as Record<BannerVariant, ReturnType<typeof css>>
   )[variant])
 
@@ -34,6 +38,7 @@ const Container = styled.div<{ variant: BannerVariant }>`
   grid-template-columns: auto 1fr;
   grid-gap: 0.5rem;
   padding: 1rem;
+  align-items: center;
   border-radius: ${tokens.shape.corners.borderRadius};
   border: 1px solid;
 
@@ -51,6 +56,7 @@ const getIconContainerVariantStyles = (variant: BannerVariant) =>
         --icon-background: ${tokens.colors.logo.fill_negative.hex};
         --icon-fill: ${tokens.colors.interactive.warning__text.hex};
       `,
+      none: css``,
     } as Record<BannerVariant, ReturnType<typeof css>>
   )[variant])
 

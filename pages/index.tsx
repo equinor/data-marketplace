@@ -94,7 +94,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
               </SearchButton>
             </SearchButtonContainer>
 
-            <Banner variant="warning" icon={info_circle}>
+            <Banner icon={info_circle} variant="none">
               {intl.formatMessage({ id: "frontpage.disclaimer" })}
             </Banner>
           </HeroContent>
