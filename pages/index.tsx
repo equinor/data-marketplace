@@ -105,7 +105,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
         </Section>
 
         <Section highlight>
-          <Heading level="h3" size="xl" style={{ marginBottom: "1.5rem" }}>
+          <Heading level="h3" size="xl" style={{ marginBottom: tokens.spacings.comfortable.large }}>
             <FormattedMessage id="frontpage.relevantdatainfo.header" />
           </Heading>
 
