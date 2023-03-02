@@ -13,7 +13,6 @@ import { Page } from "components/Page"
 import { RelevantDataInformation } from "components/RelevantDataInformation"
 import { Section } from "components/Section"
 import { Heading } from "components/Typography"
-import { Illustration } from "components/frontpage"
 
 const SearchButtonContainer = styled.div`
   margin-bottom: 3rem;
@@ -43,11 +42,20 @@ const SearchButton = styled(NextLink)`
 `
 
 const Hero = styled.div`
-  display: flex;
-  justify-content: center;
+  display: grid;
+  width: 100%;
+  grid-template: "hero";
+  place-items: center;
+  place-content: center;
+  min-height: 450px;
+  background-image: url("/images/frontpageBg.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 `
 
 const HeroContent = styled.div`
+  grid-area: hero;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,15 +64,6 @@ const HeroContent = styled.div`
     width: clamp(25ch, 50%, 600px);
     align-self: auto;
   }
-`
-
-const HeroIllustration = styled(Illustration)`
-  /*   width: clamp(350px, 50%, 600px);
-  justify-self: center;
-  @media (min-width: 35rem) {
-    justify-self: end;
-    align-self: end;
-  } */
 `
 
 type Props = {
@@ -80,28 +79,26 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
   return (
     <Page documentTitle={intl.formatMessage({ id: "common.documentTitle" })} useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
-        <Section>
-          <Hero>
-            <HeroIllustration />
-            <HeroContent>
-              <Heading level="h1" size="2xl" center style={{ marginBottom: "3rem" }} bold>
-                {intl.formatMessage({ id: "frontpage.hero.title" })}
-              </Heading>
+        <Hero>
+          <HeroContent>
+            <Heading level="h1" size="2xl" center style={{ marginBottom: "3rem" }} bold>
+              {intl.formatMessage({ id: "frontpage.hero.title" })}
+            </Heading>
 
-              <SearchButtonContainer>
-                {/* @ts-ignore */}
-                <SearchButton href={USE_IMPROVED_SEARCH ? "/search-beta" : "/search"}>
-                  <Icon data={search} />
-                  Find data
-                </SearchButton>
-              </SearchButtonContainer>
+            <SearchButtonContainer>
+              {/* @ts-ignore */}
+              <SearchButton href={USE_IMPROVED_SEARCH ? "/search-beta" : "/search"}>
+                <Icon data={search} />
+                Find data
+              </SearchButton>
+            </SearchButtonContainer>
 
-              <Banner variant="warning" icon={info_circle}>
-                {intl.formatMessage({ id: "frontpage.disclaimer" })}
-              </Banner>
-            </HeroContent>
-          </Hero>
-        </Section>
+            <Banner variant="warning" icon={info_circle}>
+              {intl.formatMessage({ id: "frontpage.disclaimer" })}
+            </Banner>
+          </HeroContent>
+        </Hero>
+
         {USE_IMPROVED_SEARCH && (
           <Section highlight>
             <BrowseSpecificBusinessArea />
