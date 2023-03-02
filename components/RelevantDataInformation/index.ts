@@ -1,1 +1,1 @@
-export { DataInformationCard } from "./DataInformationCard"
+export { RelevantDataInformation } from "./RelevantDataInformation"

@@ -4,12 +4,12 @@ import { info_circle, search } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage, GetServerSideProps } from "next"
 import NextLink from "next/link"
-import { FormattedMessage, useIntl } from "react-intl"
+import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Banner } from "components/Banner"
 import { Page } from "components/Page"
-import { DataInformationCard } from "components/RelevantDataInformation"
+import { RelevantDataInformation } from "components/RelevantDataInformation"
 import { Section } from "components/Section"
 import { Heading } from "components/Typography"
 
@@ -35,19 +35,6 @@ const SearchButton = styled(NextLink)`
     --background: ${tokens.colors.interactive.primary__hover.hex};
   }
 
-  &:focus-visible {
-    outline: 2px dashed ${tokens.colors.interactive.primary__resting.hex};
-  }
-`
-
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 28ch), 1fr));
-  grid-gap: 1rem;
-`
-
-const StyledLink = styled.a`
-  text-decoration: none;
   &:focus-visible {
     outline: 2px dashed ${tokens.colors.interactive.primary__resting.hex};
   }
@@ -105,33 +92,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
         </Section>
 
         <Section highlight>
-          <Heading level="h3" size="xl" style={{ marginBottom: tokens.spacings.comfortable.large }}>
-            <FormattedMessage id="frontpage.relevantdatainfo.header" />
-          </Heading>
-
-          <GridContainer>
-            <StyledLink href="https://statoilsrm.sharepoint.com/sites/Datatomany" target="_blank">
-              <DataInformationCard
-                header={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.tomany.title" })}
-                content={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.tomany.text" })}
-              />
-            </StyledLink>
-            <StyledLink href="https://statoilsrm.sharepoint.com/sites/Dataanalyticsnetwork" target="_blank">
-              <DataInformationCard
-                header={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.analytics.title" })}
-                content={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.analytics.text" })}
-              />
-            </StyledLink>
-            <StyledLink
-              href="https://statoilsrm.sharepoint.com/sites/EDM/SitePages/Data%20Product%20Playbook.aspx"
-              target="_blank"
-            >
-              <DataInformationCard
-                header={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.product.title" })}
-                content={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.product.text" })}
-              />
-            </StyledLink>
-          </GridContainer>
+          <RelevantDataInformation />
         </Section>
       </main>
     </Page>

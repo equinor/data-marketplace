@@ -15,7 +15,7 @@ const StyledCard = styled(Card)`
   height: 100%;
 `
 
-export const DataInformationCard: FunctionComponent<Props> = ({ header, content }) => (
+export const InformationCard: FunctionComponent<Props> = ({ header, content }) => (
   <StyledCard elevation="raised">
     <Header>
       <HeaderTitle>
