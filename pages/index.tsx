@@ -46,8 +46,11 @@ const GridContainer = styled.div`
   grid-gap: 1rem;
 `
 
-const StyledLink = styled(NextLink)`
+const StyledLink = styled.a`
   text-decoration: none;
+  &:focus-visible {
+    outline: 2px dashed ${tokens.colors.interactive.primary__resting.hex};
+  }
 `
 
 const Hero = styled.div`
@@ -107,25 +110,20 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
           </Heading>
 
           <GridContainer>
-            <StyledLink href={{ pathname: "https://statoilsrm.sharepoint.com/sites/Datatomany" }} target="_blank">
+            <StyledLink href="https://statoilsrm.sharepoint.com/sites/Datatomany" target="_blank">
               <DataInformationCard
                 header={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.tomany.title" })}
                 content={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.tomany.text" })}
               />
             </StyledLink>
-            <StyledLink
-              href={{ pathname: "https://statoilsrm.sharepoint.com/sites/Dataanalyticsnetwork" }}
-              target="_blank"
-            >
+            <StyledLink href="https://statoilsrm.sharepoint.com/sites/Dataanalyticsnetwork" target="_blank">
               <DataInformationCard
                 header={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.analytics.title" })}
                 content={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.analytics.text" })}
               />
             </StyledLink>
             <StyledLink
-              href={{
-                pathname: "https://statoilsrm.sharepoint.com/sites/EDM/SitePages/Data%20Product%20Playbook.aspx",
-              }}
+              href="https://statoilsrm.sharepoint.com/sites/EDM/SitePages/Data%20Product%20Playbook.aspx"
               target="_blank"
             >
               <DataInformationCard
