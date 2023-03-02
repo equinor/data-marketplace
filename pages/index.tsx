@@ -13,6 +13,7 @@ import { Page } from "components/Page"
 import { RelevantDataInformation } from "components/RelevantDataInformation"
 import { Section } from "components/Section"
 import { Heading } from "components/Typography"
+import { Illustration } from "components/frontpage"
 
 const SearchButtonContainer = styled.div`
   margin-bottom: 3rem;
@@ -57,6 +58,15 @@ const HeroContent = styled.div`
   }
 `
 
+const HeroIllustration = styled(Illustration)`
+  width: clamp(350px, 50%, 600px);
+  justify-self: center;
+  @media (min-width: 35rem) {
+    justify-self: end;
+    align-self: end;
+  }
+`
+
 type Props = {
   featureFlags: {
     USE_IMPROVED_SEARCH: boolean
@@ -84,7 +94,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
                   Find data
                 </SearchButton>
               </SearchButtonContainer>
-
+              <HeroIllustration />
               <Banner variant="warning" icon={info_circle}>
                 {intl.formatMessage({ id: "frontpage.disclaimer" })}
               </Banner>
