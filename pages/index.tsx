@@ -82,7 +82,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
       <main>
         <Hero>
           <HeroContent>
-            <Heading level="h1" size="2xl" center style={{ marginBottom: "3rem" }} bold>
+            <Heading level="h1" size="2xl" center style={{ marginBottom: "3rem" }}>
               {intl.formatMessage({ id: "frontpage.hero.title" })}
             </Heading>
 
