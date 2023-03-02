@@ -10,11 +10,7 @@ import styled from "styled-components"
 import { Banner } from "components/Banner"
 import { BrowseSpecificBusinessArea } from "components/BrowseSpecificBusinessArea"
 import { Page } from "components/Page"
-<<<<<<< HEAD
 import { RelevantDataInformation } from "components/RelevantDataInformation"
-=======
-import { DataInformationCard } from "components/RelevantDataInformation"
->>>>>>> 3bdf17a (♻️ Create a component for the information card)
 import { Section } from "components/Section"
 import { Heading } from "components/Typography"
 import { Illustration } from "components/frontpage"
@@ -112,7 +108,6 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
         )}
         <Section highlight>
           <RelevantDataInformation />
-       
         </Section>
       </main>
     </Page>
