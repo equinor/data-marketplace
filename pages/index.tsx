@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Icon, Typography, Card } from "@equinor/eds-core-react"
+import { Icon } from "@equinor/eds-core-react"
 import { info_circle, search } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage, GetServerSideProps } from "next"
@@ -9,13 +9,9 @@ import styled from "styled-components"
 
 import { Banner } from "components/Banner"
 import { Page } from "components/Page"
+import { DataInformationCard } from "components/RelevantDataInformation"
 import { Section } from "components/Section"
 import { Heading } from "components/Typography"
-
-const CardGrid = styled(Card)`
-  justify-content: space-between;
-  height: 100%;
-`
 
 const SearchButtonContainer = styled.div`
   margin-bottom: 3rem;
@@ -112,39 +108,19 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
 
           <GridContainer>
             <StyledLink href={{ pathname: "https://statoilsrm.sharepoint.com/sites/Datatomany" }} target="_blank">
-              <CardGrid elevation="raised">
-                <Card.Header>
-                  <Card.HeaderTitle>
-                    <Typography variant="h5">
-                      <FormattedMessage id="frontpage.relevantdatainfo.data.tomany.title" />
-                    </Typography>
-                  </Card.HeaderTitle>
-                </Card.Header>
-                <Card.Content>
-                  <Typography variant="body_short">
-                    <FormattedMessage id="frontpage.relevantdatainfo.data.tomany.text" />
-                  </Typography>
-                </Card.Content>
-              </CardGrid>
+              <DataInformationCard
+                header={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.tomany.title" })}
+                content={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.tomany.text" })}
+              />
             </StyledLink>
             <StyledLink
               href={{ pathname: "https://statoilsrm.sharepoint.com/sites/Dataanalyticsnetwork" }}
               target="_blank"
             >
-              <CardGrid elevation="raised">
-                <Card.Header>
-                  <Card.HeaderTitle>
-                    <Typography variant="h5">
-                      <FormattedMessage id="frontpage.relevantdatainfo.data.analytics.title" />
-                    </Typography>
-                  </Card.HeaderTitle>
-                </Card.Header>
-                <Card.Content>
-                  <Typography variant="body_short">
-                    <FormattedMessage id="frontpage.relevantdatainfo.data.analytics.text" />
-                  </Typography>
-                </Card.Content>
-              </CardGrid>
+              <DataInformationCard
+                header={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.analytics.title" })}
+                content={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.analytics.text" })}
+              />
             </StyledLink>
             <StyledLink
               href={{
@@ -152,20 +128,10 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
               }}
               target="_blank"
             >
-              <CardGrid elevation="raised">
-                <Card.Header>
-                  <Card.HeaderTitle>
-                    <Typography variant="h5">
-                      <FormattedMessage id="frontpage.relevantdatainfo.data.product.title" />
-                    </Typography>
-                  </Card.HeaderTitle>
-                </Card.Header>
-                <Card.Content>
-                  <Typography variant="body_short">
-                    <FormattedMessage id="frontpage.relevantdatainfo.data.product.text" />
-                  </Typography>
-                </Card.Content>
-              </CardGrid>
+              <DataInformationCard
+                header={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.product.title" })}
+                content={intl.formatMessage({ id: "frontpage.relevantdatainfo.data.product.text" })}
+              />
             </StyledLink>
           </GridContainer>
         </Section>
