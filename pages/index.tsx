@@ -59,12 +59,12 @@ const HeroContent = styled.div`
 `
 
 const HeroIllustration = styled(Illustration)`
-  width: clamp(350px, 50%, 600px);
+  /*   width: clamp(350px, 50%, 600px);
   justify-self: center;
   @media (min-width: 35rem) {
     justify-self: end;
     align-self: end;
-  }
+  } */
 `
 
 type Props = {
@@ -82,6 +82,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
       <main>
         <Section>
           <Hero>
+            <HeroIllustration />
             <HeroContent>
               <Heading level="h1" size="2xl" center style={{ marginBottom: "3rem" }} bold>
                 {intl.formatMessage({ id: "frontpage.hero.title" })}
@@ -94,7 +95,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
                   Find data
                 </SearchButton>
               </SearchButtonContainer>
-              <HeroIllustration />
+
               <Banner variant="warning" icon={info_circle}>
                 {intl.formatMessage({ id: "frontpage.disclaimer" })}
               </Banner>
