@@ -8,6 +8,7 @@ import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Banner } from "components/Banner"
+import { BrowseSpecificBusinessArea } from "components/BrowseSpecificBusinessArea"
 import { Page } from "components/Page"
 import { RelevantDataInformation } from "components/RelevantDataInformation"
 import { Section } from "components/Section"
@@ -90,7 +91,11 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
             </HeroContent>
           </Hero>
         </Section>
-
+        {USE_IMPROVED_SEARCH && (
+          <Section highlight>
+            <BrowseSpecificBusinessArea />
+          </Section>
+        )}
         <Section highlight>
           <RelevantDataInformation />
         </Section>

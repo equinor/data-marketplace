@@ -19,6 +19,7 @@
   "frontpage.disclaimer": "Data Marketplace is currently in beta. Some functionality might be limited, but we\u0027re constantly working to improve your experience.",
   "frontpage.popularProductsHeader": "Popular data",
   "frontpage.numberOfViews": "{numberOfViews} views",
+  "frontpage.browseSpecificBusinessArea.header": "Browse data from a specific Business Area",
   "frontpage.relevantdatainfo.header": "Relevant data information",
   "frontpage.relevantdatainfo.data.tomany.title": "Country Master Data",
   "frontpage.relevantdatainfo.data.tomany.text": "Data to the Many is an initiative aiming to make Equinor a data-driven organization. Read about the initiative and how it can help improve your work here.",
