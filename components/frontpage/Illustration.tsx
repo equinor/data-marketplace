@@ -1,7 +1,6 @@
-export const Illustration = () => (
+export const Illustration = ({ ...rest }) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
-
-  <svg width="3840" height="491" viewBox="0 0 3840 491" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 3840 491" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
     <mask id="mask0_2987_25484" maskUnits="userSpaceOnUse" x="0" y="0" width="3840" height="491">
       <path d="M0 491V0H3840L3827.6 490.6" fill="white" />
     </mask>
