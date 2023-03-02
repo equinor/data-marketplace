@@ -183,7 +183,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     const asset: Asset = await assetRes.json()
 
     const maintainersRes = await request(
-      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}/maintainers?code=${config.ADAPTER_SERVICE_APP_KEY}&group=Data steward,Technical Steward`,
+      `${config.ADAPTER_SERVICE_API_URL}/assets/${id}/maintainers?code=${config.ADAPTER_SERVICE_APP_KEY}&group=Data Steward,Technical Steward`,
       { retries: 3 }
     )({ req })
     const maintainers: Maintainer[] = await maintainersRes.json()
