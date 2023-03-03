@@ -69,9 +69,13 @@ a {
   --moss-green-100: ${tokens.colors.interactive.primary__resting.hsla};
   --white: ${tokens.colors.text.static_icons__primary_white.hsla};
   --moss-dark: ${tokens.colors.interactive.primary__hover.hsla};
+  --baby-blue: 	hsl(199, 33%, 80%);
+  --charcoal: ${tokens.colors.text.static_icons__default.hsla};
 
 
-  /* Semantic colours */
+  /* Semantic colours 
+  This doesn't actually work very well... We should probably wait for EDS
+  */
   --highlight-colour: var(--moss-green-13);
   --frontpage-top-bg: var(--disappointing-vanilla);
   --shadow-colour: 0deg 0% 50%;

@@ -28,6 +28,8 @@ export const UserMenu = () => {
         id="user-menu-anchor"
         variant="ghost_icon"
         color="secondary"
+        /* @ts-ignore */
+        style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue" }}
         onClick={onUserMenuAnchorClick}
       >
         <Icon data={account_circle} />
