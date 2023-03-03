@@ -25,6 +25,18 @@ a {
   --highlight-colour: ${tokens.colors.infographic.primary__moss_green_13.hex};
 
 
+  /* Spaces */
+  --space-2:  ${tokens.spacings.comfortable.xx_small};
+  --space-4:  ${tokens.spacings.comfortable.x_small};
+  --space-8:  ${tokens.spacings.comfortable.small};
+  --space-12:  ${tokens.spacings.comfortable.medium_small};
+  --space-16:  ${tokens.spacings.comfortable.medium};
+  --space-24:  ${tokens.spacings.comfortable.large};
+  --space-32:  ${tokens.spacings.comfortable.x_large};
+  --space-40:  ${tokens.spacings.comfortable.xx_large};
+  --space-48:  ${tokens.spacings.comfortable.xxx_large};
+  --space-64:  4rem;
+
   /* Typography sizes*/
   --text-xs: 0.75rem; /* 12px */
   --text-sm: 0.875rem; /* 14px */
