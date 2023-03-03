@@ -65,8 +65,14 @@ export const NavBar = ({ useImprovedSearch }: Props) => {
     <TopbarWrapper>
       <EDSTopBar>
         <TopBar.Header>
-          {/* @ts-ignore  */}
-          <Button as={NextLink} href="/" variant="ghost" color="secondary">
+          <Button
+            as={NextLink}
+            href="/"
+            variant="ghost"
+            color="secondary"
+            /* @ts-ignore */
+            style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue" }}
+          >
             <Typography as="span">
               <FormattedMessage id="navbar.logo" />
             </Typography>
@@ -87,8 +93,15 @@ export const NavBar = ({ useImprovedSearch }: Props) => {
         )}
         <TopBar.Actions>
           {useImprovedSearch && (
-            /* @ts-ignore */
-            <Button variant="ghost_icon" as={NextLink} href="/search-beta" aria-label="Search">
+            <Button
+              variant="ghost_icon"
+              as={NextLink}
+              href="/search-beta"
+              aria-label="Search"
+              color="secondary"
+              /* @ts-ignore */
+              style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue" }}
+            >
               <Icon data={search} />
             </Button>
           )}
