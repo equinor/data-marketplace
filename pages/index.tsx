@@ -26,9 +26,9 @@ const SearchButton = styled(NextLink)`
   text-decoration: none;
   color: ${tokens.colors.text.static_icons__primary_white.hex};
   background-color: var(--background);
-  padding: 1rem 4rem;
+  padding: var(--space-16) var(--space-64);
   font-size: ${tokens.typography.heading.h4.fontSize};
-  border-radius: 0.25rem;
+  border-radius: var(--space-4);
 
   &:hover {
     --background: ${tokens.colors.interactive.primary__hover.hex};
@@ -39,16 +39,15 @@ const SearchButton = styled(NextLink)`
   }
 
   @media screen and (min-width: 350px) {
-    padding: 1rem 6rem;
+    padding: var(--space-16) 6rem;
   }
 `
 
 const Hero = styled.div`
-  --space-medium: ${tokens.spacings.comfortable.medium};
   display: grid;
   width: 100%;
-  grid-template-columns: var(--space-medium) 1fr minmax(auto, 495px) 1fr var(--space-medium);
-  grid-template-rows: 5.5rem min-content 4rem min-content 2rem auto 1rem;
+  grid-template-columns: var(--space-16) 1fr minmax(auto, 495px) 1fr var(--space-16);
+  grid-template-rows: 5.5rem min-content var(--space-64) min-content var(--space-32) auto var(--space-16);
   min-height: 450px;
   background-image: url("/images/frontpageBg.svg");
   background-repeat: no-repeat;
