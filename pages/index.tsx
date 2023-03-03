@@ -53,7 +53,7 @@ const Hero = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  background-color: #ffdaa8;
+  background-color: var(--frontpage-top-bg);
 `
 
 const MainHeading = styled(Heading)`
