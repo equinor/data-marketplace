@@ -14,13 +14,10 @@ import { RelevantDataInformation } from "components/RelevantDataInformation"
 import { Section } from "components/Section"
 import { Heading } from "components/Typography"
 
-const SearchButtonContainer = styled.div`
+const SearchButton = styled(NextLink)`
   grid-column: 3/4;
   grid-row: 4/5;
   justify-self: center;
-`
-
-const SearchButton = styled(NextLink)`
   --background: ${tokens.colors.interactive.primary__resting.hex};
   display: inline-block;
   text-decoration: none;
@@ -84,13 +81,9 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
           <MainHeading level="h1" size="2xl" center>
             {intl.formatMessage({ id: "frontpage.hero.title" })}
           </MainHeading>
-
-          <SearchButtonContainer>
-            {/* @ts-ignore */}
-            <SearchButton href={USE_IMPROVED_SEARCH ? "/search-beta" : "/search"}>
-              <FormattedMessage id="frontpage.c2a.title" />
-            </SearchButton>
-          </SearchButtonContainer>
+          <SearchButton href={USE_IMPROVED_SEARCH ? "/search-beta" : "/search"}>
+            <FormattedMessage id="frontpage.c2a.title" />
+          </SearchButton>
           <InfoBanner>
             <Banner icon={info_circle} variant="none">
               {intl.formatMessage({ id: "frontpage.disclaimer" })}
