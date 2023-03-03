@@ -3,19 +3,19 @@ import { createGlobalStyle } from "styled-components"
 
 export const elevations = {
   small: `
-    0.5px 1px 1px hsl(var(--shadow-color) / 0.7)
+    0.5px 1px 1px hsl(var(--shadow-colour) / 0.7)
   `,
   medium: `
-    1px 2px 2px hsl(var(--shadow-color) / 0.333),
-    2px 4px 4px hsl(var(--shadow-color) / 0.333),
-    3px 6px 6px hsl(var(--shadow-color) / 0.333)
+    1px 2px 2px hsl(var(--shadow-colour) / 0.333),
+    2px 4px 4px hsl(var(--shadow-colour) / 0.333),
+    3px 6px 6px hsl(var(--shadow-colour) / 0.333)
   `,
   large: `
-    1px 2px 2px hsl(var(--shadow-color) / 0.2),
-    2px 4px 4px hsl(var(--shadow-color) / 0.2),
-    4px 8px 8px hsl(var(--shadow-color) / 0.2),
-    8px 16px 16px hsl(var(--shadow-color) / 0.2),
-    16px 32px 32px hsl(var(--shadow-color) / 0.2)
+    1px 2px 2px hsl(var(--shadow-colour) / 0.2),
+    2px 4px 4px hsl(var(--shadow-colour) / 0.2),
+    4px 8px 8px hsl(var(--shadow-colour) / 0.2),
+    8px 16px 16px hsl(var(--shadow-colour) / 0.2),
+    16px 32px 32px hsl(var(--shadow-colour) / 0.2)
   `,
 }
 
@@ -66,12 +66,18 @@ a {
   /* Colours */
   --disappointing-vanilla: hsla(34.5,100%,82.9%, 1);
   --moss-green-13: ${tokens.colors.infographic.primary__moss_green_13.hsla};
+  --moss-green-100: ${tokens.colors.interactive.primary__resting.hsla};
+  --white: ${tokens.colors.text.static_icons__primary_white.hsla};
+  --moss-dark: ${tokens.colors.interactive.primary__hover.hsla};
 
 
   /* Semantic colours */
   --highlight-colour: var(--moss-green-13);
   --frontpage-top-bg: var(--disappointing-vanilla);
-  --shadow-color: 0deg 0% 50%;
+  --shadow-colour: 0deg 0% 50%;
+  --dark-button-colour: var(--moss-green-100);
+  --dark-button-colour-hover: var(--moss-dark);
+  --outline-colour: var(--moss-green-100);
 
   @media screen and (min-width: 768px) {
     --layout-padding-inline: ${tokens.spacings.comfortable.large};

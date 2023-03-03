@@ -16,26 +16,26 @@ import { Heading } from "components/Typography"
 import { elevations } from "styles/globals"
 
 const SearchButton = styled(NextLink)`
-  --shadow-color: 184deg 60% 10%;
-  --background: ${tokens.colors.interactive.primary__resting.hsla};
+  --shadow-colour: 184deg 60% 10%;
   grid-column: 3/4;
   grid-row: 4/5;
   justify-self: center;
 
   display: inline-block;
   text-decoration: none;
-  color: ${tokens.colors.text.static_icons__primary_white.hsla};
-  background-color: var(--background);
+  color: var(--white);
+  background-color: var(--dark-button-colour);
   padding: var(--space-16) var(--space-64);
   font-size: ${tokens.typography.heading.h4.fontSize};
   border-radius: var(--space-4);
   box-shadow: ${elevations.medium};
   &:hover {
-    --background: ${tokens.colors.interactive.primary__hover.hsla};
+    background-color: var(--dark-button-colour-hover);
   }
 
   &:focus-visible {
-    outline: 2px dashed ${tokens.colors.interactive.primary__resting.hsla};
+    outline: 2px dashed var(--outline-colour);
+    outline-offset: 4px;
   }
 
   @media screen and (min-width: 350px) {
