@@ -22,7 +22,7 @@ a {
   --layout-padding-inline: ${tokens.spacings.comfortable.medium};
   --layout-padding-block: ${tokens.spacings.comfortable.x_large};
   --layout-max-width: none;
-  --highlight-colour: ${tokens.colors.infographic.primary__moss_green_13.hex};
+  
 
 
   /* Spaces */
@@ -45,7 +45,15 @@ a {
   --text-xl: 1.5rem; /* 24px */
   --text-2xl: 2rem; /* 32px */
 
-  
+  /* Colours */
+  --disappointing-vanilla: hsla(34.5,100%,82.9%, 1);
+  --moss-green-13: ${tokens.colors.infographic.primary__moss_green_13.hsla};
+
+
+  /* Semantic colours */
+  --highlight-colour: var(--moss-green-13);
+  --frontpage-top-bg: var(--disappointing-vanilla);
+
 
   @media screen and (min-width: 768px) {
     --layout-padding-inline: ${tokens.spacings.comfortable.large};
