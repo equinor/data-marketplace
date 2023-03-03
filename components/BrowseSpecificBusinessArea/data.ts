@@ -3,7 +3,8 @@ const dataSetName = "Data_Set"
 
 export type BusinessArea = {
   name: string
-  searchTerm: string
+  searchTerm?: string
+  inactive?: boolean
 }
 
 export const businessAreas: BusinessArea[] = [
@@ -18,5 +19,9 @@ export const businessAreas: BusinessArea[] = [
   {
     name: "Subsurface",
     searchTerm: `${dataSetName}%5BrefinementList%5D%5Bcommunity%5D%5B0%5D=Subsurface`,
+  },
+  {
+    name: "More coming soon...",
+    inactive: true,
   },
 ]

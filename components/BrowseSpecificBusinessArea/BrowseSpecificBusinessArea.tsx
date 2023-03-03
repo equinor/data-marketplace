@@ -10,7 +10,7 @@ import { Heading } from "components/Typography"
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 25ch), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 25ch), 1fr));
   grid-gap: ${tokens.spacings.comfortable.medium};
 `
 
@@ -23,16 +23,21 @@ const StyledLink = styled(NextLink)`
 
 export const BrowseSpecificBusinessArea = () => (
   <>
-    <Heading level="h3" size="xl" style={{ marginBottom: tokens.spacings.comfortable.large }}>
+    <Heading level="h2" size="xl" style={{ marginBottom: tokens.spacings.comfortable.large }}>
       <FormattedMessage id="frontpage.browseSpecificBusinessArea.header" />
     </Heading>
 
     <GridContainer>
-      {businessAreas.map((area) => (
-        <StyledLink href={`/search-beta?${area.searchTerm}`} key={area.name}>
-          <BusinessAreaCard header={area.name} />
-        </StyledLink>
-      ))}
+      {businessAreas.map((area) =>
+        area.searchTerm ? (
+          <StyledLink href={`/search-beta?${area.searchTerm}`} key={area.name}>
+            <BusinessAreaCard header={area.name} />
+          </StyledLink>
+        ) : (
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          <BusinessAreaCard header={area.name} key={area.name} {...area} />
+        )
+      )}
     </GridContainer>
   </>
 )

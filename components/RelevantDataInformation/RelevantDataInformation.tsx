@@ -24,7 +24,7 @@ export const RelevantDataInformation = () => {
 
   return (
     <>
-      <Heading level="h3" size="xl" style={{ marginBottom: tokens.spacings.comfortable.large }}>
+      <Heading level="h2" size="xl" style={{ marginBottom: tokens.spacings.comfortable.large }}>
         <FormattedMessage id="frontpage.relevantdatainfo.header" />
       </Heading>
 

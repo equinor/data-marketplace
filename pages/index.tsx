@@ -48,7 +48,7 @@ const Hero = styled.div`
   width: 100%;
   grid-template-columns: var(--space-16) 1fr minmax(auto, 495px) 1fr var(--space-16);
   grid-template-rows: 5.5rem min-content var(--space-64) min-content var(--space-32) auto var(--space-16);
-  min-height: 450px;
+  min-height: 480px;
   background-image: url("/images/frontpageBg.svg");
   background-repeat: no-repeat;
   background-position: center;
