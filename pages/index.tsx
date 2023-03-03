@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
-import { Icon } from "@equinor/eds-core-react"
-import { info_circle, search } from "@equinor/eds-icons"
+
+import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage, GetServerSideProps } from "next"
 import NextLink from "next/link"
-import { useIntl } from "react-intl"
+import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Banner } from "components/Banner"
@@ -15,20 +15,18 @@ import { Section } from "components/Section"
 import { Heading } from "components/Typography"
 
 const SearchButtonContainer = styled.div`
-  margin-bottom: 3rem;
+  grid-column: 3/4;
+  grid-row: 4/5;
+  justify-self: center;
 `
 
 const SearchButton = styled(NextLink)`
   --background: ${tokens.colors.interactive.primary__resting.hex};
-
+  display: inline-block;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
   color: ${tokens.colors.text.static_icons__primary_white.hex};
   background-color: var(--background);
-  height: 3.5rem;
-  padding: 0 3.5rem 0 3rem;
+  padding: 1rem 4rem;
   font-size: ${tokens.typography.heading.h4.fontSize};
   border-radius: 0.25rem;
 
@@ -39,14 +37,18 @@ const SearchButton = styled(NextLink)`
   &:focus-visible {
     outline: 2px dashed ${tokens.colors.interactive.primary__resting.hex};
   }
+
+  @media screen and (min-width: 350px) {
+    padding: 1rem 6rem;
+  }
 `
 
 const Hero = styled.div`
+  --space-medium: ${tokens.spacings.comfortable.medium};
   display: grid;
   width: 100%;
-  grid-template: "hero";
-  place-items: center;
-  place-content: center;
+  grid-template-columns: var(--space-medium) 1fr minmax(auto, 495px) 1fr var(--space-medium);
+  grid-template-rows: 5.5rem min-content 4rem min-content 2rem auto 1rem;
   min-height: 450px;
   background-image: url("/images/frontpageBg.svg");
   background-repeat: no-repeat;
@@ -55,16 +57,15 @@ const Hero = styled.div`
   background-color: #ffdaa8;
 `
 
-const HeroContent = styled.div`
-  grid-area: hero;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  @media (min-width: 35rem) {
-    width: clamp(25ch, 50%, 600px);
-    align-self: auto;
-  }
+const MainHeading = styled(Heading)`
+  grid-column: 3/4;
+  grid-row: 2/3;
+`
+const InfoBanner = styled.div`
+  grid-column: 3/4;
+  grid-row: 6/7;
+  justify-self: center;
+  max-width: 17rem;
 `
 
 type Props = {
@@ -81,23 +82,21 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
     <Page documentTitle={intl.formatMessage({ id: "common.documentTitle" })} useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
         <Hero>
-          <HeroContent>
-            <Heading level="h1" size="2xl" center style={{ marginBottom: "3rem" }}>
-              {intl.formatMessage({ id: "frontpage.hero.title" })}
-            </Heading>
+          <MainHeading level="h1" size="2xl" center>
+            {intl.formatMessage({ id: "frontpage.hero.title" })}
+          </MainHeading>
 
-            <SearchButtonContainer>
-              {/* @ts-ignore */}
-              <SearchButton href={USE_IMPROVED_SEARCH ? "/search-beta" : "/search"}>
-                <Icon data={search} />
-                Find data
-              </SearchButton>
-            </SearchButtonContainer>
-
+          <SearchButtonContainer>
+            {/* @ts-ignore */}
+            <SearchButton href={USE_IMPROVED_SEARCH ? "/search-beta" : "/search"}>
+              <FormattedMessage id="frontpage.c2a.title" />
+            </SearchButton>
+          </SearchButtonContainer>
+          <InfoBanner>
             <Banner icon={info_circle} variant="none">
               {intl.formatMessage({ id: "frontpage.disclaimer" })}
             </Banner>
-          </HeroContent>
+          </InfoBanner>
         </Hero>
 
         {USE_IMPROVED_SEARCH && (
