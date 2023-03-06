@@ -109,7 +109,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
               {/*  @TODO Fix this when community is found */}
               {asset.community && (
                 <Typography variant="overline" as="span" style={{ fontSize: "var(--text-xs)" }}>
-                  Market & supply
+                  {asset.community.name}
                 </Typography>
               )}
               <Heading level="h1" size="2xl">
