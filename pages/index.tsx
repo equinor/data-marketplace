@@ -51,7 +51,7 @@ const Hero = styled.div`
   min-height: 480px;
   background-image: url("/images/frontpageBg.svg");
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: bottom;
   background-size: cover;
   background-color: var(--frontpage-top-bg);
 `
