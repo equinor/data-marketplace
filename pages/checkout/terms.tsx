@@ -112,7 +112,7 @@ const CheckoutTermsView: NextPage<Props> = ({
       )}
     >
       <main>
-        <CheckoutWizard assetName={asset?.name}>
+        <CheckoutWizard assetName={asset?.name} communityName={asset?.community.name}>
           {!error && asset && (
             <>
               <IngressContainer>
