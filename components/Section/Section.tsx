@@ -16,7 +16,7 @@ const BackgroundContainer = styled.div.attrs<BackgroundProps>(({ isHighlighted }
       }
 )<BackgroundProps>`
   background-color: ${({ isHighlighted }) =>
-    isHighlighted ? "tokens.colors.infographic.primary__moss_green_13.hex" : tokens.colors.ui.background__default.hex};
+    isHighlighted ? tokens.colors.infographic.primary__moss_green_13.hex : tokens.colors.ui.background__default.hex};
 `
 
 const StyledSection = styled.section`
