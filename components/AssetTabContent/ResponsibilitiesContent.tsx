@@ -32,7 +32,7 @@ export const ResponsibilitiesContent = ({ content }: Props) => {
   return (
     <ResponsibilitiesWrapper>
       <Intro>
-        <Heading style={{ marginBottom: tokens.spacings.comfortable.small }} level="h3" size="xl">
+        <Heading style={{ marginBottom: tokens.spacings.comfortable.small }} level="h2" size="xl">
           {intl.formatMessage({ id: "responsibility.intro.header" })}
         </Heading>
         <Typography variant="body_long">{intl.formatMessage({ id: "responsibility.intro.ingress" })}</Typography>
