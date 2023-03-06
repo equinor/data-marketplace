@@ -13,10 +13,10 @@ import {
 import { FormattedMessage, IntlProvider } from "react-intl"
 import styled from "styled-components"
 
+import { Container } from "components/Container"
 import { SearchBox, Hits, Hit, RefinementList, Pagination, CustomClearRefinement } from "components/ImprovedSearch"
 import { Page } from "components/Page"
 import { SearchStatistics } from "components/SearchStatistics"
-import { Section } from "components/Section"
 import { Heading } from "components/Typography"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
@@ -164,12 +164,12 @@ const SearchPage: NextPage<Props> = ({
   return (
     <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
       <main>
-        <Section highlight>
+        <Container highlight>
           <Heading level="h1" size="2xl" center style={{ marginBlock: tokens.spacings.comfortable.xxx_large }}>
             <FormattedMessage id="improvedSearch.header" />
           </Heading>
           <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
-        </Section>
+        </Container>
       </main>
     </Page>
   )

@@ -5,7 +5,7 @@ import { FunctionComponent, useEffect, PropsWithChildren, useState } from "react
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { Section } from "../Section"
+import { Container } from "../Container"
 import { Heading } from "../Typography"
 
 import { Stepper } from "./Stepper"
@@ -74,7 +74,7 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
   }, [router.events, removeItem])
 
   return (
-    <Section>
+    <Container>
       {assetName && (
         <Head>
           <Heading level="h1" size="2xl">
@@ -89,6 +89,6 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
         <Stepper currentStep={currentStep} />
       </CheckoutNavContainer>
       <ContentContainer>{children}</ContentContainer>
-    </Section>
+    </Container>
   )
 }

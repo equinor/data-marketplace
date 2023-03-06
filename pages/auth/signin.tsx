@@ -8,8 +8,8 @@ import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { ActivateAccount } from "components/ActivateAccount"
+import { Container } from "components/Container"
 import { Page } from "components/Page"
-import { Section } from "components/Section"
 import { Heading } from "components/Typography"
 
 const Information = styled.div`
@@ -41,7 +41,7 @@ const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
   const callbackUrl = (query.callbackUrl as string) || "/"
   return (
     <Page documentTitle={intl.formatMessage({ id: "auth.signin.document.title" })} useImprovedSearch={false}>
-      <Section>
+      <Container>
         <Information>
           <CenteredText variant="h1">
             <FormattedMessage id="auth.signin.title" values={{ linebreak: <br /> }} />
@@ -56,7 +56,7 @@ const SignIn: NextPage<Props> = ({ firstTimeVisitor }) => {
           </Heading>
           <ActivateAccount activateLink={firstTimeVisitor} />
         </Information>
-      </Section>
+      </Container>
     </Page>
   )
 }

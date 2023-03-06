@@ -9,9 +9,9 @@ import styled from "styled-components"
 
 import { Banner } from "components/Banner"
 import { BrowseSpecificBusinessArea } from "components/BrowseSpecificBusinessArea"
+import { Container } from "components/Container"
 import { Page } from "components/Page"
 import { RelevantDataInformation } from "components/RelevantDataInformation"
-import { Section } from "components/Section"
 import { Heading } from "components/Typography"
 import { elevations } from "styles/globals"
 
@@ -95,13 +95,13 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
         </Hero>
 
         {USE_IMPROVED_SEARCH && (
-          <Section highlight>
+          <Container highlight>
             <BrowseSpecificBusinessArea />
-          </Section>
+          </Container>
         )}
-        <Section highlight>
+        <Container highlight>
           <RelevantDataInformation />
-        </Section>
+        </Container>
       </main>
     </Page>
   )

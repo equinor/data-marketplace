@@ -6,9 +6,9 @@ import NextLink from "next/link"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
+import { Container } from "components/Container"
 import { Illustration } from "components/NotFound"
 import { Page } from "components/Page"
-import { Section } from "components/Section"
 import { Heading } from "components/Typography"
 
 const Hero = styled.div`
@@ -49,7 +49,7 @@ const PageNotFound: NextPage = () => {
   return (
     <Page documentTitle={intl.formatMessage({ id: "404.documentTitle" })} useImprovedSearch={false}>
       <main>
-        <Section>
+        <Container>
           <Hero>
             <HeroContent>
               <Typography variant="meta">{intl.formatMessage({ id: "notfound.code.number" })}</Typography>
@@ -73,7 +73,7 @@ const PageNotFound: NextPage = () => {
             </HeroContent>
             <HeroIllustration />
           </Hero>
-        </Section>
+        </Container>
       </main>
     </Page>
   )
