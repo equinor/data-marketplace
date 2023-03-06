@@ -6,9 +6,9 @@ import React, { useMemo, MouseEvent, KeyboardEvent } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
+import { Container } from "components/Container"
 import { Page } from "components/Page"
 import { SearchResultStats, Filter, Hit } from "components/Search"
-import { Section } from "components/Section"
 import { useSearchResults } from "hooks"
 
 const SearchPageContainer = styled.div`
@@ -72,7 +72,7 @@ const Search: NextPage = () => {
   return (
     <Page documentTitle={intl.formatMessage({ id: "search.title" })} useImprovedSearch={false}>
       <main>
-        <Section>
+        <Container>
           <Typography variant="h1">{intl.formatMessage({ id: "search.header" })}</Typography>
           <SearchPageContainer>
             <aside>
@@ -122,7 +122,7 @@ const Search: NextPage = () => {
               )}
             </div>
           </SearchPageContainer>
-        </Section>
+        </Container>
       </main>
     </Page>
   )

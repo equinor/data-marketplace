@@ -35,7 +35,7 @@ type Props = {
   children?: ReactNode | undefined
 }
 
-export const Section: FunctionComponent<Props> = ({ highlight = false, children, ...rest }) => (
+export const Container: FunctionComponent<Props> = ({ highlight = false, children, ...rest }) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
   <BackgroundContainer isHighlighted={highlight} {...rest}>
     <StyledSection>{children}</StyledSection>

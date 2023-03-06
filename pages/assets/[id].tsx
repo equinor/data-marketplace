@@ -11,8 +11,8 @@ import { useIntl, FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
 import { OverviewContent, ResponsibilitiesContent, ResponsibilitiesContentSections } from "components/AssetTabContent"
+import { Container } from "components/Container"
 import { Page } from "components/Page"
-import { Section } from "components/Section"
 import { Heading } from "components/Typography"
 import { config } from "config"
 import { request } from "lib/net/request"
@@ -107,7 +107,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
       useImprovedSearch={USE_IMPROVED_SEARCH}
     >
       <main>
-        <Section>
+        <Container>
           <Header>
             <Heading level="h1" size="2xl">
               {asset.name}
@@ -149,7 +149,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
               </Panel>
             </Panels>
           </StyledTabs>
-        </Section>
+        </Container>
       </main>
     </Page>
   )
