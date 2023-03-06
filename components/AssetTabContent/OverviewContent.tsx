@@ -48,7 +48,7 @@ type Props = {
 }
 
 const OverviewSubTitle: FunctionComponent<PropsWithChildren> = ({ children }) => (
-  <Heading style={{ marginBottom: tokens.spacings.comfortable.small }} level="h3" size="xl">
+  <Heading style={{ marginBottom: tokens.spacings.comfortable.small }} level="h2" size="xl">
     {children}
   </Heading>
 )
