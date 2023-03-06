@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import type { Asset, Maintainer } from "@equinor/data-marketplace-models"
-import { Button, Icon, Tabs } from "@equinor/eds-core-react"
-import { add } from "@equinor/eds-icons"
+import { Button, Icon, Tabs, Typography } from "@equinor/eds-core-react"
+import { key } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { GetServerSideProps, NextPage } from "next"
 import NextLink from "next/link"
@@ -23,11 +23,7 @@ const Header = styled.header`
   display: grid;
   grid-template-columns: 1fr auto;
   grid-gap: 1.5rem;
-  align-items: baseline;
-`
-
-const StyledTabs = styled(Tabs)`
-  margin-top: 48px;
+  align-items: end;
 `
 
 const Panel = styled(EdsPanel)`
@@ -107,12 +103,19 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
       useImprovedSearch={USE_IMPROVED_SEARCH}
     >
       <main>
-        <Container>
+        <Container highlight>
           <Header>
-            <Heading level="h1" size="2xl">
-              {asset.name}
-            </Heading>
-
+            <div>
+              {/*  @TODO Fix this when community is found */}
+              {asset.community && (
+                <Typography variant="overline" as="span" style={{ fontSize: "var(--text-xs)" }}>
+                  Market & supply
+                </Typography>
+              )}
+              <Heading level="h1" size="2xl">
+                {asset.name}
+              </Heading>
+            </div>
             <Button
               as={NextLink}
               /*  Because EDS types href as string */
@@ -122,12 +125,13 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
                 query: { id: assetId },
               }}
             >
-              <Icon data={add} />
+              <Icon data={key} />
               <FormattedMessage id="asset.getAccess" />
             </Button>
           </Header>
-
-          <StyledTabs onChange={handleTabChange} activeTab={currentTab.id}>
+        </Container>
+        <Container>
+          <Tabs onChange={handleTabChange} activeTab={currentTab.id}>
             <List>
               <EdsTab key="overview">{intl.formatMessage({ id: "asset.overview" })}</EdsTab>
               <EdsTab key="responsibilities">{intl.formatMessage({ id: "asset.responsibilites" })}</EdsTab>
@@ -148,7 +152,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
                 <ResponsibilitiesContent content={responsibilitiesData} />
               </Panel>
             </Panels>
-          </StyledTabs>
+          </Tabs>
         </Container>
       </main>
     </Page>

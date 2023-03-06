@@ -19,7 +19,7 @@ const BackgroundContainer = styled.div.attrs<BackgroundProps>(({ isHighlighted }
     isHighlighted ? tokens.colors.infographic.primary__moss_green_13.hex : tokens.colors.ui.background__default.hex};
 `
 
-const StyledSection = styled.section`
+const StyledSection = styled.div`
   width: 100%;
   max-width: var(--layout-max-width);
   margin-inline: auto;
