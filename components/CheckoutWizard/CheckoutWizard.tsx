@@ -2,7 +2,6 @@ import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { useRouter } from "next/router"
 import { FunctionComponent, useEffect, PropsWithChildren, useState } from "react"
-import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../Container"
@@ -28,12 +27,12 @@ const steps: CheckoutSteps[] = ["terms", "redirect"]
 
 type Props = PropsWithChildren & {
   assetName?: string | null
+  communityName?: string
 }
 
-export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }) => {
+export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, communityName, children }) => {
   const [currentStep, setCurrentStep] = useState(0)
   const router = useRouter()
-  const intl = useIntl()
   const { checkoutData, removeItem } = useCheckoutData()
 
   // @TODO This code doesn't work very well (both useEffect functions) The missing checkoutData in the dependency array
@@ -79,9 +78,11 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
         {assetName && (
           <Head>
             <Heading level="h1" size="2xl">
-              <Typography variant="overline" as="div">
-                {intl.formatMessage({ id: "checkout.title.eyebrow" })}
-              </Typography>
+              {communityName && (
+                <Typography variant="overline" as="div">
+                  {communityName}
+                </Typography>
+              )}
               {assetName}
             </Heading>
           </Head>

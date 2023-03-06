@@ -71,7 +71,7 @@ const CheckoutRedirectView: NextPage<Props> = ({
       useImprovedSearch={USE_IMPROVED_SEARCH}
     >
       <main>
-        <CheckoutWizard assetName={asset?.name}>
+        <CheckoutWizard assetName={asset?.name} communityName={asset?.community.name}>
           {!asset ? (
             <NoAsset />
           ) : (

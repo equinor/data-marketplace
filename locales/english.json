@@ -78,7 +78,6 @@
   "checkout.no.asset": "In order to checkout, you must first select an asset",
   "checkout.nav.step.terms": "Accept Terms and conditions",
   "checkout.nav.step.redirect": "Redirect to AccessIT",
-  "checkout.title.eyebrow": "Request access to",
   "checkout.prefix.title": "Checkout",
   "footer.copyright": "Copyright © Equinor 2023",
   "footer.maintained": "Developed and maintained by EDB",
