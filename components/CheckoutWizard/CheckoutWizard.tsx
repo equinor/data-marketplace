@@ -74,21 +74,25 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, children }
   }, [router.events, removeItem])
 
   return (
-    <Container>
-      {assetName && (
-        <Head>
-          <Heading level="h1" size="2xl">
-            <Typography variant="overline" as="div">
-              {intl.formatMessage({ id: "checkout.title.eyebrow" })}
-            </Typography>
-            {assetName}
-          </Heading>
-        </Head>
-      )}
-      <CheckoutNavContainer>
-        <Stepper currentStep={currentStep} />
-      </CheckoutNavContainer>
-      <ContentContainer>{children}</ContentContainer>
-    </Container>
+    <section>
+      <Container highlight>
+        {assetName && (
+          <Head>
+            <Heading level="h1" size="2xl">
+              <Typography variant="overline" as="div">
+                {intl.formatMessage({ id: "checkout.title.eyebrow" })}
+              </Typography>
+              {assetName}
+            </Heading>
+          </Head>
+        )}
+      </Container>
+      <Container>
+        <CheckoutNavContainer>
+          <Stepper currentStep={currentStep} />
+        </CheckoutNavContainer>
+        <ContentContainer>{children}</ContentContainer>
+      </Container>
+    </section>
   )
 }
