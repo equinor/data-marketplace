@@ -66,19 +66,49 @@ a {
   /* Colours */
   --disappointing-vanilla: hsla(34.5,100%,82.9%, 1);
   --moss-green-13: ${tokens.colors.infographic.primary__moss_green_13.hsla};
-  --moss-green-100: ${tokens.colors.interactive.primary__resting.hsla};
+  --moss-green-100: ${tokens.colors.interactive.primary__resting.hsla}; /* outline 3 */
   --white: ${tokens.colors.text.static_icons__primary_white.hsla};
   --moss-dark: ${tokens.colors.interactive.primary__hover.hsla};
   --baby-blue: 	hsl(199, 33%, 80%);
   --charcoal: ${tokens.colors.text.static_icons__default.hsla};
 
 
+  /* Colour test */
+  --moss-green-13: ${tokens.colors.infographic.primary__moss_green_13.hsla}; /* 1 */
+  --moss-green-100: ${tokens.colors.infographic.primary__moss_green_100.hsla};
+  --slateBlue: ${tokens.colors.infographic.primary__slate_blue.hsla};
+  
+  --danger: ${tokens.colors.ui.background__danger.hsla};
+  --default: ${tokens.colors.ui.background__default.hsla}; /* white */
+  --mediumGrey: ${tokens.colors.ui.background__medium.hsla};
+  --info: ${tokens.colors.ui.background__info.hsla};
+  --topBarBottom: ${tokens.colors.ui.background__default.hsla};
+  --imagePlaceholderIcon: ${tokens.colors.ui.background__scrim.hsla};
+  
+  --warning: ${tokens.colors.interactive.warning__highlight.hsla};
+  --warning-icon-fill: ${tokens.colors.interactive.warning__text.hsla};
+  --validationError: ${tokens.colors.interactive.danger__text.hsla};
+  --highlightMatch: ${tokens.colors.interactive.danger__resting.hsla};
+  --currentPagination: ${tokens.colors.interactive.secondary__link_hover.hsla};
+  --disabledPagination: ${tokens.colors.interactive.disabled__text.hsla};
+  --outlineRelevantDataInfo: ${tokens.colors.interactive.primary__resting.hsla};
+
+  
+  --warning-icon-bg: ${tokens.colors.logo.fill_positive.hsla};
+
+  --disabled-text: ${tokens.colors.text.static_icons__default.hsla};
+  --defaultText: ${tokens.colors.text.static_icons__default.hsla};
+  --disabled-clearRefinement: ${tokens.colors.text.static_icons__tertiary.hsla};
+
+
+  --shadow-colour: 0deg 0% 50%;
+
   /* Semantic colours 
   This doesn't actually work very well... We should probably wait for EDS
   */
   --highlight-colour: var(--moss-green-13);
   --frontpage-top-bg: var(--disappointing-vanilla);
-  --shadow-colour: 0deg 0% 50%;
+
   --dark-button-colour: var(--moss-green-100);
   --dark-button-colour-hover: var(--moss-dark);
   --outline-colour: var(--moss-green-100);
