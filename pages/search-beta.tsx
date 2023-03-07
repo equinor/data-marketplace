@@ -90,9 +90,6 @@ type Props = {
   serverUrl?: URL | string
   isServerRendered: boolean
   indexName: string
-  featureFlags?: {
-    USE_IMPROVED_SEARCH: boolean
-  }
 }
 
 const HITS_PER_PAGE = 10
@@ -153,46 +150,29 @@ const Search = ({ serverState, isServerRendered, indexName, serverUrl }: Props) 
   </InstantSearchSSRProvider>
 )
 
-const SearchPage: NextPage<Props> = ({
-  serverState,
-  isServerRendered = false,
-  serverUrl,
-  indexName,
-  featureFlags = { USE_IMPROVED_SEARCH: false },
-}) => {
-  const { USE_IMPROVED_SEARCH } = featureFlags
-
-  return (
-    <Page documentTitle="Beta for new and improved search" useImprovedSearch={USE_IMPROVED_SEARCH}>
-      <main>
-        <Container highlight>
-          <Heading level="h1" size="2xl" center style={{ marginBlock: tokens.spacings.comfortable.xxx_large }}>
-            <FormattedMessage id="improvedSearch.header" />
-          </Heading>
-          <Search
-            serverState={serverState}
-            indexName={indexName}
-            isServerRendered={isServerRendered}
-            serverUrl={serverUrl}
-          />
-        </Container>
-      </main>
-    </Page>
-  )
-}
+const SearchPage: NextPage<Props> = ({ serverState, isServerRendered = false, serverUrl, indexName }) => (
+  <Page documentTitle="Beta for new and improved search">
+    <main>
+      <Container highlight>
+        <Heading level="h1" size="2xl" center style={{ marginBlock: tokens.spacings.comfortable.xxx_large }}>
+          <FormattedMessage id="improvedSearch.header" />
+        </Heading>
+        <Search
+          serverState={serverState}
+          indexName={indexName}
+          isServerRendered={isServerRendered}
+          serverUrl={serverUrl}
+        />
+      </Container>
+    </main>
+  </Page>
+)
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
   const indexName = process.env.ALGOLIA_SEARCH_INDEX ?? ""
 
   if (indexName === "") {
     console.log("Missing the Algolia search index name")
-  }
-
-  if (!USE_IMPROVED_SEARCH) {
-    return {
-      notFound: true,
-    }
   }
 
   const protocol = req.headers.referer?.split("://")[0] || "https"
@@ -207,9 +187,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       serverState,
       serverUrl,
       indexName,
-      featureFlags: {
-        USE_IMPROVED_SEARCH,
-      },
     },
   }
 }

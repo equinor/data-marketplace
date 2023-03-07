@@ -19,10 +19,9 @@ const PageWrapper = styled.div`
 
 type Props = PropsWithChildren<{
   documentTitle: string
-  useImprovedSearch: boolean
 }>
 
-export const Page: FunctionComponent<Props> = ({ documentTitle, useImprovedSearch = false, children }) => {
+export const Page: FunctionComponent<Props> = ({ documentTitle, children }) => {
   const { data } = useSession()
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export const Page: FunctionComponent<Props> = ({ documentTitle, useImprovedSearc
       <Head>
         <title>{documentTitle}</title>
       </Head>
-      <NavBar useImprovedSearch={useImprovedSearch} />
+      <NavBar />
 
       {children}
       <Footer />

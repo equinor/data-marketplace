@@ -30,9 +30,6 @@ type Props = {
   authorizationUrl?: {
     value: string
   }
-  featureFlags: {
-    USE_IMPROVED_SEARCH: boolean
-  }
 }
 
 const getAccessitTitle = (url: string | undefined) => {
@@ -45,13 +42,8 @@ const getAccessitTitle = (url: string | undefined) => {
   return (term && decodeURI(term).replaceAll(/\+/g, " ")) || fallbackText
 }
 
-const CheckoutRedirectView: NextPage<Props> = ({
-  asset,
-  authorizationUrl,
-  featureFlags = { USE_IMPROVED_SEARCH: false },
-}) => {
+const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
   const intl = useIntl()
-  const { USE_IMPROVED_SEARCH } = featureFlags
   const checkoutUrl = authorizationUrl?.value || (config.ACCESSIT_BASE_URL as string)
   const accessitTitle = getAccessitTitle(authorizationUrl?.value)
 
@@ -68,7 +60,6 @@ const CheckoutRedirectView: NextPage<Props> = ({
         intl.formatMessage({ id: "checkout.prefix.title" }),
         intl.formatMessage({ id: "checkout.nav.step.redirect" })
       )}
-      useImprovedSearch={USE_IMPROVED_SEARCH}
     >
       <main>
         <CheckoutWizard assetName={asset?.name} communityName={asset?.community.name}>
@@ -108,12 +99,9 @@ const CheckoutRedirectView: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
-  const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
+
   const defaultPageProps: Props = {
     asset: null,
-    featureFlags: {
-      USE_IMPROVED_SEARCH,
-    },
   }
 
   if (typeof id !== "string") {
@@ -144,9 +132,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
         asset: JSON.parse(JSON.stringify(asset)),
         authorizationUrl: {
           value: authUrlHref,
-        },
-        featureFlags: {
-          USE_IMPROVED_SEARCH,
         },
       },
     }
