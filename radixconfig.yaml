@@ -33,7 +33,7 @@ spec:
             NEXT_PUBLIC_ALGOLIA_APP_ID: EGZK3PRPU0
             NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY: 3f31994287d16977fe070ed752c0f17d
             ALGOLIA_SEARCH_INDEX: prod_Collibra
-            USE_IMPROVED_SEARCH: false
+            USE_IMPROVED_SEARCH: true
 
         - environment: test
           resources:
