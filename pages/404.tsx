@@ -47,7 +47,7 @@ const PageNotFound: NextPage = () => {
   const intl = useIntl()
 
   return (
-    <Page documentTitle={intl.formatMessage({ id: "404.documentTitle" })} useImprovedSearch={false}>
+    <Page documentTitle={intl.formatMessage({ id: "404.documentTitle" })}>
       <main>
         <Container>
           <Hero>

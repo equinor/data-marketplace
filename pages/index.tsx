@@ -69,23 +69,19 @@ const InfoBanner = styled.div`
 
 type Props = {
   algoliaIndexName: string
-  featureFlags: {
-    USE_IMPROVED_SEARCH: boolean
-  }
 }
 
-const Frontpage: NextPage<Props> = ({ algoliaIndexName, featureFlags = { USE_IMPROVED_SEARCH: false } }) => {
+const Frontpage: NextPage<Props> = ({ algoliaIndexName }) => {
   const intl = useIntl()
-  const { USE_IMPROVED_SEARCH } = featureFlags
 
   return (
-    <Page documentTitle={intl.formatMessage({ id: "common.documentTitle" })} useImprovedSearch={USE_IMPROVED_SEARCH}>
+    <Page documentTitle={intl.formatMessage({ id: "common.documentTitle" })}>
       <main>
         <Hero>
           <MainHeading level="h1" size="2xl" center>
             {intl.formatMessage({ id: "frontpage.hero.title" })}
           </MainHeading>
-          <SearchButton href={USE_IMPROVED_SEARCH ? "/search-beta" : "/search"}>
+          <SearchButton href="/search-beta">
             <FormattedMessage id="frontpage.c2a.title" />
           </SearchButton>
           <InfoBanner>
@@ -95,11 +91,10 @@ const Frontpage: NextPage<Props> = ({ algoliaIndexName, featureFlags = { USE_IMP
           </InfoBanner>
         </Hero>
 
-        {USE_IMPROVED_SEARCH && (
-          <Container highlight>
-            <BrowseSpecificBusinessArea indexName={algoliaIndexName} />
-          </Container>
-        )}
+        <Container highlight>
+          <BrowseSpecificBusinessArea indexName={algoliaIndexName} />
+        </Container>
+
         <Container highlight>
           <RelevantDataInformation />
         </Container>
@@ -111,8 +106,6 @@ const Frontpage: NextPage<Props> = ({ algoliaIndexName, featureFlags = { USE_IMP
 export default Frontpage
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
-
   const indexName = process.env.ALGOLIA_SEARCH_INDEX ?? ""
 
   if (indexName === "") {
@@ -122,9 +115,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
       algoliaIndexName: indexName,
-      featureFlags: {
-        USE_IMPROVED_SEARCH,
-      },
     },
   }
 }

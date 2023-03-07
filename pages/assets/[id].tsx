@@ -59,18 +59,9 @@ type AssetDetailProps = {
   asset?: Asset | null
   responsibilitiesData?: ResponsibilitiesContentSections
   collibraBaseUrl: string
-  featureFlags: {
-    USE_IMPROVED_SEARCH: boolean
-  }
 }
 
-const AssetDetailView: NextPage<AssetDetailProps> = ({
-  asset,
-  responsibilitiesData,
-  collibraBaseUrl,
-  featureFlags = { USE_IMPROVED_SEARCH: false },
-}) => {
-  const { USE_IMPROVED_SEARCH } = featureFlags
+const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesData, collibraBaseUrl }) => {
   const router = useRouter()
   const intl = useIntl()
 
@@ -98,10 +89,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
   }
 
   return (
-    <Page
-      documentTitle={asset.name || intl.formatMessage({ id: "common.documentTitle" })}
-      useImprovedSearch={USE_IMPROVED_SEARCH}
-    >
+    <Page documentTitle={asset.name || intl.formatMessage({ id: "common.documentTitle" })}>
       <main>
         <Container highlight>
           <Header>
@@ -161,12 +149,8 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const { id } = query
-  const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
   const defaultPageProps = {
     asset: null,
-    featureFlags: {
-      USE_IMPROVED_SEARCH,
-    },
   }
 
   if (typeof id !== "string") {
@@ -215,9 +199,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
         asset,
         collibraBaseUrl: process.env.COLLIBRA_BASE_URL || "",
         responsibilitiesData,
-        featureFlags: {
-          USE_IMPROVED_SEARCH,
-        },
       },
     }
   } catch (error) {

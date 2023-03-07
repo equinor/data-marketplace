@@ -65,18 +65,9 @@ type Props = {
     name: string
     value: string | PortableTextBlock[]
   }
-  featureFlags: {
-    USE_IMPROVED_SEARCH: boolean
-  }
 }
 
-const CheckoutTermsView: NextPage<Props> = ({
-  asset,
-  error,
-  rightsToUse,
-  featureFlags = { USE_IMPROVED_SEARCH: false },
-}) => {
-  const { USE_IMPROVED_SEARCH } = featureFlags
+const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
   const intl = useIntl()
   const router = useRouter()
   const [formError, setFormError] = useState(false)
@@ -105,7 +96,6 @@ const CheckoutTermsView: NextPage<Props> = ({
 
   return (
     <Page
-      useImprovedSearch={USE_IMPROVED_SEARCH}
       documentTitle={formatCheckoutTitle(
         intl.formatMessage({ id: "checkout.prefix.title" }),
         intl.formatMessage({ id: "checkout.nav.step.terms" })
@@ -180,15 +170,10 @@ const CheckoutTermsView: NextPage<Props> = ({
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
-  const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
-
   const { id } = query
 
   const defaultPageProps: Props = {
     asset: null,
-    featureFlags: {
-      USE_IMPROVED_SEARCH,
-    },
   }
 
   try {
@@ -212,9 +197,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
         rightsToUse: {
           name: terms.name,
           value: terms.value,
-        },
-        featureFlags: {
-          USE_IMPROVED_SEARCH,
         },
       },
     }
