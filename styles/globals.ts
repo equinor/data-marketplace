@@ -82,6 +82,7 @@ a {
   --dark-button-colour: var(--moss-green-100);
   --dark-button-colour-hover: var(--moss-dark);
   --outline-colour: var(--moss-green-100);
+  --hit-highlight: hsla(185, 30%, 84%, 1);
 
   @media screen and (min-width: 768px) {
     --layout-padding-inline: ${tokens.spacings.comfortable.large};
