@@ -68,12 +68,13 @@ const InfoBanner = styled.div`
 `
 
 type Props = {
+  algoliaIndexName: string
   featureFlags: {
     USE_IMPROVED_SEARCH: boolean
   }
 }
 
-const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: false } }) => {
+const Frontpage: NextPage<Props> = ({ algoliaIndexName, featureFlags = { USE_IMPROVED_SEARCH: false } }) => {
   const intl = useIntl()
   const { USE_IMPROVED_SEARCH } = featureFlags
 
@@ -96,7 +97,7 @@ const Frontpage: NextPage<Props> = ({ featureFlags = { USE_IMPROVED_SEARCH: fals
 
         {USE_IMPROVED_SEARCH && (
           <Container highlight>
-            <BrowseSpecificBusinessArea />
+            <BrowseSpecificBusinessArea indexName={algoliaIndexName} />
           </Container>
         )}
         <Container highlight>
@@ -112,8 +113,15 @@ export default Frontpage
 export const getServerSideProps: GetServerSideProps = async () => {
   const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
 
+  const indexName = process.env.ALGOLIA_SEARCH_INDEX ?? ""
+
+  if (indexName === "") {
+    console.log("Missing the Algolia search index name")
+  }
+
   return {
     props: {
+      algoliaIndexName: indexName,
       featureFlags: {
         USE_IMPROVED_SEARCH,
       },
