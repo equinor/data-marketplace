@@ -1,5 +1,6 @@
 import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
+import { FunctionComponent, PropsWithChildren } from "react"
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
@@ -21,7 +22,11 @@ const StyledLink = styled(NextLink)`
   }
 `
 
-export const BrowseSpecificBusinessArea = () => (
+type Props = PropsWithChildren<{
+  indexName: string
+}>
+
+export const BrowseSpecificBusinessArea: FunctionComponent<Props> = ({ indexName }) => (
   <>
     <Heading level="h2" size="xl" style={{ marginBottom: tokens.spacings.comfortable.large }}>
       <FormattedMessage id="frontpage.browseSpecificBusinessArea.header" />
@@ -30,7 +35,7 @@ export const BrowseSpecificBusinessArea = () => (
     <GridContainer>
       {businessAreas.map((area) =>
         area.searchTerm ? (
-          <StyledLink href={`/search-beta?${area.searchTerm}`} key={area.name}>
+          <StyledLink href={`/search-beta?${area.searchTerm(indexName)}`} key={area.name}>
             <BusinessAreaCard header={area.name} />
           </StyledLink>
         ) : (

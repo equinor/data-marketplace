@@ -89,7 +89,7 @@ type Props = {
   serverState?: InstantSearchServerState
   serverUrl?: URL | string
   isServerRendered: boolean
-  routingRef?: any
+  indexName: string
   featureFlags?: {
     USE_IMPROVED_SEARCH: boolean
   }
@@ -102,13 +102,13 @@ const onStateChange = (params: any) => {
   params.setUiState(params.uiState)
 }
 
-const Search = ({ serverState, isServerRendered, serverUrl }: Props) => (
+const Search = ({ serverState, isServerRendered, indexName, serverUrl }: Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
   <InstantSearchSSRProvider {...serverState}>
     <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
       <InstantSearch
         searchClient={isServerRendered ? searchClientServer : searchClient}
-        indexName="Data_Set"
+        indexName={indexName}
         onStateChange={onStateChange}
         /* @ts-ignore */
         routing={{ router: createInstantSearchNextRouter({ serverUrl }) }}
@@ -157,6 +157,7 @@ const SearchPage: NextPage<Props> = ({
   serverState,
   isServerRendered = false,
   serverUrl,
+  indexName,
   featureFlags = { USE_IMPROVED_SEARCH: false },
 }) => {
   const { USE_IMPROVED_SEARCH } = featureFlags
@@ -168,7 +169,12 @@ const SearchPage: NextPage<Props> = ({
           <Heading level="h1" size="2xl" center style={{ marginBlock: tokens.spacings.comfortable.xxx_large }}>
             <FormattedMessage id="improvedSearch.header" />
           </Heading>
-          <Search serverState={serverState} isServerRendered={isServerRendered} serverUrl={serverUrl} />
+          <Search
+            serverState={serverState}
+            indexName={indexName}
+            isServerRendered={isServerRendered}
+            serverUrl={serverUrl}
+          />
         </Container>
       </main>
     </Page>
@@ -177,6 +183,11 @@ const SearchPage: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
+  const INDEX = process.env.ALGOLIA_SEARCH_INDEX ?? ""
+
+  if (INDEX === "") {
+    console.log("Missing the Algolia search index name")
+  }
 
   if (!USE_IMPROVED_SEARCH) {
     return {
@@ -187,7 +198,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const protocol = req.headers.referer?.split("://")[0] || "https"
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`
 
-  const serverState = await getServerState(<Search serverUrl={serverUrl} isServerRendered />, {
+  const serverState = await getServerState(<Search serverUrl={serverUrl} isServerRendered indexName={INDEX} />, {
     renderToString,
   })
 
@@ -195,6 +206,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     props: {
       serverState,
       serverUrl,
+      indexName: INDEX,
       featureFlags: {
         USE_IMPROVED_SEARCH,
       },

@@ -1,24 +1,21 @@
-// @TODO: Update this when the indexer is done
-const dataSetName = "Data_Set"
-
 export type BusinessArea = {
   name: string
-  searchTerm?: string
+  searchTerm?: (indexName: string) => string
   inactive?: boolean
 }
 
 export const businessAreas: BusinessArea[] = [
   {
     name: "Marketing & Supply",
-    searchTerm: `${dataSetName}%5BrefinementList%5D%5Bcommunity%5D%5B0%5D=Marketing%20and%20Supply`,
+    searchTerm: (indexName) => `${indexName}%5BrefinementList%5D%5Bcommunity%5D%5B0%5D=Marketing%20and%20Supply`,
   },
   {
     name: "Renewables",
-    searchTerm: `${dataSetName}%5BrefinementList%5D%5Bcommunity%5D%5B0%5D=Renewables`,
+    searchTerm: (indexName) => `${indexName}%5BrefinementList%5D%5Bcommunity%5D%5B0%5D=Renewables`,
   },
   {
     name: "Subsurface",
-    searchTerm: `${dataSetName}%5BrefinementList%5D%5Bcommunity%5D%5B0%5D=Subsurface`,
+    searchTerm: (indexName) => `${indexName}%5BrefinementList%5D%5Bcommunity%5D%5B0%5D=Subsurface`,
   },
   {
     name: "More coming soon...",
