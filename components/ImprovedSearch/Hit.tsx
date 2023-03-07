@@ -6,12 +6,12 @@ import { Highlight, Snippet } from "react-instantsearch-hooks-web"
 import styled from "styled-components"
 
 import { Heading } from "components/Typography"
-// import type { SendEventForHits } from "instantsearch.js/es/lib/utils"
+import { elevations } from "styles/globals"
 
 const StyledName = styled(Highlight)`
   & .highlighted {
-    color: ${tokens.colors.interactive.danger__resting.hsla};
-    background: ${tokens.colors.ui.background__default.hsla};
+    background: var(--hit-highlight);
+    border-radius: var(--space-2);
   }
 `
 
@@ -26,8 +26,9 @@ const StyledSnippet = styled(Snippet)`
   display: block;
   color: ${tokens.colors.text.static_icons__default.hsla};
   & .highlighted {
-    color: ${tokens.colors.interactive.danger__resting.hsla};
-    background: ${tokens.colors.ui.background__default.hsla};
+    background: var(--hit-highlight);
+    font-weight: 700;
+    border-radius: var(--space-2);
   }
 `
 
@@ -36,6 +37,7 @@ const StyledLink = styled(NextLink)`
   padding: ${tokens.spacings.comfortable.medium};
   text-decoration: none;
   display: block;
+  box-shadow: ${elevations.medium};
   &:focus-visible {
     outline: 2px dashed ${tokens.colors.infographic.primary__moss_green_100.hsla};
   }
