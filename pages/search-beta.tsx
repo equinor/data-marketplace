@@ -183,9 +183,9 @@ const SearchPage: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const USE_IMPROVED_SEARCH = process.env.USE_IMPROVED_SEARCH === "true"
-  const INDEX = process.env.ALGOLIA_SEARCH_INDEX ?? ""
+  const indexName = process.env.ALGOLIA_SEARCH_INDEX ?? ""
 
-  if (INDEX === "") {
+  if (indexName === "") {
     console.log("Missing the Algolia search index name")
   }
 
@@ -198,7 +198,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const protocol = req.headers.referer?.split("://")[0] || "https"
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`
 
-  const serverState = await getServerState(<Search serverUrl={serverUrl} isServerRendered indexName={INDEX} />, {
+  const serverState = await getServerState(<Search serverUrl={serverUrl} isServerRendered indexName={indexName} />, {
     renderToString,
   })
 
@@ -206,7 +206,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     props: {
       serverState,
       serverUrl,
-      indexName: INDEX,
+      indexName,
       featureFlags: {
         USE_IMPROVED_SEARCH,
       },
