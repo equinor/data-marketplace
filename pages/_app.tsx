@@ -1,8 +1,8 @@
 import { AppInsightsContext, AppInsightsErrorBoundary } from "@microsoft/applicationinsights-react-js"
-import { Session } from "next-auth"
-import { SessionProvider } from "next-auth/react"
 import type { AppProps } from "next/app"
 import Head from "next/head"
+import { Session } from "next-auth"
+import { SessionProvider } from "next-auth/react"
 import { IntlProvider } from "react-intl"
 
 import { reactPlugin } from "appInsights"
