@@ -47,7 +47,7 @@ export const NavBar = () => (
         <Button
           variant="ghost_icon"
           as={NextLink}
-          href="/search-beta"
+          href="/search"
           aria-label="Search"
           color="secondary"
           /* @ts-ignore */
