@@ -81,7 +81,7 @@ const Frontpage: NextPage<Props> = ({ algoliaIndexName }) => {
           <MainHeading level="h1" size="2xl" center>
             {intl.formatMessage({ id: "frontpage.hero.title" })}
           </MainHeading>
-          <SearchButton href="/search-beta">
+          <SearchButton href="/search">
             <FormattedMessage id="frontpage.c2a.title" />
           </SearchButton>
           <InfoBanner>
