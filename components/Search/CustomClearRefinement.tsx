@@ -27,13 +27,13 @@ export const CustomClearRefinement = (props: UseClearRefinementsProps) => {
   if (canRefine) {
     return (
       <ClearButton variant="ghost" onClick={refine}>
-        {intl.formatMessage({ id: "improvedSearch.filter.clear" })}
+        {intl.formatMessage({ id: "search.filter.clear" })}
       </ClearButton>
     )
   }
   return (
     <ClearButton variant="ghost" disabled onClick={refine}>
-      {intl.formatMessage({ id: "improvedSearch.filter.clear" })}
+      {intl.formatMessage({ id: "search.filter.clear" })}
     </ClearButton>
   )
 }
