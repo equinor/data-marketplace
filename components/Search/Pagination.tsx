@@ -6,10 +6,10 @@ import { usePagination, UsePaginationProps } from "react-instantsearch-hooks-web
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { usePrefersReducedMotion } from "../../hooks/reducedMotion"
-
 import { PaginationContext } from "./PaginationContext"
 import { PaginationItem } from "./PaginationItem"
+
+import { usePrefersReducedMotion } from "hooks"
 
 const PaginationList = styled(List)`
   list-style: none;
