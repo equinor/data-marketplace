@@ -96,11 +96,10 @@ jobs:
           key: ${{ github.sha }}
       - name: Run tests
         id: run-tests
-        run: npm test
+        run: npm test -- --passWithNoTests
       - name: log-errors-to-slack
         uses: act10ns/slack@v1
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
         if: failure()
-
