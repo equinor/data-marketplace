@@ -14,9 +14,16 @@ import { FormattedMessage, useIntl, IntlProvider } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "components/Container"
-import { SearchBox, Hits, Hit, RefinementList, Pagination, CustomClearRefinement } from "components/ImprovedSearch"
 import { Page } from "components/Page"
-import { SearchStatistics } from "components/SearchStatistics"
+import {
+  SearchBox,
+  Hits,
+  Hit,
+  RefinementList,
+  Pagination,
+  CustomClearRefinement,
+  SearchStatistics,
+} from "components/Search"
 import { Heading } from "components/Typography"
 import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
