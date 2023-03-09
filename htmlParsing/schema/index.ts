@@ -1,1 +1,0 @@
-export { richTextSchema } from "./richText"

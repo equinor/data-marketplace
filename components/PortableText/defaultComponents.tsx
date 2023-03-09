@@ -4,9 +4,10 @@ import { tokens } from "@equinor/eds-tokens"
 import { PortableTextBlock } from "@portabletext/types"
 import styled from "styled-components"
 
-import { isEmpty } from "../helpers"
-
-import { Image, Table, Link } from "./components"
+import { Image } from "./Image"
+import { Link } from "./Link"
+import { Table } from "./Table"
+import { isEmpty } from "./helpers"
 
 const { Item } = List
 

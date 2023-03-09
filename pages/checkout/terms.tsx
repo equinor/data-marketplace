@@ -13,10 +13,10 @@ import styled from "styled-components"
 
 import { CheckoutWizard, NoAsset, CancelButton, ValidationError, formatCheckoutTitle } from "components/CheckoutWizard"
 import { Page } from "components/Page"
+import { defaultComponents } from "components/PortableText"
 import { Heading } from "components/Typography"
 import { config } from "config"
 import { useCheckoutData } from "hooks/useCheckoutData"
-import { defaultComponents } from "htmlParsing/portableText"
 import { ERR_CODES } from "lib/errors"
 import { request } from "lib/net/request"
 

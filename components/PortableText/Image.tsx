@@ -19,7 +19,7 @@ export const Image = ({ value }: any) => {
   const { height } = value
 
   return (
-    <PlaceholderImage style={{ "--height": height, "--width": width }as CSSProperties}>
+    <PlaceholderImage style={{ "--height": height, "--width": width } as CSSProperties}>
       <Icon color={tokens.colors.ui.background__scrim.hsla} size={48} data={image} />
     </PlaceholderImage>
   )
