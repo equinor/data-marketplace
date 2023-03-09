@@ -137,14 +137,14 @@ const Search = ({ serverState, isServerRendered, indexName, serverUrl }: Props) 
           <FilterHeader>
             <Header>
               <Heading level="h3" size="lg">
-                <FormattedMessage id="improvedSearch.filter.header" />
+                <FormattedMessage id="search.filter.header" />
               </Heading>
               <CustomClearRefinement />
             </Header>
           </FilterHeader>
           <Filters>
             <RefinementList attribute="community">
-              <FormattedMessage id="improvedSearch.community.filter.header" />
+              <FormattedMessage id="search.community.filter.header" />
             </RefinementList>
           </Filters>
 
@@ -164,7 +164,7 @@ const SearchPage: NextPage<Props> = ({ serverState, isServerRendered = false, se
       <main>
         <Container highlight>
           <Heading level="h1" size="2xl" center style={{ marginBlock: tokens.spacings.comfortable.xxx_large }}>
-            <FormattedMessage id="improvedSearch.header" />
+            <FormattedMessage id="search.header" />
           </Heading>
           <Search
             serverState={serverState}
