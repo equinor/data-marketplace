@@ -16,6 +16,10 @@ const StyledCard = styled.div<StyledCardProps>`
   border-radius: var(--space-4);
   box-shadow: ${elevations.medium};
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   ${({ inactive }) =>
     inactive && {
       backgroundColor: "hsla(0, 0%, 92%, 1)",
@@ -25,8 +29,9 @@ const StyledCard = styled.div<StyledCardProps>`
 const AnimatedArrow = styled.span`
   --arrow-colour: var(--moss-green-100);
   position: relative;
-  display: inline-block;
+  display: inline;
   padding: 8px 0;
+  align-self: flex-start;
   &:before {
     content: "";
     display: block;

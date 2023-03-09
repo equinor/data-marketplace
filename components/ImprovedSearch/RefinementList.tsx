@@ -37,7 +37,7 @@ export const RefinementList = ({ children, ...rest }: RefinementListProps) => {
   const { items, refine } = useRefinementList({ ...rest })
   return (
     <div>
-      <EdsProvider density="compact">
+      <EdsProvider>
         <FilterContainer>
           <Heading level="h4" size="base" style={{ marginBlock: "1rem 0.25rem", fontWeight: 500 }}>
             {children}

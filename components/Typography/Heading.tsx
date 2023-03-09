@@ -27,7 +27,7 @@ const lineHeights = {
   xs: 1.333,
   sm: 1.142,
   base: 1.25,
-  lg: 1.6,
+  lg: 1.25,
   xl: 1.25,
   "2xl": 1.25,
 }
