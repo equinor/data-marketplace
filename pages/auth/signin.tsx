@@ -1,9 +1,9 @@
 import { Typography, Button, Icon } from "@equinor/eds-core-react"
 import { lock } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
-import { signIn } from "next-auth/react"
 import { useRouter } from "next/router"
 import type { NextPage, GetServerSideProps } from "next/types"
+import { signIn } from "next-auth/react"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
