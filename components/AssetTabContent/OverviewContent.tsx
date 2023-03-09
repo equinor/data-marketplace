@@ -10,8 +10,8 @@ import styled from "styled-components"
 
 import { AssetTabContentSectionContainer } from "./AssetTabContentSectionContainer"
 
+import { defaultComponents } from "components/PortableText"
 import { Heading } from "components/Typography"
-import { defaultComponents } from "htmlParsing/portableText"
 
 const Overview = styled.div`
   display: flex;
