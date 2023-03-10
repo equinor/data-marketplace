@@ -27,7 +27,7 @@
     "@microsoft/applicationinsights-react-js": "^3.4.1",
     "@microsoft/applicationinsights-web": "^2.8.11",
     "@next/bundle-analyzer": "^13.2.4",
-    "@portabletext/react": "^1.0.6",
+    "@portabletext/react": "^2.0.2",
     "@portabletext/types": "^2.0.2",
     "algoliasearch": "^4.15.0",
     "applicationinsights": "^2.5.0",
