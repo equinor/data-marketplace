@@ -1,8 +1,10 @@
 // eslint-disable-next-line import/extensions
 import { tokens } from "@equinor/eds-tokens"
-import { createInstantSearchNextRouter } from "instantsearch-router-next-experimental"
+// import { createInstantSearchNextRouter } from "instantsearch-router-next-experimental"
+import singletonRouter from "next/router"
 import type { NextPage, GetServerSideProps } from "next/types"
 import { renderToString } from "react-dom/server"
+import { createInstantSearchRouterNext } from "react-instantsearch-hooks-router-nextjs"
 import { getServerState } from "react-instantsearch-hooks-server"
 import {
   Configure,
@@ -115,7 +117,7 @@ const Search = ({ serverState, isServerRendered, indexName, serverUrl }: Props) 
         indexName={indexName}
         onStateChange={onStateChange}
         /* @ts-ignore */
-        routing={{ router: createInstantSearchNextRouter({ serverUrl }) }}
+        routing={{ router: createInstantSearchRouterNext({ singletonRouter, serverUrl }) }}
       >
         <Configure
           hitsPerPage={HITS_PER_PAGE}

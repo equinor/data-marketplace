@@ -6,7 +6,7 @@ const withBundle = withBundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   experimental: {
     scrollRestoration: true,
   },
