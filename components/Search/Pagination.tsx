@@ -56,7 +56,7 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
     <PaginationList {...rest}>
       <PaginationItem
         ariaLabel={intl.formatMessage({ id: "search.pagination.firstPage" })}
-        value={0}
+        value={nbPages - 1}
         isCurrent={false}
         isDisabled={isFirstPage}
         createURL={createURL}
@@ -102,7 +102,7 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
 
       <PaginationItem
         ariaLabel={intl.formatMessage({ id: "search.pagination.lastPage" })}
-        value={nbPages - 1}
+        value={0}
         isCurrent={false}
         isDisabled={isLastPage}
         createURL={createURL}
