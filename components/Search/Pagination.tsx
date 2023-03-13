@@ -51,25 +51,30 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
     return null
   }
 
+  const firstPageIndex = 0
+  const previousPageIndex = currentRefinement - 1
+  const nextPageIndex = currentRefinement + 1
+  const lastPageIndex = nbPages - 1
+
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <PaginationList {...rest}>
       <PaginationItem
         ariaLabel={intl.formatMessage({ id: "search.pagination.firstPage" })}
-        value={0}
         isCurrent={false}
         isDisabled={isFirstPage}
         createURL={createURL}
+        href={createURL(firstPageIndex)}
         refine={refine}
       >
         <Icon data={first_page} />
       </PaginationItem>
       <PaginationItem
         ariaLabel={intl.formatMessage({ id: "search.pagination.previous" })}
-        value={currentRefinement - 1}
         isCurrent={false}
         isDisabled={isFirstPage}
         createURL={createURL}
+        href={createURL(previousPageIndex)}
         refine={refine}
       >
         <Icon data={chevron_left} />
@@ -79,10 +84,10 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
         <PaginationItem
           key={page}
           ariaLabel={`Page ${page + 1}`}
-          value={page}
           isCurrent={page === currentRefinement}
           isDisabled={false}
           createURL={createURL}
+          href={createURL(page)}
           refine={refine}
         >
           {page + 1}
@@ -91,10 +96,10 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
 
       <PaginationItem
         ariaLabel={intl.formatMessage({ id: "search.pagination.next" })}
-        value={currentRefinement + 1}
         isCurrent={false}
         isDisabled={isLastPage}
         createURL={createURL}
+        href={createURL(nextPageIndex)}
         refine={refine}
       >
         <Icon data={chevron_right} />
@@ -102,10 +107,10 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
 
       <PaginationItem
         ariaLabel={intl.formatMessage({ id: "search.pagination.lastPage" })}
-        value={nbPages - 1}
         isCurrent={false}
         isDisabled={isLastPage}
         createURL={createURL}
+        href={createURL(lastPageIndex)}
         refine={refine}
       >
         <Icon data={last_page} />
