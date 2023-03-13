@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,11 +23,30 @@
       {
         "name": "typescript-styled-plugin",
         "lint": {
-          "validProperties": ["margin-block", "margin-inline", "padding-block", "padding-inline", "aspect-ratio"]
+          "validProperties": [
+            "margin-block",
+            "margin-inline",
+            "padding-block",
+            "padding-inline",
+            "aspect-ratio"
+          ]
         }
+      },
+      {
+        "name": "next"
       }
     ]
   },
-  "include": ["next-env.d.ts", "collibra.d.ts", "data-marketplace.d.ts", "**/*.ts", "**/*.tsx", "middleware.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "collibra.d.ts",
+    "data-marketplace.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "middleware.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
