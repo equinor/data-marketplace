@@ -25,7 +25,7 @@ type Props = {
 // in the `pages` directory.
 export const HelloWorld: FunctionComponent<Props> = ({ recentPosts }) => (
   <div>
-    <h1>Hello from the app folder</h1>
+    <h1>Hello from the app folder apple</h1>
     <FormattedMessage id="frontpage.browseSpecificBusinessArea.header" />
 
     <div>
