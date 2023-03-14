@@ -6,6 +6,9 @@ import { AppInsightsContext } from "./AppInsightsContext"
 import { AuthContext } from "./AuthContext"
 import { IntlContext } from "./IntlContext"
 
+import { Footer } from "components/Footer"
+import { LayoutWrapper } from "components/Layout"
+import { NavBar } from "components/NavBar"
 import StyledComponentsRegistry from "lib/registry"
 import englishTexts from "locales/english.json"
 import { GlobalStyle } from "styles/globals"
@@ -43,7 +46,11 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
             <AppInsightsContext>
               <StyledComponentsRegistry>
                 <GlobalStyle />
-                {children}
+                <LayoutWrapper>
+                  <NavBar />
+                  {children}
+                  <Footer />
+                </LayoutWrapper>
               </StyledComponentsRegistry>
             </AppInsightsContext>
           </IntlContext>

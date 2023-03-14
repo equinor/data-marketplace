@@ -26,12 +26,10 @@ html,
 body {
   padding: 0;
   margin: 0;
- 
 }
 
 a {
   color: ${tokens.colors.interactive.primary__resting.hex};
-
 }
 
 * {
