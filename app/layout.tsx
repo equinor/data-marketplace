@@ -1,42 +1,47 @@
-/* import StyledComponentsRegistry from "lib/registry"
-import { AppInsightsContext, AppInsightsErrorBoundary } from "@microsoft/applicationinsights-react-js"
-import type { AppProps } from "next/app" */
-/* import Head from "next/head"
+import { headers } from "next/headers"
 import { Session } from "next-auth"
-import { SessionProvider } from "next-auth/react"
-import { IntlProvider } from "react-intl"
-import { reactPlugin } from "appInsights"
-import { ErrorBoundary } from "components/ErrorBoundary"
-import englishTexts from "locales/english.json"
-import { GlobalStyle } from "styles/globals" */
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  console.log("The layout")
+import { AppInsightsContext } from "./AppInsightsContext"
+import { AuthContext } from "./AuthContext"
+import { IntlContext } from "./IntlContext"
+
+import StyledComponentsRegistry from "lib/registry"
+import englishTexts from "locales/english.json"
+import { GlobalStyle } from "styles/globals"
+
+async function getSession(cookie: string): Promise<Session> {
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/session`, {
+    headers: {
+      cookie,
+    },
+  })
+
+  const session = await response.json()
+
+  return Object.keys(session).length > 0 ? session : null
+}
+
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+  const session = await getSession(headers().get("cookie") ?? "")
   return (
     <html lang="en">
       <head>
         <link rel="stylesheet" href="https://eds-static.equinor.com/font/equinor-font.css" />
         <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
         <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>
-        {/*     <SessionProvider session={pageProps.session}>
-          <IntlProvider locale="en" defaultLocale="en" messages={englishTexts}>
-            <AppInsightsErrorBoundary onError={ErrorBoundary} appInsights={reactPlugin}>
-              <AppInsightsContext.Provider value={reactPlugin}>
-                <Head>
-                  <meta name="viewport" content="width=device-width, initial-scale=1" />
-                </Head>
-
-                <StyledComponentsRegistry>
-                  <GlobalStyle />
-                  {children}
-                </StyledComponentsRegistry>
-              </AppInsightsContext.Provider>
-            </AppInsightsErrorBoundary>
-          </IntlProvider>
-        </SessionProvider> */}
-        {children}
+        <AuthContext session={session}>
+          <IntlContext locale="en" defaultLocale="en" messages={englishTexts}>
+            <AppInsightsContext>
+              <StyledComponentsRegistry>
+                <GlobalStyle />
+                {children}
+              </StyledComponentsRegistry>
+            </AppInsightsContext>
+          </IntlContext>
+        </AuthContext>
       </body>
     </html>
   )

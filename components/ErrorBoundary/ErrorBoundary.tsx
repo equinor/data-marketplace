@@ -1,3 +1,5 @@
+"use client"
+
 import { Typography } from "@equinor/eds-core-react"
 
 import { Container } from "../Container"

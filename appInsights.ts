@@ -1,3 +1,5 @@
+"use client"
+
 import { ReactPlugin } from "@microsoft/applicationinsights-react-js"
 import { ApplicationInsights } from "@microsoft/applicationinsights-web"
 
