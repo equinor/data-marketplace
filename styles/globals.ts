@@ -26,7 +26,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: Equinor, sans-serif;
+ 
 }
 
 a {
