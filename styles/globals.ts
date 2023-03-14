@@ -1,3 +1,5 @@
+"use client"
+
 import { tokens } from "@equinor/eds-tokens"
 import { createGlobalStyle } from "styled-components"
 
