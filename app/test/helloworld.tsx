@@ -4,6 +4,9 @@ import { FunctionComponent } from "react"
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
+import { Container } from "components/Container"
+import { Heading } from "components/Typography"
+
 const PostItem = styled.span`
   color: pink;
   background-color: cadetblue;
@@ -24,8 +27,10 @@ type Props = {
 // has access to state and effects just like Page components
 // in the `pages` directory.
 export const HelloWorld: FunctionComponent<Props> = ({ recentPosts }) => (
-  <div>
-    <h1>Hello from the app folder apple</h1>
+  <Container>
+    <Heading size="2xl" level="h1" bold>
+      Hello from the app folder
+    </Heading>
     <FormattedMessage id="frontpage.browseSpecificBusinessArea.header" />
 
     <div>
@@ -33,5 +38,5 @@ export const HelloWorld: FunctionComponent<Props> = ({ recentPosts }) => (
         <PostItem key={post.name}>{post.name}</PostItem>
       ))}
     </div>
-  </div>
+  </Container>
 )

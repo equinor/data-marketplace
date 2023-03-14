@@ -1,3 +1,5 @@
+"use client"
+
 import { Typography, List, Icon } from "@equinor/eds-core-react"
 import { github, email } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
@@ -15,6 +17,7 @@ const FooterWrapper = styled.div`
 const UnstyledList = styled(List)`
   padding: 0;
   list-style: none;
+  font-family: inherit;
 `
 
 const FooterContainer = styled.div`
@@ -25,6 +28,7 @@ const FooterContainer = styled.div`
 `
 
 const InvertedText = styled(Typography)`
+  font-family: inherit;
   color: ${tokens.colors.ui.background__default.hex};
 `
 

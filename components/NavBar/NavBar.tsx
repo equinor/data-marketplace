@@ -1,3 +1,5 @@
+"use client"
+
 /* eslint-disable camelcase */
 import { Button, TopBar, Typography, Icon } from "@equinor/eds-core-react"
 import { search } from "@equinor/eds-icons"
