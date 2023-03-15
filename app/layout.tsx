@@ -35,7 +35,6 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" className={equinorFont.className}>
       <head>
-        {/*    <link rel="stylesheet" href="https://eds-static.equinor.com/font/equinor-font.css" /> */}
         <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
         <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -60,6 +59,5 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-//         <link rel="stylesheet" href="https://eds-static.equinor.com/font/equinor-uprights-vf.css" />
 // eslint-disable-next-line import/no-default-export
 export default RootLayout

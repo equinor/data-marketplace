@@ -1,3 +1,5 @@
+"use client"
+
 import { Typography } from "@equinor/eds-core-react"
 import { FunctionComponent } from "react"
 import styled from "styled-components"

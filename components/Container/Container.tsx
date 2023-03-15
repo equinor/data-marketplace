@@ -1,3 +1,5 @@
+"use client"
+
 import { tokens } from "@equinor/eds-tokens"
 import type { FunctionComponent, ReactNode } from "react"
 import styled from "styled-components"

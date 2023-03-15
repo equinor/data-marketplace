@@ -1,4 +1,7 @@
 /* eslint-disable camelcase */
+
+"use client"
+
 import { Typography, Icon } from "@equinor/eds-core-react"
 import { external_link } from "@equinor/eds-icons"
 import { FunctionComponent } from "react"

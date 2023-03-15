@@ -1,3 +1,5 @@
+"use client"
+
 import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
 import { FunctionComponent, PropsWithChildren } from "react"

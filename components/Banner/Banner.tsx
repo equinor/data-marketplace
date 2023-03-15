@@ -80,6 +80,6 @@ export const Banner: FunctionComponent<Props> = ({ children, icon, variant = "in
         <Icon data={icon} />
       </IconContainer>
     )}
-    <Typography>{children}</Typography>
+    <Typography style={{ fontFamily: "inherit" }}>{children}</Typography>
   </Container>
 )
