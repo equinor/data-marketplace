@@ -17,7 +17,7 @@ type PaginationItemProps = ListItemProps &
   }
 
 export const PaginationItem = ({ isDisabled, isCurrent, ariaLabel, href, inverted, children }: PaginationItemProps) => {
-  if (isDisabled || isCurrent) {
+  if (isDisabled) {
     return (
       <StyledListItem>
         <Button
@@ -28,9 +28,29 @@ export const PaginationItem = ({ isDisabled, isCurrent, ariaLabel, href, inverte
           variant="ghost_icon"
           aria-label={ariaLabel}
           /* @ts-ignore */
-          style={{ "--eds_interactive_secondary__highlight": "red", background: "var(--white)" }}
+
+          style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue)" }}
         >
-          -blue
+          {children}
+        </Button>
+      </StyledListItem>
+    )
+  }
+
+  if (isCurrent) {
+    return (
+      <StyledListItem>
+        <Button
+          color="secondary"
+          disabled={isDisabled}
+          isCurrent={isCurrent}
+          inverted={inverted}
+          variant="ghost_icon"
+          aria-label={ariaLabel}
+          /* @ts-ignore */
+
+          style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue)", background: "var(--white)" }}
+        >
           {children}
         </Button>
       </StyledListItem>
