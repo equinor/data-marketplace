@@ -1,5 +1,4 @@
 import { Button, List, ListItemProps } from "@equinor/eds-core-react"
-import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
 import { usePagination } from "react-instantsearch-hooks-web"
 import styled from "styled-components"
@@ -7,27 +6,6 @@ import styled from "styled-components"
 const { Item: EdsItem } = List
 
 const StyledListItem = styled(EdsItem)``
-
-const PaginationLink = styled(Button)<{ isCurrent?: boolean }>`
-  --button-size: 44px;
-  width: var(--button-size);
-  height: var(--button-size); 
-  color: ${tokens.colors.text.static_icons__default.rgba};
-  ${({ isCurrent }) =>
-    isCurrent && {
-      background: tokens.colors.ui.background__default.rgba,
-      color: tokens.colors.interactive.secondary__link_hover.rgba,
-    }};
-  :hover {
-    /* Not an EDS colour */
-    background-color: rgba(186, 209, 220, 1);
-    
-  :disabled {
-    cursor: auto;
-    color: ${tokens.colors.interactive.disabled__text.rgba};
-  }
-`
-
 
 type PaginationItemProps = ListItemProps &
   Pick<ReturnType<typeof usePagination>, "refine" | "createURL"> & {
@@ -38,36 +16,63 @@ type PaginationItemProps = ListItemProps &
     inverted?: boolean
   }
 
-  export const PaginationItem = ({ isDisabled, isCurrent, ariaLabel, href, inverted, children }: PaginationItemProps) => {
-    if (isDisabled || isCurrent) {
-      return (
+export const PaginationItem = ({ isDisabled, isCurrent, ariaLabel, href, inverted, children }: PaginationItemProps) => {
+  if (isDisabled) {
+    return (
       <StyledListItem>
-        {/* @ts-ignore */}
-        <PaginationLink
-        href={href}
-        as={NextLink}
+        <Button
+          color="secondary"
           disabled={isDisabled}
           isCurrent={isCurrent}
           inverted={inverted}
           variant="ghost_icon"
           aria-label={ariaLabel}
+          /* @ts-ignore */
+
+          style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue)" }}
         >
           {children}
-        </PaginationLink>
+        </Button>
+      </StyledListItem>
+    )
+  }
+
+  if (isCurrent) {
+    return (
+      <StyledListItem>
+        <Button
+          color="secondary"
+          disabled={isDisabled}
+          isCurrent={isCurrent}
+          inverted={inverted}
+          variant="ghost_icon"
+          aria-label={ariaLabel}
+          /* @ts-ignore */
+
+          style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue)", background: "var(--white)" }}
+        >
+          {children}
+        </Button>
       </StyledListItem>
     )
   }
 
   return (
     <StyledListItem>
-      <PaginationLink
+      {/* @ts-ignore */}
+      <Button
+        color="secondary"
+        href={href}
+        as={NextLink}
         disabled={isDisabled}
         variant="ghost_icon"
         aria-label={ariaLabel}
         inverted={inverted}
+        /* @ts-ignore */
+        style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue)" }}
       >
         {children}
-      </PaginationLink>
+      </Button>
     </StyledListItem>
   )
 }

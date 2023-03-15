@@ -63,7 +63,6 @@ export const Pagination = ({ totalPages, padding, hitsPerPage = 5, ...rest }: Pa
         isCurrent={false}
         isDisabled={isFirstPage}
         createURL={createURL}
-  
         href={createURL(firstPageIndex)}
         refine={refine}
       >
