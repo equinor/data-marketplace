@@ -37,12 +37,6 @@ a {
 }
 
 :root {
-  --layout-padding-inline: ${tokens.spacings.comfortable.medium};
-  --layout-padding-block: ${tokens.spacings.comfortable.x_large};
-  --layout-max-width: none;
-  
-
-
   /* Spaces */
   --space-2:  ${tokens.spacings.comfortable.xx_small};
   --space-4:  ${tokens.spacings.comfortable.x_small};
@@ -84,14 +78,19 @@ a {
   --outline-colour: var(--moss-green-100);
   --hit-highlight: hsla(185, 30%, 84%, 1);
 
+
+  --layout-padding-inline: ${tokens.spacings.comfortable.medium};  /*  16px */
+  --layout-padding-block: ${tokens.spacings.comfortable.x_large};  /* 32px */
+  --layout-max-width: none;
+
   @media screen and (min-width: 768px) {
-    --layout-padding-inline: ${tokens.spacings.comfortable.large};
-    --layout-padding-block: ${tokens.spacings.comfortable.xx_large};
+    --layout-padding-inline: ${tokens.spacings.comfortable.large}; /* 24px */
+    --layout-padding-block: ${tokens.spacings.comfortable.xx_large}; /* 40px */
   }
 
   @media screen and (min-width: 992px) {
-    --layout-padding-inline: ${tokens.spacings.comfortable.x_large};
-    --layout-padding-block: ${tokens.spacings.comfortable.xxx_large};
+    --layout-padding-inline: ${tokens.spacings.comfortable.x_large}; /* 32px */
+    --layout-padding-block: ${tokens.spacings.comfortable.xxx_large}; /* 48px */
     --layout-max-width: 70rem;
   }
 
