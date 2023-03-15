@@ -100,4 +100,10 @@ a {
     --layout-max-width: 80rem;
   }
 }
+
+--layout-space-inline-small: 2rem; /* 32px */
+--layout-space-inline-medium: 7.75rem; /* 124px */
+--layout-space-inline-large: 13.5rem; /* 216px */
+
+--max-content-width: 79rem; /* 1264 */
 `
