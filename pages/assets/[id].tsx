@@ -20,10 +20,19 @@ import { request } from "lib/net/request"
 const { Tab: EdsTab, List, Panel: EdsPanel, Panels } = Tabs
 
 const Header = styled.header`
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-gap: 1.5rem;
-  align-items: end;
+  @media (min-width: 850px) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 1.5rem;
+    align-items: end;
+  }
+`
+
+const AssetHeading = styled.div`
+  margin-bottom: var(--space-32);
+  @media (min-width: 850px) {
+    margin-bottom: 0;
+  }
 `
 
 const Panel = styled(EdsPanel)`
@@ -93,8 +102,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
       <main>
         <Container highlight>
           <Header>
-            <div>
-              {/*  @TODO Fix this when community is found */}
+            <AssetHeading>
               {asset.community && (
                 <Typography variant="overline" as="span" style={{ fontSize: "var(--text-xs)" }}>
                   {asset.community.name}
@@ -103,7 +111,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
               <Heading level="h1" size="2xl">
                 {asset.name}
               </Heading>
-            </div>
+            </AssetHeading>
             <Button
               as={NextLink}
               /*  Because EDS types href as string */
