@@ -20,7 +20,7 @@ const TopbarWrapper = styled.div`
 `
 
 const EDSTopBar = styled(TopBar)`
-  padding-inline: var(--layout-padding-inline);
+  padding-inline: calc(var(--layout-padding-inline) - var(--space-16));
   border-bottom: 0;
   box-shadow: none;
   max-width: var(--layout-max-width);
