@@ -31,28 +31,45 @@ import { searchClient, searchClientServer } from "config"
 import englishTexts from "locales/english.json"
 
 const SearchContainer = styled.div`
-  --huge-space: calc(2 * ${tokens.spacings.comfortable.xxx_large});
-  /* Lot's of different text sizes going on here, I expect this to change
-  at some point. But add an explicit height for now and reuse as line height for 
-  the stats header to get proper alignment */
   --baseline-text-height: 2.25rem;
+  --max-search-results-width: 660px;
+  --filter-width: 16rem;
+  --column-space: 1fr;
+  width: 100%;
   display: grid;
   grid-template-areas:
-    "search"
+    "header"
+    "searchBox"
+    "."
+    "filterHeader"
     "filter"
+    "."
     "totalResults"
     "results"
     "pagination";
-  @media (min-width: 900px) {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto var(--space-24) auto auto var(--space-24);
+
+  @media (min-width: 850px) {
     /* Temp. column width restriction until new page layout is ready */
-    grid-template-columns: 17rem var(--huge-space) minmax(auto, 660px);
-    grid-template-rows: min-content var(--huge-space) var(--baseline-text-height) auto auto;
+    grid-template-columns:
+      var(--filter-width) var(--space-32) minmax(auto, var(--max-search-results-width))
+      1fr;
+    grid-template-rows: min-content var(--space-32) var(--baseline-text-height) auto auto;
     grid-template-areas:
-      ". . search"
+      ". . header"
+      ". . searchBox"
       ". . ."
       "filterHeader . totalResults"
       "filter .  results"
       ". . pagination";
+  }
+
+  @media (min-width: 1450px) {
+    /* Temp. column width restriction until new page layout is ready */
+    grid-template-columns:
+      var(--filter-width) minmax(var(--space-32), var(--column-space)) minmax(auto, var(--max-search-results-width))
+      var(--column-space) var(--filter-width);
   }
 `
 
@@ -60,8 +77,16 @@ const StyledPagination = styled(Pagination)`
   justify-content: center;
 `
 
+const StyledHeading = styled(Heading)`
+  grid-area: header;
+  margin-block: 0 var(--space-24);
+  @media (min-width: 900px) {
+    margin-block: var(--space-64);
+  }
+`
+
 const StyledSearchBox = styled.div`
-  grid-area: search;
+  grid-area: searchBox;
 `
 
 const FilterHeader = styled.div`
@@ -126,6 +151,9 @@ const Search = ({ serverState, isServerRendered, indexName, serverUrl }: Props) 
         />
 
         <SearchContainer>
+          <StyledHeading level="h1" size="2xl" center>
+            <FormattedMessage id="search.header" />
+          </StyledHeading>
           <StyledSearchBox>
             <SearchBox />
           </StyledSearchBox>
@@ -165,9 +193,6 @@ const SearchPage: NextPage<Props> = ({ serverState, isServerRendered = false, se
     <Page documentTitle={intl.formatMessage({ id: "search.title" })}>
       <main>
         <Container highlight>
-          <Heading level="h1" size="2xl" center style={{ marginBlock: tokens.spacings.comfortable.xxx_large }}>
-            <FormattedMessage id="search.header" />
-          </Heading>
           <Search
             serverState={serverState}
             indexName={indexName}

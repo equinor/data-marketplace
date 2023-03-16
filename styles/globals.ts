@@ -95,15 +95,9 @@ a {
   }
 
   @media screen and (min-width: 1200px) {
-    --layout-padding-inline: 4rem;
+    --layout-padding-inline: 7.75rem; /* 124px */
     --layout-padding-block: 5rem;
-    --layout-max-width: 80rem;
+    --layout-max-width: 94.5rem; /* 1512 */
   }
 }
-
---layout-space-inline-small: 2rem; /* 32px */
---layout-space-inline-medium: 7.75rem; /* 124px */
---layout-space-inline-large: 13.5rem; /* 216px */
-
---max-content-width: 79rem; /* 1264 */
 `
