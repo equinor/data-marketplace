@@ -23,6 +23,7 @@ const BackgroundContainer = styled.div.attrs<BackgroundProps>(({ isHighlighted }
 
 const StyledSection = styled.div`
   width: 100%;
+  margin-inline: auto;
   max-width: var(--layout-max-width);
   margin-inline: auto;
   padding: var(--layout-padding-block) var(--layout-padding-inline);
