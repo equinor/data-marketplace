@@ -1,12 +1,11 @@
 import { Search } from "@equinor/eds-core-react"
-import { tokens } from "@equinor/eds-tokens"
 import { useState, useRef /* useEffect */ } from "react"
 import { useSearchBox } from "react-instantsearch-hooks-web"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 const StyledSearch = styled(Search)`
-  --eds_ui_background__light: ${tokens.colors.ui.background__default.hsla};
+  --eds_ui_background__light: var(--white);
 `
 
 export const SearchBox = () => {

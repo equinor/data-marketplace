@@ -15,15 +15,15 @@ const getContainerVariantStyles = (variant: BannerVariant) =>
   ((
     {
       error: css`
-        --container-background: ${tokens.colors.ui.background__danger.hex};
+        --container-background: var(--danger);
         --container-border-color: transparent;
       `,
       info: css`
-        --container-background: ${tokens.colors.ui.background__default.hex};
-        --container-border-color: rgba(0, 0, 0, 0.14);
+        --container-background: var(--default);
+        --container-border-color: var(--transparent-black);
       `,
       warning: css`
-        --container-background: ${tokens.colors.interactive.warning__highlight.hex};
+        --container-background: var(--warning);
         --container-border-color: transparent;
       `,
       none: css`
@@ -53,8 +53,8 @@ const getIconContainerVariantStyles = (variant: BannerVariant) =>
       error: css``,
       info: css``,
       warning: css`
-        --icon-background: ${tokens.colors.logo.fill_negative.hex};
-        --icon-fill: ${tokens.colors.interactive.warning__text.hex};
+        --icon-background: var(--warning-icon-background);
+        --icon-fill: var(--warning-icon-fill);
       `,
       none: css``,
     } as Record<BannerVariant, ReturnType<typeof css>>

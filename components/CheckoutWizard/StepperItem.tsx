@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import { List, Typography, Icon } from "@equinor/eds-core-react"
 import { check_circle_outlined } from "@equinor/eds-icons"
-import { tokens } from "@equinor/eds-tokens"
 import { FunctionComponent } from "react"
 import styled from "styled-components"
 
@@ -11,10 +10,10 @@ const StyledStepperItem = styled(Item)`
   display: grid;
   grid-template-columns: min-content 1fr;
   --size1: calc(8 / 16 * 1rem);
-  --disabledText: ${tokens.colors.text.static_icons__default.hex};
-  --mossGreen: ${tokens.colors.interactive.primary__resting.hex};
-  --defaultText: ${tokens.colors.text.static_icons__default.hex};
-  --mediumGrey: ${tokens.colors.ui.background__medium.hex};
+  --disabledText: var(--disabled-text);
+  --mossGreen: var(--moss-green-100);
+  --defaultText: var(--charcoal);
+  --mediumGrey: var(--mediumGrey);
 `
 
 const StepperIndex = styled.div<{ active?: boolean }>`
@@ -22,7 +21,7 @@ const StepperIndex = styled.div<{ active?: boolean }>`
   height: 20px;
   border-radius: 50%;
   font-size: 0.875rem;
-  border: 1px solid ;
+  border: 1px solid;
   display: grid;
   place-content: center;
   color: ${({ active }) => (active ? "white" : "var(--disabledText)")};
@@ -30,13 +29,15 @@ const StepperIndex = styled.div<{ active?: boolean }>`
   border-color: ${({ active }) => (active ? "var(--mossGreen)" : "var(--disabledText)")};
 `
 
-const StepperTitle = styled(Typography)<{ finished?: boolean}>`
+const StepperTitle = styled(Typography)<{ finished?: boolean }>`
   margin-left: var(--size1);
-  background-image: ${({ finished }) => (finished ? "linear-gradient(white 50%, var(--mossGreen) 0 calc(50% + 1px), white 0)"
-    : "linear-gradient(white 50%, var(--mediumGrey) 0 calc(50% + 1px), white 0)")};
+  background-image: ${({ finished }) =>
+    finished
+      ? "linear-gradient(white 50%, var(--mossGreen) 0 calc(50% + 1px), white 0)"
+      : "linear-gradient(white 50%, var(--mediumGrey) 0 calc(50% + 1px), white 0)"};
   margin-right: var(--size1);
 `
-const Title = styled.span<{ active?: boolean, finished?: boolean }>`
+const Title = styled.span<{ active?: boolean; finished?: boolean }>`
   white-space: nowrap;
   background-color: white;
   padding-right: var(--size1);
@@ -56,14 +57,14 @@ export const StepperItem: FunctionComponent<Props> = ({ label, index, currentSte
   return (
     <StyledStepperItem>
       {finished ? (
-        <Icon
-          data={check_circle_outlined}
-          color={tokens.colors.interactive.primary__resting.hex}
-        />
-      )
-        : <StepperIndex active={active}>{index + 1}</StepperIndex>}
+        <Icon data={check_circle_outlined} color="var(--moss-green-100)" />
+      ) : (
+        <StepperIndex active={active}>{index + 1}</StepperIndex>
+      )}
       <StepperTitle finished={finished}>
-        <Title active={active} finished={finished}>{label}</Title>
+        <Title active={active} finished={finished}>
+          {label}
+        </Title>
       </StepperTitle>
     </StyledStepperItem>
   )

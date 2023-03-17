@@ -24,7 +24,7 @@ const TruncatedStaticExcerpt = styled(Typography)`
 
 const StyledSnippet = styled(Snippet)`
   display: block;
-  color: ${tokens.colors.text.static_icons__default.hsla};
+  color: var(--charcoal);
   & .highlighted {
     background: var(--hit-highlight);
     font-weight: 700;
@@ -33,13 +33,13 @@ const StyledSnippet = styled(Snippet)`
 `
 
 const StyledLink = styled(NextLink)`
-  background-color: ${tokens.colors.ui.background__default.hsla};
+  background-color: var(--white);
   padding: ${tokens.spacings.comfortable.medium};
   text-decoration: none;
   display: block;
   box-shadow: ${elevations.medium};
   &:focus-visible {
-    outline: 2px dashed ${tokens.colors.infographic.primary__moss_green_100.hsla};
+    outline: 2px dashed var(--outline-colour);
   }
 `
 
@@ -52,7 +52,7 @@ const TagsContainer = styled.div`
 
 const StyledChip = styled(Chip)`
   background-color: rgb(255, 218, 168);
-  color: ${tokens.colors.text.static_icons__default.hsla};
+  color: var(--charcoal);
 `
 
 const StyledTypography = styled(Typography)`

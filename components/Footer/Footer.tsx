@@ -21,7 +21,7 @@ const UnstyledList = styled(List)`
 `
 
 const FooterContainer = styled.div`
-  background-color: ${tokens.colors.infographic.primary__slate_blue.hex};
+  background-color: var(--slateBlue);
   height: ${FOOTER_HEIGHT};
   display: grid;
   align-items: center;
@@ -29,11 +29,11 @@ const FooterContainer = styled.div`
 
 const InvertedText = styled(Typography)`
   font-family: inherit;
-  color: ${tokens.colors.ui.background__default.hex};
+  color: var(--default);
 `
 
 const FooterLink = styled(List.Item)`
-  color: ${tokens.colors.ui.background__default.hex};
+  color: var(--default);
   &:not(:last-child) {
     margin-bottom: ${tokens.spacings.comfortable.small};
   }

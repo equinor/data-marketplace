@@ -15,7 +15,7 @@ const GridContainer = styled.div`
 const StyledLink = styled.a`
   text-decoration: none;
   &:focus-visible {
-    outline: 2px dashed ${tokens.colors.interactive.primary__resting.hex};
+    outline: 2px dashed var(--outline-colour);
   }
 `
 

@@ -12,7 +12,7 @@ const StyledCaption = styled(Table.Caption)`
 `
 
 const HeaderCell = styled(Table.Cell)`
-  background-color: ${tokens.colors.infographic.primary__moss_green_13.hex};
+  background-color: var(--moss-green-13);
 `
 
 export type ResponsibilityHolder = {
