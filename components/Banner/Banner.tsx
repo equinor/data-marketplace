@@ -53,7 +53,7 @@ const getIconContainerVariantStyles = (variant: BannerVariant) =>
       error: css``,
       info: css``,
       warning: css`
-        --icon-background: var(--warning-icon-background);
+        --icon-background: var(--white);
         --icon-fill: var(--warning-icon-fill);
       `,
       none: css``,
