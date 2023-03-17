@@ -16,7 +16,7 @@ const BackgroundContainer = styled.div.attrs<BackgroundProps>(({ isHighlighted }
         className: "background-default",
       }
 )<BackgroundProps>`
-  background-color: ${({ isHighlighted }) => (isHighlighted ? "var(--moss-green-13)" : "var(--default)")};
+  background-color: ${({ isHighlighted }) => (isHighlighted ? "var(--moss-green-13)" : "var(--white)")};
 `
 
 const StyledSection = styled.div`

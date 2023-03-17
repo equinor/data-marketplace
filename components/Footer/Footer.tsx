@@ -29,11 +29,11 @@ const FooterContainer = styled.div`
 
 const InvertedText = styled(Typography)`
   font-family: inherit;
-  color: var(--default);
+  color: var(--white);
 `
 
 const FooterLink = styled(List.Item)`
-  color: var(--default);
+  color: var(--white);
   &:not(:last-child) {
     margin-bottom: ${tokens.spacings.comfortable.small};
   }
