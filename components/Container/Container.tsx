@@ -1,6 +1,5 @@
 "use client"
 
-import { tokens } from "@equinor/eds-tokens"
 import type { FunctionComponent, ReactNode } from "react"
 import styled from "styled-components"
 
@@ -17,8 +16,7 @@ const BackgroundContainer = styled.div.attrs<BackgroundProps>(({ isHighlighted }
         className: "background-default",
       }
 )<BackgroundProps>`
-  background-color: ${({ isHighlighted }) =>
-    isHighlighted ? tokens.colors.infographic.primary__moss_green_13.hex : tokens.colors.ui.background__default.hex};
+  background-color: ${({ isHighlighted }) => (isHighlighted ? "var(--moss-green-13)" : "var(--default)")};
 `
 
 const StyledSection = styled.div`

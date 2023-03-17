@@ -61,12 +61,24 @@ a {
   --disappointing-vanilla: hsla(34.5,100%,82.9%, 1);
   --moss-green-13: ${tokens.colors.infographic.primary__moss_green_13.hsla};
   --moss-green-100: ${tokens.colors.interactive.primary__resting.hsla};
-  --white: ${tokens.colors.text.static_icons__primary_white.hsla};
+  --white: ${tokens.colors.ui.background__default.hsla};
   --moss-dark: ${tokens.colors.interactive.primary__hover.hsla};
   --baby-blue: 	hsl(199, 33%, 80%);
   --charcoal: ${tokens.colors.text.static_icons__default.hsla};
+  --medium-grey: ${tokens.colors.ui.background__medium.hsla};
+  --slateBlue: ${tokens.colors.infographic.primary__slate_blue.hsla};
+  --background-light: ${tokens.colors.ui.background__light.rgba};
 
+  --validation-error: ${tokens.colors.interactive.danger__text.hsla};
+  --danger: ${tokens.colors.ui.background__danger.hsla};
+  --default: ${tokens.colors.ui.background__default.hsla};
 
+  --warning: ${tokens.colors.interactive.warning__highlight.hsla};
+  --transparent-black: hsla(0, 0%, 0%, 0.14);
+  --warning-icon-background: ${tokens.colors.logo.fill_negative.hex};
+  --warning-icon-fill: ${tokens.colors.interactive.warning__text.hsla};
+
+  --disabled-text: var(---charcoal);
   /* Semantic colours 
   This doesn't actually work very well... We should probably wait for EDS
   */

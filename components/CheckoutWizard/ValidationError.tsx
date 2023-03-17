@@ -5,7 +5,7 @@ import { tokens } from "@equinor/eds-tokens"
 import type { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
 
-const errorColor = tokens.colors.interactive.danger__text.rgba
+const errorColor = "var(--validation-error)"
 
 const ValidationContainer = styled.div`
   display: flex;
@@ -21,6 +21,8 @@ export const ValidationError: FunctionComponent<PropsWithChildren> = ({ children
   // eslint-disable-next-line react/jsx-props-no-spreading
   <ValidationContainer {...rest}>
     <Icon data={error_filled} color={errorColor} size={16} />
-    <HelperTextStyles group="input" variant="helper" role="alert">{children}</HelperTextStyles>
+    <HelperTextStyles group="input" variant="helper" role="alert">
+      {children}
+    </HelperTextStyles>
   </ValidationContainer>
 )

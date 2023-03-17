@@ -1,23 +1,23 @@
 import { Button } from "@equinor/eds-core-react"
-import { tokens } from "@equinor/eds-tokens"
 import React from "react"
 import { useClearRefinements, UseClearRefinementsProps } from "react-instantsearch-hooks-web"
 import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 const ClearButton = styled(Button)`
-  color: ${tokens.colors.text.static_icons__default.hex};
-  background: ${tokens.colors.infographic.primary__moss_green_13.hex};
+  color: var(--charcoal);
+  background: var(--moss-green-13);
   font-weight: 1.2em;
   flex-direction: row;
+
+  --eds_button__radius: 15px;
   :hover {
-    color: ${tokens.colors.text.static_icons__default.hex};
-    /* Not an EDS colour */
-    background-color: rgba(186, 209, 220, 1);
+    color: var(--charcoal);
+    background-color: var(--baby-blue);
   }
   :disabled {
-    color: ${tokens.colors.text.static_icons__tertiary.hex};
-    background: ${tokens.colors.infographic.primary__moss_green_13.hex};
+    color: var(--disabled-clearRefinement);
+    background: var(--moss-green-13);
   }
 `
 
