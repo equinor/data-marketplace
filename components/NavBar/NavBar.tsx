@@ -13,7 +13,7 @@ import { UserMenu } from "./UserMenu"
 const TopbarWrapper = styled.div`
   box-shadow: ${tokens.elevation.none};
   border-bottom: 2px solid var(--background-light);
-  background-color: var(--default);
+  background-color: var(--white);
   position: sticky;
   top: 0;
   z-index: 1;

@@ -19,7 +19,7 @@ const getContainerVariantStyles = (variant: BannerVariant) =>
         --container-border-color: transparent;
       `,
       info: css`
-        --container-background: var(--default);
+        --container-background: var(--white);
         --container-border-color: var(--transparent-black);
       `,
       warning: css`

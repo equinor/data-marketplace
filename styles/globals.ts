@@ -71,14 +71,14 @@ a {
 
   --validation-error: ${tokens.colors.interactive.danger__text.hsla};
   --danger: ${tokens.colors.ui.background__danger.hsla};
-  --default: ${tokens.colors.ui.background__default.hsla};
-
+  --info: ${tokens.colors.ui.background__info.hsla};
   --warning: ${tokens.colors.interactive.warning__highlight.hsla};
   --transparent-black: hsla(0, 0%, 0%, 0.14);
   --warning-icon-background: ${tokens.colors.logo.fill_negative.hex};
   --warning-icon-fill: ${tokens.colors.interactive.warning__text.hsla};
 
   --disabled-text: var(---charcoal);
+  --disabled-clearRefinement: ${tokens.colors.text.static_icons__tertiary.hsla};
   /* Semantic colours 
   This doesn't actually work very well... We should probably wait for EDS
   */
