@@ -13,7 +13,7 @@ const PageWrapper = styled.div`
   flex-direction: column;
 
   &:has(.background-highlight:last-child) {
-    background-color: var(--highlight-colour);
+    background-color: var(--moss-green-13);
   }
 `
 

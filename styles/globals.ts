@@ -29,7 +29,7 @@ body {
 }
 
 a {
-  color: ${tokens.colors.interactive.primary__resting.hex};
+  color: var(---moss-green-100);
 }
 
 * {
@@ -59,16 +59,21 @@ a {
 
   /* Colours */
   --disappointing-vanilla: hsla(34.5,100%,82.9%, 1);
+
   --moss-green-13: ${tokens.colors.infographic.primary__moss_green_13.hsla};
   --moss-green-100: ${tokens.colors.interactive.primary__resting.hsla};
-  --white: ${tokens.colors.ui.background__default.hsla};
   --moss-dark: ${tokens.colors.interactive.primary__hover.hsla};
   --baby-blue: 	hsl(199, 33%, 80%);
-  --charcoal: ${tokens.colors.text.static_icons__default.hsla};
-  --medium-grey: ${tokens.colors.ui.background__medium.hsla};
+  --dusty-blue: hsla(185, 30%, 84%, 1);
   --slateBlue: ${tokens.colors.infographic.primary__slate_blue.hsla};
-  --background-light: ${tokens.colors.ui.background__light.rgba};
 
+  --white: ${tokens.colors.ui.background__default.hsla};
+ 
+  --light-grey: ${tokens.colors.ui.background__light.rgba};
+  --medium-grey: ${tokens.colors.ui.background__medium.hsla};
+  --dark-grey: ${tokens.colors.text.static_icons__tertiary.hsla};
+  --charcoal: ${tokens.colors.text.static_icons__default.hsla};
+  
   --validation-error: ${tokens.colors.interactive.danger__text.hsla};
   --danger: ${tokens.colors.ui.background__danger.hsla};
   --info: ${tokens.colors.ui.background__info.hsla};
@@ -77,20 +82,11 @@ a {
   --warning-icon-background: ${tokens.colors.logo.fill_negative.hex};
   --warning-icon-fill: ${tokens.colors.interactive.warning__text.hsla};
 
-  --disabled-text: var(---charcoal);
-  --disabled-clearRefinement: ${tokens.colors.text.static_icons__tertiary.hsla};
-  /* Semantic colours 
-  This doesn't actually work very well... We should probably wait for EDS
-  */
-  --highlight-colour: var(--moss-green-13);
-  --frontpage-top-bg: var(--disappointing-vanilla);
+
   --shadow-colour: 0deg 0% 50%;
-  --dark-button-colour: var(--moss-green-100);
-  --dark-button-colour-hover: var(--moss-dark);
   --outline-colour: var(--moss-green-100);
-  --hit-highlight: hsla(185, 30%, 84%, 1);
-
-
+  
+  /*  Main page layout spacings  */
   --layout-padding-inline: ${tokens.spacings.comfortable.medium};  /*  16px */
   --layout-padding-block: ${tokens.spacings.comfortable.x_large};  /* 32px */
   --layout-max-width: none;
