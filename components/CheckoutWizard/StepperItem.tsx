@@ -10,7 +10,7 @@ const StyledStepperItem = styled(Item)`
   display: grid;
   grid-template-columns: min-content 1fr;
   --size1: calc(8 / 16 * 1rem);
-  --disabledText: var(--disabled-text);
+  --disabledText: var(--charcoal);
   --mossGreen: var(--moss-green-100);
   --defaultText: var(--charcoal);
   --mediumGrey: var(--mediumGrey);

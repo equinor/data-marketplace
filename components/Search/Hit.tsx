@@ -10,7 +10,7 @@ import { elevations } from "styles/globals"
 
 const StyledName = styled(Highlight)`
   & .highlighted {
-    background: var(--hit-highlight);
+    background: var(--dusty-blue);
     border-radius: var(--space-2);
   }
 `
@@ -26,7 +26,7 @@ const StyledSnippet = styled(Snippet)`
   display: block;
   color: var(--charcoal);
   & .highlighted {
-    background: var(--hit-highlight);
+    background: var(--dusty-blue);
     font-weight: 700;
     border-radius: var(--space-2);
   }

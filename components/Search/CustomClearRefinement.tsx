@@ -16,7 +16,7 @@ const ClearButton = styled(Button)`
     background-color: var(--baby-blue);
   }
   :disabled {
-    color: var(--disabled-clearRefinement);
+    color: var(--dark-grey);
     background: var(--moss-green-13);
   }
 `
