@@ -1,6 +1,7 @@
 "use client"
 
 import { tokens } from "@equinor/eds-tokens"
+import "@equinor/eds-tokens/tokens.css"
 import { createGlobalStyle } from "styled-components"
 
 export const elevations = {
@@ -60,7 +61,7 @@ a {
   /* Colours */
   --disappointing-vanilla: hsla(34.5,100%,82.9%, 1);
 
-  --moss-green-13: ${tokens.colors.infographic.primary__moss_green_13.hsla};
+  --moss-green-13: var(--eds_infographic_primary__moss_green_13);
   --moss-green-100: ${tokens.colors.interactive.primary__resting.hsla};
   --moss-dark: ${tokens.colors.interactive.primary__hover.hsla};
   --baby-blue: 	hsl(199, 33%, 80%);
