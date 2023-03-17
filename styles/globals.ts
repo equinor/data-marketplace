@@ -1,7 +1,6 @@
 "use client"
 
 import { tokens } from "@equinor/eds-tokens"
-import "@equinor/eds-tokens/tokens.css"
 import { createGlobalStyle } from "styled-components"
 
 export const elevations = {
@@ -59,29 +58,28 @@ a {
   --text-2xl: 2rem; /* 32px */
 
   /* Colours */
-  --disappointing-vanilla: hsla(34.5,100%,82.9%, 1);
+  --disappointing-vanilla: hsla(34.5,100%,82.9%, 1); /* Not an EDS colour */
 
-  --moss-green-13: var(--eds_infographic_primary__moss_green_13);
-  --moss-green-100: ${tokens.colors.interactive.primary__resting.hsla};
-  --moss-dark: ${tokens.colors.interactive.primary__hover.hsla};
-  --baby-blue: 	hsl(199, 33%, 80%);
-  --dusty-blue: hsla(185, 30%, 84%, 1);
-  --slateBlue: ${tokens.colors.infographic.primary__slate_blue.hsla};
+  --moss-green-13: hsla(184,32%,90.2%,1); /* tokens.colors.infographic_primary__moss_green_13.hsla */
+  --moss-green-100: hsla(184,100%,23.7%,1); /* tokens.colors.interactive.primary__resting.hsla */
+  --moss-dark: hsla(184,100%,16.7%,1); /* tokens.colors.interactive.primary__hover.hsla */
+  --baby-blue: 	hsl(199, 33%, 80%); /* not an EDS colour */
+  --dusty-blue: hsla(185, 30%, 84%, 1); /* not an EDS colour */
+  --slateBlue: hsla(206,32.1%,20.8%,1); /* tokens.colors.infographic.primary__slate_blue.hsla */
 
-  --white: ${tokens.colors.ui.background__default.hsla};
+  --white: hsla(0,0%,100%,1); /* tokens.colors.ui.background__default.hsla */
  
-  --light-grey: ${tokens.colors.ui.background__light.rgba};
-  --medium-grey: ${tokens.colors.ui.background__medium.hsla};
-  --dark-grey: ${tokens.colors.text.static_icons__tertiary.hsla};
-  --charcoal: ${tokens.colors.text.static_icons__default.hsla};
+  --light-grey: hsla(0, 0%, 97%, 1); /* tokens.colors.ui.background__light.rgba */
+  --medium-grey: hsla(0,0%,86.3%,1); /* tokens.colors.ui.background__medium.hsla */
+  --dark-grey: hsla(0,0%,43.5%,1); /* tokens.colors.text.static_icons__tertiary.hsla */
+  --charcoal: hsla(0,0%,23.9%,1); /*tokens.colors.text.static_icons__default.hsla */
   
-  --validation-error: ${tokens.colors.interactive.danger__text.hsla};
-  --danger: ${tokens.colors.ui.background__danger.hsla};
-  --info: ${tokens.colors.ui.background__info.hsla};
-  --warning: ${tokens.colors.interactive.warning__highlight.hsla};
-  --transparent-black: hsla(0, 0%, 0%, 0.14);
-  --warning-icon-background: ${tokens.colors.logo.fill_negative.hex};
-  --warning-icon-fill: ${tokens.colors.interactive.warning__text.hsla};
+  --validation-error: hsla(348,86.5%,37.6%,1); /* tokens.colors.interactive.danger__text.hsla */ 
+  --danger: hsla(0,100%,87.8%,1); /* tokens.colors.ui.background__danger.hsla */
+  --info: hsla(199,58.5%,89.6%,1); /* tokens.colors.ui.background__info.hsla */
+  --warning: hsla(25,100%,92%,1); /* tokens.colors.interactive.warning__highlight.hsla */
+  --transparent-black: hsla(0, 0%, 0%, 0.14); /* Not an EDS colour */
+  --warning-icon-fill: hsla(34,100%,33.9%,1) /* tokens.colors.interactive.warning__text.hsla */
 
 
   --shadow-colour: 0deg 0% 50%;
