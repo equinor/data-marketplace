@@ -41,15 +41,20 @@ export const PaginationItem = ({ isDisabled, isCurrent, ariaLabel, href, inverte
     return (
       <StyledListItem>
         <Button
-          color="secondary"
+          color="primary"
           disabled={isDisabled}
           isCurrent={isCurrent}
           inverted={inverted}
-          variant="ghost_icon"
+          variant="contained_icon"
           aria-label={ariaLabel}
           /* @ts-ignore */
-
-          style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue)", background: "var(--white)" }}
+          style={
+            {
+              "--eds_interactive_primary__resting": "var(--white)",
+              "--eds_interactive_primary__hover": "var(--baby-blue)",
+              "--eds_text__static_icons__primary_white": "black",
+            } as React.CSSProperties
+          }
         >
           {children}
         </Button>
