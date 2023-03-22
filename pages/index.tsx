@@ -24,13 +24,13 @@ const SearchButton = styled(NextLink)`
   display: inline-block;
   text-decoration: none;
   color: var(--white);
-  background-color: var(--dark-button-colour);
+  background-color: var(--moss-green-100);
   padding: var(--space-16) var(--space-64);
   font-size: ${tokens.typography.heading.h4.fontSize};
   border-radius: var(--space-4);
   box-shadow: ${elevations.medium};
   &:hover {
-    background-color: var(--dark-button-colour-hover);
+    background-color: var(--moss-dark);
   }
 
   &:focus-visible {
@@ -53,7 +53,7 @@ const Hero = styled.div`
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: cover;
-  background-color: var(--frontpage-top-bg);
+  background-color: var(--disappointing-vanilla);
 `
 
 const MainHeading = styled(Heading)`

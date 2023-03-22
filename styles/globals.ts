@@ -79,7 +79,7 @@ a {
   --info: hsla(199,58.5%,89.6%,1); /* tokens.colors.ui.background__info.hsla */
   --warning: hsla(25,100%,92%,1); /* tokens.colors.interactive.warning__highlight.hsla */
   --transparent-black: hsla(0, 0%, 0%, 0.14); /* Not an EDS colour */
-  --warning-icon-fill: hsla(34,100%,33.9%,1) /* tokens.colors.interactive.warning__text.hsla */
+  --warning-icon-fill: hsla(34,100%,33.9%,1); /* tokens.colors.interactive.warning__text.hsla */
 
 
   --shadow-colour: 0deg 0% 50%;
