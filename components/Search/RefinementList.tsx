@@ -20,8 +20,19 @@ const FilterContainer = styled.div`
 `
 
 const StyledCheckbox = styled(Checkbox)`
-  /* Not an EDS colour */
-  --eds_interactive_primary__hover_alt: rgba(186, 209, 220, 1);
+  max-width: 100%;
+
+  span:last-of-type {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .hover {
+      overflow: visible;
+    }
+  }
 `
 
 const StyledList = styled(List)`
@@ -48,6 +59,7 @@ export const RefinementList = ({ children, ...rest }: RefinementListProps) => {
                   <StyledCheckbox
                     value={item.value}
                     label={`${item.label} (${item.count})`}
+                    title={item.label}
                     checked={item.isRefined}
                     onChange={() => refine(item.value)}
                   />
