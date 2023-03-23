@@ -22,19 +22,8 @@ const FilterContainer = styled.div`
 `
 
 const StyledCheckbox = styled(Checkbox)`
-  max-width: 100%;
-
-  span:last-of-type {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    .hover {
-      overflow: visible;
-    }
-  }
+  /* Not an EDS colour */
+  --eds_interactive_primary__hover_alt: rgba(186, 209, 220, 1);
 `
 
 const StyledList = styled(List)`
