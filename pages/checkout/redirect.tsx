@@ -36,10 +36,14 @@ const getAccessitTitle = (url: string | undefined) => {
   const fallbackText = "[Missing title]"
   if (!url) return fallbackText
 
-  const params = new URL(url).searchParams
-  const term = params.get("term")
+  try {
+    const params = new URL(url).searchParams
+    const term = params.get("term")
 
-  return (term && decodeURI(term).replaceAll(/\+/g, " ")) || fallbackText
+    return (term && decodeURI(term).replaceAll(/\+/g, " ")) || fallbackText
+  } catch (err) {
+    return null
+  }
 }
 
 const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
@@ -68,6 +72,7 @@ const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
           ) : (
             <>
               <Typography variant="ingress">{intl.formatMessage({ id: "checkout.redirect.headline" })}</Typography>
+
               <Typography style={{ marginTop: tokens.spacings.comfortable.x_large }} variant="ingress">
                 <FormattedMessage
                   id="checkout.redirect.accessit.guidance"
@@ -76,6 +81,7 @@ const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
                   }}
                 />
               </Typography>
+
               <ButtonContainer>
                 <CancelButton assetId={asset?.id} />
                 <Button
