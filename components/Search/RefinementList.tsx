@@ -1,4 +1,6 @@
 import { List, Checkbox, EdsProvider, Typography } from "@equinor/eds-core-react"
+import { tokens } from "@equinor/eds-tokens"
+import { typographyTemplate } from "@equinor/eds-utils"
 import { useRefinementList, UseRefinementListProps } from "react-instantsearch-hooks-web"
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
@@ -40,11 +42,27 @@ const StyledList = styled(List)`
   list-style-type: none;
 `
 
+const StyledLabel = styled.label`
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 100%;
+  cursor: pointer;
+  ${typographyTemplate(tokens.typography.navigation.menu_title)}
+`
+
+const LabelName = styled.span`
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+`
+
 const StyledItem = styled(Item)`
   padding-left: var(--space-small);
 `
 export const RefinementList = ({ children, ...rest }: RefinementListProps) => {
   const { items, refine } = useRefinementList({ ...rest })
+
   return (
     <div>
       <EdsProvider density="compact">
@@ -56,13 +74,11 @@ export const RefinementList = ({ children, ...rest }: RefinementListProps) => {
             <StyledList>
               {items.map((item) => (
                 <StyledItem key={item.value}>
-                  <StyledCheckbox
-                    value={item.value}
-                    label={`${item.label} (${item.count})`}
-                    title={item.label}
-                    checked={item.isRefined}
-                    onChange={() => refine(item.value)}
-                  />
+                  <StyledLabel title={item.label}>
+                    <StyledCheckbox value={item.value} checked={item.isRefined} onChange={() => refine(item.value)} />
+                    <LabelName>{item.label}</LabelName>
+                    <span>&nbsp;({item.count})</span>
+                  </StyledLabel>
                 </StyledItem>
               ))}
             </StyledList>
