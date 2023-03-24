@@ -4,7 +4,7 @@
     "es2021": true,
     "node": true
   },
-  "extends": ["plugin:react/recommended", "airbnb", "next", "prettier"],
+  "extends": ["plugin:react/recommended", "airbnb", "next", "prettier", "plugin:cypress/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -55,7 +55,7 @@
       }
     },
     {
-      "files": ["**/*.{spec,test,int}.{j,t}s?(x)", "jest.*.{j,t}s"],
+      "files": ["**/*.{spec,test,int}.{j,t}s?(x)", "jest.*.{j,t}s", "cypress.config.ts", "cypress/**/*"],
       "rules": {
         "import/no-extraneous-dependencies": ["error", { "optionalDependencies": false, "peerDependencies": false }]
       },

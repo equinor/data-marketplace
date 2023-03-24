@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 .husky/prepare-commit-msg
+
+# cypress
+cypress.env.json

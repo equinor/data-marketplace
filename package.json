@@ -11,7 +11,8 @@
     "prepare": "husky install",
     "docker:build": "docker build -t data-marketplace/web -f Dockerfile .",
     "docker:run": "docker run -p 3000:3000 --env-file=.env.local data-marketplace/web",
-    "docker:inspect": "docker run -p 3000:3000 --env-file=.env.local -it data-marketplace/web /bin/sh"
+    "docker:inspect": "docker run -p 3000:3000 --env-file=.env.local -it data-marketplace/web /bin/sh",
+    "cypress:open": "cypress open"
   },
   "lint-staged": {
     "*.{j,t}s?(x)": [
@@ -51,6 +52,7 @@
     "xss": "^1.0.14"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.4.0",
@@ -61,10 +63,12 @@
     "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
+    "cypress": "^12.8.1",
     "eslint": "^8.35.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "^13.2.4",
     "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-prettier": "^4.2.1",

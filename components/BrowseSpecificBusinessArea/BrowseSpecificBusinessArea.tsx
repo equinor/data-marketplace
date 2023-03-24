@@ -37,7 +37,7 @@ export const BrowseSpecificBusinessArea: FunctionComponent<Props> = ({ indexName
     <GridContainer>
       {businessAreas.map((area) =>
         area.searchTerm ? (
-          <StyledLink href={`/search?${area.searchTerm(indexName)}`} key={area.name}>
+          <StyledLink href={`/search?${area.searchTerm(indexName)}`} key={area.id} id={area.id}>
             <BusinessAreaCard header={area.name} />
           </StyledLink>
         ) : (
