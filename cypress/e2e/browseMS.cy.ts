@@ -21,6 +21,14 @@ describe("Can browse Marketing & Supply business area data products", () => {
         cy.log("Clicked the Marketing & Supply browse link")
       })
   })
+
+  it("should have the M&S filter preselected", () => {
+    cy.get("#marketingAndSupply")
+      .click()
+      .get("#communityFilter:has(label:contains('Marketing and Supply'))")
+      .find("[type='checkbox']")
+      .should("be.checked")
+  })
 })
 
 export {}

@@ -173,7 +173,7 @@ const Search = ({ serverState, isServerRendered, indexName, serverUrl }: Props) 
             </Header>
           </FilterHeader>
           <Filters>
-            <RefinementList attribute="community">
+            <RefinementList attribute="community" id="communityFilter">
               <FormattedMessage id="search.community.filter.header" />
             </RefinementList>
           </Filters>

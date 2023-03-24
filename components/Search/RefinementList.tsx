@@ -5,7 +5,9 @@ import styled from "styled-components"
 
 import { Heading } from "components/Typography"
 
-export type RefinementListProps = React.PropsWithChildren & UseRefinementListProps
+export type RefinementListProps = React.PropsWithChildren & {
+  id: string
+} & UseRefinementListProps
 
 const { Item } = List
 
@@ -32,10 +34,10 @@ const StyledList = styled(List)`
 const StyledItem = styled(Item)`
   padding-left: var(--space-small);
 `
-export const RefinementList = ({ children, ...rest }: RefinementListProps) => {
+export const RefinementList = ({ id, children, ...rest }: RefinementListProps) => {
   const { items, refine } = useRefinementList({ ...rest })
   return (
-    <div>
+    <div id={id}>
       <EdsProvider density="compact">
         <FilterContainer>
           <Heading level="h4" size="base" style={{ marginBlock: "1rem 0.25rem", fontWeight: 500 }}>
