@@ -15,6 +15,8 @@ export default async function Page() {
   const USE_APP_FOLDER = process.env.USE_APP_FOLDER === "true"
   const indexName = process.env.ALGOLIA_SEARCH_INDEX ?? ""
 
+  console.log("USE_APP_FOLDER: ", USE_APP_FOLDER)
+
   if (!USE_APP_FOLDER) {
     notFound()
   }
