@@ -58,14 +58,15 @@ const TopContainer = styled.div`
 `
 
 const StyledChip = styled(Chip)`
-  background-color: rgb(255, 218, 168);
+  background-color: var(--tag-outline);
   color: var(--charcoal);
 `
 
 const StyledChipNew = styled(Chip)`
   background-color: var(--white);
   color: var(--charcoal);
-  border: 2px solid rgb(255, 218, 168);
+  text-transform: uppercase;
+  border: 2px solid var(--tag-outline);
 `
 
 const StyledTypography = styled(Typography)`

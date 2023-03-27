@@ -38,7 +38,7 @@
   "search.box.placeholder": "Search for data...",
   "search.header": "Search for the data you need",
   "search.title": "Search for assets",
-  "search.results.new.dataproduct": "NEW",
+  "search.results.new.dataproduct": "New",
   "search.no.results.algolia": "Your search returned no results. Please try again with different keywords.",
   "search.filter.heading.business": "Business areas",
   "search.statistics": "{currentOffset} \u2013 {offsetEnd} of {totalHits} items",

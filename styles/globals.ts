@@ -80,6 +80,7 @@ a {
   --warning: hsla(25,100%,92%,1); /* tokens.colors.interactive.warning__highlight.hsla */
   --transparent-black: hsla(0, 0%, 0%, 0.14); /* Not an EDS colour */
   --warning-icon-fill: hsla(34,100%,33.9%,1); /* tokens.colors.interactive.warning__text.hsla */
+  --tag-outline: hsla(34.483, 100%, 83%, 1);
 
 
   --shadow-colour: 0deg 0% 50%;
