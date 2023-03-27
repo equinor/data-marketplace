@@ -43,7 +43,11 @@ const StyledLabel = styled.label`
 const LabelName = styled.span`
   white-space: nowrap;
   overflow-x: hidden;
+  line-height: 1.2rem;
   text-overflow: ellipsis;
+`
+const LabelCount = styled.span`
+  line-height: 1.2rem;
 `
 
 const StyledItem = styled(Item)`
@@ -66,7 +70,7 @@ export const RefinementList = ({ children, ...rest }: RefinementListProps) => {
                   <StyledLabel title={item.label}>
                     <StyledCheckbox value={item.value} checked={item.isRefined} onChange={() => refine(item.value)} />
                     <LabelName>{item.label}</LabelName>
-                    <span>&nbsp;({item.count})</span>
+                    <LabelCount>&nbsp;({item.count})</LabelCount>
                   </StyledLabel>
                 </StyledItem>
               ))}

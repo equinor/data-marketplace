@@ -3,6 +3,7 @@ import { tokens } from "@equinor/eds-tokens"
 import type { Hit as AlgoliaHit, HitAttributeSnippetResult } from "instantsearch.js"
 import NextLink from "next/link"
 import { Highlight, Snippet } from "react-instantsearch-hooks-web"
+import { useIntl } from "react-intl"
 import styled from "styled-components"
 
 import { Heading } from "components/Typography"
@@ -50,9 +51,24 @@ const TagsContainer = styled.div`
   gap: ${tokens.spacings.comfortable.small};
 `
 
+const TopContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: ${tokens.spacings.comfortable.large};
+`
+
 const StyledChip = styled(Chip)`
-  background-color: rgb(255, 218, 168);
+  background-color: var(--disappointing-vanilla);
   color: var(--charcoal);
+`
+
+const StyledChipNew = styled(Chip)`
+  background-color: var(--white);
+  height: 1.5rem;
+  line-height: 1rem;
+  color: var(--charcoal);
+  text-transform: uppercase;
+  border: 2px solid var(--disappointing-vanilla);
 `
 
 const StyledTypography = styled(Typography)`
@@ -68,7 +84,9 @@ export type HitProps = {
     tags: string[]
     description: string
     excerpt: string
+    createdAt: string
   }>
+
   hasQuery: boolean
 } & HTMLDivElement
 
@@ -77,32 +95,49 @@ If neither the excerpt or the description is a match (like the match can be for
   a resonsible person) we will fallback to either the excerpt or description, like
   in the static text without any query)
 */
+
 const getSnippetAttribute = (hit: HitProps["hit"]) => {
   // eslint-disable-next-line no-underscore-dangle
   const excerptSnippet = hit._snippetResult?.excerpt as HitAttributeSnippetResult
   // eslint-disable-next-line no-underscore-dangle
   const descriptionSnippet = hit._snippetResult?.description as HitAttributeSnippetResult
+
   if (hit.excerpt && excerptSnippet && excerptSnippet.matchLevel === ("full" || "partial")) {
     return "excerpt"
     /* eslint no-else-return: "error"  */
   } else if (hit.description && descriptionSnippet && descriptionSnippet.matchLevel === ("full" || "partial")) {
     return "description"
   }
+
   return hit.excerpt ? "excerpt" : "description"
+}
+
+const isNewDataProduct = (hit: HitProps["hit"]) => {
+  const currentDate = new Date()
+  const compareDate = new Date(currentDate.setMonth(currentDate.getMonth() - 1))
+  const createdAtDate = new Date(hit.createdAt)
+  return createdAtDate.getTime() >= compareDate.getTime()
 }
 
 export const Hit = ({ hit, hasQuery }: HitProps) => {
   const { id, community = [], tags = [] } = hit
+  const intl = useIntl()
 
   return (
     <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
-      {community &&
-        community.map((item) => (
-          <Typography variant="overline" style={{ fontSize: "0.75rem", fontWeight: "medium" }} key={item}>
-            {item}
-          </Typography>
-        ))}
-
+      <TopContainer>
+        {community &&
+          community.map((item) => (
+            <Typography variant="overline" style={{ fontSize: "0.75rem", fontWeight: "medium" }} key={item}>
+              {item}
+            </Typography>
+          ))}
+        {isNewDataProduct(hit) && (
+          <StyledChipNew style={{ fontSize: "0.75rem" }}>
+            {intl.formatMessage({ id: "search.results.new.dataproduct" })}
+          </StyledChipNew>
+        )}
+      </TopContainer>
       <Heading size="lg" level="h2" bold style={{ marginBottom: tokens.spacings.comfortable.medium }}>
         <StyledName
           hit={hit}
