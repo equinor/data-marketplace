@@ -34,7 +34,6 @@ const StyledList = styled(List)`
 const StyledLabel = styled.label`
   display: inline-flex;
   align-items: center;
-  line-height: 1.2rem;
   justify-content: flex-start;
   max-width: 100%;
   cursor: pointer;
@@ -44,6 +43,7 @@ const StyledLabel = styled.label`
 const LabelName = styled.span`
   white-space: nowrap;
   overflow-x: hidden;
+  line-height: 1.2rem;
   text-overflow: ellipsis;
 `
 
