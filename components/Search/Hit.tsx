@@ -64,6 +64,8 @@ const StyledChip = styled(Chip)`
 
 const StyledChipNew = styled(Chip)`
   background-color: var(--white);
+  height: 1.5rem;
+  line-height: 1rem;
   color: var(--charcoal);
   text-transform: uppercase;
   border: 2px solid var(--disappointing-vanilla);
@@ -131,7 +133,7 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
             </Typography>
           ))}
         {isNewDataProduct(hit) && (
-          <StyledChipNew style={{ fontSize: "0.75rem", fontWeight: "medium" }}>
+          <StyledChipNew style={{ fontSize: "0.75rem" }}>
             {intl.formatMessage({ id: "search.results.new.dataproduct" })}
           </StyledChipNew>
         )}
