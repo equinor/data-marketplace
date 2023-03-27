@@ -52,7 +52,6 @@ const TagsContainer = styled.div`
 `
 
 const TopContainer = styled.div`
-  margin-top: ${tokens.spacings.comfortable.medium};
   display: flex;
   justify-content: space-between;
   gap: ${tokens.spacings.comfortable.large};
@@ -121,62 +120,21 @@ export const Hit = ({ hit, hasQuery }: HitProps) => {
   const { id, community = [], tags = [] } = hit
   const intl = useIntl()
 
-  if (isNewDataProduct(hit)) {
-    return (
-      <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
-        <TopContainer>
-          {community &&
-            community.map((item) => (
-              <Typography variant="overline" style={{ fontSize: "0.75rem", fontWeight: "medium" }} key={item}>
-                {item}
-              </Typography>
-            ))}
+  return (
+    <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
+      <TopContainer>
+        {community &&
+          community.map((item) => (
+            <Typography variant="overline" style={{ fontSize: "0.75rem", fontWeight: "medium" }} key={item}>
+              {item}
+            </Typography>
+          ))}
+        {isNewDataProduct(hit) && (
           <StyledChipNew style={{ fontSize: "0.75rem", fontWeight: "medium" }}>
             {intl.formatMessage({ id: "search.results.new.dataproduct" })}
           </StyledChipNew>
-        </TopContainer>
-        <Heading size="lg" level="h2" bold style={{ marginBottom: tokens.spacings.comfortable.medium }}>
-          <StyledName
-            hit={hit}
-            attribute="name"
-            classNames={{
-              highlighted: "highlighted",
-            }}
-          />
-        </Heading>
-        {hasQuery ? (
-          <StyledTypography variant="body_short">
-            <StyledSnippet
-              hit={hit}
-              attribute={getSnippetAttribute(hit)}
-              classNames={{
-                highlighted: "highlighted",
-              }}
-            />
-          </StyledTypography>
-        ) : (
-          <TruncatedStaticExcerpt variant="body_short">{hit.excerpt || hit.description}</TruncatedStaticExcerpt>
         )}
-        {tags.length > 0 && (
-          <TagsContainer>
-            {tags.map((item) => (
-              <StyledChip key={item}>{item}</StyledChip>
-            ))}
-          </TagsContainer>
-        )}
-      </StyledLink>
-    )
-  }
-
-  return (
-    <StyledLink href={{ pathname: "/assets/[id]", query: { id } }}>
-      {community &&
-        community.map((item) => (
-          <Typography variant="overline" style={{ fontSize: "0.75rem", fontWeight: "medium" }} key={item}>
-            {item}
-          </Typography>
-        ))}
-
+      </TopContainer>
       <Heading size="lg" level="h2" bold style={{ marginBottom: tokens.spacings.comfortable.medium }}>
         <StyledName
           hit={hit}
