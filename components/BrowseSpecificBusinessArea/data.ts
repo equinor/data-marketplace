@@ -18,6 +18,11 @@ export const businessAreas: BusinessArea[] = [
     searchTerm: (indexName) => `${indexName}%5BrefinementList%5D%5Bcommunity%5D%5B0%5D=Subsurface`,
   },
   {
+    name: "Technology, Digital and Innovation",
+    searchTerm: (indexName) =>
+      `${indexName}%5BrefinementList%5D%5Bcommunity%5D%5B0%5D=Technology,%20Digital%20and%20Innovation`,
+  },
+  {
     name: "More coming soon...",
     inactive: true,
   },
