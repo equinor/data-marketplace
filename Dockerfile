@@ -34,6 +34,7 @@ RUN addgroup -S "$USER" && \
 
 COPY --from=builder /opt/app/public ./public
 COPY --from=builder /opt/app/.next ./.next
+COPY --from=builder /opt/app/next.config.mjs ./
 COPY --from=builder /opt/app/package.json ./package.json
 COPY --from=builder /opt/app/load-appinsights.js ./
 
