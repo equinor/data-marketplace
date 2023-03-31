@@ -9,6 +9,7 @@ import { getTokenExpirationTime } from "lib/getTokenExpirationTime"
 const SCOPE = `openid offline_access ${config.AUTH_SCOPE}`
 
 export default NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     ADProvider({
       clientId: config.AUTH_CLIENT_ID as string,
