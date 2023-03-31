@@ -124,7 +124,7 @@ jobs:
           NEXTAUTH_SECRET: ${{ secrets.CYPRESS_NEXTAUTH_SECRET }}
         with:
           # Specify Browser since container image is compile with Firefox
-          browser: firefox
+          browser: chrome
           build: npm run build
           start: npm run start:e2e
           wait-on: "http://localhost:3000"
