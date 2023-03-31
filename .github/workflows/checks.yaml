@@ -117,6 +117,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5.6.1 # use the explicit version number
         env:
+          HUSKY: 0
           NEXT_AUTH_SESSION_TOKEN: ${{ secrets.CYPRESS_NEXT_AUTH_SESSION_TOKEN }}
         with:
           # Specify Browser since container image is compile with Firefox
