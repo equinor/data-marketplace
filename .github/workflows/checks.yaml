@@ -120,7 +120,7 @@ jobs:
           HUSKY: 0
           CYPRESS_NEXT_AUTH_SESSION_TOKEN: ${{ secrets.CYPRESS_NEXT_AUTH_SESSION_TOKEN }}
           COLLIBRA_BASE_URL: ${{ secrets.COLLIBRA_BASE_URL }}
-          NEXTAUTH_SECRET: ${{ secrets.CYPRESS_NEXTAUTH_SECRET }}
+          CYPRESS_NEXTAUTH_SECRET: ${{ secrets.CYPRESS_NEXTAUTH_SECRET }}
         with:
           # Specify Browser since container image is compile with Firefox
           browser: chrome
