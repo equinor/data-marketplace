@@ -110,14 +110,8 @@ jobs:
     runs-on: ubuntu-latest
     container: cypress/browsers:node16.16.0-chrome107-ff107
     steps:
-      - name: Get base files
-        id: get-base-files
-        uses: actions/cache@v3
-        with:
-          path: |
-            ./*
-            .npm
-          key: ${{ github.sha }}
+      - name: Checkout
+        uses: actions/checkout@v3
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
