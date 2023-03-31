@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - wt-105193-cypress-spike
   pull_request:
     branches:
       - main
@@ -103,3 +104,26 @@ jobs:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
         if: failure()
+  e2e-cypress-run:
+    name: End to end test
+    needs: setup
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node16.16.0-chrome107-ff107
+    steps:
+      - name: Get base files
+        id: get-base-files
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./*
+            .npm
+          key: ${{ github.sha }}
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v5.6.1 # use the explicit version number
+        env:
+          NEXT_AUTH_SESSION_TOKEN: ${{ secrets.CYPRESS_NEXT_AUTH_SESSION_TOKEN }}
+        with:
+          # Specify Browser since container image is compile with Firefox
+          browser: chrome
