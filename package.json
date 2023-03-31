@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "node --require ./load-appinsights.js node_modules/next/dist/bin/next start",
+    "start:e2e": "node node_modules/next/dist/bin/next start",
     "lint": "eslint \"./**/*.{j,t}s?(x)\"",
     "test": "jest",
     "prepare": "husky install",
