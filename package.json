@@ -13,7 +13,8 @@
     "docker:build": "docker build -t data-marketplace/web -f Dockerfile .",
     "docker:run": "docker run -p 3000:3000 --env-file=.env.local data-marketplace/web",
     "docker:inspect": "docker run -p 3000:3000 --env-file=.env.local -it data-marketplace/web /bin/sh",
-    "e2e:open": "cypress open"
+    "e2e:open": "cypress open",
+    "e2e:headless": "cypress run --e2e"
   },
   "lint-staged": {
     "*.{j,t}s?(x)": [
