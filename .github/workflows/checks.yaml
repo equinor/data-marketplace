@@ -124,5 +124,5 @@ jobs:
           # Specify Browser since container image is compile with Firefox
           browser: chrome
           build: npm run build
-          start: npm start:e2e
+          start: npm run start:e2e
           wait-on: "http://localhost:3000"
