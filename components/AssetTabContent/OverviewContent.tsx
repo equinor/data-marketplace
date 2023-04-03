@@ -106,7 +106,7 @@ export const OverviewContent = ({ content, assetId, collibraBaseUrl }: Props) =>
           <PortableText value={updateFrequency} components={defaultComponents} />
         </AssetTabContentSectionContainer>
       )}
-      <IconLink href={collibraUrl}>
+      <IconLink href={collibraUrl} target="_blank">
         <FormattedMessage id="asset.view.in.collibra" />
         <Icon data={external_link} size={16} />
       </IconLink>
