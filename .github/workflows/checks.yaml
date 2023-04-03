@@ -118,10 +118,18 @@ jobs:
         uses: cypress-io/github-action@v5.6.1 # use the explicit version number
         env:
           HUSKY: 0
-          CYPRESS_NEXT_AUTH_SESSION_TOKEN: ${{ secrets.CYPRESS_NEXT_AUTH_SESSION_TOKEN }}
+          CYPRESS_NEXT_AUTH_SESSION_TOKEN: ${{ secrets.CYPRESS_NEXT_AUTH_SESSION_TOKEN}}
           COLLIBRA_BASE_URL: ${{ secrets.COLLIBRA_BASE_URL }}
           CYPRESS_NEXTAUTH_SECRET: ${{ secrets.CYPRESS_NEXTAUTH_SECRET }}
+          AUTH_CLIENT_ID: ${{secrets.CYPRESS_AUTH_CLIENT_ID}}
+          AUTH_CLIENT_SECRET: ${{secrets.CYPRESS_AUTH_CLIENT_SECRET}}
+          AUTH_TENANT_ID: ${{secrets.CYPRESS_AUTH_TENANT_ID}}
+          NEXTAUTH_URL: http://localhost:3000
           NEXTAUTH_SECRET: ${{ secrets.CYPRESS_NEXTAUTH_SECRET }}
+          ALGOLIA_SEARCH_API_SERVER_KEY: ${{secrets.CYPRESS_ALGOLIA_SEARCH_API_SERVER_KEY}}
+          ALGOLIA_SEARCH_INDEX: test_Collibra
+          NEXT_PUBLIC_ALGOLIA_APP_ID: EGZK3PRPU0
+          NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY: 3d6ba277114a882a709204ecbead8d3f
         with:
           # Specify Browser since container image is compile with Firefox
           browser: chrome
