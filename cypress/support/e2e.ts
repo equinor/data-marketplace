@@ -90,7 +90,9 @@ Cypress.Commands.add("mockLogin", () => {
     // We are currently unsure about this part.
     // We need to refresh this cookie once in a while.
     // We are unsure if this is true and if true, when it needs to be refreshed.
-    cy.setCookie("next-auth.session-token", Cypress.env("NEXT_AUTH_SESSION_TOKEN"))
+    cy.setCookie("next-auth.session-token", Cypress.env("NEXT_AUTH_SESSION_TOKEN"), {
+      secure: true,
+    })
   })
   // Cypress.Cookies.preserveOnce("next-auth.session-token")
 })
