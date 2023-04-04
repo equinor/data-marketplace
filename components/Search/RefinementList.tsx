@@ -23,7 +23,7 @@ const FilterContainer = styled.div`
 
 const StyledCheckbox = styled(Checkbox)`
   /* Not an EDS colour */
-  --eds_interactive_primary__hover_alt: rgba(186, 209, 220, 1);
+  --eds_interactive_primary__hover_alt: var(--baby-blue);
 `
 
 const StyledList = styled(List)`
