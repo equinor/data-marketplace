@@ -26,7 +26,6 @@ const HeroContent = styled.div`
   width: clamp(25ch, 60%, 600px);
   z-index: 1;
   align-self: start;
-  background-color: rgba(255, 255, 255, 0.85);
   border-radius: ${tokens.shape.corners.borderRadius};
   padding: 0.5rem 0.5rem 0.5rem 0;
   @media (min-width: 40rem) {
