@@ -26,7 +26,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en" style={{ fontFamily: "Equinor, sans-serif" }}>
         <Head>
-          <link rel="stylesheet" href="https://eds-static.equinor.com/font/equinor-font.css" />
+          <link rel="stylesheet" href="https://cdn.eds.equinor.com/font/equinor-font.css" />
           <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
           <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
         </Head>
