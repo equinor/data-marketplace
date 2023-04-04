@@ -47,7 +47,7 @@ const ButtonContainer = styled.div`
 `
 
 const InfoBox = styled.div`
-  background-color: ${tokens.colors.ui.background__info.hex};
+  background-color: var(--moss-green-13);
   padding: ${tokens.spacings.comfortable.medium};
   margin-bottom: ${tokens.spacings.comfortable.medium};
 `

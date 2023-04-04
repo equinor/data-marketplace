@@ -11,7 +11,6 @@ const { Item } = List
 const HitItem = styled(Item)`
   position: relative;
   margin-block: ${tokens.spacings.comfortable.large};
-  border-bottom: 1px solid var(--info);
   &:first-child {
     margin-top: 0;
   }
