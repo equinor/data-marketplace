@@ -2,6 +2,7 @@ import { Typography } from "@equinor/eds-core-react"
 import { tokens } from "@equinor/eds-tokens"
 import { useRouter } from "next/router"
 import { FunctionComponent, useEffect, PropsWithChildren, useState } from "react"
+import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 
 import { Container } from "../Container"
@@ -19,10 +20,12 @@ const CheckoutNavContainer = styled.div`
 const Head = styled.div`
   min-height: 48px;
 `
-
-const ContentContainer = styled.div`
-  width: 50%;
+const Content = styled.div`
+  @media screen and (min-width: 1000px) {
+    max-width: 60%;
+  }
 `
+
 const steps: CheckoutSteps[] = ["terms", "redirect"]
 
 type Props = PropsWithChildren & {
@@ -89,10 +92,15 @@ export const CheckoutWizard: FunctionComponent<Props> = ({ assetName, communityN
         )}
       </Container>
       <Container>
-        <CheckoutNavContainer>
-          <Stepper currentStep={currentStep} />
-        </CheckoutNavContainer>
-        <ContentContainer>{children}</ContentContainer>
+        <Content>
+          <Heading level="h2" size="xl">
+            <FormattedMessage id="checkout.form.title" />
+          </Heading>
+          <CheckoutNavContainer>
+            <Stepper currentStep={currentStep} />
+          </CheckoutNavContainer>
+          {children}
+        </Content>
       </Container>
     </section>
   )
