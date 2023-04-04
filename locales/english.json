@@ -73,6 +73,7 @@
   "checkout.nav.step.terms": "Accept Terms and conditions",
   "checkout.nav.step.redirect": "Redirect to AccessIT",
   "checkout.prefix.title": "Checkout",
+  "checkout.form.title": "Requesting access",
   "footer.copyright": "Copyright © Equinor 2023",
   "footer.maintained": "Developed and maintained by EDB",
   "footer.feedback": "Provide feedback",

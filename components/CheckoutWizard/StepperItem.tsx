@@ -20,9 +20,9 @@ const StepperIndex = styled.div<{ active?: boolean }>`
   border: 1px solid;
   display: grid;
   place-content: center;
-  color: ${({ active }) => (active ? "white" : "var(--light-grey)")};
+  color: ${({ active }) => (active ? "white" : "var(--dark-grey)")};
   background-color: ${({ active }) => (active ? "var(--moss-green-100)" : "white")};
-  border-color: ${({ active }) => (active ? "var(--moss-green-100)" : "var(--light-grey)")};
+  border-color: ${({ active }) => (active ? "var(--moss-green-100)" : "var(--dark-grey)")};
 `
 
 const StepperTitle = styled(Typography)<{ finished?: boolean }>`
@@ -37,7 +37,7 @@ const Title = styled.span<{ active?: boolean; finished?: boolean }>`
   white-space: nowrap;
   background-color: white;
   padding-right: var(--size1);
-  color: ${({ active, finished }) => (active || finished ? "var(--charcoal)" : "var(--light-grey)")};
+  color: ${({ active, finished }) => (active || finished ? "var(--charcoal)" : "var(--dark-grey)")};
   font-weight: ${({ active }) => (active ? "600" : "400")};
 `
 

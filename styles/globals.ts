@@ -69,7 +69,6 @@ a {
 
   --white: hsla(0,0%,100%,1); /* tokens.colors.ui.background__default.hsla */
  
-  --light-grey: hsla(0,0%,75%, 1); /* tokens.colors.interactive.disabled__text.hsla */
   --medium-grey: hsla(0,0%,86.3%,1); /* tokens.colors.ui.background__medium.hsla */
   --dark-grey: hsla(0,0%,43.5%,1); /* tokens.colors.text.static_icons__tertiary.hsla */
   --charcoal: hsla(0,0%,23.9%,1); /*tokens.colors.text.static_icons__default.hsla */
