@@ -24,7 +24,7 @@ const StyledCard = styled.div<StyledCardProps>`
   justify-content: space-between;
   ${({ inactive }) =>
     inactive && {
-      backgroundColor: "hsla(0, 0%, 92%, 1)",
+      backgroundColor: "var(--medium-grey)",
     }}
 `
 
