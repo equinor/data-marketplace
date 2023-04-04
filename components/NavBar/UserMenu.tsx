@@ -29,7 +29,7 @@ export const UserMenu = () => {
         variant="ghost_icon"
         color="secondary"
         /* @ts-ignore */
-        style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue" }}
+        style={{ "--eds_interactive_secondary__highlight": "var(--moss-green-13" }}
         onClick={onUserMenuAnchorClick}
       >
         <Icon data={account_circle} />

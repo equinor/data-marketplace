@@ -37,7 +37,7 @@ export const NavBar = () => (
           variant="ghost"
           color="secondary"
           /* @ts-ignore */
-          style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue" }}
+          style={{ "--eds_interactive_secondary__highlight": "var(--moss-green-13" }}
         >
           <Typography as="span">
             <FormattedMessage id="navbar.logo" />
@@ -53,7 +53,7 @@ export const NavBar = () => (
           aria-label="Search"
           color="secondary"
           /* @ts-ignore */
-          style={{ "--eds_interactive_secondary__highlight": "var(--baby-blue" }}
+          style={{ "--eds_interactive_secondary__highlight": "var(--moss-green-13" }}
         >
           <Icon data={search} />
         </Button>
