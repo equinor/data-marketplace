@@ -11,7 +11,13 @@ export const CancelButton: FunctionComponent<AssetIdProp> = ({ assetId }) => {
   return (
     /*  Because EDS types href as string */
     /* @ts-ignore */
-    <Button variant="outlined" color="secondary" as={Link} href={{ pathname: "/assets/[id]", query: { id: assetId } }}>
+    <Button
+      variant="outlined"
+      color="secondary"
+      style={{ "--eds_interactive_secondary__highlight": "var(--moss-green-13)" }}
+      as={Link}
+      href={{ pathname: "/assets/[id]", query: { id: assetId } }}
+    >
       {intl.formatMessage({ id: "common.cancel" })}
     </Button>
   )
