@@ -10,10 +10,6 @@ const StyledStepperItem = styled(Item)`
   display: grid;
   grid-template-columns: min-content 1fr;
   --size1: calc(8 / 16 * 1rem);
-  --disabledText: var(--charcoal);
-  --mossGreen: var(--moss-green-100);
-  --defaultText: var(--charcoal);
-  --mediumGrey: var(--mediumGrey);
 `
 
 const StepperIndex = styled.div<{ active?: boolean }>`
@@ -24,24 +20,24 @@ const StepperIndex = styled.div<{ active?: boolean }>`
   border: 1px solid;
   display: grid;
   place-content: center;
-  color: ${({ active }) => (active ? "white" : "var(--disabledText)")};
-  background-color: ${({ active }) => (active ? "var(--mossGreen)" : "white")};
-  border-color: ${({ active }) => (active ? "var(--mossGreen)" : "var(--disabledText)")};
+  color: ${({ active }) => (active ? "white" : "var(--light-grey)")};
+  background-color: ${({ active }) => (active ? "var(--moss-green-100)" : "white")};
+  border-color: ${({ active }) => (active ? "var(--moss-green-100)" : "var(--light-grey)")};
 `
 
 const StepperTitle = styled(Typography)<{ finished?: boolean }>`
   margin-left: var(--size1);
   background-image: ${({ finished }) =>
     finished
-      ? "linear-gradient(white 50%, var(--mossGreen) 0 calc(50% + 1px), white 0)"
-      : "linear-gradient(white 50%, var(--mediumGrey) 0 calc(50% + 1px), white 0)"};
+      ? "linear-gradient(white 50%, var(--moss-green-100) 0 calc(50% + 1px), white 0)"
+      : "linear-gradient(white 50%, var(--medium-grey) 0 calc(50% + 1px), white 0)"};
   margin-right: var(--size1);
 `
 const Title = styled.span<{ active?: boolean; finished?: boolean }>`
   white-space: nowrap;
   background-color: white;
   padding-right: var(--size1);
-  color: ${({ active, finished }) => (active || finished ? "var(--defaultText)" : "var(--disabledText)")};
+  color: ${({ active, finished }) => (active || finished ? "var(--charcoal)" : "var(--light-grey)")};
   font-weight: ${({ active }) => (active ? "600" : "400")};
 `
 
