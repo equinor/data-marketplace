@@ -1,5 +1,4 @@
 // eslint-disable-next-line import/extensions
-import { tokens } from "@equinor/eds-tokens"
 // import { createInstantSearchNextRouter } from "instantsearch-router-next-experimental"
 import singletonRouter from "next/router"
 import type { NextPage, GetServerSideProps } from "next/types"
@@ -95,7 +94,7 @@ const FilterHeader = styled.div`
 
 const Filters = styled.div`
   grid-area: filter;
-  border-top: 1px solid ${tokens.colors.text.static_icons__tertiary.hsla};
+  border-top: 1px solid var(--dark-grey);
 `
 
 const PaginationContainer = styled.div`

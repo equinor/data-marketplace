@@ -35,7 +35,7 @@ const StyledHeading = styled(Heading)`
     left: 0px;
     display: block;
     width: 0;
-    border-bottom: solid 0.5px rgba(61, 61, 61, 1);
+    border-bottom: solid 0.5px var(--charcoal);
     transition: all 250ms ease 0s;
     transition-delay: 250ms;
   }
@@ -58,7 +58,7 @@ export const InformationCard: FunctionComponent<Props> = ({ header, content }) =
       <StyledHeading level="h3" size="lg">
         {header}
       </StyledHeading>
-      <Icon data={external_link} style={{ marginTop: "3px" }} />
+      <Icon data={external_link} style={{ marginTop: "3px", fill: "var(--moss-green-100)" }} />
     </Flex>
     <Typography variant="body_long">{content}</Typography>
   </StyledCard>
