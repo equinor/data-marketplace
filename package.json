@@ -47,7 +47,7 @@
     "react-instantsearch-hooks-server": "^6.41.0",
     "react-instantsearch-hooks-web": "^6.41.0",
     "react-intl": "^6.2.10",
-    "styled-components": "^5.3.8",
+    "styled-components": "^5.3.9",
     "use-local-storage-state": "^18.2.1",
     "xss": "^1.0.14"
   },
