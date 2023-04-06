@@ -46,7 +46,7 @@
     "react-instantsearch-hooks-router-nextjs": "^6.41.0",
     "react-instantsearch-hooks-server": "^6.41.0",
     "react-instantsearch-hooks-web": "^6.41.0",
-    "react-intl": "^6.2.10",
+    "react-intl": "^6.3.0",
     "styled-components": "^5.3.9",
     "use-local-storage-state": "^18.2.1",
     "xss": "^1.0.14"
