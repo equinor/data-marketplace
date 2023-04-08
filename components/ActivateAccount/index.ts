@@ -1,1 +1,0 @@
-export { ActivateAccount } from "./ActivateAccount"

@@ -1,1 +1,0 @@
-export { RelevantDataInformation } from "./RelevantDataInformation"
