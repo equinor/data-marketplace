@@ -1,13 +1,13 @@
 "use client"
 
 /* eslint-disable camelcase */
+import { Icon } from "@equinor/eds-core-react"
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { Banner } from "components/Banner"
 import { Heading } from "components/Typography"
 import { elevations } from "styles/globals"
 
@@ -62,6 +62,15 @@ const InfoBanner = styled.div`
   max-width: 17rem;
 `
 
+const Banner = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 0.5rem;
+  padding: 1rem;
+  align-items: center;
+  color: var(--charcoal);
+`
+
 export const Hero = () => {
   const intl = useIntl()
   return (
@@ -73,7 +82,8 @@ export const Hero = () => {
         <FormattedMessage id="frontpage.c2a.title" />
       </SearchButton>
       <InfoBanner>
-        <Banner icon={info_circle} variant="none">
+        <Banner>
+          <Icon data={info_circle} />
           {intl.formatMessage({ id: "frontpage.disclaimer" })}
         </Banner>
       </InfoBanner>

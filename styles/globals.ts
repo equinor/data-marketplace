@@ -74,10 +74,6 @@ a {
   --charcoal: hsla(0,0%,23.9%,1); /*tokens.colors.text.static_icons__default.hsla */
   
   --validation-error: hsla(348,86.5%,37.6%,1); /* tokens.colors.interactive.danger__text.hsla */ 
-  --danger: hsla(0,100%,87.8%,1); /* tokens.colors.ui.background__danger.hsla */
-  --warning: hsla(25,100%,92%,1); /* tokens.colors.interactive.warning__highlight.hsla */
-  --transparent-black: hsla(0, 0%, 0%, 0.14); /* Not an EDS colour */
-  --warning-icon-fill: hsla(34,100%,33.9%,1); /* tokens.colors.interactive.warning__text.hsla */
 
 
 

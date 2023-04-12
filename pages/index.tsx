@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 
+import { Icon } from "@equinor/eds-core-react"
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import type { NextPage, GetServerSideProps } from "next"
@@ -7,7 +8,6 @@ import NextLink from "next/link"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { Banner } from "components/Banner"
 import { BrowseSpecificBusinessArea } from "components/BrowseSpecificBusinessArea"
 import { Container } from "components/Container"
 import { Page } from "components/Page"
@@ -67,6 +67,15 @@ const InfoBanner = styled.div`
   max-width: 17rem;
 `
 
+const Banner = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 0.5rem;
+  padding: 1rem;
+  align-items: center;
+  color: var(--charcoal);
+`
+
 type Props = {
   algoliaIndexName: string
 }
@@ -85,7 +94,8 @@ const Frontpage: NextPage<Props> = ({ algoliaIndexName }) => {
             <FormattedMessage id="frontpage.c2a.title" />
           </SearchButton>
           <InfoBanner>
-            <Banner icon={info_circle} variant="none">
+            <Banner>
+              <Icon data={info_circle} />
               {intl.formatMessage({ id: "frontpage.disclaimer" })}
             </Banner>
           </InfoBanner>
