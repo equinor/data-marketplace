@@ -1,15 +1,17 @@
 "use client"
 
 /* eslint-disable camelcase */
+import { Banner } from "@equinor/eds-core-react"
+import { Icon } from "@equinor/eds-core-react/dist/types/components/Icon/Icon"
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
 import { FormattedMessage, useIntl } from "react-intl"
 import styled from "styled-components"
 
-import { Banner } from "components/Banner"
 import { Heading } from "components/Typography"
 import { elevations } from "styles/globals"
+
 
 const StyledHero = styled.div`
   display: grid;
@@ -73,7 +75,8 @@ export const Hero = () => {
         <FormattedMessage id="frontpage.c2a.title" />
       </SearchButton>
       <InfoBanner>
-        <Banner icon={info_circle} variant="none">
+        <Banner>
+          <Icon data={info_circle} />
           {intl.formatMessage({ id: "frontpage.disclaimer" })}
         </Banner>
       </InfoBanner>
