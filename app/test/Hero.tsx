@@ -1,8 +1,7 @@
 "use client"
 
 /* eslint-disable camelcase */
-import { Banner } from "@equinor/eds-core-react"
-import { Icon } from "@equinor/eds-core-react/dist/types/components/Icon/Icon"
+import { Icon } from "@equinor/eds-core-react"
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
@@ -11,7 +10,6 @@ import styled from "styled-components"
 
 import { Heading } from "components/Typography"
 import { elevations } from "styles/globals"
-
 
 const StyledHero = styled.div`
   display: grid;
@@ -62,6 +60,15 @@ const InfoBanner = styled.div`
   grid-row: 6/7;
   justify-self: center;
   max-width: 17rem;
+`
+
+const Banner = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 0.5rem;
+  padding: 1rem;
+  align-items: center;
+  color: var(--charcoal);
 `
 
 export const Hero = () => {
