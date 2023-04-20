@@ -60,7 +60,6 @@ export const Heading: FunctionComponent<HeadingProps> = ({
       fontSize: sizes[size],
       lineHeight: lineHeights[size],
       textTransform: uppercase ? "uppercase" : "none",
-      fontFamily: "inherit",
     }}
     // eslint-disable-next-line react/jsx-props-no-spreading,
     {...rest}

@@ -1,4 +1,3 @@
-import localFont from "next/font/local"
 import { headers } from "next/headers"
 import { Session } from "next-auth"
 
@@ -25,15 +24,10 @@ async function getSession(cookie: string): Promise<Session> {
   return Object.keys(session).length > 0 ? session : null
 }
 
-const equinorFont = localFont({
-  src: "./static/EquinorVariable.woff2",
-  display: "swap",
-})
-
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getSession(headers().get("cookie") ?? "")
   return (
-    <html lang="en" className={equinorFont.className}>
+    <html lang="en">
       <head>
         <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
         <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />

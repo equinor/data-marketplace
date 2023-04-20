@@ -26,6 +26,7 @@ html,
 body {
   padding: 0;
   margin: 0;
+  font-family: ${tokens.typography.paragraph.body_long.fontFamily};
 }
 
 a {
@@ -68,18 +69,22 @@ a {
   --slateBlue: hsla(206,32.1%,20.8%,1); /* tokens.colors.infographic.primary__slate_blue.hsla */
 
   --white: hsla(0,0%,100%,1); /* tokens.colors.ui.background__default.hsla */
- 
+
+  --light-grey: hsla(0, 0%, 97%, 1); /* tokens.colors.ui.background__light.rgba */
   --medium-grey: hsla(0,0%,86.3%,1); /* tokens.colors.ui.background__medium.hsla */
   --dark-grey: hsla(0,0%,43.5%,1); /* tokens.colors.text.static_icons__tertiary.hsla */
   --charcoal: hsla(0,0%,23.9%,1); /*tokens.colors.text.static_icons__default.hsla */
-  
-  --validation-error: hsla(348,86.5%,37.6%,1); /* tokens.colors.interactive.danger__text.hsla */ 
 
-
+  --validation-error: hsla(348,86.5%,37.6%,1); /* tokens.colors.interactive.danger__text.hsla */
+  --danger: hsla(0,100%,87.8%,1); /* tokens.colors.ui.background__danger.hsla */
+  --info: hsla(199,58.5%,89.6%,1); /* tokens.colors.ui.background__info.hsla */
+  --warning: hsla(25,100%,92%,1); /* tokens.colors.interactive.warning__highlight.hsla */
+  --transparent-black: hsla(0, 0%, 0%, 0.14); /* Not an EDS colour */
+  --warning-icon-fill: hsla(34,100%,33.9%,1); /* tokens.colors.interactive.warning__text.hsla */
 
   --shadow-colour: 0deg 0% 50%;
   --outline-colour: var(--moss-green-100);
-  
+
   /*  Main page layout spacings  */
   --layout-padding-inline: ${tokens.spacings.comfortable.medium};  /*  16px */
   --layout-padding-block: ${tokens.spacings.comfortable.x_large};  /* 32px */
