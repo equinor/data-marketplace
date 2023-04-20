@@ -17,7 +17,6 @@ const FooterWrapper = styled.div`
 const UnstyledList = styled(List)`
   padding: 0;
   list-style: none;
-  font-family: inherit;
 `
 
 const FooterContainer = styled.div`
@@ -28,7 +27,6 @@ const FooterContainer = styled.div`
 `
 
 const InvertedText = styled(Typography)`
-  font-family: inherit;
   color: var(--white);
 `
 

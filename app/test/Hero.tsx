@@ -73,6 +73,7 @@ const Banner = styled.div`
 
 export const Hero = () => {
   const intl = useIntl()
+
   return (
     <StyledHero>
       <MainHeading level="h1" size="2xl" center>
