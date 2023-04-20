@@ -1,5 +1,3 @@
-"use client"
-
 /* eslint-disable camelcase */
 import { Icon } from "@equinor/eds-core-react"
 import { info_circle } from "@equinor/eds-icons"
