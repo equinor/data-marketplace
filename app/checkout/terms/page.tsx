@@ -81,7 +81,7 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
     if (hasAcceptedTerms) {
       setFormError(false)
       router.push({
-        pathname: "./redirect/page.tsx",
+        pathname: "/checkout/terms/redirect",
         query: { id: asset?.id },
       })
     } else {

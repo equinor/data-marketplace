@@ -117,7 +117,7 @@ const AssetDetailView: NextPage<AssetDetailProps> = ({ asset, responsibilitiesDa
               /*  Because EDS types href as string */
               /* @ts-ignore */
               href={{
-                pathname: "/app/checkout/terms/page.tsx",
+                pathname: "/checkout/terms/page.tsx",
                 query: { id: assetId },
               }}
             >
