@@ -1,3 +1,5 @@
+"use client"
+
 /* eslint-disable camelcase */
 import type { Asset, RightsToUse } from "@equinor/data-marketplace-models"
 import { Button, Icon, Typography } from "@equinor/eds-core-react"
@@ -46,7 +48,7 @@ const getAccessitTitle = (url: string | undefined) => {
   }
 }
 
-const CheckoutRedirectView: NextPage<Props> = ({ asset, authorizationUrl }) => {
+export const Redirect: NextPage<Props> = ({ asset, authorizationUrl }) => {
   const intl = useIntl()
   const checkoutUrl = authorizationUrl?.value || (config.ACCESSIT_BASE_URL as string)
   const accessitTitle = getAccessitTitle(authorizationUrl?.value)
@@ -143,12 +145,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     }
   } catch (error) {
     /* eslint-disable no-console */
-    console.error(`[CheckoutRedirectView] in getServerSideProps for asset ${id}`, error)
+    console.error(`[Redirect] in getServerSideProps for asset ${id}`, error)
 
     return {
       props: defaultPageProps,
     }
   }
 }
-
-export default CheckoutRedirectView

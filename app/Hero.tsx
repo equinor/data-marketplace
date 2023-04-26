@@ -1,8 +1,5 @@
-"use client"
-
 /* eslint-disable camelcase */
-import { Banner } from "@equinor/eds-core-react"
-import { Icon } from "@equinor/eds-core-react/dist/types/components/Icon/Icon"
+import { Icon } from "@equinor/eds-core-react"
 import { info_circle } from "@equinor/eds-icons"
 import { tokens } from "@equinor/eds-tokens"
 import NextLink from "next/link"
@@ -11,7 +8,6 @@ import styled from "styled-components"
 
 import { Heading } from "components/Typography"
 import { elevations } from "styles/globals"
-
 
 const StyledHero = styled.div`
   display: grid;
@@ -30,7 +26,6 @@ const SearchButton = styled(NextLink)`
   grid-column: 3/4;
   grid-row: 4/5;
   justify-self: center;
-
   display: inline-block;
   text-decoration: none;
   color: var(--white);
@@ -42,12 +37,10 @@ const SearchButton = styled(NextLink)`
   &:hover {
     background-color: var(--moss-dark);
   }
-
   &:focus-visible {
     outline: 2px dashed var(--outline-colour);
     outline-offset: 4px;
   }
-
   @media screen and (min-width: 350px) {
     padding: var(--space-16) 6rem;
   }
@@ -64,8 +57,18 @@ const InfoBanner = styled.div`
   max-width: 17rem;
 `
 
+const Banner = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 0.5rem;
+  padding: 1rem;
+  align-items: center;
+  color: var(--charcoal);
+`
+
 export const Hero = () => {
   const intl = useIntl()
+
   return (
     <StyledHero>
       <MainHeading level="h1" size="2xl" center>

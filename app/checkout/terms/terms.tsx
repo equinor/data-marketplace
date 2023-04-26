@@ -1,3 +1,5 @@
+"use client"
+
 /* eslint-disable camelcase */
 import type { Asset, RightsToUse } from "@equinor/data-marketplace-models"
 import { Banner, Button, Checkbox, Icon, Typography } from "@equinor/eds-core-react"
@@ -67,7 +69,7 @@ type Props = {
   }
 }
 
-const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
+export const Terms: NextPage<Props> = ({ asset, error, rightsToUse }) => {
   const intl = useIntl()
   const router = useRouter()
   const [formError, setFormError] = useState(false)
@@ -79,7 +81,7 @@ const CheckoutTermsView: NextPage<Props> = ({ asset, error, rightsToUse }) => {
     if (hasAcceptedTerms) {
       setFormError(false)
       router.push({
-        pathname: "/checkout/redirect",
+        pathname: "./redirect",
         query: { id: asset?.id },
       })
     } else {
@@ -209,5 +211,3 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     }
   }
 }
-
-export default CheckoutTermsView
