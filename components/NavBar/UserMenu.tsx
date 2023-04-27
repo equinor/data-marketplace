@@ -26,6 +26,7 @@ export const UserMenu = () => {
         aria-controls="user-menu"
         aria-haspopup="true"
         id="user-menu-anchor"
+        aria-label="User menu"
         variant="ghost_icon"
         color="secondary"
         /* @ts-ignore */
