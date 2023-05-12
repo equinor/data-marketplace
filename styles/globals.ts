@@ -37,6 +37,19 @@ a {
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: Equinor;
+  src: local("ðŸ˜Š"),
+    url(https://cdn.eds.equinor.com/font/EquinorVariable-VF.woff2)
+      format("woff2-variations"),
+    url(https://cdn.eds.equinor.com/font/EquinorVariable-VF.woff)
+      format("woff-variations"),
+    url(https://cdn.eds.equinor.com/font/Equinor-Regular.woff) format("woff");
+  font-style: normal;
+  font-weight: 1 999;
+  font-display: fallback;
+}
+
 :root {
   /* Spaces */
   --space-2:  ${tokens.spacings.comfortable.xx_small};
