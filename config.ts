@@ -1,8 +1,6 @@
 import algoliasearch from "algoliasearch/lite"
 
-type ConfigType = Record<string, string | number | boolean>
-
-export const config: ConfigType = {
+export const config = {
   BASE_URL: process.env.BASE_URL ?? "http://localhost:3000",
   COLLIBRA_BASE_URL: process.env.COLLIBRA_BASE_URL ?? "",
   COLLIBRA_API_URL: process.env.COLLIBRA_BASE_URL ? `${process.env.COLLIBRA_BASE_URL}/rest/2.0` : "",

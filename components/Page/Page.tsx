@@ -1,7 +1,10 @@
+"use client"
+
 import Head from "next/head"
-import Router from "next/router"
+import { redirect } from "next/navigation"
+// import Router from "next/router"
 import { useSession } from "next-auth/react"
-import { FunctionComponent, PropsWithChildren, useEffect } from "react"
+import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
 
 import { Footer } from "../Footer"
@@ -24,13 +27,19 @@ type Props = PropsWithChildren<{
 export const Page: FunctionComponent<Props> = ({ documentTitle, children }) => {
   const { data } = useSession()
 
-  useEffect(() => {
-    // @ts-ignore
-    if (data?.error === "TokenRefreshFailure") {
-      // See https://github.com/vercel/next.js/discussions/29403
-      Router.push("/auth/signin")
-    }
-  }, [data])
+  // @ts-ignore
+  if (data?.error) {
+    return redirect("/auth/signin")
+  }
+
+  // useEffect(() => {
+  // // @ts-ignore
+  // if (data?.error === "TokenRefreshFailure") {
+  // // See https://github.com/vercel/next.js/discussions/29403
+  // Router.push("/auth/signin")
+  // }
+  // }, [data])
+
   return (
     <PageWrapper>
       <Head>

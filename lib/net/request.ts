@@ -1,5 +1,3 @@
-import { getToken, type JWT, type GetTokenParams } from "next-auth/jwt"
-
 import { HttpError } from "lib/HttpError"
 
 type ReqInit = RequestInit & {
@@ -8,18 +6,13 @@ type ReqInit = RequestInit & {
 
 export const request =
   (url: string, init?: ReqInit) =>
-  async (sessionParams?: GetTokenParams): Promise<Response> => {
+  async (token: string): Promise<Response> => {
     const req = new Request(url, {
       redirect: "follow",
       ...init,
     })
 
-    let session: JWT | undefined
-
-    if (sessionParams) {
-      session = (await getToken(sessionParams)) as JWT
-      req.headers.set("Authorization", `Bearer ${session.accessToken}`)
-    }
+    req.headers.set("Authorization", `Bearer ${token}`)
 
     const res = await fetch(req)
 
@@ -27,7 +20,7 @@ export const request =
       return request(req.url, {
         ...req,
         retries: init.retries - 1,
-      })(sessionParams)
+      })(token)
     }
 
     if (!res.ok && !init?.retries) {
